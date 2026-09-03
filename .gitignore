@@ -28,3 +28,12 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# LaTeX (archivos generados automáticamente)
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.pdf

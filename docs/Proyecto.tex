@@ -1,0 +1,399 @@
+% ============================================================
+% Sistema de Gestión de Inventario para Juguetería
+% Documento en formato APA 7.ª edición
+% Motor: pdflatex
+% ============================================================
+\documentclass[12pt,letterpaper,onecolumn]{article}
+
+% ---------- Codificación y fuentes ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% ---------- Idioma (español) ----------
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[strict]{csquotes}
+
+% ---------- Matemáticas ----------
+\usepackage{amsmath,amssymb}
+
+% ---------- Colores e hiperenlaces ----------
+\usepackage[table]{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\hypersetup{
+  pdftitle={Sistema de Gestión de Inventario para Juguetería},
+  pdfauthor={Daniel Gonzalo Cabana Zaa, Gerar Rodrigo Camma Baldeon,
+             Hugo Ernesto Florez Merma, Barry Valdivia Lovon},
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=blue
+}
+
+% ---------- Gráficos e imágenes ----------
+\usepackage{graphicx}
+\graphicspath{{./media/}}
+
+% ---------- Tablas ----------
+\usepackage{booktabs}
+\usepackage{array}
+
+% ---------- Párrafos (estilo APA: sin sangría, espacio interlineal) ----------
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+
+% ---------- Referencias: sangría francesa (APA 7) ----------
+\usepackage{enumitem}
+\newenvironment{referencias}
+  {\begin{list}{}{\setlength{\leftmargin}{0.5in}
+                   \setlength{\rightmargin}{0pt}
+                   \setlength{\itemindent}{-0.5in}
+                   \setlength{\parsep}{0pt}
+                   \setlength{\itemsep}{6pt}}}
+  {\end{list}}
+
+% ---------- Figuras y tablas: pies descriptivos ----------
+\usepackage{caption}
+\captionsetup[figure]{labelsep=period, font={small}, skip=6pt}
+
+% ---------- Portada (sin numeración) ----------
+\usepackage{titling}
+\usepackage[a4paper,lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in]{geometry}
+
+\begin{document}
+
+% ============================================================
+% PORTADA (APA 7, estilo institucional)
+% ============================================================
+\thispagestyle{empty}
+\begin{center}
+  \vspace*{1.5cm}
+  \includegraphics[width=4.75cm]{image1.png}
+
+  \vspace{1.5cm}
+  {\LARGE\bfseries Sistema de Gestión de Inventario\\[0.3em] para Juguetería}\\[1.5cm]
+
+  {\large Simon Rodriguez Anculle\\
+  Gerar Rodrigo Camma Baldeon\\
+  Hugo Ernesto Florez Merma\\
+  Barry Valdivia Lovon\\
+  Samuel Llallacahi}\\[1.5cm]
+
+  {\large Curso/Asignatura: Programación orientada a objetos\\[0.4cm]
+  Docente: Luis Ignacio Diaz Bravo\\[0.4cm]
+  Ciclo / Grado: 2do Ciclo - 2026}\\[1.5cm]
+
+  {\large TECSUP}\\[0.4cm]
+  {\large Arequipa, Perú}\\[0.4cm]
+  {\large 2026}
+\end{center}
+
+\newpage
+
+% ============================================================
+% TABLA DE CONTENIDO MANUAL (numeración editorial)
+% ============================================================
+\setcounter{page}{1}
+\section*{Índice}
+\begin{center}
+\begin{tabular}{@{}l r@{}}
+  Resumen & 2 \\
+  Problemática & 2 \\
+  Importancia de la Solución & 3 \\
+  Delimitación de Objetivos & 3 \\
+  \hspace{0.6em}Objetivo General & 3 \\
+  \hspace{0.6em}Objetivos Específicos & 3 \\
+  Marco Teórico & 3 \\
+  Diseño de la Solución & 4 \\
+  \hspace{0.6em}Bocetos de Interfaz (Wireframes Conceptuales) & 4 \\
+  \hspace{0.6em}Diagrama de Clases UML (Estructura de Paquetes) & 6 \\
+  \hspace{0.6em}Diagrama de Base de Datos (ERD Conceptual) & 7 \\
+  \hspace{0.6em}Imágenes del Proyecto (Producto Final) & 8 \\
+  Estrategia de GIT y Repositorio & 10 \\
+  Enlaces Importantes del Proyecto & 10 \\
+  Referencias & 11 \\
+\end{tabular}
+\end{center}
+
+\newpage
+
+% ============================================================
+% RESUMEN (APA 7)
+% ============================================================
+\section{Resumen}
+
+\begin{abstract}
+  \noindent El presente proyecto de investigación expone el desarrollo de un
+  Sistema de Gestión de Inventario para una juguetería minorista, diseñado bajo
+  el paradigma de la Programación Orientada a Objetos (POO) empleando la
+  plataforma Java SE. La propuesta surge ante las deficiencias identificadas en
+  el control manual de existencias y la falta de sincronización en tiempo real,
+  lo cual impacta negativamente la rentabilidad empresarial. A través de una
+  arquitectura limpia y modular que implementa la API nativa JDBC y la librería
+  gráfica Java Swing, se ofrece una aplicación de escritorio independiente,
+  ágil y altamente portable. La persistencia estructurada y el control
+  jerárquico por categorías y marcas aseguran la integridad de los datos,
+  optimizando las auditorías y permitiendo una toma de decisiones informada
+  basada en reportes automatizados.
+
+  \medskip
+  \noindent\textbf{Palabras clave:} inventario, Programación Orientada a
+  Objetos, Java SE, JDBC, Java Swing, juguetería.
+\end{abstract}
+
+\newpage
+
+% ============================================================
+% PROBLEMÁTICA
+% ============================================================
+\section{Problemática}
+
+La gestión de inventarios en una juguetería minorista enfrenta desafíos
+críticos debido a la alta rotación de productos y la diversidad de categorías
+que deben administrarse. Actualmente, el uso de métodos manuales o registros en
+hojas de cálculo aisladas ha evidenciado limitaciones estructurales en el
+modelo operativo (Schildt, 2018). Esta práctica convencional genera tres
+problemas operativos fundamentales que afectan la rentabilidad y la eficiencia
+del negocio:
+
+\begin{itemize}
+  \item \textbf{Deficiencia en el control de stock por categorías y marcas:}
+        la ausencia de una clasificación sistematizada impide una organización
+        jerárquica eficiente, dificultando la localización y el seguimiento de
+        juguetes según su fabricante o grupo de edad.
+  \item \textbf{Invisibilidad de existencias en tiempo real:} la falta de
+        sincronización entre las ventas realizadas y el registro de almacén
+        imposibilita conocer la disponibilidad inmediata de los productos.
+  \item \textbf{Ineficiencia en procesos manuales e inventarios físicos:}
+        el procesamiento manual de ventas y la ejecución de auditorías físicas
+        periódicas consumen recursos humanos de forma excesiva.
+\end{itemize}
+
+% ============================================================
+% IMPORTANCIA DE LA SOLUCIÓN
+% ============================================================
+\section{Importancia de la Solución}
+
+El Sistema de Gestión de Inventario para juguetería resolverá la fragmentación
+de datos mediante la centralización de operaciones en una aplicación de
+escritorio nativa e independiente basada en el paradigma de la Programación
+Orientada a Objetos (POO) (Deitel \& Deitel, 2017). Al prescindir de
+dependencias externas pesadas, la solución garantiza agilidad, control preciso
+de existencias y portabilidad, requiriendo únicamente el entorno de ejecución
+de Java (JRE).
+
+% ============================================================
+% DELIMITACIÓN DE OBJETIVOS
+% ============================================================
+\section{Delimitación de Objetivos}
+
+\subsection{Objetivo General}
+
+Desarrollar una aplicación de escritorio nativa utilizando Java SE que
+automatice la gestión de inventario de una juguetería, optimizando el control
+de productos, stock y categorías mediante una arquitectura modular orientada a
+objetos que garantice la integridad y persistencia de la información.
+
+\subsection{Objetivos Específicos}
+
+\begin{itemize}
+  \item Modelar el dominio del negocio de la juguetería mediante los pilares
+        de la POO (Abstracción, Encapsulamiento, Herencia y Polimorfismo).
+  \item Diseñar e implementar una capa de persistencia relacional robusta
+        utilizando exclusivamente la API nativa JDBC.
+  \item Construir una interfaz gráfica de usuario (GUI) modular con la
+        librería Java Swing.
+\end{itemize}
+
+% ============================================================
+% MARCO TEÓRICO
+% ============================================================
+\section{Marco Teórico}
+
+Para fundamentar la construcción del software bajo estándares técnicos de la
+industria, se describen las tecnologías y conceptos nativos de Java SE que
+constituirán la estructura del sistema (Oracle, 2021):
+
+\begin{description}
+  \item[Java SE (Standard Edition):] plataforma base de desarrollo que provee
+        el motor de ejecución síncrono, la gestión de memoria y las APIs
+        estándares de control de datos sin requerir servidores externos.
+  \item[Herencia y Polimorfismo:] mecanismos de POO que se emplearán para
+        definir una clase abstracta base denominada ``Producto'' y
+        especializar comportamientos mediante subclases (Deitel \& Deitel,
+        2017).
+  \item[Java Swing \& AWT:] librerías nativas empleadas para la maquetación de
+        la interfaz gráfica.
+  \item[JDBC API:] API estándar de Java que actúa como puente de comunicación
+        directo con el motor de base de datos relacional (Baeldung, 2023).
+  \item[Java Collections Framework:] estructuras de datos dinámicas
+        (ArrayList, Map) utilizadas para almacenar y manipular eficientemente
+        en memoria las colecciones de productos y el inventario general.
+\end{description}
+
+% ============================================================
+% DISEÑO DE LA SOLUCIÓN
+% ============================================================
+\section{Diseño de la Solución}
+
+\subsection{Bocetos de Interfaz (Wireframes Conceptuales)}
+
+El diseño visual está planificado bajo un enfoque de interfaz limpia, enfocado
+en el aislamiento de responsabilidades visuales.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{image3.jpeg}
+  \caption{Wireframe: gestión de productos.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{image4.jpeg}
+  \caption{Wireframe: registro de producto.}
+\end{figure}
+
+\subsection{Diagrama de Clases UML (Estructura de Paquetes)}
+
+Para asegurar la escalabilidad del sistema y cumplir con el Principio de
+Responsabilidad Única (SRP), el código fuente se ha organizado estrictamente
+separando las entidades de dominio frente a los componentes de infraestructura
+técnica y la interfaz gráfica (Larman, 2004). Como se observa en el diagrama de
+clases, la arquitectura se divide en los siguientes paquetes principales:
+
+\begin{itemize}
+  \item \textbf{Models:} contiene las clases que representan las entidades del
+        negocio (\emph{Cliente, Producto, Usuario, Venta} y
+        \emph{DetalleVenta}), encapsulando sus atributos.
+  \item \textbf{DAO (Data Access Object):} centraliza todas las operaciones
+        transaccionales hacia la base de datos (ej. \emph{ClienteDAO,
+        ProductoDAO}), aislando las sentencias SQL del resto del sistema
+        (Baeldung, 2023).
+  \item \textbf{Views:} agrupa las interfaces gráficas construidas con Java
+        Swing, donde \emph{MainView} actúa como contenedor principal para
+        enrutar hacia paneles como \emph{VentasView} o \emph{ProductosView}.
+  \item \textbf{Database y Util:} proveen servicios transversales, como la
+        clase \emph{ConexionDB} para establecer el enlace relacional, el manejo
+        de \emph{Session} para el usuario activo y herramientas como
+        \emph{TicketGenerator} y \emph{SecurityUtils}.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{image6.jpeg}
+  \caption{Diagrama de clases UML: arquitectura y dependencias.}
+\end{figure}
+
+\subsection{Diagrama de Base de Datos (ERD Conceptual)}
+
+El modelo entidad-relación (ERD) ha sido diseñado garantizando la integridad
+referencial y la normalización de los datos. La arquitectura de la base de
+datos se estructura en torno a las siguientes entidades clave y sus respectivos
+tipos de datos:
+
+\begin{itemize}
+  \item \textbf{Tablas maestras:} entidades como \emph{usuarios}, \emph{clientes}
+        y \emph{categorias} que almacenan la información descriptiva y de
+        acceso al sistema, utilizando llaves primarias auto-incrementables.
+  \item \textbf{Gestión de inventario:} la tabla \emph{productos} centraliza el
+        catálogo, stock (\emph{INT}) y precios (\emph{DECIMAL}), vinculándose
+        directamente con su respectiva categoría mediante la llave foránea
+        \emph{idCategoria}.
+  \item \textbf{Núcleo transaccional:} compuesto por las tablas \emph{ventas}
+        (cabecera) y \emph{detalle ventas} (cuerpo). La cabecera registra al
+        responsable y al comprador mediante sus llaves foráneas, capturando la
+        hora exacta (\emph{TIMESTAMP}). El detalle desglosa cada ítem vendido
+        permitiendo calcular los subtotales con precisión monetaria
+        (\emph{DECIMAL}) y mantener un historial de ventas exacto.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{image7.jpeg}
+  \caption{Diagrama entidad-relación (ERD conceptual).}
+\end{figure}
+
+\subsection{Imágenes del Proyecto (Producto Final)}
+
+A continuación se evidencian las pantallas funcionales del sistema desarrollado.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{image8.png}
+  \caption{Pantalla de inicio de sesión.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{image9.png}
+  \caption{Panel de gestión de productos.}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{image10.jpeg}
+  \caption{Vista integrada del sistema.}
+\end{figure}
+
+% ============================================================
+% ESTRATEGIA DE GIT Y REPOSITORIO
+% ============================================================
+\section{Estrategia de GIT y Repositorio}
+
+El avance y control de versiones del proyecto se mantendrán de forma
+transparente y colaborativa en la plataforma de alojamiento seleccionada. A la
+fecha, el proyecto cuenta con un registro sólido de \textbf{31 commits} que
+evidencian el trabajo constante y la integración de funcionalidades por parte
+del equipo. Se configuró un archivo \emph{.gitignore} en la raíz del espacio de
+trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
+(IDE), asegurando un repositorio limpio de código puro.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{image11.jpeg}
+  \caption{Evidencia del repositorio en GitHub.}
+\end{figure}
+
+\subsection{Enlaces Importantes del Proyecto}
+
+\begin{itemize}
+  \item \textbf{Repositorio GitHub:}
+        \href{https://github.com/danielcabana-ship-it/Proyecto-Final-POO-Gesti-n-de-jugueter-a}{Enlace
+        al código fuente del proyecto}
+  \item \textbf{Video Explicativo:}
+        \href{https://youtu.be/TrAdfiT9CWs}{Demostración del software en
+        YouTube}
+  \item \textbf{Archivos y Recursos:}
+        \href{https://drive.google.com/drive/folders/1gLkO0kbU5LngiZOESHCWmbuDCugcbQ-K?usp=drive_link}{Directorio
+        en Google Drive}
+\end{itemize}
+
+% ============================================================
+% REFERENCIAS (APA 7, con sangría francesa)
+% ============================================================
+\section{Referencias}
+
+\begin{referencias}
+  \item Baeldung. (2023). \emph{The DAO design pattern in Java}.
+        \href{https://www.baeldung.com/java-dao-pattern}{https://www.baeldung.com/java-dao-pattern}
+
+  \item Deitel, P., \& Deitel, H. (2017). \emph{Java how to program, early
+        objects} (11.ª ed.). Pearson.
+        \href{https://deitel.com/java-how-to-program-11-e-early-objects-version/}{https://deitel.com/java-how-to-program-11-e-early-objects-version/}
+
+  \item Larman, C. (2004). \emph{Applying UML and patterns: An introduction to
+        object-oriented analysis and design and iterative development}
+        (3.ª ed.). Prentice Hall.
+        \href{https://dl.acm.org/doi/10.5555/1043088}{https://dl.acm.org/doi/10}
+
+  \item Oracle. (2021). \emph{Java Platform, Standard Edition documentation}.
+        Oracle Help Center.
+
+  \item Schildt, H. (2018). \emph{Java: The complete reference} (11.ª ed.).
+        McGraw-Hill Education.
+        \href{https://www.mhprofessional.com/9781260440232-usa-java-the-complete-reference-eleventh-edition}{https://www.mhprofessional.com/9781260440232-usa-java-the-complete-reference-eleventh-edition}
+\end{referencias}
+
+\end{document}

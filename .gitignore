@@ -31,9 +31,16 @@ auth.json
 
 # LaTeX (archivos generados automáticamente)
 *.aux
-*.fdb_latexmk
-*.fls
-*.log
+*.toc
+*.lof
+*.lot
 *.out
+*.log
+*.fls
+*.fdb_latexmk
 *.synctex.gz
 *.pdf
+*.bbl
+*.blg
+*.bcf
+*.run.xml

@@ -1,14 +1,18 @@
 % ============================================================
 % Sistema de Gestión de Inventario para Juguetería
 % Documento en formato APA 7.ª edición
-% Motor: pdflatex
+% Contexto: PHP + Laravel
+% Motor: pdflatex (compilar 2 veces para el índice dinámico)
 % ============================================================
-\documentclass[12pt,letterpaper,onecolumn]{article}
+\documentclass[12pt,letterpaper]{article}
+
+\PassOptionsToPackage{quiet}{fontspec}
 
 % ---------- Codificación y fuentes ----------
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\renewcommand{\familydefault}{\rmdefault}
 
 % ---------- Idioma (español) ----------
 \usepackage[spanish,es-tabla]{babel}
@@ -17,131 +21,118 @@
 % ---------- Matemáticas ----------
 \usepackage{amsmath,amssymb}
 
-% ---------- Colores e hiperenlaces ----------
+% ---------- Idiomas y enlaces ----------
 \usepackage[table]{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{xurl}
 \hypersetup{
   pdftitle={Sistema de Gestión de Inventario para Juguetería},
-  pdfauthor={Daniel Gonzalo Cabana Zaa, Gerar Rodrigo Camma Baldeon,
-             Hugo Ernesto Florez Merma, Barry Valdivia Lovon},
+  pdfauthor={Simon Rodriguez Anculle, Gerar Rodrigo Camma Baldeon,
+             Hugo Ernesto Florez Merma, Barry Valdivia Lovon,
+             Samuel Llallacahi},
   colorlinks=true,
-  linkcolor=black,
-  citecolor=black,
+  linkcolor=blue,
+  citecolor=blue,
   urlcolor=blue
 }
 
-% ---------- Gráficos e imágenes ----------
-\usepackage{graphicx}
-\graphicspath{{./media/}}
-
-% ---------- Tablas ----------
-\usepackage{booktabs}
-\usepackage{array}
-
-% ---------- Párrafos (estilo APA: sin sangría, espacio interlineal) ----------
+% ---------- Geometría y espaciado (APA 7) ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
 \setlength{\parskip}{6pt}
 \setlength{\parindent}{0pt}
 \setlength{\emergencystretch}{3em}
 
-% ---------- Referencias: sangría francesa (APA 7) ----------
-\usepackage{enumitem}
-\newenvironment{referencias}
-  {\begin{list}{}{\setlength{\leftmargin}{0.5in}
-                   \setlength{\rightmargin}{0pt}
-                   \setlength{\itemindent}{-0.5in}
-                   \setlength{\parsep}{0pt}
-                   \setlength{\itemsep}{6pt}}}
-  {\end{list}}
+% ---------- Encabezado con número de página (APA 7) ----------
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
+\addtolength{\topmargin}{-2.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
 
-% ---------- Figuras y tablas: pies descriptivos ----------
+% ---------- Títulos de secciones estilo APA ----------
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\bfseries\centering}{}{0pt}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titleformat{\subsection}
+  {\normalfont\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+% ---------- Gráficos e imágenes ----------
+\usepackage{graphicx}
+\graphicspath{{./media/}}
 \usepackage{caption}
-\captionsetup[figure]{labelsep=period, font={small}, skip=6pt}
+\captionsetup[figure]{labelsep=period, font=small, skip=6pt, justification=centering}
+\usepackage{booktabs}
+\usepackage{array}
 
-% ---------- Portada (sin numeración) ----------
-\usepackage{titling}
-\usepackage[a4paper,lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in]{geometry}
+% ---------- Índice (TOC funcional) ----------
+\setcounter{tocdepth}{2}
 
+% ============================================================
 \begin{document}
 
 % ============================================================
-% PORTADA (APA 7, estilo institucional)
+% PORTADA
 % ============================================================
 \thispagestyle{empty}
 \begin{center}
-  \vspace*{1.5cm}
-  \includegraphics[width=4.75cm]{image1.png}
+  \vspace*{1.2cm}
+  \includegraphics[width=4.5cm]{image1.png}
 
-  \vspace{1.5cm}
-  {\LARGE\bfseries Sistema de Gestión de Inventario\\[0.3em] para Juguetería}\\[1.5cm]
+  \vspace{1.6cm}
+  {\LARGE\bfseries Sistema de Gestión de Inventario\\[0.3em] para Juguetería}\\[2.0cm]
 
   {\large Simon Rodriguez Anculle\\
   Gerar Rodrigo Camma Baldeon\\
   Hugo Ernesto Florez Merma\\
   Barry Valdivia Lovon\\
-  Samuel Llallacahi}\\[1.5cm]
+  Samuel Llallacahi}\\[2.2cm]
 
   {\large Curso/Asignatura: Programación orientada a objetos\\[0.4cm]
   Docente: Luis Ignacio Diaz Bravo\\[0.4cm]
-  Ciclo / Grado: 2do Ciclo - 2026}\\[1.5cm]
+  Ciclo / Grado: 2do Ciclo - 2026}\\[1.8cm]
 
-  {\large TECSUP}\\[0.4cm]
-  {\large Arequipa, Perú}\\[0.4cm]
+  {\large TECSUP}\\[0.3cm]
+  {\large Arequipa, Perú}\\[0.3cm]
   {\large 2026}
 \end{center}
 
 \newpage
 
 % ============================================================
-% TABLA DE CONTENIDO MANUAL (numeración editorial)
+% ÍNDICE FUNCIONAL
 % ============================================================
-\setcounter{page}{1}
-\section*{Índice}
-\begin{center}
-\begin{tabular}{@{}l r@{}}
-  Resumen & 2 \\
-  Problemática & 2 \\
-  Importancia de la Solución & 3 \\
-  Delimitación de Objetivos & 3 \\
-  \hspace{0.6em}Objetivo General & 3 \\
-  \hspace{0.6em}Objetivos Específicos & 3 \\
-  Marco Teórico & 3 \\
-  Diseño de la Solución & 4 \\
-  \hspace{0.6em}Bocetos de Interfaz (Wireframes Conceptuales) & 4 \\
-  \hspace{0.6em}Diagrama de Clases UML (Estructura de Paquetes) & 6 \\
-  \hspace{0.6em}Diagrama de Base de Datos (ERD Conceptual) & 7 \\
-  \hspace{0.6em}Imágenes del Proyecto (Producto Final) & 8 \\
-  Estrategia de GIT y Repositorio & 10 \\
-  Enlaces Importantes del Proyecto & 10 \\
-  Referencias & 11 \\
-\end{tabular}
-\end{center}
-
+\pagenumbering{arabic}
+\tableofcontents
 \newpage
 
 % ============================================================
-% RESUMEN (APA 7)
+% RESUMEN
 % ============================================================
-\section{Resumen}
+\section*{Resumen}
+\addcontentsline{toc}{section}{Resumen}
 
-\begin{abstract}
-  \noindent El presente proyecto de investigación expone el desarrollo de un
-  Sistema de Gestión de Inventario para una juguetería minorista, diseñado bajo
-  el paradigma de la Programación Orientada a Objetos (POO) empleando la
-  plataforma Java SE. La propuesta surge ante las deficiencias identificadas en
-  el control manual de existencias y la falta de sincronización en tiempo real,
-  lo cual impacta negativamente la rentabilidad empresarial. A través de una
-  arquitectura limpia y modular que implementa la API nativa JDBC y la librería
-  gráfica Java Swing, se ofrece una aplicación de escritorio independiente,
-  ágil y altamente portable. La persistencia estructurada y el control
-  jerárquico por categorías y marcas aseguran la integridad de los datos,
-  optimizando las auditorías y permitiendo una toma de decisiones informada
-  basada en reportes automatizados.
+El presente proyecto de investigación expone el desarrollo de un Sistema de
+Gestión de Inventario para una juguetería minorista, diseñado bajo el
+paradigma de la Programación Orientada a Objetos (POO) empleando el lenguaje
+PHP a través del framework \emph{Laravel}. La propuesta surge ante las
+deficiencias identificadas en el control manual de existencias y la falta de
+sincronización en tiempo real, lo cual impacta negativamente la rentabilidad
+empresarial. A través de una arquitectura \emph{Modelo-Vista-Controlador}
+(MVC) que implementa el mapeo objeto-relacional \emph{Eloquent ORM} y las
+plantillas de vista \emph{Blade}, se ofrece una aplicación web modular,
+escalable y altamente portable. La persistencia estructurada y el control
+jerárquico por categorías y marcas aseguran la integridad de los datos,
+optimizando las auditorías y permitiendo una toma de decisiones informada
+basada en reportes automatizados.
 
-  \medskip
-  \noindent\textbf{Palabras clave:} inventario, Programación Orientada a
-  Objetos, Java SE, JDBC, Java Swing, juguetería.
-\end{abstract}
+\textbf{Palabras clave:} inventario, Programación Orientada a Objetos, PHP,
+Laravel, Eloquent, juguetería.
 
 \newpage
 
@@ -154,9 +145,9 @@ La gestión de inventarios en una juguetería minorista enfrenta desafíos
 críticos debido a la alta rotación de productos y la diversidad de categorías
 que deben administrarse. Actualmente, el uso de métodos manuales o registros en
 hojas de cálculo aisladas ha evidenciado limitaciones estructurales en el
-modelo operativo (Schildt, 2018). Esta práctica convencional genera tres
-problemas operativos fundamentales que afectan la rentabilidad y la eficiencia
-del negocio:
+modelo operativo (Welling y Thompson, 2017). Esta práctica convencional genera
+tres problemas operativos fundamentales que afectan la rentabilidad y la
+eficiencia del negocio:
 
 \begin{itemize}
   \item \textbf{Deficiencia en el control de stock por categorías y marcas:}
@@ -172,29 +163,25 @@ del negocio:
 \end{itemize}
 
 % ============================================================
-% IMPORTANCIA DE LA SOLUCIÓN
-% ============================================================
 \section{Importancia de la Solución}
 
 El Sistema de Gestión de Inventario para juguetería resolverá la fragmentación
-de datos mediante la centralización de operaciones en una aplicación de
-escritorio nativa e independiente basada en el paradigma de la Programación
-Orientada a Objetos (POO) (Deitel \& Deitel, 2017). Al prescindir de
-dependencias externas pesadas, la solución garantiza agilidad, control preciso
-de existencias y portabilidad, requiriendo únicamente el entorno de ejecución
-de Java (JRE).
+de datos mediante la centralización de operaciones en una aplicación web
+nativa e independiente basada en el paradigma de la Programación Orientada a
+Objetos (POO) mediante el framework Laravel (Stauffer, 2019). Al prescindir de
+dependencias de escritorio pesadas, la solución garantiza agilidad, control
+preciso de existencias y portabilidad, requiriendo únicamente un servidor web
+con PHP y un gestor de base de datos MySQL.
 
-% ============================================================
-% DELIMITACIÓN DE OBJETIVOS
 % ============================================================
 \section{Delimitación de Objetivos}
 
 \subsection{Objetivo General}
 
-Desarrollar una aplicación de escritorio nativa utilizando Java SE que
-automatice la gestión de inventario de una juguetería, optimizando el control
-de productos, stock y categorías mediante una arquitectura modular orientada a
-objetos que garantice la integridad y persistencia de la información.
+Desarrollar una aplicación web utilizando PHP y Laravel que automatice la
+gestión de inventario de una juguetería, optimizando el control de productos,
+stock y categorías mediante una arquitectura modular orientada a objetos que
+garantice la integridad y persistencia de la información.
 
 \subsection{Objetivos Específicos}
 
@@ -202,39 +189,35 @@ objetos que garantice la integridad y persistencia de la información.
   \item Modelar el dominio del negocio de la juguetería mediante los pilares
         de la POO (Abstracción, Encapsulamiento, Herencia y Polimorfismo).
   \item Diseñar e implementar una capa de persistencia relacional robusta
-        utilizando exclusivamente la API nativa JDBC.
-  \item Construir una interfaz gráfica de usuario (GUI) modular con la
-        librería Java Swing.
+        mediante \emph{Eloquent ORM} sobre un motor de base de datos MySQL.
+  \item Construir una interfaz web moderna y modular con las plantillas
+        \emph{Blade}, HTML5, CSS y JavaScript.
 \end{itemize}
 
-% ============================================================
-% MARCO TEÓRICO
 % ============================================================
 \section{Marco Teórico}
 
 Para fundamentar la construcción del software bajo estándares técnicos de la
-industria, se describen las tecnologías y conceptos nativos de Java SE que
-constituirán la estructura del sistema (Oracle, 2021):
+industria, se describen las tecnologías y conceptos asociados a PHP y Laravel
+que constituirán la estructura del sistema (PHP Documentation Group, 2024):
 
 \begin{description}
-  \item[Java SE (Standard Edition):] plataforma base de desarrollo que provee
-        el motor de ejecución síncrono, la gestión de memoria y las APIs
-        estándares de control de datos sin requerir servidores externos.
+  \item[PHP:] lenguaje de scripting del lado del servidor que provee un motor
+        de ejecución síncrono, la gestión de memoria y las APIs estándares
+        de control de datos sin requerir servidores externos.
+  \item[Laravel:] framework MVC para PHP que facilita el desarrollo de
+        aplicaciones web mediante \emph{rutas}, \emph{controladores} y
+        \emph{migraciones} de base de datos (Stauffer, 2019).
   \item[Herencia y Polimorfismo:] mecanismos de POO que se emplearán para
-        definir una clase abstracta base denominada ``Producto'' y
-        especializar comportamientos mediante subclases (Deitel \& Deitel,
-        2017).
-  \item[Java Swing \& AWT:] librerías nativas empleadas para la maquetación de
-        la interfaz gráfica.
-  \item[JDBC API:] API estándar de Java que actúa como puente de comunicación
-        directo con el motor de base de datos relacional (Baeldung, 2023).
-  \item[Java Collections Framework:] estructuras de datos dinámicas
-        (ArrayList, Map) utilizadas para almacenar y manipular eficientemente
-        en memoria las colecciones de productos y el inventario general.
+        definir una clase base denominada ``Producto'' y especializar
+        comportamientos mediante subclases (Welling y Thompson, 2017).
+  \item[Eloquent ORM:] mapeo objeto-relacional de Laravel que actúa como
+        puente de comunicación directo con el motor de base de datos
+        relacional MySQL.
+  \item[Blade \& Bootstrap:] motor de plantillas de Laravel combinado con el
+        framework CSS Bootstrap para la maquetación de la interfaz web.
 \end{description}
 
-% ============================================================
-% DISEÑO DE LA SOLUCIÓN
 % ============================================================
 \section{Diseño de la Solución}
 
@@ -260,24 +243,24 @@ en el aislamiento de responsabilidades visuales.
 Para asegurar la escalabilidad del sistema y cumplir con el Principio de
 Responsabilidad Única (SRP), el código fuente se ha organizado estrictamente
 separando las entidades de dominio frente a los componentes de infraestructura
-técnica y la interfaz gráfica (Larman, 2004). Como se observa en el diagrama de
+técnica y la interfaz web (Larman, 2004). Como se observa en el diagrama de
 clases, la arquitectura se divide en los siguientes paquetes principales:
 
 \begin{itemize}
-  \item \textbf{Models:} contiene las clases que representan las entidades del
-        negocio (\emph{Cliente, Producto, Usuario, Venta} y
-        \emph{DetalleVenta}), encapsulando sus atributos.
-  \item \textbf{DAO (Data Access Object):} centraliza todas las operaciones
-        transaccionales hacia la base de datos (ej. \emph{ClienteDAO,
-        ProductoDAO}), aislando las sentencias SQL del resto del sistema
-        (Baeldung, 2023).
-  \item \textbf{Views:} agrupa las interfaces gráficas construidas con Java
-        Swing, donde \emph{MainView} actúa como contenedor principal para
-        enrutar hacia paneles como \emph{VentasView} o \emph{ProductosView}.
-  \item \textbf{Database y Util:} proveen servicios transversales, como la
-        clase \emph{ConexionDB} para establecer el enlace relacional, el manejo
-        de \emph{Session} para el usuario activo y herramientas como
-        \emph{TicketGenerator} y \emph{SecurityUtils}.
+  \item \textbf{Models / Entidades:} representan las entidades del negocio
+        (\emph{Cliente, Producto, Usuario, Venta} y \emph{DetalleVenta}),
+        encapsulando sus atributos mediante los modelos de \emph{Eloquent}.
+  \item \textbf{Controllers (MVC):} centralizan la lógica de negocio y las
+        operaciones transaccionales hacia la base de datos (ej.
+        \emph{ClienteController, ProductoController}), aislando las sentencias
+        SQL del resto del sistema.
+  \item \textbf{Views (Blade):} agrupan las plantillas web, donde la vista
+        principal actúa como contenedor para enrutar hacia paneles como
+        \emph{Ventas} o \emph{Productos}.
+  \item \textbf{Database y Services:} proveen servicios transversales, como la
+        conexión mediante \emph{Eloquent ORM}, el manejo de la sesión de
+        usuario activo y herramientas como generación de tickets y utilidades
+        de seguridad.
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -294,9 +277,10 @@ datos se estructura en torno a las siguientes entidades clave y sus respectivos
 tipos de datos:
 
 \begin{itemize}
-  \item \textbf{Tablas maestras:} entidades como \emph{usuarios}, \emph{clientes}
-        y \emph{categorias} que almacenan la información descriptiva y de
-        acceso al sistema, utilizando llaves primarias auto-incrementables.
+  \item \textbf{Tablas maestras:} entidades como \emph{usuarios},
+        \emph{clientes} y \emph{categorias} que almacenan la información
+        descriptiva y de acceso al sistema, utilizando llaves primarias
+        auto-incrementables.
   \item \textbf{Gestión de inventario:} la tabla \emph{productos} centraliza el
         catálogo, stock (\emph{INT}) y precios (\emph{DECIMAL}), vinculándose
         directamente con su respectiva categoría mediante la llave foránea
@@ -338,13 +322,11 @@ A continuación se evidencian las pantallas funcionales del sistema desarrollado
 \end{figure}
 
 % ============================================================
-% ESTRATEGIA DE GIT Y REPOSITORIO
-% ============================================================
 \section{Estrategia de GIT y Repositorio}
 
 El avance y control de versiones del proyecto se mantendrán de forma
 transparente y colaborativa en la plataforma de alojamiento seleccionada. A la
-fecha, el proyecto cuenta con un registro sólido de \textbf{31 commits} que
+fecha, el proyecto cuenta con un registro sólido de \textbf{commits} que
 evidencian el trabajo constante y la integración de funcionalidades por parte
 del equipo. Se configuró un archivo \emph{.gitignore} en la raíz del espacio de
 trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
@@ -373,27 +355,30 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
 % ============================================================
 % REFERENCIAS (APA 7, con sangría francesa)
 % ============================================================
-\section{Referencias}
+\newpage
+\section*{Referencias}
+\addcontentsline{toc}{section}{Referencias}
 
-\begin{referencias}
-  \item Baeldung. (2023). \emph{The DAO design pattern in Java}.
-        \href{https://www.baeldung.com/java-dao-pattern}{https://www.baeldung.com/java-dao-pattern}
+\begin{thebibliography}{9}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
 
-  \item Deitel, P., \& Deitel, H. (2017). \emph{Java how to program, early
-        objects} (11.ª ed.). Pearson.
-        \href{https://deitel.com/java-how-to-program-11-e-early-objects-version/}{https://deitel.com/java-how-to-program-11-e-early-objects-version/}
+  \bibitem{welling2017}
+  Welling, L., \& Thompson, L. (2017). \emph{PHP and MySQL web development}
+  (5.\textsuperscript{a} ed.). Addison-Wesley Professional.
 
-  \item Larman, C. (2004). \emph{Applying UML and patterns: An introduction to
-        object-oriented analysis and design and iterative development}
-        (3.ª ed.). Prentice Hall.
-        \href{https://dl.acm.org/doi/10.5555/1043088}{https://dl.acm.org/doi/10}
+  \bibitem{stauffer2019}
+  Stauffer, M. (2019). \emph{Laravel: Up and running} (2.\textsuperscript{a}
+  ed.). O'Reilly Media.
 
-  \item Oracle. (2021). \emph{Java Platform, Standard Edition documentation}.
-        Oracle Help Center.
+  \bibitem{larman2004}
+  Larman, C. (2004). \emph{Applying UML and patterns: An introduction to
+  object-oriented analysis and design and iterative development}
+  (3.\textsuperscript{a} ed.). Prentice Hall.
 
-  \item Schildt, H. (2018). \emph{Java: The complete reference} (11.ª ed.).
-        McGraw-Hill Education.
-        \href{https://www.mhprofessional.com/9781260440232-usa-java-the-complete-reference-eleventh-edition}{https://www.mhprofessional.com/9781260440232-usa-java-the-complete-reference-eleventh-edition}
-\end{referencias}
+  \bibitem{php2024}
+  PHP Documentation Group. (2024). \emph{Manual de PHP}.
+  \url{https://www.php.net/manual/es/}
+\end{thebibliography}
 
 \end{document}

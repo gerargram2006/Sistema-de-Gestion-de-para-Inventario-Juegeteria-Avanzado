@@ -1,9 +1,10 @@
 # 🧸 Sistema de Gestión de Inventario para Juguetería
 
-Aplicación web desarrollada con **PHP + Laravel** para automatizar la gestión de
-inventario de una juguetería minorista, aplicando los principios de la
-**Programación Orientada a Objetos (POO)** bajo una arquitectura
-**Modelo-Vista-Controlador (MVC)**.
+Proyecto de **Ingeniería de Requerimientos y Diseño de Software** — Entregable:
+**Modelo de negocio (Parte 3)**. Aplica el modelado de negocio y los principios
+de la **Programación Orientada a Objetos (POO)** para el diseño de una
+plataforma de inventario de una juguetería minorista, con PHP + Laravel como
+stack de implementación bajo arquitectura **Modelo-Vista-Controlador (MVC)**.
 
 ## 🎯 Problema
 
@@ -35,11 +36,34 @@ docs/   Documento de investigación en formato APA 7.ª edición (LaTeX + PDF)
 src/    Código fuente de la aplicación (Laravel)
 ```
 
-## 📊 Modelo de dominio
+## 🧩 Modelado de negocio
 
-**Entidades principales:** `Cliente`, `Producto`, `Usuario`, `Venta` y
-`DetalleVenta`, organizadas en tablas maestras, gestión de inventario y núcleo
-transaccional con integridad referencial y normalización.
+**Casos de uso del negocio** (con precondiciones, secuencia, flujos
+alternativos, postcondición y objetivo):
+
+1. Registrar venta
+2. Gestionar abastecimiento
+3. Controlar inventario
+4. Gestionar devoluciones y cambios
+
+**Trabajadores del negocio:** vendedor, administrador/dueño, cajero y encargado
+de almacén.
+
+**Entidades del negocio:** usuarios, clientes, categorías, inventario de
+productos, ventas, detalle\_ventas, devoluciones, compras y detalle\_compras.
+
+**Diagramas elaborados:**
+
+- Diagramas de clases por entidad (productos, ventas y detalle de ventas,
+  compras y detalle de compras, devoluciones, usuarios y clientes).
+- Diagramas de actividades por CUN (ventas, abastecimiento, inventario,
+  devoluciones y cambios).
+- Diagrama entidad-relación (ERD conceptual).
+
+Los diagramas permitieron visualizar la participación de cada actor del negocio,
+identificar puntos de riesgo (falta de stock, comprobantes inválidos, diferencias
+en la recepción de mercancía) y orientar las validaciones y mensajes de error
+del futuro sistema.
 
 ## 🧑‍💻 Equipo
 
@@ -49,20 +73,18 @@ transaccional con integridad referencial y normalización.
 - Samuel A. Llallacachi Salhua
 - Simon Rodriguez Anculle
 
-**Institución:** TECSUP · Arequipa, Perú — 2026 · 2.º Ciclo
+**Institución:** TECSUP · Arequipa, Perú — 2026 · Ciclo III
 
-**Curso:** Programación Orientada a Objetos — Docente: Luis Ignacio Diaz Bravo
+**Curso:** Ingeniería de Requerimientos y Diseño de Software — Docente: Olanda Saavedra, Claudio
 
 ## 🔗 Enlaces
 
 - **Documento de investigación:** [`docs/Proyecto.pdf`](docs/Proyecto.pdf)
-- **Repositorio GitHub:** <https://github.com/danielcabana-ship-it/Proyecto-Final-POO-Gesti-n-de-jugueter-a>
-- **Video explicativo:** <https://youtu.be/TrAdfiT9CWs>
-- **Recursos (Google Drive):** <https://drive.google.com/drive/folders/1gLkO0kbU5LngiZOESHCWmbuDCugcbQ-K?usp=drive_link>
+- **Repositorio GitHub:** <https://github.com/gerargram2006/Sistema-de-Gestion-de-para-Inventario-Juegeteria-Avanzado.git>
 
-## 📚 Referencias clave
+## 📚 Referencias
 
-- Welling, L. & Thompson, L. (2017). *PHP and MySQL web development* (5.ª ed.).
-- Stauffer, M. (2019). *Laravel: Up and running* (2.ª ed.).
-- Larman, C. (2004). *Applying UML and patterns* (3.ª ed.).
-- PHP Documentation Group (2024). *Manual de PHP*.
+- Banker, K., Bakkum, P., Verch, S., Garrett, D., y Hawkins, T. (2016). *MongoDB in action* (2.ª ed.). Manning Publications.
+- Bradshaw, S., Brazil, E., y Chodorow, C. (2019). *MongoDB: The definitive guide* (3.ª ed.). O'Reilly Media.
+- Pressman, R. S., y Maxim, B. R. (2021). *Ingeniería del software: Un enfoque práctico* (9.ª ed.). McGraw-Hill Education.
+- Wiegers, K., y Beatty, J. (2013). *Software requirements* (3.ª ed.). Microsoft Press.

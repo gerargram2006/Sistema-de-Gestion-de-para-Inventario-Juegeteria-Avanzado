@@ -415,6 +415,84 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Secuencia de atención de incidencias, cambios de productos o reembolsos.
 \end{figure}
 
+
+
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso: CUN-05 Flujo de Venta y Reposición (Trabajadores de negocio)}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
+    Caso & Flujo de Venta y Reposición (Trabajadores de negocio) \\
+    \hline
+    Descripción & Describe la interacción interna de los empleados y el sistema desde que se registra una venta hasta que se repone el stock. \\
+    \hline
+    Precondición & Existen productos registrados y la tienda está operativa. \\
+    \hline
+    Secuencia & 
+    1. El Vendedor registra la venta. \newline
+    2. El Sistema actualiza el stock. \newline
+    3. El Cajero cobra al cliente. \newline
+    4. El Sistema emite el comprobante. \newline
+    5. El Administrador pide stock (reposición). \newline
+    6. El Sistema registra la compra. \newline
+    7. El Encargado de almacén recibe la mercancía. \newline
+    8. El Sistema guarda el inventario. \\
+    \hline
+    Errores/Flujos alternativos & Problemas de conexión con el sistema, falta de stock físico para la venta o retrasos en la recepción de la mercancía. \\
+    \hline
+    Postcondición & La venta está pagada, el stock está actualizado y la mercancía repuesta. \\
+    \hline
+  \end{tabularx}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.
+\end{table}
+
+\begin{figure}[H]
+    \caption{Diagrama de Actividades - CUN-05: Flujo de Venta y Reposición (Trabajadores de negocio)}
+    \label{fig:act_cun05}
+    \centering
+    \includegraphics[height=3.1in,keepaspectratio]{media/image22}
+    \par\vspace{0.2cm}
+    \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representación de la secuencia de acciones de venta y reposición para los empleados internos.
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso: CUN-06 Flujo de Venta y Reposición (Actores externos de negocio)}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
+    Caso & Flujo de Venta y Reposición (Actores externos de negocio) \\
+    \hline
+    Descripción & Muestra la perspectiva e interacción de los actores externos (Cliente y Proveedor) con la empresa en los procesos de venta y abastecimiento. \\
+    \hline
+    Precondición & El cliente desea un producto o la empresa requiere reponer inventario a través de un proveedor. \\
+    \hline
+    Secuencia & 
+    1. El Cliente solicita la compra. \newline
+    2. El Vendedor atiende la venta. \newline
+    3. El Cliente recibe su compra. \newline
+    4. El Administrador pide stock al proveedor. \newline
+    5. El Proveedor envía la mercancía. \newline
+    6. El Sistema registra el ingreso de la mercancía. \\
+    \hline
+    Errores/Flujos alternativos & El cliente rechaza la compra al momento del pago, el proveedor no cuenta con stock o demora en el envío. \\
+    \hline
+    Postcondición & El cliente se lleva su producto y la empresa recibe el abastecimiento del proveedor. \\
+    \hline
+  \end{tabularx}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.
+\end{table}
+
+\begin{figure}[H]
+    \caption{Diagrama de Actividades - CUN-06: Flujo de Venta y Reposición (Actores externos de negocio)}
+    \label{fig:act_cun06}
+    \centering
+    \includegraphics[height=3.1in,keepaspectratio]{media/image23}
+    \par\vspace{0.2cm}
+    \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representación de la secuencia de acciones para los clientes y proveedores.
+\end{figure}
+
 \subsection{Trabajadores del Negocio}
 
 \begin{table}[H]
@@ -522,13 +600,7 @@ El diagrama de clases de negocio representa de manera gráfica la interacción d
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). El diagrama ilustra los componentes estructurales y de comportamiento del dominio del negocio.\end{figure}
 
 
-\begin{figure}[H]
-    \caption{Título del Gráfico Adicional}
-    \label{fig:grafico_adicional}
-    \centering
-    \includegraphics[height=3.1in,keepaspectratio]{media/image23}
-    \par\vspace{0.2cm}
-    \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). El diagrama ilustra los componentes estructurales y de comportamiento del dominio del negocio.\end{figure}
+
 
 % ============================================================
 \clearpage

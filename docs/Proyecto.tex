@@ -428,6 +428,41 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.\end{table}
 
+\subsection{Diagrama de Clases de Negocio}
+
+El diagrama de clases de negocio representa de manera gráfica la interacción directa entre los trabajadores del negocio (actores internos) y las entidades del negocio (documentos, recursos o elementos lógicos) durante la ejecución de las operaciones diarias de la juguetería.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{media/image1.png}
+    \caption{Diagrama de Clases de Negocio (Placeholder)}
+    \label{fig:clases_negocio_placeholder}
+    \par\vspace{0.2cm}
+    \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este diagrama ilustra cómo el Administrador, Vendedor, Cajero y Encargado de almacén interactúan con las entidades clave de la empresa. [FALTA REEMPLAZAR IMAGEN POR EL DIAGRAMA DE VISUAL PARADIGM]
+\end{figure}
+
+\subsection{Reglas de Negocio}
+
+De acuerdo a la normativa operativa del sistema de gestión para la juguetería, se han identificado y descrito las siguientes reglas de negocio fundamentales:
+
+\subsubsection*{1. Regla de Estímulo y Respuesta}
+Si el proveedor no confirma la solicitud de abastecimiento en un plazo máximo de 72 horas, el sistema genera automáticamente una alerta de retraso de pedido y la notifica al panel del Administrador para que tome acciones preventivas.
+
+\subsubsection*{2. Regla de Operación}
+Para concretar y registrar una venta en el sistema, el Vendedor o Cajero debe haber iniciado sesión de manera autenticada, y el producto seleccionado debe contar con un nivel de stock disponible mayor a cero en el registro físico del almacén.
+
+\subsubsection*{3. Regla de Estructura}
+Por cada transacción de venta completada, el sistema genera de forma obligatoria un comprobante electrónico con un número de serie correlativo único. Un mismo comprobante puede contener múltiples productos diferentes sin límite de líneas, siempre y cuando la cantidad de cada uno no exceda las existencias en inventario.
+
+\subsubsection*{4. Reglas de Inferencia}
+Un juguete o producto cuyo inventario físico no presente ningún movimiento de salida (cero ventas) durante un periodo continuo de 6 meses, es catalogado y etiquetado lógicamente por el sistema como «Producto de baja rotación» para posteriores auditorías.
+
+\subsubsection*{5. Reglas de Cálculo}
+El cálculo del monto total de una venta se obtiene sumando los subtotales de cada ítem en el detalle de la venta. El subtotal de cada ítem se define mediante la fórmula matemática: \\
+\textbf{Subtotal = Precio Unitario $\times$ Cantidad}\\
+\textit{Nota: El Impuesto General a las Ventas (IGV del 18\%) ya se encuentra gravado e incluido en el Precio Unitario final del catálogo.}
+
+
 % ============================================================
 \section{Diseño de la Solución}
 

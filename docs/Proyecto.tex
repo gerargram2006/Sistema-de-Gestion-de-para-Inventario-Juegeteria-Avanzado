@@ -22,7 +22,7 @@
 \usepackage{amsmath,amssymb}
 
 % ---------- Idiomas y enlaces ----------
-\usepackage[table]{xcolor}
+\usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{xurl}
 \hypersetup{
@@ -68,7 +68,7 @@
 \usepackage{caption}
 \captionsetup[figure]{labelsep=period, font=small, skip=6pt, justification=centering}
 \usepackage{booktabs}
-\usepackage{array}
+% \usepackage{array}
 
 % ---------- Índice (TOC funcional) ----------
 \setcounter{tocdepth}{2}
@@ -219,24 +219,189 @@ que constituirán la estructura del sistema (PHP Documentation Group, 2024):
 \end{description}
 
 % ============================================================
+\section{Ingeniería de Requerimientos}
+
+Esta sección detalla los casos de uso, los trabajadores y las entidades clave del negocio para la juguetería.
+
+\subsection{Casos de Uso del Negocio}
+
+Las tablas a continuación resumen los cuatro casos de uso principales del sistema.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Caso de uso: Registrar venta}
+  \begin{tabular}{p{4cm}p{11cm}}
+    \toprule
+    Caso & Registrar Venta \\
+    \midrule
+    Descripción & Permite al vendedor procesar la salida de productos solicitados por el cliente dentro del sistema de inventario. \\
+    \midrule
+    Precondición & El usuario (vendedor o cajero) debe haber iniciado sesión y el cliente debe haber seleccionado los juguetes a comprar con stock disponible. \\
+    \midrule
+    Secuencia & 
+    1. El vendedor ingresa la opción de registrar venta en el sistema. \newline
+    2. El vendedor selecciona o ingresa los productos solicitados por el cliente. \newline
+    3. El sistema valida el stock disponible de los juguetes. \newline
+    4. El vendedor confirma la transacción de venta. \newline
+    5. El sistema procesa el registro de la venta y ejecuta de manera automática la actualización del inventario. \newline
+    6. El sistema muestra un mensaje de confirmación de venta exitosa. \\
+    \midrule
+    Errores/Flujos alternativos & Stock insuficiente para la cantidad solicitada, error en la conexión o fallo al procesar el registro. \\
+    \midrule
+    Postcondición & La venta queda registrada en el sistema y el inventario de los juguetes vendidos se actualiza automáticamente. \\
+    \midrule
+    Objetivo & Agilizar el proceso de venta y mantener el nivel de stock actualizado en tiempo real en la tienda. \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \small Nota. Elaboración propia (2026).
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Caso de uso: Gestionar abastecimiento}
+  \begin{tabular}{p{4cm}p{11cm}}
+    \toprule
+    Caso & Gestionar abastecimiento \\
+    \midrule
+    Descripción & El proceso de cotizar, hacer el pedido al proveedor y recepcionar los nuevos juguetes. \\
+    \midrule
+    Precondición & El administrador identifica la necesidad de reponer stock en la tienda para evitar quiebres de inventario. \\
+    \midrule
+    Secuencia & 
+    1. El administrador revisa el catálogo de productos y detecta baja disponibilidad o la necesidad de nuevos artículos. \newline
+    2. El administrador cotiza los productos con el proveedor externo. \newline
+    3. El administrador realiza y emite el pedido formal al proveedor. \newline
+    4. El proveedor despacha y envía la nueva mercancía solicitada hacia la tienda. \newline
+    5. El administrador o encargado de almacén recibe y recepciona los nuevos juguetes en el establecimiento. \newline
+    6. El sistema o el administrador registra la entrada de la nueva mercancía para actualizar los niveles de stock. \\
+    \midrule
+    Errores/Flujos alternativos & Falta de stock en el proveedor, retraso en la entrega de la mercadería o discrepancias en la recepción de los juguetes. \\
+    \midrule
+    Postcondición & El inventario de la tienda es abastecido con los nuevos productos y los niveles de stock quedan actualizados. \\
+    \midrule
+    Objetivo & Mantener el stock de la tienda actualizado y evitar quiebres de inventario mediante una correcta provisión de mercancía. \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \small Nota. Elaboración propia (2026).
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Caso de uso: Controlar inventario}
+  \begin{tabular}{p{4cm}p{11cm}}
+    \toprule
+    Caso & Controlar inventario \\
+    \midrule
+    Descripción & El proceso interno de realizar auditorías, registrar mermas (juguetes rotos) y actualizar los niveles mínimos de stock. \\
+    \midrule
+    Precondición & El administrador o vendedor requiere verificar físicamente la mercancía y el estado del almacén de la tienda. \\
+    \midrule
+    Secuencia & 
+    1. El administrador o vendedor accede al módulo de control de inventario. \newline
+    2. Se realiza una auditoría física de los juguetes almacenados en la tienda. \newline
+    3. Se identifican y registran las mermas o juguetes rotos encontrados durante la revisión. \newline
+    4. Se actualizan los niveles mínimos de stock y los registros de existencias en el sistema. \newline
+    5. El sistema guarda los cambios y emite un informe actualizado de inventario disponible. \\
+    \midrule
+    Errores/Flujos alternativos & Discrepancias entre el stock físico y el registrado en el sistema, o registro de mermas con datos erróneos. \\
+    \midrule
+    Postcondición & El inventario físico y del sistema coinciden, con las mermas registradas y los niveles de stock actualizados. \\
+    \midrule
+    Objetivo & Mantener la precisión de los registros de mercancía, prevenir pérdidas económicas y asegurar un control interno eficiente de la tienda. \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \small Nota. Elaboración propia (2026).
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Caso de uso: Gestionar devoluciones y cambios}
+  \begin{tabular}{p{4cm}p{11cm}}
+    \toprule
+    Caso & Gestionar devoluciones y cambios \\
+    \midrule
+    Descripción & El proceso desde que un cliente reporta un juguete defectuoso o desea cambiarlo, hasta que se resuelve con un cambio de producto o reembolso. \\
+    \midrule
+    Precondición & El cliente se presenta en el establecimiento con el juguete y el comprobante de pago correspondiente. \\
+    \midrule
+    Secuencia & 
+    1. El cliente se acerca al vendedor para reportar un juguete defectuoso o solicitar un reembolso. \newline
+    2. El vendedor recibe el producto y solicita el comprobante de la venta. \newline
+    3. El vendedor verifica el estado del juguete y las condiciones de la devolución. \newline
+    4. El vendedor procesa la solicitud seleccionando la opción de cambio de producto o reembolso. \newline
+    5. El sistema actualiza el registro de inventario o genera la nota correspondiente según el caso. \newline
+    6. Se entrega el nuevo producto o se efectúa el reembolso al cliente, concluyendo la atención. \\
+    \midrule
+    Errores/Flujos alternativos & Comprobante de pago inválido o inexistente, producto fuera del plazo permitido para devoluciones o juguete con daños ocasionados por el mal uso del cliente. \\
+    \midrule
+    Postcondición & La devolución o cambio queda registrado en el sistema y el inventario se ajusta de acuerdo con la solución aplicada. \\
+    \midrule
+    Objetivo & Atender de manera eficiente las incidencias de los clientes para garantizar satisfacción y mantener la correcta trazabilidad del inventario. \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \small Nota. Las tablas resumen los cuatro casos de uso del negocio incluyendo precondición, secuencia, etc.
+\end{table}
+
+\subsection{Trabajadores del Negocio}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Trabajadores del negocio}
+  \begin{tabular}{p{4.5cm}p{10.5cm}}
+    \toprule
+    Trabajador & Descripción \\
+    \midrule
+    Vendedor & Atiende al cliente, realiza la venta y registra la salida del producto. \\
+    \midrule
+    Administrador/Dueño & Supervisa el negocio, gestiona el catálogo de productos, revisa reportes y realiza pedidos. \\
+    \midrule
+    Cajero & Recibe el pago del cliente, procesa la transacción y emite el comprobante de venta correspondiente. \\
+    \midrule
+    Encargado de almacén & Recibe y verifica la mercancía entregada por el proveedor, organiza físicamente el stock y actualiza los niveles de inventario en el sistema. \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \small Nota. Elaboración propia (2026).
+\end{table}
+
+\subsection{Entidades del Negocio}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Entidades del negocio}
+  \begin{tabular}{p{4cm}p{11cm}}
+    \toprule
+    Entidades & Descripción \\
+    \midrule
+    Usuarios & Almacena la información de los usuarios internos del sistema que operan la tienda (Administrador y Vendedor), incluyendo sus credenciales de acceso y roles. \\
+    \midrule
+    Clientes & Contiene los datos de las personas que compran los juguetes (como su DNI, nombre completo, teléfono). \\
+    \midrule
+    Categorías & Clasifica los diferentes tipos de juguetes que ofrece el negocio. \\
+    \midrule
+    Inventario de Productos & Almacena la información detallada de los juguetes disponibles en la tienda (código, nombre, precio, stock, categoría a la que pertenece). \\
+    \midrule
+    Ventas & Registra las transacciones de venta realizadas, vinculando al cliente que realiza la compra y al usuario que la procesa, junto con la fecha y el monto total. \\
+    \midrule
+    Detalle\_ventas & Representa los ítems individuales incluidos en cada transacción de venta, especificando la cantidad de productos comprados, el precio unitario y el subtotal. \\
+    \midrule
+    Devoluciones & Registra las solicitudes de cambio o reembolso realizadas por los clientes, vinculando la venta original, el producto y la solución aplicada. \\
+    \midrule
+    Compras & Registra los pedidos realizados a un proveedor, vinculando al proveedor y al usuario que gestiona la compra, junto con la fecha y el monto total. \\
+    \midrule
+    Detalle\_compras & Representa los ítems individuales incluidos en cada compra, especificando el producto, la cantidad solicitada y el precio unitario. \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{1ex}
+  \small Nota. Un listado de entidad de negocio con campos de descripción para cada parte.
+\end{table}
+
+% ============================================================
 \section{Diseño de la Solución}
-
-\subsection{Bocetos de Interfaz (Wireframes Conceptuales)}
-
-El diseño visual está planificado bajo un enfoque de interfaz limpia, enfocado
-en el aislamiento de responsabilidades visuales.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.85\textwidth]{image3.jpeg}
-  \caption{Wireframe: gestión de productos.}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\textwidth]{image4.jpeg}
-  \caption{Wireframe: registro de producto.}
-\end{figure}
 
 \subsection{Diagrama de Clases UML (Estructura de Paquetes)}
 
@@ -299,27 +464,6 @@ tipos de datos:
   \caption{Diagrama entidad-relación (ERD conceptual).}
 \end{figure}
 
-\subsection{Imágenes del Proyecto (Producto Final)}
-
-A continuación se evidencian las pantallas funcionales del sistema desarrollado.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\textwidth]{image8.png}
-  \caption{Pantalla de inicio de sesión.}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\textwidth]{image9.png}
-  \caption{Panel de gestión de productos.}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\textwidth]{image10.jpeg}
-  \caption{Vista integrada del sistema.}
-\end{figure}
 
 % ============================================================
 \section{Estrategia de GIT y Repositorio}
@@ -344,12 +488,6 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
   \item \textbf{Repositorio GitHub:}
         \href{https://github.com/danielcabana-ship-it/Proyecto-Final-POO-Gesti-n-de-jugueter-a}{Enlace
         al código fuente del proyecto}
-  \item \textbf{Video Explicativo:}
-        \href{https://youtu.be/TrAdfiT9CWs}{Demostración del software en
-        YouTube}
-  \item \textbf{Archivos y Recursos:}
-        \href{https://drive.google.com/drive/folders/1gLkO0kbU5LngiZOESHCWmbuDCugcbQ-K?usp=drive_link}{Directorio
-        en Google Drive}
 \end{itemize}
 
 % ============================================================
@@ -379,6 +517,18 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
   \bibitem{php2024}
   PHP Documentation Group. (2024). \emph{Manual de PHP}.
   \url{https://www.php.net/manual/es/}
+
+  \bibitem{bradshaw2019}
+  S. Bradshaw, E. Brazil y C. Chodorow, \emph{MongoDB: The Definitive Guide: Powerful and Scalable Data Storage}, 3.ª ed., Sebastopol, CA, EE. UU.: O'Reilly Media, 2019.
+
+  \bibitem{banker2016}
+  K. Banker, P. Bakkum, S. Verch, D. Garrett y T. Hawkins, \emph{MongoDB in Action}, 2.ª ed., Shelter Island, NY, EE. UU.: Manning Publications, 2016.
+
+  \bibitem{pressman2021}
+  R. S. Pressman y B. R. Maxim, \emph{Ingeniería del software: Un enfoque práctico}, 9.ª ed., México: McGraw-Hill Education, 2021.
+
+  \bibitem{wiegers2013}
+  K. Wiegers y J. Beatty, \emph{Software Requirements}, 3.ª ed., Redmond, WA, EE. UU.: Microsoft Press, 2013.
 \end{thebibliography}
 
 \end{document}

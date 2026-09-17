@@ -24,6 +24,7 @@
 % ---------- Idiomas y enlaces ----------
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
 \usepackage{xurl}
 \hypersetup{
   pdftitle={Sistema de Gestión de Inventario para Juguetería},
@@ -492,58 +493,6 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \par\vspace{0.2cm}
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representación de la secuencia de acciones para los clientes y proveedores.
 \end{figure}
-
-\subsection{Trabajadores del Negocio}
-
-\begin{table}[H]
-  \centering
-  \caption{Trabajadores del negocio}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
-    \hline
-    Trabajador & Descripción \\
-    \hline
-    Vendedor & Atiende al cliente, realiza la venta y registra la salida del producto. \\
-    \hline
-    Administrador/Dueño & Supervisa el negocio, gestiona el catálogo de productos, revisa reportes y realiza pedidos. \\
-    \hline
-    Cajero & Recibe el pago del cliente, procesa la transacción y emite el comprobante de venta correspondiente. \\
-    \hline
-    Encargado de almacén & Recibe y verifica la mercancía entregada por el proveedor, organiza físicamente el stock y actualiza los niveles de inventario en el sistema. \\
-    \hline
-  \end{tabularx}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.\end{table}
-
-\subsection{Entidades del Negocio}
-
-\begin{table}[H]
-  \centering
-  \caption{Entidades del negocio}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
-    \hline
-    Entidades & Descripción \\
-    \hline
-    Usuarios & Almacena la información de los usuarios internos del sistema que operan la tienda (Administrador y Vendedor), incluyendo sus credenciales de acceso y roles. \\
-    \hline
-    Clientes & Contiene los datos de las personas que compran los juguetes (como su DNI, nombre completo, teléfono). \\
-    \hline
-    Categorías & Clasifica los diferentes tipos de juguetes que ofrece el negocio. \\
-    \hline
-    Inventario de Productos & Almacena la información detallada de los juguetes disponibles en la tienda (código, nombre, precio, stock, categoría a la que pertenece). \\
-    \hline
-    Ventas & Registra las transacciones de venta realizadas, vinculando al cliente que realiza la compra y al usuario que la procesa, junto con la fecha y el monto total. \\
-    \hline
-    Detalle\_ventas & Representa los ítems individuales incluidos en cada transacción de venta, especificando la cantidad de productos comprados, el precio unitario y el subtotal. \\
-    \hline
-    Devoluciones & Registra las solicitudes de cambio o reembolso realizadas por los clientes, vinculando la venta original, el producto y la solución aplicada. \\
-    \hline
-    Compras & Registra los pedidos realizados a un proveedor, vinculando al proveedor y al usuario que gestiona la compra, junto con la fecha y el monto total. \\
-    \hline
-    Detalle\_compras & Representa los ítems individuales incluidos en cada compra, especificando el producto, la cantidad solicitada y el precio unitario. \\
-    \hline
-  \end{tabularx}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.\end{table}
 
 \subsection{Diagrama de Clases de Negocio}
 

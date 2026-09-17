@@ -73,8 +73,10 @@
 \AtBeginEnvironment{figure}{\singlespacing\setlength{\parindent}{0pt}}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{tabularx}
 \usepackage{etoolbox}
 \AtBeginEnvironment{tabular}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}}
+\AtBeginEnvironment{tabularx}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}}
 
 % ---------- Índice (TOC funcional) ----------
 \setcounter{tocdepth}{2}
@@ -125,6 +127,10 @@
 % ============================================================
 \pagenumbering{arabic}
 \tableofcontents
+\newpage
+\listoftables
+\newpage
+\listoffigures
 \newpage
 
 % ============================================================
@@ -248,14 +254,14 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Registrar venta}
-  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
-    \toprule
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
     Caso & Registrar Venta \\
-    \midrule
+    \hline
     Descripción & Permite al vendedor procesar la salida de productos solicitados por el cliente dentro del sistema de inventario. \\
-    \midrule
+    \hline
     Precondición & El usuario (vendedor o cajero) debe haber iniciado sesión y el cliente debe haber seleccionado los juguetes a comprar con stock disponible. \\
-    \midrule
+    \hline
     Secuencia &
     1. El vendedor ingresa la opción de registrar venta en el sistema. \newline
     2. El vendedor selecciona o ingresa los productos solicitados por el cliente. \newline
@@ -263,14 +269,14 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     4. El vendedor confirma la transacción de venta. \newline
     5. El sistema procesa el registro de la venta y ejecuta de manera automática la actualización del inventario. \newline
     6. El sistema muestra un mensaje de confirmación de venta exitosa. \\
-    \midrule
+    \hline
     Errores/Flujos alternativos & Stock insuficiente para la cantidad solicitada, error en la conexión o fallo al procesar el registro. \\
-    \midrule
+    \hline
     Postcondición & La venta queda registrada en el sistema y el inventario de los juguetes vendidos se actualiza automáticamente. \\
-    \midrule
+    \hline
     Objetivo & Agilizar el proceso de venta y mantener el nivel de stock actualizado en tiempo real en la tienda. \\
-    \bottomrule
-  \end{tabular}
+    \hline
+  \end{tabularx}
   \par\vspace{1ex}
   \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
@@ -278,14 +284,14 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Gestionar abastecimiento}
-  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
-    \toprule
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
     Caso & Gestionar abastecimiento \\
-    \midrule
+    \hline
     Descripción & El proceso de cotizar, hacer el pedido al proveedor y recepcionar los nuevos juguetes. \\
-    \midrule
+    \hline
     Precondición & El administrador identifica la necesidad de reponer stock en la tienda para evitar quiebres de inventario. \\
-    \midrule
+    \hline
     Secuencia &
     1. El administrador revisa el catálogo de productos y detecta baja disponibilidad o la necesidad de nuevos artículos. \newline
     2. El administrador cotiza los productos con el proveedor externo. \newline
@@ -293,14 +299,14 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     4. El proveedor despacha y envía la nueva mercancía solicitada hacia la tienda. \newline
     5. El administrador o encargado de almacén recibe y recepciona los nuevos juguetes en el establecimiento. \newline
     6. El sistema o el administrador registra la entrada de la nueva mercancía para actualizar los niveles de stock. \\
-    \midrule
+    \hline
     Errores/Flujos alternativos & Falta de stock en el proveedor, retraso en la entrega de la mercadería o discrepancias en la recepción de los juguetes. \\
-    \midrule
+    \hline
     Postcondición & El inventario de la tienda es abastecido con los nuevos productos y los niveles de stock quedan actualizados. \\
-    \midrule
+    \hline
     Objetivo & Mantener el stock de la tienda actualizado y evitar quiebres de inventario mediante una correcta provisión de mercancía. \\
-    \bottomrule
-  \end{tabular}
+    \hline
+  \end{tabularx}
   \par\vspace{1ex}
   \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
@@ -308,28 +314,28 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Controlar inventario}
-  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
-    \toprule
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
     Caso & Controlar inventario \\
-    \midrule
+    \hline
     Descripción & El proceso interno de realizar auditorías, registrar mermas (juguetes rotos) y actualizar los niveles mínimos de stock. \\
-    \midrule
+    \hline
     Precondición & El administrador o vendedor requiere verificar físicamente la mercancía y el estado del almacén de la tienda. \\
-    \midrule
+    \hline
     Secuencia &
     1. El administrador o vendedor accede al módulo de control de inventario. \newline
     2. Se realiza una auditoría física de los juguetes almacenados en la tienda. \newline
     3. Se identifican y registran las mermas o juguetes rotos encontrados durante la revisión. \newline
     4. Se actualizan los niveles mínimos de stock y los registros de existencias en el sistema. \newline
     5. El sistema guarda los cambios y emite un informe actualizado de inventario disponible. \\
-    \midrule
+    \hline
     Errores/Flujos alternativos & Discrepancias entre el stock físico y el registrado en el sistema, o registro de mermas con datos erróneos. \\
-    \midrule
+    \hline
     Postcondición & El inventario físico y del sistema coinciden, con las mermas registradas y los niveles de stock actualizados. \\
-    \midrule
+    \hline
     Objetivo & Mantener la precisión de los registros de mercancía, prevenir pérdidas económicas y asegurar un control interno eficiente de la tienda. \\
-    \bottomrule
-  \end{tabular}
+    \hline
+  \end{tabularx}
   \par\vspace{1ex}
   \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
@@ -337,14 +343,14 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Gestionar devoluciones y cambios}
-  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
-    \toprule
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
     Caso & Gestionar devoluciones y cambios \\
-    \midrule
+    \hline
     Descripción & El proceso desde que un cliente reporta un juguete defectuoso o desea cambiarlo, hasta que se resuelve con un cambio de producto o reembolso. \\
-    \midrule
+    \hline
     Precondición & El cliente se presenta en el establecimiento con el juguete y el comprobante de pago correspondiente. \\
-    \midrule
+    \hline
     Secuencia &
     1. El cliente se acerca al vendedor para reportar un juguete defectuoso o solicitar un reembolso. \newline
     2. El vendedor recibe el producto y solicita el comprobante de la venta. \newline
@@ -352,14 +358,14 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     4. El vendedor procesa la solicitud seleccionando la opción de cambio de producto o reembolso. \newline
     5. El sistema actualiza el registro de inventario o genera la nota correspondiente según el caso. \newline
     6. Se entrega el nuevo producto o se efectúa el reembolso al cliente, concluyendo la atención. \\
-    \midrule
+    \hline
     Errores/Flujos alternativos & Comprobante de pago inválido o inexistente, producto fuera del plazo permitido para devoluciones o juguete con daños ocasionados por el mal uso del cliente. \\
-    \midrule
+    \hline
     Postcondición & La devolución o cambio queda registrado en el sistema y el inventario se ajusta de acuerdo con la solución aplicada. \\
-    \midrule
+    \hline
     Objetivo & Atender de manera eficiente las incidencias de los clientes para garantizar satisfacción y mantener la correcta trazabilidad del inventario. \\
-    \bottomrule
-  \end{tabular}
+    \hline
+  \end{tabularx}
   \par\vspace{1ex}
   \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
@@ -369,19 +375,19 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Trabajadores del negocio}
-  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4.5cm} >{\raggedright\arraybackslash}p{11cm}}
-    \toprule
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
     Trabajador & Descripción \\
-    \midrule
+    \hline
     Vendedor & Atiende al cliente, realiza la venta y registra la salida del producto. \\
-    \midrule
+    \hline
     Administrador/Dueño & Supervisa el negocio, gestiona el catálogo de productos, revisa reportes y realiza pedidos. \\
-    \midrule
+    \hline
     Cajero & Recibe el pago del cliente, procesa la transacción y emite el comprobante de venta correspondiente. \\
-    \midrule
+    \hline
     Encargado de almacén & Recibe y verifica la mercancía entregada por el proveedor, organiza físicamente el stock y actualiza los niveles de inventario en el sistema. \\
-    \bottomrule
-  \end{tabular}
+    \hline
+  \end{tabularx}
   \par\vspace{1ex}
   \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
@@ -391,29 +397,29 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Entidades del negocio}
-  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
-    \toprule
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+    \hline
     Entidades & Descripción \\
-    \midrule
+    \hline
     Usuarios & Almacena la información de los usuarios internos del sistema que operan la tienda (Administrador y Vendedor), incluyendo sus credenciales de acceso y roles. \\
-    \midrule
+    \hline
     Clientes & Contiene los datos de las personas que compran los juguetes (como su DNI, nombre completo, teléfono). \\
-    \midrule
+    \hline
     Categorías & Clasifica los diferentes tipos de juguetes que ofrece el negocio. \\
-    \midrule
+    \hline
     Inventario de Productos & Almacena la información detallada de los juguetes disponibles en la tienda (código, nombre, precio, stock, categoría a la que pertenece). \\
-    \midrule
+    \hline
     Ventas & Registra las transacciones de venta realizadas, vinculando al cliente que realiza la compra y al usuario que la procesa, junto con la fecha y el monto total. \\
-    \midrule
+    \hline
     Detalle\_ventas & Representa los ítems individuales incluidos en cada transacción de venta, especificando la cantidad de productos comprados, el precio unitario y el subtotal. \\
-    \midrule
+    \hline
     Devoluciones & Registra las solicitudes de cambio o reembolso realizadas por los clientes, vinculando la venta original, el producto y la solución aplicada. \\
-    \midrule
+    \hline
     Compras & Registra los pedidos realizados a un proveedor, vinculando al proveedor y al usuario que gestiona la compra, junto con la fecha y el monto total. \\
-    \midrule
+    \hline
     Detalle\_compras & Representa los ítems individuales incluidos en cada compra, especificando el producto, la cantidad solicitada y el precio unitario. \\
-    \bottomrule
-  \end{tabular}
+    \hline
+  \end{tabularx}
   \par\vspace{1ex}
   \small \emph{Nota.} Un listado de entidad de negocio con campos de descripción para cada parte.
 \end{table}
@@ -619,7 +625,7 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
 
 \begin{itemize}
   \item \textbf{Repositorio GitHub:}
-        \href{https://github.com/danielcabana-ship-it/Proyecto-Final-POO-Gesti-n-de-jugueter-a}{Enlace
+        \href{https://github.com/gerargram2006/Sistema-de-Gestion-de-para-Inventario-Juegeteria-Avanzado.git}{Enlace
         al código fuente del proyecto}
 \end{itemize}
 

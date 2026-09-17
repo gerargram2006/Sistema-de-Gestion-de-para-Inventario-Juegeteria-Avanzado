@@ -625,6 +625,65 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
 \end{itemize}
 
 % ============================================================
+\clearpage
+\section{Conclusiones}
+
+Por consiguiente, la construcción del diagrama de clases por cada entidad
+(inventario de productos, ventas y detalle de ventas, compras y detalle de
+compras, devoluciones, usuarios y clientes) permitió visualizar las acciones
+que se realizan dentro de cada proceso, mostrando en dónde interviene cada
+actor del negocio.
+
+Asimismo, los diagramas de actividades elaborados para cada CUN (Gestionar
+ventas, gestionar abastecimiento, controlar inventario y gestionar devoluciones
+y cambios) ayudaron a entender mejor cómo se desarrolla cada proceso en la
+tienda. También permitieron identificar las decisiones y acciones que se
+realizan, así como la participación de cada trabajador, como el vendedor, el
+cajero, el administrador y el encargado de almacén.
+
+Por lo tanto, al utilizar los diagramas de clases y de actividades se pudo
+observar que un mismo proceso puede involucrar varias entidades relacionadas
+entre sí, como ocurre con ventas y detalle\_ventas, o compras y detalle\_compras.
+Esto permitió comprender la importancia de que ambos diagramas mantengan relación
+y sean coherentes para representar correctamente el funcionamiento del negocio.
+
+Se puede decir que esta etapa permitió comprender que el modelado del negocio
+no sirve únicamente para representar cómo funciona actualmente la tienda Mundo
+del Juguete, sino que también ayuda a identificar y organizar las necesidades
+que tendrá el futuro sistema de software. De esta manera, se pueden conocer
+mejor los procesos que podrían ser automatizados y mejorar su funcionamiento.
+
+Finalmente, la elaboración de los diagramas de actividades también permitió
+identificar algunos puntos en los que el proceso podría presentar problemas,
+como cuando no hay suficiente stock, el comprobante es inválido o existen
+diferencias al recibir la mercancía. Esto ayudó a tener una idea más clara de
+las validaciones y mensajes de error que el sistema deberá considerar cuando se
+desarrolle.
+
+% ============================================================
+\section{Recomendaciones}
+
+\begin{itemize}
+  \item Implementar en el sistema validaciones automáticas de stock disponible
+        antes de confirmar cualquier venta, mostrando mensajes de error claros
+        cuando la cantidad solicitada supere las existencias.
+  \item Diseñar un módulo de devoluciones que valide la autenticidad del
+        comprobante de pago y verifique el plazo permitido y el estado del
+        juguete antes de aprobar un cambio o reembolso.
+  \item Establecer un control de calidad en la recepción de mercancía que
+        permita registrar las diferencias entre lo pedido y lo recibido,
+        actualizando automáticamente el inventario.
+  \item Garantizar la coherencia entre los diagramas de clases y de actividades
+        y su implementación en el sistema, de modo que las entidades y los
+        procesos modelados se correspondan con el software final.
+  \item Desarrollar reportes automatizados de ventas, compras y stock que
+        faciliten la toma de decisiones informadas y las auditorías periódicas.
+  \item Capacitar al personal (vendedor, cajero, administrador y encargado de
+        almacén) en el uso del sistema para asegurar un registro consistente de
+        la información.
+\end{itemize}
+
+% ============================================================
 % REFERENCIAS (APA 7, con sangría francesa)
 % ============================================================
 \newpage
@@ -634,17 +693,17 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
   \setlength{\itemsep}{0pt}
   \setlength{\parskip}{0pt}
 
+  \bibitem{banker2016}
+Banker, K., Bakkum, P., Verch, S., Garrett, D., y Hawkins, T. (2016). \textit{MongoDB in action} (2.ª ed.). Manning Publications. \url{https://www.manning.com/books/mongodb-in-action-second-edition}
+
   \bibitem{bradshaw2019}
-Bradshaw, S., Brazil, E., \& Chodorow, C. (2019). \textit{MongoDB: The Definitive Guide: Powerful and Scalable Data Storage} (3.ª ed.). O'Reilly Media. \url{https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/}
+Bradshaw, S., Brazil, E., y Chodorow, C. (2019). \textit{MongoDB: The definitive guide: Powerful and scalable data storage} (3.ª ed.). O'Reilly Media. \url{https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/}
 
-\bibitem{banker2016}
-Banker, K., Bakkum, P., Verch, S., Garrett, D., \& Hawkins, T. (2016). \textit{MongoDB in Action} (2.ª ed.). Manning Publications. \url{https://www.manning.com/books/mongodb-in-action-second-edition}
+  \bibitem{pressman2021}
+Pressman, R. S., y Maxim, B. R. (2021). \textit{Ingeniería del software: Un enfoque práctico} (9.ª ed.). McGraw-Hill Education. \url{https://www.mheducation.com.mx/ingenieria-de-software-un-enfoque-practico-9781456287714-latam}
 
-\bibitem{pressman2021}
-Pressman, R. S., \& Maxim, B. R. (2021). \textit{Ingeniería del software: Un enfoque práctico} (9.ª ed.). McGraw-Hill Education. \url{https://www.mheducation.com.mx/ingenieria-de-software-un-enfoque-practico-9781456287714-latam}
-
-\bibitem{wiegers2013}
-Wiegers, K., \& Beatty, J. (2013). \textit{Software Requirements} (3.ª ed.). Microsoft Press. \url{https://www.microsoftpressstore.com/store/software-requirements-9780735679665}
+  \bibitem{wiegers2013}
+Wiegers, K., y Beatty, J. (2013). \textit{Software requirements} (3.ª ed.). Microsoft Press. \url{https://www.microsoftpressstore.com/store/software-requirements-9780735679665}
 
 \end{thebibliography}
 

@@ -43,11 +43,11 @@ transaccional con integridad referencial y normalización.
 
 ## 🧑‍💻 Equipo
 
-- Simon Rodriguez Anculle
 - Gerar Rodrigo Camma Baldeon
 - Hugo Ernesto Florez Merma
 - Barry Valdivia Lovon
-- Samuel Llallacahi
+- Samuel A. Llallacachi Salhua
+- Simon Rodriguez Anculle
 
 **Institución:** TECSUP · Arequipa, Perú — 2026 · 2.º Ciclo
 

@@ -11,7 +11,7 @@
 % ---------- Codificación y fuentes ----------
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{mathptmx}
 \renewcommand{\familydefault}{\rmdefault}
 
 % ---------- Idioma (español) ----------
@@ -27,11 +27,11 @@
 \usepackage{xurl}
 \hypersetup{
   pdftitle={Sistema de Gestión de Inventario para Juguetería},
-  pdfauthor={Simon Rodriguez Anculle, Gerar Rodrigo Camma Baldeon,
-             Hugo Ernesto Florez Merma, Barry Valdivia Lovon,
-             Samuel Llallacahi},
+  pdfauthor={Camma Baldeon, Gerar Rodrigo, Florez Merma, Hugo Ernesto,
+             Valdivia Lovon, Barry, Llallacachi Salhua, Samuel A.,
+             Rodriguez Anculle, Simon},
   colorlinks=true,
-  linkcolor=blue,
+  linkcolor=black,
   citecolor=blue,
   urlcolor=blue
 }
@@ -40,8 +40,8 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
 \doublespacing
-\setlength{\parskip}{6pt}
-\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0.5in}
 \setlength{\emergencystretch}{3em}
 
 % ---------- Encabezado con número de página (APA 7) ----------
@@ -66,9 +66,13 @@
 \usepackage{graphicx}
 \graphicspath{{./media/}}
 \usepackage{caption}
-\captionsetup[figure]{labelsep=period, font=small, skip=6pt, justification=centering}
+\captionsetup{labelsep=period, labelfont=bf, textfont=it, skip=6pt}
+\captionsetup[figure]{font=small, justification=centering}
+\captionsetup[table]{position=above}
 \usepackage{booktabs}
-% \usepackage{array}
+\usepackage{array}
+\usepackage{etoolbox}
+\AtBeginEnvironment{tabular}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}}
 
 % ---------- Índice (TOC funcional) ----------
 \setcounter{tocdepth}{2}
@@ -79,30 +83,40 @@
 % ============================================================
 % PORTADA
 % ============================================================
-\thispagestyle{empty}
 \begin{center}
-  \vspace*{1.2cm}
-  \includegraphics[width=4.5cm]{image1.png}
+  \thispagestyle{fancy}
+  \begin{singlespace}
+    \vspace*{0.2cm}
+    {\large\bfseries INSTITUTO TECNOLÓGICO SUPERIOR TECSUP}\\[0.6cm]
 
-  \vspace{1.6cm}
-  {\LARGE\bfseries Sistema de Gestión de Inventario\\[0.3em] para Juguetería}\\[2.0cm]
+    \includegraphics[width=5.5cm]{image1.png}\\[1.0cm]
 
-  {\large Simon Rodriguez Anculle\\
-  Gerar Rodrigo Camma Baldeon\\
-  Hugo Ernesto Florez Merma\\
-  Barry Valdivia Lovon\\
-  Samuel Llallacahi}\\[2.2cm]
+    {\large\bfseries DISEÑO Y DESARROLLO DE SOFTWARE}\\[0.6cm]
 
-  {\large Curso/Asignatura: Programación orientada a objetos\\[0.4cm]
-  Docente: Luis Ignacio Diaz Bravo\\[0.4cm]
-  Ciclo / Grado: 2do Ciclo - 2026}\\[1.8cm]
+    {\normalsize Entregable: Modelo de negocio - Parte 3}\\[1.0cm]
 
-  {\large TECSUP}\\[0.3cm]
-  {\large Arequipa, Perú}\\[0.3cm]
-  {\large 2026}
+    {\large\bfseries Sistema de Gestión de Inventario para Juguetería}\\[1.2cm]
+
+    {\normalsize\bfseries Integrantes:}\\[0.3cm]
+    {\large Camma Baldeon, Gerar Rodrigo\\}
+    {\large Florez Merma, Hugo Ernesto\\}
+    {\large Valdivia Lovon, Barry\\}
+    {\large Llallacachi Salhua, Samuel A.\\}
+    {\large Rodriguez Anculle, Simon}\\[1.0cm]
+
+    {\normalsize\bfseries Docente:}\\[0.3cm]
+    {\normalsize Olanda Saavedra, Claudio}\\[0.8cm]
+
+    {\normalsize Ingeniería de Requerimientos y Diseño de Software}\\[0.6cm]
+
+    {\normalsize\bfseries Ciclo: III}\\[0.6cm]
+
+    {\normalsize 16-09-2026}
+  \end{singlespace}
 \end{center}
 
 \newpage
+
 
 % ============================================================
 % ÍNDICE FUNCIONAL
@@ -114,6 +128,11 @@
 % ============================================================
 % RESUMEN
 % ============================================================
+\begin{center}
+  {\large\bfseries Sistema de Gestión de Inventario para Juguetería}
+\end{center}
+\vspace{1.5em}
+
 \section*{Resumen}
 \addcontentsline{toc}{section}{Resumen}
 
@@ -131,7 +150,7 @@ jerárquico por categorías y marcas aseguran la integridad de los datos,
 optimizando las auditorías y permitiendo una toma de decisiones informada
 basada en reportes automatizados.
 
-\textbf{Palabras clave:} inventario, Programación Orientada a Objetos, PHP,
+\emph{Palabras clave:} inventario, Programación Orientada a Objetos, PHP,
 Laravel, Eloquent, juguetería.
 
 \newpage
@@ -230,7 +249,7 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Registrar venta}
-  \begin{tabular}{p{4cm}p{11cm}}
+  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
     \toprule
     Caso & Registrar Venta \\
     \midrule
@@ -254,13 +273,13 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \bottomrule
   \end{tabular}
   \par\vspace{1ex}
-  \small Nota. Elaboración propia (2026).
+  \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
 
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Gestionar abastecimiento}
-  \begin{tabular}{p{4cm}p{11cm}}
+  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
     \toprule
     Caso & Gestionar abastecimiento \\
     \midrule
@@ -284,13 +303,13 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \bottomrule
   \end{tabular}
   \par\vspace{1ex}
-  \small Nota. Elaboración propia (2026).
+  \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
 
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Controlar inventario}
-  \begin{tabular}{p{4cm}p{11cm}}
+  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
     \toprule
     Caso & Controlar inventario \\
     \midrule
@@ -313,13 +332,13 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \bottomrule
   \end{tabular}
   \par\vspace{1ex}
-  \small Nota. Elaboración propia (2026).
+  \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
 
 \begin{table}[htbp]
   \centering
   \caption{Caso de uso: Gestionar devoluciones y cambios}
-  \begin{tabular}{p{4cm}p{11cm}}
+  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
     \toprule
     Caso & Gestionar devoluciones y cambios \\
     \midrule
@@ -343,7 +362,7 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \bottomrule
   \end{tabular}
   \par\vspace{1ex}
-  \small Nota. Las tablas resumen los cuatro casos de uso del negocio incluyendo precondición, secuencia, etc.
+  \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
 
 \subsection{Trabajadores del Negocio}
@@ -351,7 +370,7 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Trabajadores del negocio}
-  \begin{tabular}{p{4.5cm}p{10.5cm}}
+  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4.5cm} >{\raggedright\arraybackslash}p{11cm}}
     \toprule
     Trabajador & Descripción \\
     \midrule
@@ -365,7 +384,7 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \bottomrule
   \end{tabular}
   \par\vspace{1ex}
-  \small Nota. Elaboración propia (2026).
+  \small \emph{Nota.} Elaboración propia (2026).
 \end{table}
 
 \subsection{Entidades del Negocio}
@@ -373,7 +392,7 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
 \begin{table}[htbp]
   \centering
   \caption{Entidades del negocio}
-  \begin{tabular}{p{4cm}p{11cm}}
+  \begin{tabular}{>{\bfseries\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}p{11.5cm}}
     \toprule
     Entidades & Descripción \\
     \midrule
@@ -397,7 +416,7 @@ Las tablas a continuación resumen los cuatro casos de uso principales del siste
     \bottomrule
   \end{tabular}
   \par\vspace{1ex}
-  \small Nota. Un listado de entidad de negocio con campos de descripción para cada parte.
+  \small \emph{Nota.} Un listado de entidad de negocio con campos de descripción para cada parte.
 \end{table}
 
 % ============================================================
@@ -501,12 +520,13 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
   \setlength{\itemsep}{0pt}
   \setlength{\parskip}{0pt}
 
-  \bibitem{welling2017}
-  Welling, L., \& Thompson, L. (2017). \emph{PHP and MySQL web development}
-  (5.\textsuperscript{a} ed.). Addison-Wesley Professional.
+  \bibitem{banker2016}
+  Banker, K., Bakkum, P., Verch, S., Garrett, D., y Hawkins, T. (2016).
+  \emph{MongoDB in action} (2.\textsuperscript{a} ed.). Manning Publications.
 
-  \bibitem{stauffer2019}
-  Stauffer, M. (2019). \emph{Laravel: Up and running} (2.\textsuperscript{a}
+  \bibitem{bradshaw2019}
+  Bradshaw, S., Brazil, E., y Chodorow, C. (2019). \emph{MongoDB: The
+  definitive guide: Powerful and scalable data storage} (3.\textsuperscript{a}
   ed.). O'Reilly Media.
 
   \bibitem{larman2004}
@@ -518,17 +538,21 @@ trabajo para evitar la carga de metadatos locales de los entornos de desarrollo
   PHP Documentation Group. (2024). \emph{Manual de PHP}.
   \url{https://www.php.net/manual/es/}
 
-  \bibitem{bradshaw2019}
-  S. Bradshaw, E. Brazil y C. Chodorow, \emph{MongoDB: The Definitive Guide: Powerful and Scalable Data Storage}, 3.ª ed., Sebastopol, CA, EE. UU.: O'Reilly Media, 2019.
-
-  \bibitem{banker2016}
-  K. Banker, P. Bakkum, S. Verch, D. Garrett y T. Hawkins, \emph{MongoDB in Action}, 2.ª ed., Shelter Island, NY, EE. UU.: Manning Publications, 2016.
-
   \bibitem{pressman2021}
-  R. S. Pressman y B. R. Maxim, \emph{Ingeniería del software: Un enfoque práctico}, 9.ª ed., México: McGraw-Hill Education, 2021.
+  Pressman, R. S., y Maxim, B. R. (2021). \emph{Ingeniería del software: Un
+  enfoque práctico} (9.\textsuperscript{a} ed.). McGraw-Hill Education.
+
+  \bibitem{stauffer2019}
+  Stauffer, M. (2019). \emph{Laravel: Up and running} (2.\textsuperscript{a}
+  ed.). O'Reilly Media.
+
+  \bibitem{welling2017}
+  Welling, L., y Thompson, L. (2017). \emph{PHP and MySQL web development}
+  (5.\textsuperscript{a} ed.). Addison-Wesley Professional.
 
   \bibitem{wiegers2013}
-  K. Wiegers y J. Beatty, \emph{Software Requirements}, 3.ª ed., Redmond, WA, EE. UU.: Microsoft Press, 2013.
+  Wiegers, K., y Beatty, J. (2013). \emph{Software requirements}
+  (3.\textsuperscript{a} ed.). Microsoft Press.
 \end{thebibliography}
 
 \end{document}

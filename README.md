@@ -108,3 +108,10 @@ desarrollo del sistema.
 - Bradshaw, S., Brazil, E., y Chodorow, C. (2019). *MongoDB: The definitive guide* (3.ª ed.). O'Reilly Media.
 - Pressman, R. S., y Maxim, B. R. (2021). *Ingeniería del software: Un enfoque práctico* (9.ª ed.). McGraw-Hill Education.
 - Wiegers, K., y Beatty, J. (2013). *Software requirements* (3.ª ed.). Microsoft Press.
+
+## 🎬 Créditos
+
+Tutorial de instalación de LaTeX en Visual Studio Code utilizado como apoyo
+para la elaboración de este documento:
+
+- Ayudantías. (s. f.). *Cómo instalar LaTeX en VSCode* [Video]. YouTube. [https://www.youtube.com/watch?v=9w7eb56bF7Y](https://www.youtube.com/watch?v=9w7eb56bF7Y)

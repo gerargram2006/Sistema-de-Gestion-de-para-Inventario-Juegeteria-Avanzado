@@ -52,10 +52,14 @@ de almacén.
 **Entidades del negocio:** usuarios, clientes, categorías, inventario de
 productos, ventas, detalle\_ventas, devoluciones, compras y detalle\_compras.
 
+**Reglas de negocio:** reglas de estímulo y respuesta, de operación, de
+estructura, de inferencia y de cálculo.
+
 **Diagramas elaborados:**
 
 - Diagramas de clases por entidad (productos, ventas y detalle de ventas,
   compras y detalle de compras, devoluciones, usuarios y clientes).
+- Diagramas de clases de negocio.
 - Diagramas de actividades por CUN (ventas, abastecimiento, inventario,
   devoluciones y cambios).
 - Diagrama entidad-relación (ERD conceptual).
@@ -64,6 +68,22 @@ Los diagramas permitieron visualizar la participación de cada actor del negocio
 identificar puntos de riesgo (falta de stock, comprobantes inválidos, diferencias
 en la recepción de mercancía) y orientar las validaciones y mensajes de error
 del futuro sistema.
+
+## 📝 Conclusiones y Recomendaciones
+
+En el documento se destacan conclusiones sobre la utilidad del modelado del
+negocio para conocer el funcionamiento actual de la tienda y organizar las
+necesidades del futuro sistema, así como recomendaciones orientadas a las
+validaciones de stock, el control de devoluciones, la coherencia entre los
+diagramas y la implementación, los reportes automatizados y la capacitación del
+personal.
+
+## 🔀 Estrategia de GIT
+
+El proyecto se versiona de forma colaborativa en GitHub, con un historial de
+alrededor de **30 commits**, un archivo `.gitignore` para mantener el
+repositorio limpio y este `README` como documentación de los cambios y del
+desarrollo del sistema.
 
 ## 🧑‍💻 Equipo
 

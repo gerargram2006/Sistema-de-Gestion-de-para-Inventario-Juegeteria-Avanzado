@@ -85,6 +85,10 @@ alrededor de **30 commits**, un archivo `.gitignore` para mantener el
 repositorio limpio y este `README` como documentación de los cambios y del
 desarrollo del sistema.
 
+> 💡 **Colaboradores:** antes de empezar a trabajar o modificar cualquier
+> archivo, **siempre ejecuten `git pull`** para descargar los últimos cambios
+> del equipo. Esto evita conflictos y sobrescribe los avances de otras personas.
+
 ## 🧑‍💻 Equipo
 
 - Gerar Rodrigo Camma Baldeon

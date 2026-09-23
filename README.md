@@ -41,10 +41,12 @@ src/    Código fuente de la aplicación (Laravel)
 **Casos de uso del negocio** (con precondiciones, secuencia, flujos
 alternativos, postcondición y objetivo):
 
-1. Registrar venta
-2. Gestionar abastecimiento
-3. Controlar inventario
-4. Gestionar devoluciones y cambios
+1. CUN-01: Gestionar ventas (registrar venta)
+2. CUN-02: Gestionar abastecimiento
+3. CUN-03: Controlar inventario
+4. CUN-04: Gestionar devoluciones y cambios
+5. CUN-05: Flujo de venta y reposición (trabajadores del negocio)
+6. CUN-06: Flujo de venta y reposición (actores externos)
 
 **Trabajadores del negocio:** vendedor, administrador/dueño, cajero y encargado
 de almacén.
@@ -55,13 +57,23 @@ productos, ventas, detalle\_ventas, devoluciones, compras y detalle\_compras.
 **Reglas de negocio:** reglas de estímulo y respuesta, de operación, de
 estructura, de inferencia y de cálculo.
 
+**Requerimientos:** 31 requerimientos funcionales distribuidos en los seis
+casos de uso y 6 requerimientos no funcionales. La matriz de trazabilidad
+relaciona cada identificador (RF/RNF) con su actor, caso de uso o regla de
+negocio, y con la justificación de su inclusión.
+
+**Planificación:** diagrama de Gantt para las actividades de análisis,
+levantamiento, validación y cierre documental.
+
 **Diagramas elaborados:**
 
 - Diagramas de clases por entidad (productos, ventas y detalle de ventas,
   compras y detalle de compras, devoluciones, usuarios y clientes).
 - Diagramas de clases de negocio.
 - Diagramas de actividades por CUN (ventas, abastecimiento, inventario,
-  devoluciones y cambios).
+  devoluciones y cambios, flujo de trabajadores y flujo de actores externos).
+- Diagrama de Gantt del análisis de requerimientos.
+- Matriz de trazabilidad de requerimientos.
 - Diagrama entidad-relación (ERD conceptual).
 
 Los diagramas permitieron visualizar la participación de cada actor del negocio,

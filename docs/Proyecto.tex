@@ -721,6 +721,11 @@ relacionar cada grupo con su caso de uso.
   existencias del inventario.
 \end{itemize}
 
+Algunos requerimientos de venta, stock y abastecimiento aparecen en más de un
+CUN porque el mismo comportamiento se observa desde flujos de negocio
+diferentes. En esos casos, se conserva un identificador independiente para
+mantener la trazabilidad de cada caso de uso.
+
 \subsection{Requerimientos No Funcionales}
 
 Los requerimientos no funcionales (RNF) establecen las condiciones de calidad
@@ -759,6 +764,8 @@ levantamiento, modelado, validación y registro. La duración de cada actividad
 se representa mediante barras dentro de un diagrama de Gantt, lo que permite
 visualizar el avance de cada tarea.
 
+% El diagrama se construye en LaTeX para mantenerlo editable; image1.png se
+% reserva para el logotipo de la portada.
 \begin{figure}[H]
   \centering
   \begingroup
@@ -903,8 +910,6 @@ requerimiento es necesario para el funcionamiento del sistema.
 \end{longtable}
 
 \par\vspace{1ex}
-\begingroup
-\small
 \raggedright\noindent\emph{Nota.} Elaboración propia (2026). Las
 referencias CUN-01 a CUN-06 corresponden a los casos de uso documentados en las
 tablas de la sección \emph{Ingeniería de Requerimientos}; RN-01 a RN-05

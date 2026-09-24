@@ -27,7 +27,7 @@
 \usepackage{longtable}
 
 % ---------- Idiomas y enlaces ----------
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{bookmark}
 \usepackage{xurl}
@@ -284,7 +284,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-01: Gestionar ventas (registrar venta)}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+  \begin{tabular}{|>{\columncolor{gray!15}\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Gestionar ventas (registrar venta) \\
     \hline
@@ -306,7 +306,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
     \hline
     Objetivo & Agilizar el proceso de venta y mantener el nivel de stock actualizado en tiempo real en la tienda. \\
     \hline
-  \end{tabularx}
+  \end{tabular}
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.\end{table}
 
@@ -323,7 +323,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-02: Gestionar abastecimiento}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+  \begin{tabular}{|>{\columncolor{gray!15}\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Gestionar abastecimiento \\
     \hline
@@ -345,7 +345,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
     \hline
     Objetivo & Mantener el stock de la tienda actualizado y evitar quiebres de inventario mediante una correcta provisión de mercancía. \\
     \hline
-  \end{tabularx}
+  \end{tabular}
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.\end{table}
 
@@ -361,7 +361,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-03: Controlar inventario}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+  \begin{tabular}{|>{\columncolor{gray!15}\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Controlar inventario \\
     \hline
@@ -382,7 +382,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
     \hline
     Objetivo & Mantener la precisión de los registros de mercancía, prevenir pérdidas económicas y asegurar un control interno eficiente de la tienda. \\
     \hline
-  \end{tabularx}
+  \end{tabular}
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.\end{table}
 
@@ -399,7 +399,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-04: Gestionar devoluciones y cambios}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+  \begin{tabular}{|>{\columncolor{gray!15}\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Gestionar devoluciones y cambios \\
     \hline
@@ -421,7 +421,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
     \hline
     Objetivo & Atender de manera eficiente las incidencias de los clientes para garantizar satisfacción y mantener la correcta trazabilidad del inventario. \\
     \hline
-  \end{tabularx}
+  \end{tabular}
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.\end{table}
 
@@ -439,7 +439,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-05: Flujo de venta y reposición (trabajadores del negocio)}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+  \begin{tabular}{|>{\columncolor{gray!15}\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Flujo de venta y reposición (trabajadores del negocio) \\
     \hline
@@ -461,7 +461,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
     \hline
     Postcondición & La venta está pagada, el stock está actualizado y la mercancía repuesta. \\
     \hline
-  \end{tabularx}
+  \end{tabular}
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.
 \end{table}
@@ -478,7 +478,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-06: Flujo de venta y reposición (actores externos de negocio)}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4.5cm}|X|}
+  \begin{tabular}{|>{\columncolor{gray!15}\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Flujo de venta y reposición (actores externos de negocio) \\
     \hline
@@ -498,7 +498,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
     \hline
     Postcondición & El cliente se lleva su producto y la empresa recibe el abastecimiento del proveedor. \\
     \hline
-  \end{tabularx}
+  \end{tabular}
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Este cuadro detalla especificaciones fundamentales de los casos de uso y actores para el desarrollo e implementación del sistema.
 \end{table}
@@ -810,17 +810,17 @@ requerimiento es necesario para el funcionamiento del sistema.
 \setlength{\LTleft}{0pt plus \textwidth}
 \setlength{\LTright}{0pt plus \textwidth}
 \renewcommand{\arraystretch}{1.15}
-\begin{longtable}{@{}L{1.4cm}C{1.1cm}L{4.1cm}L{8.1cm}@{}}
+\begin{longtable}{|L{1.4cm}|C{1.1cm}|L{4.1cm}|L{8.1cm}|}
   \caption{Matriz de trazabilidad de requerimientos funcionales (RF) --- Mundo del Juguete.}
   \label{tab:matriz_trazabilidad_rf}\\
-  \toprule
-  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
-  \midrule
+  \hline
+  \rowcolor{gray!15}\textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
+  \hline
   \endfirsthead
   \multicolumn{4}{c}{\tablename~\thetable: Matriz de trazabilidad de requerimientos funcionales (RF) (continuación)}\\
-  \toprule
-  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
-  \midrule
+  \hline
+  \rowcolor{gray!15}\textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
+  \hline
   \endhead
   RF-01 & RF & Actor: Vendedor/Cajero --- CUN-01 & Evita accesos no autorizados a las operaciones de venta. \\
   RF-02 & RF & Actor: Vendedor --- CUN-01 & Permite iniciar el registro de la venta seleccionando productos. \\
@@ -853,7 +853,7 @@ requerimiento es necesario para el funcionamiento del sistema.
   RF-29 & RF & Actor: Administrador --- CUN-06 & Formaliza la solicitud de reabastecimiento al proveedor externo. \\
   RF-30 & RF & Actor: Proveedor --- CUN-06 & Registra el despacho de mercancía realizado por el proveedor. \\
   RF-31 & RF & CUN-06 & Actualiza formalmente el ingreso de mercancía en el sistema. \\
-  \bottomrule
+  \hline
 \end{longtable}
 \par\vspace{1ex}
 \raggedright\noindent\small\emph{Nota.} Elaboración propia (2026). La tabla vincula cada requerimiento funcional con su origen actor o caso de uso del negocio.
@@ -865,17 +865,17 @@ requerimiento es necesario para el funcionamiento del sistema.
   \centering
   \caption{Matriz de trazabilidad de requerimientos no funcionales (RNF) --- Mundo del Juguete.}
   \label{tab:matriz_trazabilidad_rnf}
-  \begin{tabularx}{\textwidth}{@{}L{1.4cm}C{1.1cm}L{4.1cm}X@{}}
-    \toprule
-    \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
-    \midrule
+  \begin{tabularx}{\textwidth}{|L{1.4cm}|C{1.1cm}|L{4.1cm}|X|}
+    \hline
+    \rowcolor{gray!15}\textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
+    \hline
     RNF-01 & RNF & Regla de negocio (calidad de servicio) & Garantiza rapidez en la atención al cliente en caja. \\
     RNF-02 & RNF & Regla de negocio & Evita pérdidas de ventas por caídas del sistema en horario de atención. \\
     RNF-03 & RNF & Regla de negocio (seguridad por rol) & Protege información sensible según el rol del usuario. \\
     RNF-04 & RNF & Regla de negocio & Permite operar sin bloqueos cuando varios usuarios trabajan a la vez. \\
     RNF-05 & RNF & Regla de negocio & Facilita la adopción del sistema por el personal sin capacitación extensa. \\
     RNF-06 & RNF & Regla de negocio & Previene pérdida de datos ante fallas técnicas. \\
-    \bottomrule
+    \hline
   \end{tabularx}
   \par\vspace{1ex}
   \raggedright\noindent\small\emph{Nota.} Elaboración propia (2026). La tabla vincula cada requerimiento no funcional con la regla de negocio que lo origina.

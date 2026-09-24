@@ -21,8 +21,13 @@
 % ---------- Matemáticas ----------
 \usepackage{amsmath,amssymb}
 
+% ---------- Tablas (deben ir ANTES de xcolor[table]/colortbl) ----------
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+
 % ---------- Idiomas y enlaces ----------
-\usepackage[table]{xcolor}
+\usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{bookmark}
 \usepackage{xurl}
@@ -71,9 +76,6 @@
 \usepackage{float}
 \graphicspath{{./media/}}
 \usepackage{booktabs}
-\usepackage{array}
-\usepackage{tabularx}
-\usepackage{longtable}
 \usepackage{etoolbox}
 \usepackage{caption}
 \captionsetup{labelsep=period, labelfont=bf, textfont=it, skip=6pt}
@@ -90,8 +92,14 @@
 \definecolor{ganttVerde}{HTML}{70AD47}
 \definecolor{ganttNaranja}{HTML}{ED7D31}
 
+% ---------- Diagramas TikZ ----------
+\usepackage{tikz}
+\usetikzlibrary{calc, arrows.meta}
+
 % ---------- Índice (TOC funcional) ----------
 \setcounter{tocdepth}{2}
+
+
 
 % ============================================================
 \begin{document}
@@ -598,133 +606,66 @@ prefijo RF, seguido de un número de dos dígitos y una descripción del
 comportamiento esperado. Los códigos CUN-01 a CUN-06 se mantienen para
 relacionar cada grupo con su caso de uso.
 
-\subsubsection{CUN-01: Gestionar ventas}
+\subsubsection{CUN-01: Gestionar Ventas}
 
 \begin{itemize}
-  \item \textbf{RF-01: Inicio de sesión del personal.} El sistema debe
-  permitir que los usuarios autorizados, como el vendedor o el cajero, inicien
-  sesión con credenciales válidas antes de realizar operaciones de venta.
-  \item \textbf{RF-02: Selección de productos.} El sistema debe permitir que
-  el vendedor busque, seleccione o ingrese manualmente los juguetes solicitados
-  por el cliente.
-  \item \textbf{RF-03: Validación de stock.} El sistema debe comprobar
-  automáticamente que la cantidad solicitada esté disponible antes de permitir
-  la confirmación de una venta.
-  \item \textbf{RF-04: Procesamiento de venta y comprobante.} El sistema debe
-  registrar la venta con el cliente, los productos y el total, y emitir un
-  comprobante que acredite la operación.
-  \item \textbf{RF-05: Actualización del inventario por venta.} El sistema
-  debe descontar del inventario las unidades vendidas, únicamente después de
-  confirmar exitosamente la venta.
-  \item \textbf{RF-06: Manejo de excepciones de venta.} El sistema debe
-  informar al usuario cuando la cantidad solicitada exceda el stock
-  disponible o cuando no sea posible registrar la venta por un error de
-  conexión o de procesamiento.
+  \item \textbf{RF-01: Inicio de Sesión del Personal:} El sistema debe permitir el acceso exclusivo a los usuarios autorizados (vendedor o cajero) mediante credenciales válidas antes de permitir operaciones de venta.
+  \item \textbf{RF-02: Selección de Productos:} El sistema debe permitir al vendedor buscar, seleccionar o ingresar manualmente los juguetes que el cliente desea adquirir.
+  \item \textbf{RF-03: Validación de Stock en Tiempo Real:} El sistema debe comprobar de manera automática si existe la cantidad suficiente de stock disponible para cada juguete solicitado antes de concretar la transacción.
+  \item \textbf{RF-04: Procesamiento de Venta y Comprobante:} El sistema debe registrar formalmente la transacción de venta vinculando al cliente, los productos, el total a pagar y emitir el mensaje de confirmación de venta exitosa.
+  \item \textbf{RF-05: Actualización Automática del Inventario por Venta:} El sistema debe descontar de manera automática las unidades vendidas del inventario general de productos una vez que la venta ha sido procesada con éxito.
+  \item \textbf{RF-06: Manejo de Excepciones por Stock Insuficiente:} El sistema debe mostrar un mensaje de error o alerta cuando la cantidad solicitada supere el stock disponible o si ocurre un fallo de conexión al procesar el registro.
 \end{itemize}
 
 \subsubsection{CUN-02: Gestionar abastecimiento}
 
 \begin{itemize}
-  \item \textbf{RF-07: Detección de baja disponibilidad.} El sistema debe
-  permitir al administrador revisar el catálogo e identificar productos con
-  existencias bajas o faltantes que requieran reposición.
-  \item \textbf{RF-08: Cotización con proveedores.} El sistema debe permitir
-  registrar y gestionar las cotizaciones de los productos seleccionados con
-  los proveedores.
-  \item \textbf{RF-09: Emisión de pedidos de compra.} El sistema debe permitir
-  al administrador crear y enviar pedidos formales a los proveedores.
-  \item \textbf{RF-10: Recepción de mercancía.} El sistema debe permitir al
-  administrador o al encargado de almacén registrar la recepción física de la
-  mercancía enviada por el proveedor, incluidas las diferencias detectadas.
-  \item \textbf{RF-11: Actualización del stock por abastecimiento.} El sistema
-  debe incrementar las existencias de los productos recibidos después de
-  confirmar la recepción del pedido.
+  \item \textbf{RF-07: Detección de Baja Disponibilidad de Stock:} El sistema o el administrador deben permitir revisar el catálogo de productos para detectar niveles bajos de existencia o la necesidad de nuevos artículos, previniendo quiebres de inventario.
+  \item \textbf{RF-08: Cotización con Proveedores:} El sistema debe permitir registrar y gestionar el proceso de cotización de los productos seleccionados con los proveedores externos.
+  \item \textbf{RF-09: Emisión de Pedidos Formales de Compra:} El sistema debe permitir al administrador registrar y emitir las órdenes de compra o pedidos formales dirigidos a los proveedores.
+  \item \textbf{RF-10: Recepción de Nueva Mercancía:} El sistema debe permitir al administrador o al encargado de almacén registrar la llegada y recepción física de la mercancía despachada por el proveedor en el establecimiento.
+  \item \textbf{RF-11: Actualización de Niveles de Stock por Abastecimiento:} El sistema debe registrar de forma automática la entrada de la nueva mercancía para incrementar y actualizar en tiempo real los niveles de inventario de los juguetes.
 \end{itemize}
 
 \subsubsection{CUN-03: Controlar inventario}
 
 \begin{itemize}
-  \item \textbf{RF-12: Acceso al módulo de inventario.} El sistema debe
-  permitir que el administrador o el vendedor accedan al módulo de control de
-  inventario.
-  \item \textbf{RF-13: Registro de auditorías físicas.} El sistema debe permitir
-  registrar los resultados de las auditorías físicas de los juguetes
-  almacenados en el establecimiento.
-  \item \textbf{RF-14: Registro de mermas y productos dañados.} El sistema debe
-  permitir identificar y registrar pérdidas, mermas o juguetes rotos
-  encontrados durante una revisión.
-  \item \textbf{RF-15: Actualización de existencias y stock mínimo.} El sistema
-  debe permitir actualizar los registros de existencias y los niveles mínimos
-  de stock con base en los resultados de la auditoría.
-  \item \textbf{RF-16: Emisión de informes de inventario.} El sistema debe
-  guardar los cambios realizados durante el control y generar un informe
-  actualizado del inventario disponible.
+  \item \textbf{RF-12: Acceso al Módulo de Inventario:} El sistema debe permitir el acceso del administrador o vendedor al módulo especializado de control de inventario.
+  \item \textbf{RF-13: Registro de Auditorías Físicas:} El sistema debe permitir registrar los resultados de las auditorías físicas realizadas a los juguetes almacenados en la tienda.
+  \item \textbf{RF-14: Registro de Mermas y Juguetes Rotos:} El sistema debe permitir identificar y registrar formalmente las pérdidas, mermas o artículos dañados encontrados durante las revisiones.
+  \item \textbf{RF-15: Actualización de Niveles Mínimos de Stock y Existencias:} El sistema debe permitir actualizar de manera precisa los niveles mínimos de stock y los registros de existencias con base en los datos de la auditoría.
+  \item \textbf{RF-16: Emisión de Informes de Inventario Disponible:} El sistema debe guardar los cambios realizados y emitir un informe actualizado del inventario disponible tras concluir el control.
 \end{itemize}
 
 \subsubsection{CUN-04: Gestionar devoluciones y cambios}
 
 \begin{itemize}
-  \item \textbf{RF-17: Registro de solicitudes de devolución.} El sistema
-  debe permitir registrar la solicitud del cliente cuando informa sobre un
-  producto defectuoso o solicita un cambio o reembolso.
-  \item \textbf{RF-18: Verificación del comprobante y del producto.} El
-  sistema debe permitir validar el comprobante de la venta original y
-  registrar el estado físico del producto recibido.
-  \item \textbf{RF-19: Validación de políticas y plazos.} El sistema debe
-  comprobar que la solicitud se encuentre dentro del plazo vigente y que el
-  daño no sea consecuencia del uso indebido del producto.
-  \item \textbf{RF-20: Procesamiento del cambio o reembolso.} El sistema debe
-  permitir al vendedor registrar la solución aprobada, ya sea un cambio de
-  producto o un reembolso.
-  \item \textbf{RF-21: Actualización por devolución.} El sistema debe
-  actualizar el inventario o emitir la nota de crédito o débito correspondiente
-  según la solución aplicada.
+  \item \textbf{RF-17: Recepción de Solicitudes de Devolución:} El sistema debe permitir registrar las solicitudes presentadas por los clientes cuando reportan un juguete defectuoso o desean realizar un cambio o reembolso.
+  \item \textbf{RF-18: Verificación de Comprobante y Estado del Producto:} El sistema debe permitir verificar la validez del comprobante de venta original y registrar el estado físico del juguete para evaluar si cumple con las condiciones de devolución.
+  \item \textbf{RF-19: Validación de Políticas y Plazos:} El sistema debe validar que el producto se encuentre dentro del plazo permitido para devoluciones y descartar daños ocasionados por mal uso del cliente.
+  \item \textbf{RF-20: Procesamiento de Solución (Cambio o Reembolso):} El sistema debe permitir al vendedor procesar la opción seleccionada, ya sea generando un cambio de producto o aplicando un reembolso al cliente.
+  \item \textbf{RF-21: Generación de Notas y Actualización de Inventario por Devolución:} El sistema debe actualizar de forma automática el inventario o generar la nota de crédito/débito correspondiente según la solución aplicada a la devolución.
 \end{itemize}
 
-\subsubsection{CUN-05: Flujo de venta y reposición}
+\subsubsection{CUN-05: Flujo de Venta y Reposición}
 
 \begin{itemize}
-  \item \textbf{RF-22: Registro de venta y descuento de stock.} El sistema
-  debe permitir al vendedor registrar la venta de los juguetes y descontar
-  automáticamente las unidades vendidas del inventario.
-  \item \textbf{RF-23: Cobro y emisión del comprobante.} El sistema debe
-  permitir al cajero procesar el cobro y generar el comprobante de pago para
-  el cliente.
-  \item \textbf{RF-24: Solicitud de reposición.} El sistema debe permitir al
-  administrador registrar solicitudes de abastecimiento o pedidos de nuevos
-  productos.
-  \item \textbf{RF-25: Recepción y actualización final del inventario.} El
-  sistema debe permitir al encargado de almacén registrar la mercancía
-  recibida y guardar la nueva existencia en el inventario.
+  \item \textbf{RF-22: Registro de Venta y Descuento Automático:} El sistema debe permitir al vendedor registrar la venta de los juguetes y descontar de forma automática las existencias del stock.
+  \item \textbf{RF-23: Cobro y Emisión de Comprobante:} El sistema debe permitir al cajero procesar el cobro de la transacción y generar el comprobante de pago para el cliente.
+  \item \textbf{RF-24: Solicitud y Registro de Pedidos de Stock:} El sistema debe permitir al administrador ingresar y registrar las solicitudes de abastecimiento o pedidos de nuevos productos.
+  \item \textbf{RF-25: Recepción y Actualización Final de Inventario:} El sistema debe permitir al encargado de almacén registrar la recepción de la mercancía para guardar y actualizar definitivamente el inventario disponible.
 \end{itemize}
 
-\subsubsection{CUN-06: Flujo con actores externos}
+\subsubsection{CUN-06: Actores externos de negocio}
 
 \begin{itemize}
-  \item \textbf{RF-26: Registro de la solicitud del cliente.} El sistema debe
-  permitir registrar la solicitud inicial de compra realizada por un cliente en
-  el establecimiento.
-  \item \textbf{RF-27: Registro de la atención de venta.} El sistema debe
-  permitir al vendedor registrar la atención brindada al cliente durante el
-  proceso comercial.
-  \item \textbf{RF-28: Confirmación de entrega al cliente.} El sistema debe
-  registrar la confirmación de que el cliente recibió satisfactoriamente su
-  compra.
-  \item \textbf{RF-29: Pedido de reposición a proveedores.} El sistema debe
-  permitir al administrador generar y enviar solicitudes de reabastecimiento
-  a los proveedores.
-  \item \textbf{RF-30: Seguimiento del envío del proveedor.} El sistema debe
-  permitir registrar el despacho y la fecha de envío de la mercancía por parte
-  del proveedor.
-  \item \textbf{RF-31: Ingreso formal de mercancía.} El sistema debe registrar
-  la mercancía recibida de la cadena de suministro para actualizar las
-  existencias del inventario.
+  \item \textbf{RF-26: Registro de Solicitud de Compra del Cliente:} El sistema debe permitir registrar las solicitudes o peticiones de compra iniciales realizadas por los clientes en el establecimiento.
+  \item \textbf{RF-27: Gestión de Atención de Ventas:} El sistema debe permitir al vendedor procesar y registrar la atención brindada al cliente durante el proceso comercial.
+  \item \textbf{RF-28: Constancia de Entrega al Cliente:} El sistema debe registrar la confirmación de que el cliente ha recibido satisfactoriamente su compra.
+  \item \textbf{RF-29: Emisión de Pedidos de Stock a Proveedores:} El sistema debe permitir al administrador generar y enviar solicitudes de reabastecimiento hacia los proveedores.
+  \item \textbf{RF-30: Registro de Envío y Recepción de Proveedores:} El sistema debe permitir registrar el despacho y envío de mercancía realizado por el proveedor.
+  \item \textbf{RF-31: Registro de Ingreso de Mercancía en el Sistema:} El sistema debe registrar formalmente el ingreso de la nueva mercancía proveniente de la cadena de suministro para actualizar las existencias.
 \end{itemize}
-
-Algunos requerimientos de venta, stock y abastecimiento aparecen en más de un
-CUN porque el mismo comportamiento se observa desde flujos de negocio
-diferentes. En esos casos, se conserva un identificador independiente para
-mantener la trazabilidad de cada caso de uso.
 
 \subsection{Requerimientos No Funcionales}
 
@@ -733,77 +674,128 @@ que debe cumplir la plataforma. Se identifican con el prefijo RNF, seguido de
 un número de dos dígitos.
 
 \begin{itemize}
-  \item \textbf{RNF-01: Rendimiento y tiempos de ejecución.} El sistema debe
-  procesar consultas de stock, transacciones de venta y actualizaciones de
-  inventario en un tiempo máximo de 2 segundos bajo condiciones habituales de
-  trabajo.
-  \item \textbf{RNF-02: Disponibilidad operativa.} El sistema debe funcionar de
-  forma continua durante las horas de atención al público, salvo ventanas de
-  mantenimiento previamente comunicadas, para no interrumpir las operaciones
-  de caja o almacén.
-  \item \textbf{RNF-03: Seguridad y autenticación.} El sistema debe proteger
-  los módulos sensibles mediante autenticación, perfiles de usuario y
-  credenciales cifradas asignadas a cada rol. Los roles contemplados son
-  administrador, vendedor, cajero y encargado de almacén.
-  \item \textbf{RNF-04: Soporte concurrente.} El sistema debe permitir que
-  varios usuarios trabajen simultáneamente sin provocar bloqueos, duplicar
-  operaciones ni alterar la integridad de los datos.
-  \item \textbf{RNF-05: Usabilidad.} El sistema debe proporcionar una interfaz clara y
-  fácil de aprender para que el personal pueda realizar las tareas frecuentes
-  con una adaptación mínima.
-  \item \textbf{RNF-06: Respaldo de la información.} El sistema debe generar
-  copias de seguridad automáticas todos los días de los catálogos, ventas,
-  compras, devoluciones y auditorías, y debe permitir su restauración ante
-  fallos técnicos o interrupciones de energía.
+  \item \textbf{RNF-01: Rendimiento y Tiempos de Ejecución:} La plataforma debe ser capaz de procesar las consultas de stock, las transacciones de venta y las actualizaciones de inventario en un lapso máximo de 2 segundos bajo condiciones habituales de trabajo.
+  \item \textbf{RNF-02: Disponibilidad Operativa:} El sistema tiene que asegurar un funcionamiento continuo durante las horas de atención al público, evitando interrupciones que perjudiquen las operaciones en caja o almacén.
+  \item \textbf{RNF-03: Seguridad y Autenticación:} Las secciones sensibles de la aplicación (tales como la auditoría de inventario, el abastecimiento y los permisos especiales) deben protegerse mediante perfiles de usuario y claves cifradas asignadas a cada rol (Administrador, Vendedor, Cajero y Encargado de Almacén).
+  \item \textbf{RNF-04: Soporte Concurrente:} La infraestructura del sistema debe permitir que varios colaboradores trabajen al mismo tiempo (por ejemplo, operarios registrando ventas de forma paralela mientras se actualiza el almacén) sin provocar bloqueos ni alterar la integridad de los datos.
+  \item \textbf{RNF-05: Experiencia de Usuario y Usabilidad:} El diseño visual de la interfaz debe ser sencillo y amigable, permitiendo que el personal se adapte rápidamente al software sin requerir entrenamientos prolongados y agilizando la ejecución de tareas frecuentes.
+  \item \textbf{RNF-06: Resguardo y Respaldo de la Información:} El sistema debe programar copias de seguridad automáticas todos los días (abarcando catálogos, registros de ventas y auditorías) para prevenir pérdidas de datos ante imprevistos técnicos o cortes imprevistos de energía.
 \end{itemize}
 
 \subsection{Planificación del Análisis de Requerimientos: Diagrama de Gantt}
 
-La planificación se organiza en seis semanas y considera actividades de
-levantamiento, modelado, validación y registro. La duración de cada actividad
-se representa mediante barras dentro de un diagrama de Gantt, lo que permite
-visualizar el avance de cada tarea.
+La planificación se organiza del 1 de abril al 2 de mayo de 2026 y considera
+actividades de levantamiento, modelado, validación y registro. La duración de
+cada actividad se representa mediante barras dentro de un diagrama de Gantt, lo
+que permite visualizar el avance de cada tarea y sus dependencias.
 
 % El diagrama se construye en LaTeX para mantenerlo editable; image1.png se
 % reserva para el logotipo de la portada.
 \begin{figure}[H]
   \centering
-  \begingroup
-  \setlength{\tabcolsep}{3pt}
-  \renewcommand{\arraystretch}{1.35}
-  \begin{tabular}{@{}L{4.8cm}L{2.8cm}|*{6}{C{0.85cm}|}@{}}
-    \rowcolor{black!15}
-    Actividad & Responsable & S1 & S2 & S3 & S4 & S5 & S6 \\
-    \midrule
-    Revisión del problema y objetivos & Equipo de requerimientos &
-    \cellcolor{ganttAzul}\strut & & & & & \\
-    Identificación de actores y CUN & Equipo de requerimientos &
-    \cellcolor{ganttAzul}\strut & \cellcolor{ganttAzul}\strut & & & & \\
-    Modelado de procesos y entidades & Analista del sistema &
-    \cellcolor{ganttAzul}\strut & \cellcolor{ganttAzul}\strut &
-    \cellcolor{ganttAzul}\strut & & & \\
-    Definición de reglas de negocio & Analista del sistema & &
-    \cellcolor{ganttVerde}\strut & \cellcolor{ganttVerde}\strut & & & \\
-    Levantamiento de RF y RNF & Equipo de requerimientos & &
-    \cellcolor{ganttVerde}\strut & \cellcolor{ganttVerde}\strut &
-    \cellcolor{ganttVerde}\strut & & \\
-    Revisión con los responsables & Administrador y trabajadores &
-    & & & \cellcolor{ganttNaranja}\strut & & \\
-    Elaboración de la matriz de trazabilidad & Analista del sistema & & & &
-    \cellcolor{ganttVerde}\strut & \cellcolor{ganttVerde}\strut & \\
-    Integración del Gantt y cierre documental & Equipo de requerimientos &
-    & & & & \cellcolor{ganttNaranja}\strut & \\
-    \bottomrule
-  \end{tabular}
-  \endgroup
+  \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[x=1cm, y=1cm]
+
+      % Definición de dimensiones
+      \def\gw{0.45} % Ancho de cada día
+      \def\gh{0.7}  % Alto de cada fila de tarea
+
+      % Fondo amarillo claro
+      \fill[yellow!15] (-4.8, 1.8) rectangle (22, -5.5);
+
+      % Título principal
+      \node[font=\sffamily\bfseries, anchor=south] at (14*\gw, 1.3) {Planificación del Análisis de Requerimientos - Mundo del Juguete};
+
+      % Meses (Cabecera)
+      \node[font=\sffamily\scriptsize\bfseries] at (15.5*\gw, 0.9) {abril 2026};
+      \node[font=\sffamily\scriptsize\bfseries] at (31.5*\gw, 0.9) {mayo};
+
+      % Encabezados de la tabla izquierda
+      \node[font=\sffamily\scriptsize] at (-4.0, 0.4) {Inicio};
+      \node[font=\sffamily\scriptsize] at (-2.4, 0.4) {Fin};
+      \node[font=\sffamily\scriptsize] at (-0.8, 0.4) {Duración};
+
+      % Días (Cabecera) y líneas verticales de la cuadrícula
+      \foreach \d/\dw/\dn in {1/mi/1, 2/ju/2, 3/vi/3, 4/sá/4, 5/do/5, 6/lu/6, 7/ma/7, 8/mi/8, 9/ju/9, 10/vi/10, 11/sá/11, 12/do/12, 13/lu/13, 14/ma/14, 15/mi/15, 16/ju/16, 17/vi/17, 18/sá/18, 19/do/19, 20/lu/20, 21/ma/21, 22/mi/22, 23/ju/23, 24/vi/24, 25/sá/25, 26/do/26, 27/lu/27, 28/ma/28, 29/mi/29, 30/ju/30, 31/vi/1, 32/sá/2} {
+          \node[font=\sffamily\tiny, anchor=south] at ({\d*\gw - \gw/2}, 0.2) {\dw};
+          \node[font=\sffamily\tiny, anchor=north] at ({\d*\gw - \gw/2}, 0.2) {\dn};
+          \draw[black!20] (\d*\gw, 0.7) -- (\d*\gw, -4.2);
+      }
+      % Primera línea vertical del calendario
+      \draw[black!20] (0, 0.7) -- (0, -4.2);
+
+      % Líneas verticales de la tabla izquierda
+      \draw[black!20] (-4.8, 0.7) -- (-4.8, -4.2);
+      \draw[black!20] (-3.2, 0.7) -- (-3.2, -4.2);
+      \draw[black!20] (-1.6, 0.7) -- (-1.6, -4.2);
+
+      % Líneas horizontales de la cuadrícula
+      \foreach \r in {0, 1, 2, 3, 4, 5, 6} {
+          \draw[black!20] (-4.8, -\r*\gh) -- (32*\gw, -\r*\gh);
+      }
+      \draw[black!20] (-4.8, 0.7) -- (32*\gw, 0.7); % Línea superior
+
+      % Macro para generar cada tarea de forma automatizada
+      \newcommand{\ganttbar}[7]{
+          \pgfmathsetmacro{\cy}{-#1 * \gh + \gh/2}
+
+          % Textos de la tabla izquierda
+          \node[font=\sffamily\scriptsize, anchor=west] at (-4.7, \cy) {#2};
+          \node[font=\sffamily\scriptsize, anchor=west] at (-3.1, \cy) {#3};
+          \node[font=\sffamily\scriptsize, anchor=west] at (-1.5, \cy) {#4};
+
+          % Barra de Gantt
+          \pgfmathsetmacro{\xStart}{(#5 - 1) * \gw}
+          \pgfmathsetmacro{\xEnd}{#6 * \gw}
+          \draw[fill=blue!10, draw=black] (\xStart, \cy - 0.2) rectangle (\xEnd, \cy + 0.2);
+
+          % Nombre de la tarea
+          \node[font=\sffamily\scriptsize, anchor=west] at (\xEnd + 0.3, \cy) {#7};
+      }
+
+      % Datos de las tareas
+      \ganttbar{1}{1 de abr}{7 de abr}{7 días}{1}{7}{Recopilación y Análisis de Información}
+      \ganttbar{2}{8 de abr}{13 de abr}{6 días}{8}{13}{Modelado de Actores y Entidades del Negocio}
+      \ganttbar{3}{14 de abr}{21 de abr}{8 días}{14}{21}{Definición de Casos de Uso del Negocio (CUN)}
+      \ganttbar{4}{14 de abr}{19 de abr}{6 días}{14}{19}{Elaboración de Diagramas de Actividades}
+      \ganttbar{5}{22 de abr}{28 de abr}{7 días}{22}{28}{Especificación de Requerimientos Funcionales y No Funcionales}
+      \ganttbar{6}{29 de abr}{2 de may}{4 días}{29}{32}{Consolidación y Revisión Final del Documento}
+
+      % Flechas de dependencias
+      % De Tarea 1 a Tarea 2
+      \draw[-{Stealth[length=1.5mm]}, thick] (7*\gw, -0.35) -- ++(0.15,0) |- (7*\gw + 0.3, -1.05);
+
+      % De Tarea 2 a Tarea 3 y Tarea 4
+      \draw[thick] (13*\gw, -1.05) -- ++(0.15,0) |- (13*\gw + 0.3, -2.45);
+      \draw[-{Stealth[length=1.5mm]}, thick] (13*\gw + 0.15, -1.75) -- (13*\gw + 0.3, -1.75);
+      \draw[-{Stealth[length=1.5mm]}, thick] (13*\gw + 0.15, -2.45) -- (13*\gw + 0.3, -2.45);
+
+      % De Tarea 3 a Tarea 5
+      \draw[-{Stealth[length=1.5mm]}, thick] (21*\gw, -1.75) -- ++(0.15,0) |- (21*\gw + 0.3, -3.15);
+
+      % De Tarea 5 a Tarea 6
+      \draw[-{Stealth[length=1.5mm]}, thick] (28*\gw, -3.15) -- ++(0.15,0) |- (28*\gw + 0.3, -3.85);
+
+      % Meses (Pie)
+      \node[font=\sffamily\scriptsize\bfseries] at (15.5*\gw, -5.2) {abril 2026};
+      \node[font=\sffamily\scriptsize\bfseries] at (31.5*\gw, -5.2) {mayo};
+
+      % Días (Pie)
+      \foreach \d/\dw/\dn in {1/mi/1, 2/ju/2, 3/vi/3, 4/sá/4, 5/do/5, 6/lu/6, 7/ma/7, 8/mi/8, 9/ju/9, 10/vi/10, 11/sá/11, 12/do/12, 13/lu/13, 14/ma/14, 15/mi/15, 16/ju/16, 17/vi/17, 18/sá/18, 19/do/19, 20/lu/20, 21/ma/21, 22/mi/22, 23/ju/23, 24/vi/24, 25/sá/25, 26/do/26, 27/lu/27, 28/ma/28, 29/mi/29, 30/ju/30, 31/vi/1, 32/sá/2} {
+          \node[font=\sffamily\tiny, anchor=south] at ({\d*\gw - \gw/2}, -4.75) {\dw};
+          \node[font=\sffamily\tiny, anchor=north] at ({\d*\gw - \gw/2}, -4.75) {\dn};
+      }
+
+    \end{tikzpicture}%
+  }
   \caption{Diagrama de Gantt para la planificación del análisis de
   requerimientos.}
   \label{fig:gantt_analisis_requerimientos}
   \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026).
-  S1 a S6 representan semanas consecutivas. El azul identifica actividades de
-  análisis, el verde actividades de definición y validación, y el naranja
-  hitos de revisión o cierre.
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). La escala
+  muestra los días del 1 de abril al 2 de mayo de 2026; cada barra indica el
+  inicio y el fin de cada actividad y las flechas señalan las dependencias entre
+  tareas.
 \end{figure}
 
 \clearpage
@@ -816,107 +808,79 @@ requerimiento es necesario para el funcionamiento del sistema.
 \begingroup
 \singlespacing
 \small
-% El espacio flexible evita el conflicto entre caption y longtable.
 \setlength{\LTleft}{0pt plus \textwidth}
 \setlength{\LTright}{0pt plus \textwidth}
 \renewcommand{\arraystretch}{1.15}
 \begin{longtable}{@{}L{1.4cm}C{1.1cm}L{4.1cm}L{8.1cm}@{}}
-  \caption{Matriz de trazabilidad de requerimientos funcionales y no
-  funcionales.}
-  \label{tab:matriz_trazabilidad}\\
+  \caption{Matriz de trazabilidad de requerimientos funcionales (RF) --- Mundo del Juguete.}
+  \label{tab:matriz_trazabilidad_rf}\\
   \toprule
-  \textbf{ID} & \textbf{Tipo} & \textbf{Origen (actor / CUN / RN)} & \textbf{Justificación} \\
+  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
   \midrule
   \endfirsthead
-  \multicolumn{4}{c}{\tablename~\thetable: Matriz de trazabilidad (continuación)}\\
+  \multicolumn{4}{c}{\tablename~\thetable: Matriz de trazabilidad de requerimientos funcionales (RF) (continuación)}\\
   \toprule
-  \textbf{ID} & \textbf{Tipo} & \textbf{Origen (actor / CUN / RN)} & \textbf{Justificación} \\
+  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
   \midrule
   \endhead
-  RF-01 & RF & Actor: Vendedor y Cajero; CUN-01; RN-02 &
-  Restringe las operaciones de venta a usuarios autorizados.\\
-  RF-02 & RF & Actor: Cliente y Vendedor; CUN-01 &
-  Permite incorporar correctamente los productos solicitados.\\
-  RF-03 & RF & Actor: Sistema; CUN-01; RN-02 &
-  Evita confirmar ventas cuando no existe stock suficiente.\\
-  RF-04 & RF & Actor: Vendedor y Cajero; CUN-01; RN-03 y RN-05 &
-  Registra la operación y entrega un comprobante con el total correcto.\\
-  RF-05 & RF & Actor: Sistema; CUN-01 y CUN-05; RN-02 y RN-03 &
-  Mantiene sincronizado el inventario después de una venta.\\
-  RF-06 & RF & Actor: Sistema; CUN-01 y CUN-05; RN-02 &
-  Informa errores y evita perder o duplicar una venta.\\
-  RF-07 & RF & Actor: Administrador; CUN-02 y CUN-05; RN-01 &
-  Permite prevenir quiebres de inventario mediante la detección temprana.\\
-  RF-08 & RF & Actor: Administrador y Proveedor; CUN-02 y CUN-06; RN-01 &
-  Facilita la comparación de precios y la gestión de proveedores.\\
-  RF-09 & RF & Actor: Administrador y Proveedor; CUN-02, CUN-05 y CUN-06; RN-01 &
-  Formaliza las necesidades de reposición y permite dar seguimiento al pedido.\\
-  RF-10 & RF & Actor: Administrador y Encargado de almacén; CUN-02, CUN-05 y CUN-06; RN-01 &
-  Registra la recepción y permite detectar diferencias respecto del pedido.\\
-  RF-11 & RF & Actor: Sistema; CUN-02, CUN-05 y CUN-06; RN-01 &
-  Incrementa las existencias después de recibir mercancía confirmada.\\
-  RF-12 & RF & Actor: Administrador y Vendedor; CUN-03 &
-  Permite iniciar las actividades de control y auditoría del inventario.\\
-  RF-13 & RF & Actor: Administrador y Vendedor; CUN-03 &
-  Conserva evidencia de las existencias físicas revisadas.\\
-  RF-14 & RF & Actor: Administrador y Vendedor; CUN-03 &
-  Permite identificar y justificar pérdidas por productos dañados.\\
-  RF-15 & RF & Actor: Administrador y Vendedor; CUN-03; RN-04 &
-  Ajusta las existencias y los niveles mínimos después de una auditoría.\\
-  RF-16 & RF & Actor: Sistema; CUN-03 &
-  Permite revisar el resultado del control y solicitar acciones correctivas.\\
-  RF-17 & RF & Actor: Cliente y Vendedor; CUN-04 &
-  Formaliza la incidencia y deja trazabilidad de la solicitud.\\
-  RF-18 & RF & Actor: Vendedor; CUN-04; RN-03 &
-  Verifica que la devolución corresponda a una venta y a su producto.\\
-  RF-19 & RF & Actor: Sistema y Vendedor; CUN-04 &
-  Protege al negocio de solicitudes fuera de plazo o por mal uso.\\
-  RF-20 & RF & Actor: Vendedor; CUN-04 &
-  Permite resolver la solicitud mediante cambio o reembolso.\\
-  RF-21 & RF & Actor: Sistema; CUN-04; RN-03 &
-  Actualiza el inventario y documenta la solución aplicada.\\
-  RF-22 & RF & Actor: Vendedor; CUN-05; RN-02 y RN-05 &
-  Relaciona la venta con el descuento automático del stock.\\
-  RF-23 & RF & Actor: Cajero; CUN-05; RN-03 &
-  Completa el cobro y proporciona un comprobante al cliente.\\
-  RF-24 & RF & Actor: Administrador; CUN-05; RN-01 &
-  Permite planificar el abastecimiento antes de una quiebre de stock.\\
-  RF-25 & RF & Actor: Encargado de almacén; CUN-05; RN-01 &
-  Registra la mercancía recibida y deja actualizado el inventario.\\
-  RF-26 & RF & Actor: Cliente; CUN-06 &
-  Registra la intención de compra y da inicio a la atención comercial.\\
-  RF-27 & RF & Actor: Vendedor; CUN-06 &
-  Permite documentar la atención y los productos ofertados al cliente.\\
-  RF-28 & RF & Actor: Vendedor y Cliente; CUN-06 &
-  Confirma la entrega y cierra el proceso comercial.\\
-  RF-29 & RF & Actor: Administrador y Proveedor; CUN-02 y CUN-06; RN-01 &
-  Permite solicitar y dar seguimiento al reabastecimiento.\\
-  RF-30 & RF & Actor: Proveedor y Encargado de almacén; CUN-02 y CUN-06; RN-01 &
-  Permite controlar el despacho y coordinar la recepción.\\
-  RF-31 & RF & Actor: Sistema y Encargado de almacén; CUN-02 y CUN-06; RN-01 &
-  Incorpora la mercancía y actualiza las existencias del sistema.\\
-  RNF-01 & RNF & Actor: Sistema; CUN-01, CUN-02, CUN-03 y CUN-05; RN-02 y RN-03 &
-  Reduce la espera en consultas y operaciones críticas del inventario.\\
-  RNF-02 & RNF & Actor: Todos los actores; CUN-01 a CUN-06; RN-02 &
-  Mantiene la continuidad de las operaciones durante el horario comercial.\\
-  RNF-03 & RNF & Actor: Todos los actores; CUN-01 a CUN-06; RN-02 &
-  Protege información sensible y restringe acciones según el perfil del usuario.\\
-  RNF-04 & RNF & Actor: Administrador, Vendedor, Cajero y Encargado de almacén; CUN-01, CUN-02, CUN-03 y CUN-05 &
-  Permite el trabajo simultáneo sin perder consistencia ni integridad.\\
-  RNF-05 & RNF & Actor: Todos los trabajadores del negocio; CUN-01 a CUN-06 &
-  Reduce el tiempo de aprendizaje y facilita el uso de las funciones principales.\\
-  RNF-06 & RNF & Actor: Administrador; CUN-01, CUN-02, CUN-03 y CUN-06; RN-03 &
-  Preserva la información operativa y permite recuperarla ante incidentes.\\
+  RF-01 & RF & Actor: Vendedor/Cajero --- CUN-01 & Evita accesos no autorizados a las operaciones de venta. \\
+  RF-02 & RF & Actor: Vendedor --- CUN-01 & Permite iniciar el registro de la venta seleccionando productos. \\
+  RF-03 & RF & Regla de negocio --- CUN-01 & Evita vender productos sin stock disponible. \\
+  RF-04 & RF & CUN-01 & Formaliza la transacción y genera el comprobante para el cliente. \\
+  RF-05 & RF & Regla de negocio --- CUN-01 & Mantiene el inventario actualizado en tiempo real tras la venta. \\
+  RF-06 & RF & CUN-01 & Informa al usuario ante errores de stock o conexión. \\
+  RF-07 & RF & Actor: Administrador --- CUN-02 & Permite anticipar quiebres de stock revisando el catálogo. \\
+  RF-08 & RF & CUN-02 & Facilita negociar precio y condiciones con el proveedor. \\
+  RF-09 & RF & Actor: Administrador --- CUN-02 & Formaliza el pedido de mercancía al proveedor. \\
+  RF-10 & RF & Actor: Administrador/Encargado de almacén --- CUN-02 & Registra la llegada física de la mercancía. \\
+  RF-11 & RF & Regla de negocio --- CUN-02 & Mantiene el inventario actualizado tras el abastecimiento. \\
+  RF-12 & RF & Actor: Administrador/Vendedor --- CUN-03 & Permite acceder al módulo de control de inventario. \\
+  RF-13 & RF & CUN-03 & Documenta los resultados de la verificación física del stock. \\
+  RF-14 & RF & CUN-03 & Identifica pérdidas para prevenir descuadres económicos. \\
+  RF-15 & RF & CUN-03 & Actualiza los niveles mínimos según la auditoría realizada. \\
+  RF-16 & RF & CUN-03 & Proporciona información actualizada para la toma de decisiones. \\
+  RF-17 & RF & Actor: Cliente --- CUN-04 & Permite iniciar el proceso de devolución o cambio. \\
+  RF-18 & RF & CUN-04 & Verifica la validez de la compra y el estado del producto. \\
+  RF-19 & RF & Regla de negocio --- CUN-04 & Evita devoluciones fuera de las políticas o plazos establecidos. \\
+  RF-20 & RF & Actor: Vendedor --- CUN-04 & Resuelve la solicitud del cliente (cambio o reembolso). \\
+  RF-21 & RF & Regla de negocio --- CUN-04 & Ajusta el inventario según la solución aplicada. \\
+  RF-22 & RF & Actor: Vendedor --- CUN-05 & Combina el registro de venta con el descuento automático de stock. \\
+  RF-23 & RF & Actor: Cajero --- CUN-05 & Formaliza el cobro y entrega el comprobante de pago. \\
+  RF-24 & RF & Actor: Administrador --- CUN-05 & Inicia el proceso de reposición de stock. \\
+  RF-25 & RF & Actor: Encargado de almacén --- CUN-05 & Cierra el ciclo de abastecimiento actualizando el inventario. \\
+  RF-26 & RF & Actor: Cliente --- CUN-06 & Registra el inicio de la interacción del cliente externo. \\
+  RF-27 & RF & Actor: Vendedor --- CUN-06 & Documenta la atención brindada al cliente. \\
+  RF-28 & RF & CUN-06 & Confirma la entrega satisfactoria al cliente. \\
+  RF-29 & RF & Actor: Administrador --- CUN-06 & Formaliza la solicitud de reabastecimiento al proveedor externo. \\
+  RF-30 & RF & Actor: Proveedor --- CUN-06 & Registra el despacho de mercancía realizado por el proveedor. \\
+  RF-31 & RF & CUN-06 & Actualiza formalmente el ingreso de mercancía en el sistema. \\
   \bottomrule
 \end{longtable}
-
 \par\vspace{1ex}
-\raggedright\noindent\emph{Nota.} Elaboración propia (2026). Las
-referencias CUN-01 a CUN-06 corresponden a los casos de uso documentados en las
-tablas de la sección \emph{Ingeniería de Requerimientos}; RN-01 a RN-05
-corresponden a las reglas de negocio.
-\par
+\raggedright\noindent\small\emph{Nota.} Elaboración propia (2026). La tabla vincula cada requerimiento funcional con su origen actor o caso de uso del negocio.
 \endgroup
+
+\vspace{2em}
+
+\begin{table}[H]
+  \centering
+  \caption{Matriz de trazabilidad de requerimientos no funcionales (RNF) --- Mundo del Juguete.}
+  \label{tab:matriz_trazabilidad_rnf}
+  \begin{tabularx}{\textwidth}{@{}L{1.4cm}C{1.1cm}L{4.1cm}X@{}}
+    \toprule
+    \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
+    \midrule
+    RNF-01 & RNF & Regla de negocio (calidad de servicio) & Garantiza rapidez en la atención al cliente en caja. \\
+    RNF-02 & RNF & Regla de negocio & Evita pérdidas de ventas por caídas del sistema en horario de atención. \\
+    RNF-03 & RNF & Regla de negocio (seguridad por rol) & Protege información sensible según el rol del usuario. \\
+    RNF-04 & RNF & Regla de negocio & Permite operar sin bloqueos cuando varios usuarios trabajan a la vez. \\
+    RNF-05 & RNF & Regla de negocio & Facilita la adopción del sistema por el personal sin capacitación extensa. \\
+    RNF-06 & RNF & Regla de negocio & Previene pérdida de datos ante fallas técnicas. \\
+    \bottomrule
+  \end{tabularx}
+  \par\vspace{1ex}
+  \raggedright\noindent\small\emph{Nota.} Elaboración propia (2026). La tabla vincula cada requerimiento no funcional con la regla de negocio que lo origina.
+\end{table}
 
 % ============================================================
 \section{Diseño de la Solución}
@@ -1107,4 +1071,4 @@ Wiegers, K., y Beatty, J. (2013). \textit{Software requirements} (3.ª ed.). Mic
 
 \end{thebibliography}
 
-\end{document}
+\end{document}  

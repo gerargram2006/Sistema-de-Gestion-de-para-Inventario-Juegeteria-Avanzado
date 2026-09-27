@@ -101,7 +101,6 @@ el repositorio limpio de metadatos locales y la presente documentación como bas
 
 ## Enlaces
 
-- **Documento de investigación:** [`docs/Proyecto.pdf`](docs/Proyecto.pdf)
 - **Repositorio GitHub:** <https://github.com/gerargram2006/Sistema-de-Gestion-de-para-Inventario-Juegeteria-Avanzado.git>
 
 ## Referencias

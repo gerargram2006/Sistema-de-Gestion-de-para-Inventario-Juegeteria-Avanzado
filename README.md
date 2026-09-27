@@ -87,6 +87,11 @@ el repositorio limpio de metadatos locales y la presente documentación como bas
 > **Nota para colaboradores:** Antes de integrar código o realizar modificaciones, **ejecute siempre `git pull`** 
 > para sincronizar los cambios más recientes. Esta práctica previene conflictos de integración y sobreescritura accidental.
 
+## Instrucciones para Asistentes de IA
+
+Este repositorio cuenta con reglas estrictas de formato y comportamiento predefinidas para los agentes de Inteligencia Artificial (ej. Antigravity, GitHub Copilot, Cursor, Windsurf). Estas instrucciones garantizan que cualquier código o documentación generada respete la estructura del proyecto, el formato APA 7.ª edición, la limpieza del código y nuestro flujo de control de versiones. 
+Las IAs leen automáticamente estas directrices desde los archivos de configuración nativos ocultos (`.agents/rules/AGENTS.md`, `.github/copilot-instructions.md` y `.cursorrules`). **No es necesario repetirles las reglas de diseño o de GIT** en cada prompt; los asistentes ya están totalmente contextualizados para trabajar bajo los estándares de este equipo.
+
 ## Equipo de Desarrollo
 
 - Gerar Rodrigo Camma Baldeon

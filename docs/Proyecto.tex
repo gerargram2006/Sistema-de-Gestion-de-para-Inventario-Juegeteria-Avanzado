@@ -56,7 +56,7 @@
 \addtolength{\topmargin}{-2.5pt}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
 % ---------- Títulos de secciones estilo APA ----------
@@ -108,33 +108,36 @@
 % PORTADA
 % ============================================================
 \begin{center}
-  \thispagestyle{fancy}
+  \thispagestyle{empty} 
   \begin{singlespace}
-    \vspace*{0.2cm}
-    {\LARGE\bfseries INSTITUTO TECNOLÓGICO SUPERIOR TECSUP}\\[0.6cm]
+    \vspace*{0.5cm}
+    {\large\bfseries INSTITUTO TECNOLÓGICO SUPERIOR TECSUP}\\[0.6cm]
 
-    \includegraphics[width=5.5cm]{image1.png}\\[0.8cm]
+    {\large\bfseries DISEÑO Y DESARROLLO DE SOFTWARE}\\[1.2cm]
 
-    {\Large\bfseries PROGRAMA DE DISEÑO Y DESARROLLO DE SOFTWARE}\\[1.5cm]
+    \includegraphics[width=6.5cm]{image1.png}\\[1.5cm]
 
-    {\LARGE\bfseries Sistema de Gestión de Inventario para Juguetería}\\[1.5cm]
+    {\large\bfseries CURSO: INGENIERÍA DE REQUERIMIENTOS Y DISEÑO DE SOFTWARE}\\[0.8cm]
+
+    {\large\bfseries PROYECTO:}\\[0.4cm]
+    {\large\bfseries SISTEMA DE GESTIÓN DE INVENTARIO PARA JUGUETERÍA}\\[1.5cm]
     
-    {\normalsize\bfseries Integrantes:}\\[0.2cm]
-    {\large Camma Baldeon, Gerar Rodrigo\\}
-    {\large Florez Merma, Hugo Ernesto\\}
-    {\large Valdivia Lovon, Barry\\}
-    {\large Llallacachi Salhua, Samuel A.\\}
-    {\large Rodriguez Anculle, Simon}\\[0.8cm]
+    \begin{flushleft}
+    \hspace{2.5cm}{\normalsize\bfseries Docente:}\\[0.2cm]
+    \hspace{3.5cm}{\normalsize Ing. Olanda Saavedra, Claudio}\\[0.8cm]
 
-    {\normalsize\bfseries Docente:}\\[0.2cm]
-    {\normalsize Olanda Saavedra, Claudio}\\[0.8cm]
+    \hspace{2.5cm}{\normalsize\bfseries Presentado por:}\\[0.2cm]
+    \hspace{3.5cm}{\normalsize - Camma Baldeon, Gerar Rodrigo}\\[0.1cm]
+    \hspace{3.5cm}{\normalsize - Florez Merma, Hugo Ernesto}\\[0.1cm]
+    \hspace{3.5cm}{\normalsize - Llallacachi Salhua, Samuel A.}\\[0.1cm]
+    \hspace{3.5cm}{\normalsize - Rodriguez Anculle, Simon}\\[0.1cm]
+    \hspace{3.5cm}{\normalsize - Valdivia Lovon, Barry}
+    \end{flushleft}
+    
+    \vspace{2cm}
 
-    {\normalsize\bfseries Curso:}\\[0.2cm]
-    {\normalsize Ingeniería de Requerimientos y Diseño de Software}\\[0.6cm]
-
-    {\normalsize\bfseries Ciclo: III}\\[0.6cm]
-
-    {\normalsize 16 de septiembre de 2026}
+    {\normalsize\bfseries Arequipa -- Perú}\\[0.4cm]
+    {\normalsize\bfseries 2026 - 2}
   \end{singlespace}
 \end{center}
 
@@ -937,6 +940,8 @@ La siguiente tabla presenta los Casos de Uso del Sistema identificados, junto co
 En esta sección se insertarán los diagramas correspondientes a los actores principales del sistema, considerando relaciones de tipo \texttt{«extend»} e \texttt{«include»}. 
 
 \subsubsection{Diagrama de CUS para el Actor `Vendedor''}
+El presente diagrama detalla las interacciones del vendedor con el sistema, centralizando sus funciones en el procesamiento directo de las ventas y la consulta de existencias, evidenciando así su rol operativo en el salón de ventas.
+
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
@@ -947,6 +952,8 @@ En esta sección se insertarán los diagramas correspondientes a los actores pri
 \end{figure}
 
 \subsubsection{Diagrama de CUS para el Actor `Administrador''}
+Este esquema conceptualiza el alto nivel de acceso del administrador, abarcando operaciones gerenciales críticas como la gestión del abastecimiento, el control auditor de inventario y la emisión de directrices operativas.
+
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
@@ -957,6 +964,8 @@ En esta sección se insertarán los diagramas correspondientes a los actores pri
 \end{figure}
 
 \subsubsection{Diagrama de CUS para el Actor `Cajero''}
+El diagrama modela el flujo transaccional y monetario del negocio, destacando la responsabilidad exclusiva del cajero en el cálculo automatizado, cobro y la emisión legal de comprobantes de pago de manera eficiente.
+
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
@@ -967,6 +976,8 @@ En esta sección se insertarán los diagramas correspondientes a los actores pri
 \end{figure}
 
 \subsubsection{Diagrama de CUS para el Actor `Encargado de Almacén''}
+La siguiente representación gráfica expone las responsabilidades logísticas del encargado de almacén, focalizándose primordialmente en el registro y validación de la recepción de mercancía para mantener la precisión del stock.
+
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering

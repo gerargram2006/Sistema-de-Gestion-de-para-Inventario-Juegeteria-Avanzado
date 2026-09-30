@@ -1083,66 +1083,23 @@ avance del equipo.
 \clearpage
 \subsection{Conclusiones}
 
-En conclusión, la construcción del diagrama de clases para cada entidad principal
-(inventario de productos, ventas y detalle de ventas, compras y detalle de
-compras, devoluciones, usuarios y clientes) permitió visualizar claramente las
-acciones operativas, mostrando la intervención precisa de cada actor dentro del
-negocio.
+La construcción exhaustiva del modelo de negocio, respaldada por los diagramas de clases y casos de uso, ha permitido estructurar una visión integral y sistémica de las operaciones de `Mundo del Juguete''. Esta base garantiza que las interacciones cotidianas de los actores principales queden documentadas y alineadas directamente con los objetivos estratégicos de la empresa.
 
-Asimismo, los diagramas de actividades elaborados para los seis casos de uso
-(CUN-01 a CUN-06) facilitaron la comprensión del desarrollo secuencial de los procesos de
-ventas, abastecimiento y control de inventario, así como la gestión de devoluciones y cambios.
-Esto evidenció de forma gráfica la interacción fluida entre los trabajadores internos
-y los actores externos, identificando decisiones, acciones y puntos de control clave en
-cada proceso.
+La transición fluida desde los Casos de Uso del Negocio (CUN) hacia los Casos de Uso del Sistema (CUS) evidenció la viabilidad técnica de automatizar los procesos más críticos. Al detallar operaciones concretas como el registro de ventas, el control de inventario y la gestión de abastecimiento, se han cimentado las bases para el desarrollo de un software robusto y escalable.
 
-Por otra parte, el análisis integrado de los diagramas de clases y de actividades
-demostró que un mismo proceso de negocio frecuentemente involucra a múltiples entidades
-relacionadas, como ocurre en la sinergia entre ventas y su respectivo detalle, o en
-el módulo de compras. Esto ratifica la necesidad metodológica de mantener una estricta
-coherencia entre ambos diagramas para reflejar fielmente la lógica operativa del
-establecimiento.
+El análisis integrado de requerimientos y reglas de negocio ha validado que el uso de metodologías estandarizadas (UML y patrones de diseño) reduce drásticamente las brechas de comunicación entre las necesidades operativas y la implementación técnica, garantizando una trazabilidad sólida de inicio a fin.
 
-De igual manera, esta etapa de modelado permitió constatar que la abstracción del
-negocio no solo sirve para documentar los procedimientos actuales de la tienda
-Mundo del Juguete, sino que también estructura las bases para identificar y
-organizar los requerimientos del futuro producto de software. En consecuencia, se
-determinan de manera óptima qué procesos operativos se benefician al ser
-automatizados para mejorar su rendimiento.
-
-Adicionalmente, el trazo de los diagramas de actividades facilitó la identificación
-anticipada de escenarios de excepción o flujos alternativos, tales como la carencia de
-stock suficiente, la presentación de comprobantes inválidos o discrepancias en la
-recepción de mercancía. Esto proveyó directrices claras sobre las validaciones y el
-manejo de errores que el futuro sistema deberá implementar.
-
-Finalmente, la identificación exhaustiva de 31 requerimientos funcionales y 6
-requerimientos no funcionales, en conjunto con su matriz de trazabilidad vinculada a
-actores, casos de uso y reglas de negocio, consolida una base documental sólida y
-verificable. Esta estructura garantiza un alineamiento total entre las necesidades del
-negocio y el posterior diseño e implementación de la solución de software.
+Finalmente, la exploración sistemática de escenarios de excepción y flujos alternativos, tanto en los diagramas de actividades como en las especificaciones, ha proporcionado directrices precisas para el manejo de validaciones tempranas, lo que asegurará la integridad de la información y mitigará riesgos de fallos en el producto final.
 
 % ============================================================
 \section{Recomendaciones}
 
 \begin{itemize}
-  \item Implementar en el sistema validaciones automáticas de stock disponible
-        antes de confirmar cualquier venta, mostrando mensajes de error claros
-        cuando la cantidad solicitada supere las existencias.
-  \item Diseñar un módulo de devoluciones que valide la autenticidad del
-        comprobante de pago y verifique el plazo permitido y el estado del
-        juguete antes de aprobar un cambio o reembolso.
-  \item Establecer un control de calidad en la recepción de mercancía que
-        permita registrar las diferencias entre lo pedido y lo recibido,
-        actualizando automáticamente el inventario.
-  \item Garantizar la coherencia entre los diagramas de clases y de actividades
-        y su implementación en el sistema, de modo que las entidades y los
-        procesos modelados se correspondan con el software final.
-  \item Desarrollar reportes automatizados de ventas, compras y stock que
-        faciliten la toma de decisiones informadas y las auditorías periódicas.
-  \item Capacitar al personal (vendedor, cajero, administrador y encargado de
-        almacén) en el uso del sistema para asegurar un registro consistente de
-        la información.
+    \item Fomentar la iteración constante del modelo de requerimientos utilizando los Casos de Uso del Sistema (CUS) como base para el diseño de prototipos e interfaces de usuario, asegurando que las pantallas respondan a la fluidez exigida por los vendedores y cajeros.
+    \item Priorizar el desarrollo de los módulos de mayor criticidad, como el \texttt{Registro de Ventas} y el \texttt{Control de Inventario}, durante los primeros \textit{sprints} de implementación para entregar valor temprano y facilitar pruebas en un entorno comercial real.
+    \item Diseñar un plan de capacitación dirigido al personal (vendedores, cajeros y encargados de almacén) basado en los flujos operativos aquí documentados, con el objetivo de minimizar la resistencia al cambio y acortar la curva de aprendizaje frente al nuevo sistema automatizado.
+    \item Mantener una trazabilidad rigurosa entre el modelo relacional de la base de datos (ERD) y el diagrama de clases de negocio, verificando que los esquemas de datos soporten adecuadamente las reglas de negocio de cálculos (ej. IGV, subtotales) y estructurales (políticas de stock).
+    \item Planificar auditorías de software y pruebas de aceptación (\textit{UAT}) de la mano con la matriz de trazabilidad, a fin de garantizar que el aplicativo final cumpla estrictamente con los 31 requerimientos funcionales y satisfaga los 6 requerimientos no funcionales (desempeño, seguridad, usabilidad).
 \end{itemize}
 
 % ============================================================
@@ -1167,6 +1124,21 @@ Pressman, R. S., y Maxim, B. R. (2021). \textit{Ingeniería del software: Un enf
   \bibitem{wiegers2013}
 Wiegers, K., y Beatty, J. (2013). \textit{Software requirements} (3.ª ed.). Microsoft Press. \url{https://www.microsoftpressstore.com/store/software-requirements-9780735679665}
 
+
+  \bibitem{kendall2011}
+Kendall, K. E., y Kendall, J. E. (2011). \textit{Análisis y diseño de sistemas} (8.ª ed.). Pearson Educación.
+
+  \bibitem{larman2003}
+Larman, C. (2003). \textit{UML y patrones: Introducción al análisis y diseño orientado a objetos y al proceso unificado} (2.ª ed.). Pearson Educación.
+
+  \bibitem{omg2017}
+Object Management Group (OMG). (2017). \textit{Unified Modeling Language (OMG UML): Specification Version 2.5.1}.
+
+  \bibitem{pressman2015}
+Pressman, R. S., y Maxim, B. R. (2015). \textit{Ingeniería del software: Un enfoque práctico} (8.ª ed.). McGraw-Hill Education.
+
+  \bibitem{sommerville2011}
+Sommerville, I. (2011). \textit{Ingeniería del software} (9.ª ed.). Addison-Wesley.
 \end{thebibliography}
 
 \end{document}  

@@ -145,20 +145,8 @@
 
 
 % ============================================================
-% ÍNDICE FUNCIONAL
+% RESUMEN Y ABSTRACT
 % ============================================================
-\pagenumbering{arabic}
-\tableofcontents
-\newpage
-\listoftables
-\newpage
-\listoffigures
-\newpage
-
-% ============================================================
-% RESUMEN
-% ============================================================
-
 
 \section*{Resumen}
 \addcontentsline{toc}{section}{Resumen}
@@ -180,7 +168,37 @@ basada en reportes automatizados.
 \emph{Palabras clave:} inventario, Programación Orientada a Objetos, PHP,
 Laravel, Eloquent, juguetería.
 
+\vspace{1cm}
+
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+The present research project exposes the development of an Inventory Management System
+for a retail toy store, designed under the Object-Oriented Programming (OOP) paradigm
+using the PHP language through the \emph{Laravel} framework. The proposal arises given
+the deficiencies identified in manual stock control and the lack of real-time
+synchronization, which negatively impacts business profitability. Through a
+\emph{Model-View-Controller} (MVC) architecture that implements the \emph{Eloquent ORM}
+object-relational mapping and \emph{Blade} view templates, a modular, scalable, and highly
+portable web application is offered. Structured persistence and hierarchical control by
+categories and brands ensure data integrity, optimizing audits and allowing informed
+decision-making based on automated reports.
+
+\emph{Keywords:} inventory, Object-Oriented Programming, PHP, Laravel, Eloquent, toy store.
+
 \newpage
+
+% ============================================================
+% ÍNDICE FUNCIONAL
+% ============================================================
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+\listoftables
+\newpage
+\listoffigures
+\newpage
+
 
 % ============================================================
 % CAPÍTULO 1
@@ -939,7 +957,7 @@ La siguiente tabla presenta los Casos de Uso del Sistema identificados, junto co
 
 En esta sección se insertarán los diagramas correspondientes a los actores principales del sistema, considerando relaciones de tipo \texttt{«extend»} e \texttt{«include»}. 
 
-\subsubsection{Diagrama de CUS para el Actor `Vendedor''}
+\subsubsection{Diagrama de CUS para el Actor ``Vendedor''}
 El presente diagrama detalla las interacciones del vendedor con el sistema, centralizando sus funciones en el procesamiento directo de las ventas y la consulta de existencias, evidenciando así su rol operativo en el salón de ventas.
 
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
@@ -951,7 +969,7 @@ El presente diagrama detalla las interacciones del vendedor con el sistema, cent
     \label{fig:cus_vendedor}
 \end{figure}
 
-\subsubsection{Diagrama de CUS para el Actor `Administrador''}
+\subsubsection{Diagrama de CUS para el Actor ``Administrador''}
 Este esquema conceptualiza el alto nivel de acceso del administrador, abarcando operaciones gerenciales críticas como la gestión del abastecimiento, el control auditor de inventario y la emisión de directrices operativas.
 
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
@@ -963,7 +981,7 @@ Este esquema conceptualiza el alto nivel de acceso del administrador, abarcando 
     \label{fig:cus_administrador}
 \end{figure}
 
-\subsubsection{Diagrama de CUS para el Actor `Cajero''}
+\subsubsection{Diagrama de CUS para el Actor ``Cajero''}
 El diagrama modela el flujo transaccional y monetario del negocio, destacando la responsabilidad exclusiva del cajero en el cálculo automatizado, cobro y la emisión legal de comprobantes de pago de manera eficiente.
 
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
@@ -975,7 +993,7 @@ El diagrama modela el flujo transaccional y monetario del negocio, destacando la
     \label{fig:cus_cajero}
 \end{figure}
 
-\subsubsection{Diagrama de CUS para el Actor `Encargado de Almacén''}
+\subsubsection{Diagrama de CUS para el Actor ``Encargado de Almacén''}
 La siguiente representación gráfica expone las responsabilidades logísticas del encargado de almacén, focalizándose primordialmente en el registro y validación de la recepción de mercancía para mantener la precisión del stock.
 
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
@@ -1094,7 +1112,7 @@ avance del equipo.
 \clearpage
 \section{Conclusiones}
 
-La construcción exhaustiva del modelo de negocio, respaldada por los diagramas de clases y casos de uso, ha permitido estructurar una visión integral y sistémica de las operaciones de `Mundo del Juguete''. Esta base garantiza que las interacciones cotidianas de los actores principales queden documentadas y alineadas directamente con los objetivos estratégicos de la empresa.
+La construcción exhaustiva del modelo de negocio, respaldada por los diagramas de clases y casos de uso, ha permitido estructurar una visión integral y sistémica de las operaciones de ``Mundo del Juguete''. Esta base garantiza que las interacciones cotidianas de los actores principales queden documentadas y alineadas directamente con los objetivos estratégicos de la empresa.
 
 La transición fluida desde los Casos de Uso del Negocio (CUN) hacia los Casos de Uso del Sistema (CUS) evidenció la viabilidad técnica de automatizar los procesos más críticos. Al detallar operaciones concretas como el registro de ventas, el control de inventario y la gestión de abastecimiento, se han cimentado las bases para el desarrollo de un software robusto y escalable.
 

@@ -1006,7 +1006,257 @@ La siguiente representación gráfica expone las responsabilidades logísticas d
 \end{figure}
 
 
-\section{Capítulo 7: Diseño de la Solución (Avance Final)}
+% ============================================================
+% CAPÍTULO 7: DETALLE DE LOS CASOS DE USO DEL SISTEMA Y PROTOTIPADO
+% ============================================================
+\clearpage
+\section{Capítulo 7: Detalle de los Casos de Uso del Sistema y Prototipado}
+
+En este capítulo se desarrollan las especificaciones de bajo nivel para los Casos de Uso del Sistema (CUS), detallando precondiciones, postcondiciones y flujos básicos y alternos. Asimismo, se presenta el prototipado de interfaces (UI/UX) y la matriz de trazabilidad que vincula los requerimientos con las clases del dominio y las pantallas diseñadas.
+
+\subsection{Especificación de Bajo Nivel}
+
+\subsubsection{Ficha CUS-01: Registrar Venta}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|X|}
+        \hline
+        Nombre & Registrar Venta \\
+        \hline
+        Actor(es) & Vendedor \\
+        \hline
+        Clasificación & Primario / Detallado \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item El vendedor debe haber iniciado sesión con credenciales válidas en el sistema.
+            \item El cliente debe estar registrado o contar con sus datos disponibles para la venta.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item La venta queda registrada con estado pendiente de pago.
+            \item El stock provisional de los productos queda reservado en el sistema.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico (Acción del Actor vs. Respuesta del Sistema)}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Selecciona la opción 'Nueva Venta' en el módulo principal. & 2. El sistema despliega la interfaz para ingresar datos del cliente y agregar productos. \\
+        \hline
+        3. Ingresa el documento de identidad o código del cliente. & 4. El sistema valida los datos del cliente y habilita el buscador de artículos. \\
+        \hline
+        5. Busca y selecciona los juguetes solicitados indicando las cantidades. & 6. El sistema verifica la disponibilidad de stock en tiempo real (<<include>>). \\
+        \hline
+        7. Confirma el detalle de los productos agregados a la lista de venta. & 8. El sistema calcula el subtotal, impuestos y total preliminar, generando el código de venta. \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item 3a. El cliente no se encuentra registrado: El sistema muestra un mensaje de alerta y permite registrar un nuevo cliente de forma rápida.
+            \item 6a. Stock insuficiente para uno o más juguetes: El sistema muestra una advertencia indicando el stock disponible y bloquea la adición de unidades excedentes.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Ficha CUS-02: Procesar Pago y Emitir Comprobante}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|X|}
+        \hline
+        Nombre & Procesar Pago y Emitir Comprobante \\
+        \hline
+        Actor(es) & Cajero \\
+        \hline
+        Clasificación & Primario / Detallado \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item El sistema debe tener una venta registrada previamente con estado pendiente de pago.
+            \item La caja registradora debe encontrarse abierta y con fondo de efectivo inicial validado.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item El estado de la venta cambia a 'Completada / Pagada'.
+            \item Se genera y emite el comprobante de pago (boleta o factura) físico/electrónico.
+            \item Se actualiza el stock definitivo en el inventario del sistema.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico (Acción del Actor vs. Respuesta del Sistema)}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Ingresa el código o número de la venta pendiente a cobrar. & 2. El sistema recupera el detalle completo de la venta y muestra el monto total a pagar. \\
+        \hline
+        3. Selecciona el método de pago (Efectivo, Tarjeta, Transferencia). & 4. El sistema solicita los datos correspondientes al medio de pago elegido. \\
+        \hline
+        5. Ingresa el monto recibido (efectivo) o confirma la transacción electrónica. & 6. El sistema calcula el vuelto (si aplica) y procesa el pago (<<include>>). \\
+        \hline
+        7. Solicita la emisión del comprobante de pago (Boleta/Factura). & 8. El sistema genera el comprobante legal, actualiza el inventario y finaliza la transacción (<<include>>). \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item 5a. El monto en efectivo ingresado es menor al total: El sistema muestra un error y exige un monto igual o superior.
+            \item 5b. La transacción con tarjeta es rechazada: El sistema notifica el fallo y permite reintentar o solicitar medio alternativo.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Ficha CUS-03: Gestionar Abastecimiento de Productos}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|X|}
+        \hline
+        Nombre & Gestionar Abastecimiento de Productos \\
+        \hline
+        Actor(es) & Administrador \\
+        \hline
+        Clasificación & Secundario / Detallado \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item El administrador debe haber iniciado sesión con privilegios gerenciales en el sistema.
+            \item Deben existir productos con niveles de inventario iguales o inferiores al stock mínimo establecido.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item Se genera formalmente la Orden de Compra en el sistema.
+            \item Se notifica de manera automática al proveedor correspondiente.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico (Acción del Actor vs. Respuesta del Sistema)}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Selecciona la opción 'Gestión de Abastecimiento' en inventarios. & 2. El sistema despliega el reporte de productos con stock crítico o agotado. \\
+        \hline
+        3. Selecciona los productos y las cantidades sugeridas a reponer. & 4. El sistema valida los datos y habilita el módulo de selección de proveedores. \\
+        \hline
+        5. Selecciona al proveedor autorizado y las condiciones de entrega. & 6. El sistema calcula el presupuesto estimado y genera la Orden de Compra (<<include>>). \\
+        \hline
+        7. Confirma y autoriza la emisión de la orden de compra. & 8. El sistema registra la orden y envía la notificación formal al proveedor (<<include>>). \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item 3a. El administrador modifica manualmente cantidades por encima del presupuesto: El sistema solicita autorización extraordinaria.
+            \item 5a. El proveedor seleccionado se encuentra inactivo: El sistema emite una alerta impidiendo asociar la orden y solicita otro activo.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Ficha CUS-04: Registrar Ingreso de Mercancía}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|X|}
+        \hline
+        Nombre & Registrar Ingreso de Mercancía \\
+        \hline
+        Actor(es) & Encargado de Almacén \\
+        \hline
+        Clasificación & Secundario / Detallado \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item El encargado de almacén debe estar autenticado en el sistema de logística.
+            \item Debe existir una Orden de Compra previamente emitida y en estado 'Pendiente de Recepción'.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item El stock en bodega se actualiza incrementando las cantidades recibidas.
+            \item La Orden de Compra cambia su estado a 'Completada / Recibida'.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico (Acción del Actor vs. Respuesta del Sistema)}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Selecciona la opción 'Recepción de Mercancía' en almacén. & 2. El sistema solicita el número de la Orden de Compra o factura del proveedor. \\
+        \hline
+        3. Ingresa el número de la Orden de Compra física recibida. & 4. El sistema busca y despliega el detalle de los productos esperados para validación. \\
+        \hline
+        5. Realiza el conteo físico y registra las cantidades de juguetes recibidas. & 6. El sistema compara las cantidades físicas con la orden y actualiza el inventario (<<include>>). \\
+        \hline
+        7. Confirma el registro final de recepción de la mercancía. & 8. El sistema actualiza el estado de la orden y emite la constancia de ingreso. \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{15.5cm}|}{\vspace{-0.3cm}\begin{itemize}
+            \item 4a. El número de Orden no existe o ya fue recepcionada: El sistema muestra error y bloquea el proceso.
+            \item 6a. Se detectan productos dañados o faltantes: El sistema permite registrar una observación y genera una alerta automática.
+        \end{itemize}\vspace{-0.3cm}} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Prototipado UI/UX Vinculado}
+
+En esta sección se presentan las propuestas de interfaces de usuario (UI) que han sido vinculadas a los Casos de Uso del Sistema (CUS), garantizando que las funcionalidades descritas en el flujo básico se reflejen de manera intuitiva.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{media/prototipo3.png}
+    \caption{Prototipo UI/UX: Pestaña LOGIN.}
+    \label{fig:proto_login}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{media/prototipo1.png}
+    \caption{Prototipo UI/UX: Pestaña REGISTRAR VENTA.}
+    \label{fig:proto_venta}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{media/prototipo2.png}
+    \caption{Prototipo UI/UX: Pestaña PAGO.}
+    \label{fig:proto_pago}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{media/prototipo6.png}
+    \caption{Prototipo UI/UX: Pestaña ABASTECIMIENTO.}
+    \label{fig:proto_abastecimiento}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{media/prototipo4.png}
+    \caption{Prototipo UI/UX: Pestaña ALMACÉN.}
+    \label{fig:proto_almacen}
+\end{figure}
+
+\subsection{Matriz de Trazabilidad}
+
+La matriz de trazabilidad consolida la relación entre los requerimientos (RF/RNF), los Casos de Uso del Sistema (CUS), las clases del dominio implicadas y los módulos de pantalla asociados.
+
+\begin{table}[H]
+    \centering
+    \caption{Matriz de trazabilidad entre RF, CUS, Clases del Dominio y Pantallas.}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2cm}|X|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
+        \hline
+        \textbf{Requisito / ID} & \textbf{Descripción del Requisito (RF)} & \textbf{Caso de Uso (CUS)} & \textbf{Clases del Dominio (Modelo)} & \textbf{Pantalla / Módulo Asociado} \\
+        \hline
+        RF-01 & Permitir el registro de ventas de juguetes asociando un cliente y controlando el stock en tiempo real. & CUS-01: Registrar Venta & Venta, DetalleVenta, Cliente, Producto, Inventario & Pantalla de Venta (Módulo Vendedor) \\
+        \hline
+        RF-02 & Procesar pagos (efectivo, tarjeta), calcular el vuelto y emitir el comprobante electrónico. & CUS-02: Procesar Pago y Emitir Comprobante & Venta, ComprobantePago, Pago, Caja & Pantalla de Pago (Módulo Cajero) \\
+        \hline
+        RF-03 & Alertar sobre productos en stock crítico y generar órdenes de compra a proveedores. & CUS-03: Gestionar Abastecimiento & OrdenCompra, DetalleOrdenCompra, Proveedor, Producto, Inventario & Pantalla de Abastecimiento (Módulo Administrador) \\
+        \hline
+        RF-04 & Registrar el ingreso físico de mercancía comparando lo esperado y actualizando inventario. & CUS-04: Registrar Ingreso de Mercancía & IngresoAlmacen, DetalleIngreso, OrdenCompra, Inventario, Producto & Pantalla de Recepción de Almacén (Módulo Almacén) \\
+        \hline
+        RNF-01 & Restringir el acceso al sistema según el rol del usuario mediante autenticación segura. & CUS-General: Autenticación y Control de Acceso & Usuario, Rol, Sesión & Pantalla de Login (Módulo General) \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\section{Capítulo 8: Diseño de la Solución (Avance Final)}
 
 \subsection{Diagrama de Clases UML (Estructura de Paquetes)}
 
@@ -1076,7 +1326,7 @@ tipos de datos:
 \clearpage
 
 
-\section{Capítulo 8: Estrategia de GIT y Conclusiones}
+\section{Capítulo 9: Estrategia de GIT y Conclusiones}
 
 \subsection{Estrategia de GIT y Repositorio}
 
@@ -1119,6 +1369,8 @@ La transición fluida desde los Casos de Uso del Negocio (CUN) hacia los Casos d
 El análisis integrado de requerimientos y reglas de negocio ha validado que el uso de metodologías estandarizadas (UML y patrones de diseño) reduce drásticamente las brechas de comunicación entre las necesidades operativas y la implementación técnica, garantizando una trazabilidad sólida de inicio a fin.
 
 Finalmente, la exploración sistemática de escenarios de excepción y flujos alternativos, tanto en los diagramas de actividades como en las especificaciones, ha proporcionado directrices precisas para el manejo de validaciones tempranas, lo que asegurará la integridad de la información y mitigará riesgos de fallos en el producto final.
+
+Adicionalmente, el desarrollo de las especificaciones de bajo nivel para los Casos de Uso del Sistema (CUS) y la creación del prototipado UI/UX han estrechado significativamente la brecha entre los requisitos teóricos y la interfaz final del usuario. La inclusión de la matriz de trazabilidad demuestra cómo cada requerimiento funcional, clase del dominio y caso de uso se encuentra directamente representado en una pantalla específica (Login, Venta, Pago, Abastecimiento y Almacén), asegurando coherencia y viabilidad técnica para la etapa de desarrollo de la solución.
 
 % ============================================================
 \section{Recomendaciones}

@@ -32,6 +32,10 @@
 - El repositorio puede sincronizarse o editarse externamente. Siempre re-lee el estado actual de los archivos antes de asumir que una edición previa se guardó correctamente.
 - Mantén siempre el `README.md` sincronizado de manera formal cuando la estructura del documento LaTeX sufra cambios significativos.
 
+## Autonomía y Permisos (IA)
+- **Permiso Total:** Tienes permiso absoluto ('permission of everything') para realizar cambios en los archivos, compilar, hacer commits y empujar cambios al repositorio. 
+- **Proactividad:** No debes pedir permiso para realizar tus tareas. Ejecuta tus acciones y usa las herramientas directamente, informando al usuario únicamente sobre los resultados obtenidos.
+
 ## Git y Control de Versiones
 - Como IA, debes generar los commits proactivamente en nombre del usuario después de realizar cambios y verificar que compilen o funcionen.
 - Utiliza **siempre** el formato de "Conventional Commits" en español: `tipo(ámbito): descripción corta` (ejemplo: `feat(docs): se organiza el documento por capítulos`, `fix(tablas): se elimina el paquete colortbl para arreglar error`).

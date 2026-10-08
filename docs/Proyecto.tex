@@ -1238,6 +1238,22 @@ En esta sección se presentan las propuestas de interfaces de usuario (UI) que h
     {\raggedright \small \emph{Nota.} Elaboración propia (2026). Interfaz para el registro logístico y la recepción de existencias físicas.\par}
 \end{figure}
 
+
+\subsection{Diagramado e Integración del Modelo de Dominio}
+
+A partir de la especificación detallada de los Casos de Uso del Sistema (CUS), se han identificado las entidades y clases conceptuales fundamentales para el negocio. Este proceso permite definir los atributos clave de cada entidad, así como establecer las relaciones y sus respectivas multiplicidades (por ejemplo, 1..1, 1..*, 0..*) para garantizar la integridad y coherencia de los datos en la futura base de datos.
+
+En la siguiente figura se detalla el diagrama que integra el modelo de dominio con las operaciones descritas en los casos de uso.
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama e Integración del Modelo de Dominio.}
+    \includegraphics[width=0.95\textwidth]{media/Diagrama e Integracion del Modelo de Dominio.png}
+    \label{fig:modelo_dominio_cus}
+    
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diagrama que ilustra las entidades conceptuales, sus atributos y las multiplicidades de sus relaciones según los CUS.\par}
+\end{figure}
+
 \subsection{Matriz de Trazabilidad}
 
 La matriz de trazabilidad consolida la relación entre los requerimientos (RF/RNF), los Casos de Uso del Sistema (CUS), las clases del dominio implicadas y los módulos de pantalla asociados.

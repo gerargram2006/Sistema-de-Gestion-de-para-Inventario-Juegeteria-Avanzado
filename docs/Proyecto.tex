@@ -1258,25 +1258,14 @@ En la siguiente figura se detalla el diagrama que integra el modelo de dominio c
 
 La matriz de trazabilidad consolida la relación entre los requerimientos (RF/RNF), los Casos de Uso del Sistema (CUS), las clases del dominio implicadas y los módulos de pantalla asociados.
 
-\begin{table}[H]
+\begin{figure}[H]
     \centering
     \caption{Matriz de trazabilidad entre RF, CUS, Clases del Dominio y Pantallas.}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2cm}|X|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
-        \hline
-        \textbf{Requisito / ID} & \textbf{Descripción del Requisito (RF)} & \textbf{Caso de Uso (CUS)} & \textbf{Clases del Dominio (Modelo)} & \textbf{Pantalla / Módulo Asociado} \\
-        \hline
-        RF-01 & Permitir el registro de ventas de juguetes asociando un cliente y controlando el stock en tiempo real. & CUS-01: Registrar Venta & Venta, DetalleVenta, Cliente, Producto, Inventario & Pantalla de Venta (Módulo Vendedor) \\
-        \hline
-        RF-02 & Procesar pagos (efectivo, tarjeta), calcular el vuelto y emitir el comprobante electrónico. & CUS-02: Procesar Pago y Emitir Comprobante & Venta, ComprobantePago, Pago, Caja & Pantalla de Pago (Módulo Cajero) \\
-        \hline
-        RF-03 & Alertar sobre productos en stock crítico y generar órdenes de compra a proveedores. & CUS-03: Gestionar Abastecimiento & OrdenCompra, DetalleOrdenCompra, Proveedor, Producto, Inventario & Pantalla de Abastecimiento (Módulo Administrador) \\
-        \hline
-        RF-04 & Registrar el ingreso físico de mercancía comparando lo esperado y actualizando inventario. & CUS-04: Registrar Ingreso de Mercancía & IngresoAlmacen, DetalleIngreso, OrdenCompra, Inventario, Producto & Pantalla de Recepción de Almacén (Módulo Almacén) \\
-        \hline
-        RNF-01 & Restringir el acceso al sistema según el rol del usuario mediante autenticación segura. & CUS-General: Autenticación y Control de Acceso & Usuario, Rol, Sesión & Pantalla de Login (Módulo General) \\
-        \hline
-    \end{tabularx}
-\end{table}
+    \includegraphics[width=0.95\textwidth]{media/Matriz de Trazabilidad.png}
+    \label{fig:matriz_trazabilidad}
+    
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Consolidación visual de la relación entre los requerimientos (RF/RNF), Casos de Uso del Sistema (CUS), las clases del dominio implicadas y los módulos de pantalla asociados.\par}
+\end{figure}
 
 \section{Cap\'itulo 8: Dise\~no de la Soluci\'on (Avance Final)}
 

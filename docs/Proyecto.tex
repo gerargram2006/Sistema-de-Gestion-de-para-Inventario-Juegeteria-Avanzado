@@ -203,9 +203,9 @@ Laravel, Eloquent, juguetería.
 % ============================================================
 % CAPÍTULO 1
 % ============================================================
-\section{Capítulo 1: Avance 1 - Organización y Problemática}
+\section{Cap\'itulo 1: Avance 1 - Organizaci\'on y Problem\'atica}
 
-\subsection{Problemática}
+\subsection{Problem\'atica}
 
 La gestión de inventarios en una juguetería minorista enfrenta desafíos
 críticos debido a la alta rotación de productos y la diversidad de categorías
@@ -229,7 +229,7 @@ eficiencia del negocio:
 \end{itemize}
 
 % ============================================================
-\subsection{Importancia de la Solución}
+\subsection{Importancia de la Soluci\'on}
 
 El Sistema de Gestión de Inventario para juguetería resolverá la fragmentación
 de datos mediante la centralización de operaciones en una aplicación web
@@ -240,7 +240,7 @@ preciso de existencias y portabilidad, requiriendo únicamente un servidor web
 con PHP y un gestor de base de datos MySQL.
 
 % ============================================================
-\subsection{Delimitación de Objetivos}
+\subsection{Delimitaci\'on de Objetivos}
 
 \subsection{Objetivo General}
 
@@ -249,7 +249,7 @@ gestión de inventario de una juguetería, optimizando el control de productos,
 stock y categorías mediante una arquitectura modular orientada a objetos que
 garantice la integridad y persistencia de la información.
 
-\subsection{Objetivos Específicos}
+\subsection{Objetivos Espec\'ificos}
 
 \begin{itemize}
   \item Modelar el dominio del negocio de la juguetería mediante los pilares
@@ -261,7 +261,7 @@ garantice la integridad y persistencia de la información.
 \end{itemize}
 
 % ============================================================
-\section{Capítulo 2: Avance 2 - Marco Teórico}
+\section{Cap\'itulo 2: Avance 2 - Marco Te\'orico}
 
 Para fundamentar la construcción del software bajo estándares técnicos de la
 industria, se describen las tecnologías y conceptos asociados a PHP y Laravel
@@ -285,11 +285,11 @@ que constituirán la estructura del sistema (PHP Documentation Group, 2024):
 \end{description}
 
 % ============================================================
-\section{Capítulo 3: Avances 3 y 4 - Casos de Uso del Negocio}
+\section{Cap\'itulo 3: Avances 3 y 4 - Casos de Uso del Negocio}
 
 Esta sección detalla los casos de uso, los trabajadores, las entidades clave y los requerimientos del sistema para la juguetería.
 
-\subsection{Diagramas y Especificación de Casos de Uso}
+\subsection{Diagramas y Especificaci\'on de Casos de Uso}
 
 
 \begin{figure}[H]
@@ -461,7 +461,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 
 \begin{table}[H]
   \centering
-  \caption{Caso de uso CUN-05: Flujo de venta y reposición (trabajadores del negocio)}
+  \caption{Caso de uso CUN-05: Flujo de venta y reposici\'on (trabajadores del negocio)}
   \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Flujo de venta y reposición (trabajadores del negocio) \\
@@ -490,7 +490,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \end{table}
 
 \begin{figure}[H]
-    \caption{Diagrama de Actividades - CUN-05: Flujo de Venta y Reposición (Trabajadores de negocio)}
+    \caption{Diagrama de Actividades - CUN-05: Flujo de Venta y Reposici\'on (Trabajadores de negocio)}
     \label{fig:act_cun05}
     \centering
     \includegraphics[height=3.1in,keepaspectratio]{media/image22}
@@ -500,7 +500,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 
 \begin{table}[H]
   \centering
-  \caption{Caso de uso CUN-06: Flujo de venta y reposición (actores externos de negocio)}
+  \caption{Caso de uso CUN-06: Flujo de venta y reposici\'on (actores externos de negocio)}
   \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
     \hline
     Caso & Flujo de venta y reposición (actores externos de negocio) \\
@@ -527,7 +527,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
 \end{table}
 
 \begin{figure}[H]
-    \caption{Diagrama de Actividades - CUN-06: Flujo de Venta y Reposición (Actores externos de negocio)}
+    \caption{Diagrama de Actividades - CUN-06: Flujo de Venta y Reposici\'on (Actores externos de negocio)}
     \label{fig:act_cun06}
     \centering
     \includegraphics[height=3.1in,keepaspectratio]{media/image23}
@@ -535,7 +535,7 @@ Las tablas siguientes detallan los seis casos de uso del sistema. Para facilitar
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representación de la secuencia de acciones para los clientes y proveedores.
 \end{figure}
 
-\section{Capítulo 4: Avance 5 - Modelo de Negocio (Parte 3)}
+\section{Cap\'itulo 4: Avance 5 - Modelo de Negocio (Parte 3)}
 
 \subsection{Diagrama de Clases de Negocio}
 
@@ -601,10 +601,10 @@ El diagrama de clases de negocio representa de manera gráfica la interacción d
 
 De acuerdo con la normativa operativa del sistema de gestión para la juguetería, se han identificado y descrito las siguientes reglas de negocio fundamentales:
 
-\subsubsection{Regla de estímulo y respuesta (RN-01)}
+\subsubsection{Regla de est\'imulo y respuesta (RN-01)}
 Si el proveedor no confirma la solicitud de abastecimiento en un plazo máximo de 72 horas, el sistema genera automáticamente una alerta de retraso de pedido y la notifica al panel del Administrador para que tome acciones preventivas.
 
-\subsubsection{Regla de operación (RN-02)}
+\subsubsection{Regla de operaci\'on (RN-02)}
 Para concretar y registrar una venta en el sistema, el Vendedor o Cajero debe haber iniciado sesión de manera autenticada, y el producto seleccionado debe contar con un nivel de stock disponible mayor a cero en el registro físico del almacén.
 
 \subsubsection{Regla de estructura (RN-03)}
@@ -613,7 +613,7 @@ Por cada transacción de venta completada, el sistema genera de forma obligatori
 \subsubsection{Regla de inferencia (RN-04)}
 Un juguete o producto cuyo inventario físico no presente ningún movimiento de salida (cero ventas) durante un periodo continuo de 6 meses, es catalogado y etiquetado lógicamente por el sistema como «Producto de baja rotación» para posteriores auditorías.
 
-\subsubsection{Regla de cálculo (RN-05)}
+\subsubsection{Regla de c\'alculo (RN-05)}
 El cálculo del monto total de una venta se obtiene sumando los subtotales de cada ítem en el detalle de la venta. El subtotal de cada ítem se define mediante la fórmula matemática: \\
 \textbf{Subtotal = Precio Unitario $\times$ Cantidad}\\
 \textit{Nota: El Impuesto General a las Ventas (IGV del 18\%) ya se encuentra gravado e incluido en el Precio Unitario final del catálogo.}
@@ -622,7 +622,7 @@ El cálculo del monto total de una venta se obtiene sumando los subtotales de ca
 % REQUERIMIENTOS FUNCIONALES Y NO FUNCIONALES
 % ============================================================
 \clearpage
-\section{Capítulo 5: Avance 6 - Actividades de Requerimientos}
+\section{Cap\'itulo 5: Avance 6 - Actividades de Requerimientos}
 
 \subsection{Requerimientos Funcionales}
 
@@ -673,7 +673,7 @@ relacionar cada grupo con su caso de uso.
   \item \textbf{RF-21: Generación de Notas y Actualización de Inventario por Devolución:} El sistema debe actualizar de forma automática el inventario o generar la nota de crédito/débito correspondiente según la solución aplicada a la devolución.
 \end{itemize}
 
-\subsubsection{CUN-05: Flujo de Venta y Reposición}
+\subsubsection{CUN-05: Flujo de Venta y Reposici\'on}
 
 \begin{itemize}
   \item \textbf{RF-22: Registro de Venta y Descuento Automático:} El sistema debe permitir al vendedor registrar la venta de los juguetes y descontar de forma automática las existencias del stock.
@@ -708,7 +708,7 @@ un número de dos dígitos.
   \item \textbf{RNF-06: Resguardo y Respaldo de la Información:} El sistema debe programar copias de seguridad automáticas todos los días (abarcando catálogos, registros de ventas y auditorías) para prevenir pérdidas de datos ante imprevistos técnicos o cortes imprevistos de energía.
 \end{itemize}
 
-\subsection{Planificación del Análisis de Requerimientos: Diagrama de Gantt}
+\subsection{Planificaci\'on del An\'alisis de Requerimientos: Diagrama de Gantt}
 
 La planificación se organiza del 1 de abril al 2 de mayo de 2026 y considera
 actividades de levantamiento, modelado, validación y registro. La duración de
@@ -814,7 +814,7 @@ que permite visualizar el avance de cada tarea y sus dependencias.
 
     \end{tikzpicture}%
   }
-  \caption{Diagrama de Gantt para la planificación del análisis de
+  \caption{Diagrama de Gantt para la planificaci\'on del an\'alisis de
   requerimientos.}
   \label{fig:gantt_analisis_requerimientos}
   \par\vspace{1ex}
@@ -913,7 +913,7 @@ requerimiento es necesario para el funcionamiento del sistema.
 % CAPÍTULO 6: CASOS DE USO DEL SISTEMA (LABORATORIO 07)
 % ============================================================
 \clearpage
-\section{Capítulo 6: Casos de Uso del Sistema (Laboratorio 07)}
+\section{Cap\'itulo 6: Casos de Uso del Sistema (Laboratorio 07)}
 
 \subsection{Actores del Sistema}
 A continuación, se identifican los actores que interactúan con el sistema de la juguetería:
@@ -931,7 +931,7 @@ La siguiente tabla presenta los Casos de Uso del Sistema identificados, junto co
 
 \begin{table}[H]
     \centering
-    \caption{Identificación y priorización de Casos de Uso del Sistema}
+    \caption{Identificaci\'on y priorizaci\'on de Casos de Uso del Sistema}
     \begin{tabular}{|>{\bfseries}p{2.5cm}|p{3.5cm}|p{6.5cm}|p{2cm}|}
         \hline
         Código CUS & Nombre del Caso de Uso & Descripción Breve & Prioridad \\
@@ -993,14 +993,14 @@ El diagrama modela el flujo transaccional y monetario del negocio, destacando la
     \label{fig:cus_cajero}
 \end{figure}
 
-\subsubsection{Diagrama de CUS para el Actor ``Encargado de Almacén''}
+\subsubsection{Diagrama de CUS para el Actor ``Encargado de Almac\'en''}
 La siguiente representación gráfica expone las responsabilidades logísticas del encargado de almacén, focalizándose primordialmente en el registro y validación de la recepción de mercancía para mantener la precisión del stock.
 
 % ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
     \vspace{0.5cm} % ESPACIO PARA EL DIAGRAMA
-    \caption{Diagrama de CUS para el actor Encargado de Almacén.}
+    \caption{Diagrama de CUS para el actor Encargado de Almac\'en.}
     \includegraphics[width=0.85\textwidth]{media/CUS-04.png}
     \label{fig:cus_almacen}
 \end{figure}
@@ -1010,11 +1010,11 @@ La siguiente representación gráfica expone las responsabilidades logísticas d
 % CAPÍTULO 7: DETALLE DE LOS CASOS DE USO DEL SISTEMA Y PROTOTIPADO
 % ============================================================
 \clearpage
-\section{Capítulo 7: Detalle de los Casos de Uso del Sistema y Prototipado}
+\section{Cap\'itulo 7: Detalle de los Casos de Uso del Sistema y Prototipado}
 
 En este capítulo se desarrollan las especificaciones de bajo nivel para los Casos de Uso del Sistema (CUS), detallando precondiciones, postcondiciones y flujos básicos y alternos. Asimismo, se presenta el prototipado de interfaces (UI/UX) y la matriz de trazabilidad que vincula los requerimientos con las clases del dominio y las pantallas diseñadas.
 
-\subsection{Especificación de Bajo Nivel}
+\subsection{Especificaci\'on de Bajo Nivel}
 
 \subsubsection{Ficha CUS-01: Registrar Venta}
 
@@ -1146,7 +1146,7 @@ En este capítulo se desarrollan las especificaciones de bajo nivel para los Cas
     \end{longtable}
 
 
-\subsubsection{Ficha CUS-04: Registrar Ingreso de Mercancía}
+\subsubsection{Ficha CUS-04: Registrar Ingreso de Mercanc\'ia}
 
         \begin{longtable}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
         \hline
@@ -1195,7 +1195,7 @@ En esta sección se presentan las propuestas de interfaces de usuario (UI) que h
 
 \begin{figure}[H]
     \centering
-    \caption{Prototipo UI/UX: Pestaña LOGIN.}
+    \caption{Prototipo UI/UX: Pesta\~na LOGIN.}
     \includegraphics[width=0.85\textwidth]{media/prototipo3.png}
     \label{fig:proto_login}
 
@@ -1204,7 +1204,7 @@ En esta sección se presentan las propuestas de interfaces de usuario (UI) que h
 
 \begin{figure}[H]
     \centering
-    \caption{Prototipo UI/UX: Pestaña REGISTRAR VENTA.}
+    \caption{Prototipo UI/UX: Pesta\~na REGISTRAR VENTA.}
     \includegraphics[width=0.85\textwidth]{media/prototipo1.png}
     \label{fig:proto_venta}
 
@@ -1213,7 +1213,7 @@ En esta sección se presentan las propuestas de interfaces de usuario (UI) que h
 
 \begin{figure}[H]
     \centering
-    \caption{Prototipo UI/UX: Pestaña PAGO.}
+    \caption{Prototipo UI/UX: Pesta\~na PAGO.}
     \includegraphics[width=0.85\textwidth]{media/prototipo2.png}
     \label{fig:proto_pago}
 
@@ -1222,7 +1222,7 @@ En esta sección se presentan las propuestas de interfaces de usuario (UI) que h
 
 \begin{figure}[H]
     \centering
-    \caption{Prototipo UI/UX: Pestaña ABASTECIMIENTO.}
+    \caption{Prototipo UI/UX: Pesta\~na ABASTECIMIENTO.}
     \includegraphics[width=0.85\textwidth]{media/prototipo6.png}
     \label{fig:proto_abastecimiento}
 
@@ -1231,7 +1231,7 @@ En esta sección se presentan las propuestas de interfaces de usuario (UI) que h
 
 \begin{figure}[H]
     \centering
-    \caption{Prototipo UI/UX: Pestaña ALMACÉN.}
+    \caption{Prototipo UI/UX: Pesta\~na ALMAC\'EN.}
     \includegraphics[width=0.85\textwidth]{media/prototipo4.png}
     \label{fig:proto_almacen}
 
@@ -1239,7 +1239,7 @@ En esta sección se presentan las propuestas de interfaces de usuario (UI) que h
 \end{figure}
 
 
-\subsection{Diagramado e Integración del Modelo de Dominio}
+\subsection{Diagramado e Integraci\'on del Modelo de Dominio}
 
 A partir de la especificación detallada de los Casos de Uso del Sistema (CUS), se han identificado las entidades y clases conceptuales fundamentales para el negocio. Este proceso permite definir los atributos clave de cada entidad, así como establecer las relaciones y sus respectivas multiplicidades (por ejemplo, 1..1, 1..*, 0..*) para garantizar la integridad y coherencia de los datos en la futura base de datos.
 
@@ -1247,7 +1247,7 @@ En la siguiente figura se detalla el diagrama que integra el modelo de dominio c
 
 \begin{figure}[H]
     \centering
-    \caption{Diagrama e Integración del Modelo de Dominio.}
+    \caption{Diagrama e Integraci\'on del Modelo de Dominio.}
     \includegraphics[width=0.95\textwidth]{media/Diagrama e Integracion del Modelo de Dominio.png}
     \label{fig:modelo_dominio_cus}
     
@@ -1278,7 +1278,7 @@ La matriz de trazabilidad consolida la relación entre los requerimientos (RF/RN
     \end{tabularx}
 \end{table}
 
-\section{Capítulo 8: Diseño de la Solución (Avance Final)}
+\section{Cap\'itulo 8: Dise\~no de la Soluci\'on (Avance Final)}
 
 \subsection{Diagrama de Clases UML (Estructura de Paquetes)}
 
@@ -1339,7 +1339,7 @@ tipos de datos:
 
 \begin{figure}[H]
   \centering
-  \caption{Diagrama entidad-relación (ERD conceptual).}
+  \caption{Diagrama entidad-relaci\'on (ERD conceptual).}
   \includegraphics[width=0.85\textwidth]{image7.jpeg}
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Muestra las relaciones entre las entidades principales de la base de datos.
@@ -1348,7 +1348,7 @@ tipos de datos:
 \clearpage
 
 
-\section{Capítulo 9: Estrategia de GIT y Conclusiones}
+\section{Cap\'itulo 9: Estrategia de GIT y Conclusiones}
 
 \subsection{Estrategia de GIT y Repositorio}
 

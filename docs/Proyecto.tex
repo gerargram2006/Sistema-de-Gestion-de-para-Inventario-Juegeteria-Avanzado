@@ -1373,21 +1373,24 @@ avance del equipo.
 \clearpage
 \section{Conclusiones}
 
-El desarrollo integral de la ingeniería de requerimientos para `Mundo del Juguete'' ha demostrado ser un pilar fundamental para garantizar el éxito en la futura implementación del sistema. Inicialmente, la construcción del modelo de negocio (CUN y diagramas de clases) permitió aterrizar la visión gerencial, estructurando de manera lógica y coherente las operaciones cotidianas de la empresa y alineando las necesidades operativas de los trabajadores (vendedores, cajeros, almaceneros) con los objetivos estratégicos del negocio.
+Tras concluir la etapa de modelado e ingeniería de requerimientos para el sistema de la juguetería ``Mundo del Juguete'', se establecen las siguientes conclusiones fundamentales:
 
-Esta sólida base conceptual facilitó una transición fluida hacia el diseño de la solución técnica mediante los Casos de Uso del Sistema (CUS). A través de las especificaciones de bajo nivel y la exploración sistemática de flujos básicos y alternativos, se logró desglosar operaciones complejas ---como el registro de ventas, el procesamiento de pagos y el control riguroso de inventario--- en reglas de negocio programables. Este enfoque no solo valida la viabilidad de automatizar los procesos, sino que establece directrices preventivas para el manejo de excepciones, asegurando la integridad de los datos desde las primeras fases del desarrollo.
-
-Adicionalmente, la incorporación de prototipos visuales (UI/UX) y la matriz de trazabilidad han cerrado de manera efectiva la brecha entre la abstracción de los requisitos y la experiencia final del usuario. Al vincular directamente cada requerimiento funcional y clase de dominio con una pantalla específica, se evidencia que el sistema diseñado responde de forma íntegra a las necesidades planteadas. Finalmente, se concluye que la aplicación metódica del estándar UML y metodologías ágiles a lo largo de este proyecto proporciona un marco de trabajo altamente robusto y preparado para dar inicio a la etapa de codificación y despliegue técnico de la solución.
+\begin{itemize}
+    \item \textbf{Traducción exacta de las reglas de negocio:} La especificación detallada de los Casos de Uso del Sistema (CUS) ha permitido transformar las operaciones lógicas de la juguetería en comportamientos exactos y medibles. Esto asegura que procesos críticos, como el cálculo del vuelto, la reposición de stock y el control de accesos, posean un flujo de trabajo sin ambigüedades, dejando todo preparado para la codificación.
+    \item \textbf{Robustez estructural mediante el Modelo de Dominio:} La derivación del Diagrama de Dominio a partir de los CUS validó la viabilidad estructural del sistema. Al definir de forma temprana entidades como \emph{Venta, Producto, Cliente} y \emph{OrdenCompra} junto con sus multiplicidades, se garantiza que la futura base de datos relacional reflejará fielmente la operativa diaria sin sufrir redundancia ni pérdida de integridad de datos.
+    \item \textbf{Alineación absoluta con la experiencia del usuario:} El diseño de prototipos visuales (UI/UX) integrados a través de la Matriz de Trazabilidad demostró ser el mecanismo ideal para unir los Requisitos Funcionales (RF) abstractos con la interfaz final. Esta matriz certifica que ninguna necesidad del cliente quedó excluida y que cada pantalla desarrollada (Ventas, Abastecimiento, Almacén) tiene un propósito técnico y comercial totalmente justificado.
+\end{itemize}
 
 % ============================================================
 \section{Recomendaciones}
 
+Para garantizar una transición exitosa hacia las etapas de desarrollo e implementación técnica (usando frameworks como Laravel y bases de datos relacionales), se recomiendan las siguientes acciones:
+
 \begin{itemize}
-    \item Fomentar la iteración constante del modelo de requerimientos utilizando los Casos de Uso del Sistema (CUS) como base para el diseño de prototipos e interfaces de usuario, asegurando que las pantallas respondan a la fluidez exigida por los vendedores y cajeros.
-    \item Priorizar el desarrollo de los módulos de mayor criticidad, como el \texttt{Registro de Ventas} y el \texttt{Control de Inventario}, durante los primeros \textit{sprints} de implementación para entregar valor temprano y facilitar pruebas en un entorno comercial real.
-    \item Diseñar un plan de capacitación dirigido al personal (vendedores, cajeros y encargados de almacén) basado en los flujos operativos aquí documentados, con el objetivo de minimizar la resistencia al cambio y acortar la curva de aprendizaje frente al nuevo sistema automatizado.
-    \item Mantener una trazabilidad rigurosa entre el modelo relacional de la base de datos (ERD) y el diagrama de clases de negocio, verificando que los esquemas de datos soporten adecuadamente las reglas de negocio de cálculos (ej. IGV, subtotales) y estructurales (políticas de stock).
-    \item Planificar auditorías de software y pruebas de aceptación (\textit{UAT}) de la mano con la matriz de trazabilidad, a fin de garantizar que el aplicativo final cumpla estrictamente con los 31 requerimientos funcionales y satisfaga los 6 requerimientos no funcionales (desempeño, seguridad, usabilidad).
+    \item \textbf{Auditoría continua con la Matriz de Trazabilidad:} Utilizar la matriz generada en este documento como la principal herramienta de validación durante todo el ciclo de desarrollo. Cualquier nueva funcionalidad o cambio de alcance solicitado por la gerencia debe ser mapeado en esta matriz antes de iniciar su programación.
+    \item \textbf{Validación de prototipos con usuarios finales:} Someter los diseños UI/UX presentados a sesiones de validación directa con los vendedores y cajeros reales de ``Mundo del Juguete''. Esto permitirá ajustar la ergonomía visual (tamaño de botones, contrastes y atajos de teclado) antes de gastar recursos en la codificación del \textit{Frontend}.
+    \item \textbf{Fidelidad estricta al Modelo de Dominio:} Durante la construcción del esquema de base de datos (migraciones), los programadores deben respetar rigurosamente las dependencias y multiplicidades establecidas en el modelo de dominio. Prestar especial cuidado a la relación transaccional entre el \emph{Inventario} y el \emph{Detalle de Venta} para evitar descuadres en el stock físico.
+    \item \textbf{Desarrollo iterativo basado en prioridad:} Iniciar la fase de desarrollo priorizando los módulos centrales identificados en los CUS principales (\texttt{Registro de Ventas} y \texttt{Gestión de Abastecimiento}), dejando los reportes gerenciales o submódulos administrativos para iteraciones posteriores (enfoque ágil).
 \end{itemize}
 
 % ============================================================

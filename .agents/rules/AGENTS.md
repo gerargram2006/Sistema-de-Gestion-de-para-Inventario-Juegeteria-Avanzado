@@ -3,7 +3,7 @@
 ## Contexto del Repositorio
 - Entregable del curso de Ingeniería de Requerimientos de TECSUP ("Modelo de negocio, Parte 3").
 - El contenido principal es un documento LaTeX **`docs/Proyecto.tex`** (APA 7.ª edición, Español) junto con sus imágenes en `docs/media/`.
-- El directorio `src/` se encuentra vacío; la aplicación Laravel/PHP es trabajo a futuro.
+- La aplicación web Laravel/PHP se encuentra en la raíz del repositorio (`app/`, `config/`, `routes/`, etc.).
 
 ## Compilación y Verificación
 - El PDF debe compilarse desde `docs/` ejecutando pdflatex **dos veces** (para actualizar el índice dinámico y las referencias cruzadas):

@@ -950,7 +950,7 @@ La siguiente tabla presenta los Casos de Uso del Sistema identificados, junto co
         \hline
     \end{tabular}
     \par\vspace{1ex}
-    \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026).
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Clasificación de prioridades y alcance operativo de los Casos de Uso del Sistema para la juguetería.\par}
 \end{table}
 
 \subsection{Diagramas de Casos de Uso del Sistema}
@@ -960,49 +960,49 @@ En esta sección se insertarán los diagramas correspondientes a los actores pri
 \subsubsection{Diagrama de CUS para el Actor ``Vendedor''}
 El presente diagrama detalla las interacciones del vendedor con el sistema, centralizando sus funciones en el procesamiento directo de las ventas y la consulta de existencias, evidenciando así su rol operativo en el salón de ventas.
 
-% ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
-    \vspace{0.5cm} % ESPACIO PARA EL DIAGRAMA
     \caption{Diagrama de CUS para el actor Vendedor.}
     \includegraphics[width=0.85\textwidth]{media/CUS-01.png}
     \label{fig:cus_vendedor}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diagrama de casos de uso del sistema que modela el rol del vendedor en la atención y registro de transacciones comerciales.\par}
 \end{figure}
 
 \subsubsection{Diagrama de CUS para el Actor ``Administrador''}
 Este esquema conceptualiza el alto nivel de acceso del administrador, abarcando operaciones gerenciales críticas como la gestión del abastecimiento, el control auditor de inventario y la emisión de directrices operativas.
 
-% ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
-    \vspace{0.5cm} % ESPACIO PARA EL DIAGRAMA
     \caption{Diagrama de CUS para el actor Administrador.}
     \includegraphics[width=0.85\textwidth]{media/CUS-02.png}
     \label{fig:cus_administrador}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diagrama de casos de uso del sistema que representa el rol del administrador en la toma de decisiones y control de abastecimiento.\par}
 \end{figure}
 
 \subsubsection{Diagrama de CUS para el Actor ``Cajero''}
 El diagrama modela el flujo transaccional y monetario del negocio, destacando la responsabilidad exclusiva del cajero en el cálculo automatizado, cobro y la emisión legal de comprobantes de pago de manera eficiente.
 
-% ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
-    \vspace{0.5cm} % ESPACIO PARA EL DIAGRAMA
     \caption{Diagrama de CUS para el actor Cajero.}
     \includegraphics[width=0.85\textwidth]{media/CUS-03.png}
     \label{fig:cus_cajero}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diagrama de casos de uso del sistema que detalla las funciones del cajero en la cobranza y facturación de ventas.\par}
 \end{figure}
 
 \subsubsection{Diagrama de CUS para el Actor ``Encargado de Almac\'en''}
 La siguiente representación gráfica expone las responsabilidades logísticas del encargado de almacén, focalizándose primordialmente en el registro y validación de la recepción de mercancía para mantener la precisión del stock.
 
-% ESPACIO PARA CÓDIGO O IMAGEN DEL DIAGRAMA
 \begin{figure}[H]
     \centering
-    \vspace{0.5cm} % ESPACIO PARA EL DIAGRAMA
     \caption{Diagrama de CUS para el actor Encargado de Almac\'en.}
     \includegraphics[width=0.85\textwidth]{media/CUS-04.png}
     \label{fig:cus_almacen}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diagrama de casos de uso del sistema que ilustra las actividades operativas y logísticas del encargado de almacén.\par}
 \end{figure}
 
 
@@ -1019,7 +1019,12 @@ En este capítulo se desarrollan las especificaciones de bajo nivel para los Cas
 \subsubsection{Ficha CUS-01: Registrar Venta}
 
         \begin{longtable}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+        \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-01 Registrar Venta.} \label{tab:cus_01} \\
         \hline
+        \endfirsthead
+        \multicolumn{2}{c}{\tablename~\thetable: Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-01 Registrar Venta (continuaci\'on)}\\
+        \hline
+        \endhead
         Nombre & Registrar Venta \\
         \hline
         Actor(es) & Vendedor \\
@@ -1057,12 +1062,19 @@ En este capítulo se desarrollan las especificaciones de bajo nivel para los Cas
         \end{itemize}\vspace{-0.3cm}} \\
         \hline
     \end{longtable}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación técnica detallada de precondiciones, postcondiciones y flujo transaccional para el caso de uso CUS-01.\par}
 
 
 \subsubsection{Ficha CUS-02: Procesar Pago y Emitir Comprobante}
 
         \begin{longtable}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+        \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-02 Procesar Pago y Emitir Comprobante.} \label{tab:cus_02} \\
         \hline
+        \endfirsthead
+        \multicolumn{2}{c}{\tablename~\thetable: Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-02 Procesar Pago y Emitir Comprobante (continuaci\'on)}\\
+        \hline
+        \endhead
         Nombre & Procesar Pago y Emitir Comprobante \\
         \hline
         Actor(es) & Cajero \\
@@ -1101,12 +1113,19 @@ En este capítulo se desarrollan las especificaciones de bajo nivel para los Cas
         \end{itemize}\vspace{-0.3cm}} \\
         \hline
     \end{longtable}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación detallada de transacciones, validaciones de pago y emisión de comprobantes para el caso de uso CUS-02.\par}
 
 
 \subsubsection{Ficha CUS-03: Gestionar Abastecimiento de Productos}
 
         \begin{longtable}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+        \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-03 Gestionar Abastecimiento de Productos.} \label{tab:cus_03} \\
         \hline
+        \endfirsthead
+        \multicolumn{2}{c}{\tablename~\thetable: Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-03 Gestionar Abastecimiento de Productos (continuaci\'on)}\\
+        \hline
+        \endhead
         Nombre & Gestionar Abastecimiento de Productos \\
         \hline
         Actor(es) & Administrador \\
@@ -1144,12 +1163,19 @@ En este capítulo se desarrollan las especificaciones de bajo nivel para los Cas
         \end{itemize}\vspace{-0.3cm}} \\
         \hline
     \end{longtable}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal de las políticas de reposición de existencias y emisión de órdenes de compra para el caso de uso CUS-03.\par}
 
 
 \subsubsection{Ficha CUS-04: Registrar Ingreso de Mercanc\'ia}
 
         \begin{longtable}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+        \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-04 Registrar Ingreso de Mercanc\'ia.} \label{tab:cus_04} \\
         \hline
+        \endfirsthead
+        \multicolumn{2}{c}{\tablename~\thetable: Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-04 Registrar Ingreso de Mercanc\'ia (continuaci\'on)}\\
+        \hline
+        \endhead
         Nombre & Registrar Ingreso de Mercancía \\
         \hline
         Actor(es) & Encargado de Almacén \\
@@ -1187,6 +1213,8 @@ En este capítulo se desarrollan las especificaciones de bajo nivel para los Cas
         \end{itemize}\vspace{-0.3cm}} \\
         \hline
     \end{longtable}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Ficha de especificación para la recepción de mercancía y conciliación de inventario en almacén para el caso de uso CUS-04.\par}
 
 
 \subsection{Prototipado UI/UX Vinculado}
@@ -1344,7 +1372,7 @@ tipos de datos:
 El avance y control de versiones del proyecto se mantendrán de forma
 transparente y colaborativa en la plataforma de alojamiento seleccionada. A la
 fecha, el proyecto cuenta con un registro sólido de alrededor de
-\textbf{41 commits} que evidencian el trabajo constante y la integración de
+\textbf{m\'as de 70 commits} que evidencian el trabajo constante y la integración de
 funcionalidades por parte del equipo. Se configuró un archivo \emph{.gitignore}
 en la raíz del espacio de trabajo para evitar la carga de metadatos locales de
 los entornos de desarrollo (IDE), asegurando un repositorio limpio de código

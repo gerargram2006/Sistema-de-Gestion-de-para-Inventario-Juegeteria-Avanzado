@@ -1,35 +1,48 @@
+# Dependencias y paquetes
 /vendor/
-node_modules/
+/node_modules/
 npm-debug.log
 yarn-error.log
 
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
-
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-
-# Laravel 5 & Lumen specific with changed public path
-public_html/storage
-public_html/hot
-
-storage/*.key
+# Entorno y credenciales
 .env
-Homestead.yaml
-Homestead.json
-/.vagrant
-.phpunit.result.cache
-
-/public/build
-/storage/pail
 .env.backup
 .env.production
-.phpactor.json
 auth.json
 
-# LaTeX (archivos generados automáticamente)
+# Laravel (archivos generados y cache)
+/public/build
+/public/hot
+/public/storage
+storage/*.key
+/storage/pail
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+/.vagrant
+
+# Herramientas de desarrollo y editores
+.phpactor.json
+/.fleet
+/.idea
+/.vscode
+
+# Archivos de compilación LaTeX (generados automáticamente)
+docs/*.aux
+docs/*.toc
+docs/*.lof
+docs/*.lot
+docs/*.out
+docs/*.log
+docs/*.fls
+docs/*.fdb_latexmk
+docs/*.synctex.gz
+docs/*.pdf
+docs/*.bbl
+docs/*.blg
+docs/*.bcf
+docs/*.run.xml
+docs/*.synctex(busy)
 *.aux
 *.toc
 *.lof
@@ -45,3 +58,8 @@ auth.json
 *.bcf
 *.run.xml
 Proyecto.synctex(busy)
+test_table*
+
+# Sistema Operativo
+.DS_Store
+Thumbs.db

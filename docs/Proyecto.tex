@@ -78,8 +78,8 @@
 \usepackage{booktabs}
 \usepackage{etoolbox}
 \usepackage{caption}
-\captionsetup{labelsep=period, labelfont=bf, textfont=it, skip=6pt}
-\captionsetup[figure]{font=small, justification=raggedright, singlelinecheck=false, labelsep=newline}
+\captionsetup{labelsep=period, labelfont=bf, textfont=it, skip=6pt, hypcap=false}
+\captionsetup[figure]{font=small, justification=raggedright, singlelinecheck=false, labelsep=newline, hypcap=false}
 \captionsetup[table]{position=above}
 \AtBeginEnvironment{figure}{\singlespacing\setlength{\parindent}{0pt}}
 \AtBeginEnvironment{tabular}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}}
@@ -1387,7 +1387,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 
 \noindent\begin{minipage}[t]{0.38\linewidth}
 \vspace{0pt}
-\small \singlespacing
+\small \singlespacing \raggedright
 \textbf{Registro de venta}
 
 \medskip
@@ -1407,9 +1407,8 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{minipage}\hfill
 \begin{minipage}[t]{0.60\linewidth}
 \vspace{0pt}
-\begin{figure}[H]
 \centering
-\caption{Diagrama de secuencia del CUS-01: Registrar Venta.}
+\captionof{figure}{Diagrama de secuencia del CUS-01: Registrar Venta.}
 \label{fig:seq_cus01}
 \resizebox{\linewidth}{!}{%
 \begin{tikzpicture}
@@ -1430,7 +1429,6 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{tikzpicture}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Interacci\'on entre el vendedor, la interfaz \texttt{CI\_Venta}, el control de proceso y las entidades de dominio.\par}
-\end{figure}
 \end{minipage}
 
 \clearpage
@@ -1439,7 +1437,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 
 \noindent\begin{minipage}[t]{0.38\linewidth}
 \vspace{0pt}
-\small \singlespacing
+\small \singlespacing \raggedright
 \textbf{Proceso de pago}
 
 \medskip
@@ -1459,9 +1457,8 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{minipage}\hfill
 \begin{minipage}[t]{0.60\linewidth}
 \vspace{0pt}
-\begin{figure}[H]
 \centering
-\caption{Diagrama de secuencia del CUS-02: Procesar Pago y Emitir Comprobante.}
+\captionof{figure}{Diagrama de secuencia del CUS-02: Procesar Pago y Emitir Comprobante.}
 \label{fig:seq_cus02}
 \resizebox{\linewidth}{!}{%
 \begin{tikzpicture}
@@ -1482,7 +1479,6 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{tikzpicture}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes del cajero para la verificaci\'on de venta, cobro de fondos y emisi\'on legal del comprobante.\par}
-\end{figure}
 \end{minipage}
 
 \clearpage
@@ -1491,7 +1487,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 
 \noindent\begin{minipage}[t]{0.38\linewidth}
 \vspace{0pt}
-\small \singlespacing
+\small \singlespacing \raggedright
 \textbf{Abastecimiento de productos}
 
 \medskip
@@ -1511,9 +1507,8 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{minipage}\hfill
 \begin{minipage}[t]{0.60\linewidth}
 \vspace{0pt}
-\begin{figure}[H]
 \centering
-\caption{Diagrama de secuencia del CUS-03: Gestionar Abastecimiento.}
+\captionof{figure}{Diagrama de secuencia del CUS-03: Gestionar Abastecimiento.}
 \label{fig:seq_cus03}
 \resizebox{\linewidth}{!}{%
 \begin{tikzpicture}
@@ -1534,7 +1529,6 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{tikzpicture}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Secuencia para la consulta de inventario cr\'itico, c\'alculo presupuestal y generaci\'on de la orden de compra.\par}
-\end{figure}
 \end{minipage}
 
 \clearpage
@@ -1543,32 +1537,31 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 
 \noindent\begin{minipage}[t]{0.36\linewidth}
 \vspace{0pt}
-\small \singlespacing
+\small \singlespacing \raggedright
 \textbf{Registro de recepci\'on}
 
-\medskip
+\smallskip
 \textbf{Objetivo:} Registrar el ingreso de mercader\'ia al almac\'en, manteniendo actualizados el stock, las ubicaciones y los movimientos de inventario.
 
-\medskip
+\smallskip
 \textbf{Participantes:}
-\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
+\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}
   \item \textbf{Actor:} Almacenero.
   \item \textbf{Interfaz:} \texttt{CI\_InterfazAlmacen}.
   \item \textbf{Controladores:} \texttt{CC\_GestorRecepciones}, \texttt{CP\_Inventario}, \texttt{CC\_ControladorLogistico}.
   \item \textbf{Entidades:} \texttt{Articulo}, \texttt{Ubicacion}, \texttt{RegistroMovimiento}.
 \end{itemize}
 
-\medskip
-\textbf{Flujo b\'asico:} El almacenero ingresa la recepci\'on con sus \'items. La interfaz valida la recepci\'on y crea din\'amicamente al gestor de recepciones (\texttt{CC\_GestorRecepciones}), que inicia el registro formal. \texttt{CP\_Inventario} actualiza el stock en \texttt{Articulo} y recibe la confirmaci\'on. Luego verifica en \texttt{Ubicacion} que las ubicaciones sean v\'alidas y solicita al controlador log\'istico (\texttt{CC\_ControladorLogistico}) la verificaci\'on del empaque. Este procesa los datos del empaque y responde que est\'a verificado. Con todo validado, se registran los movimientos de art\'iculos en \texttt{RegistroMovimiento}, que devuelve el documento de recepci\'on. El control de inventario confirma el registro al gestor, este lo confirma a la interfaz (donde el gestor se destruye para liberar recursos) y finalmente se muestra el documento final al almacenero.
+\smallskip
+\textbf{Flujo b\'asico:} El almacenero ingresa la recepci\'on con sus \'items. La interfaz valida la recepci\'on y crea din\'amicamente al gestor (\texttt{CC\_GestorRecepciones}), que inicia el registro formal. \texttt{CP\_Inventario} actualiza el stock en \texttt{Articulo} y recibe la confirmaci\'on. Luego verifica en \texttt{Ubicacion} que las ubicaciones sean v\'alidas y solicita al controlador log\'istico (\texttt{CC\_ControladorLogistico}) la verificaci\'on del empaque. Este procesa los datos y responde que est\'a verificado. Con todo validado, se registran los movimientos en \texttt{RegistroMovimiento}, que devuelve el documento de recepci\'on. El control de inventario confirma el registro al gestor, este a la interfaz (donde el gestor se destruye para liberar recursos) y se muestra el documento final al almacenero.
 \end{minipage}\hfill
 \begin{minipage}[t]{0.62\linewidth}
 \vspace{0pt}
-\begin{figure}[H]
 \centering
-\caption{Diagrama de secuencia del CUS-04: Registrar Ingreso de Mercanc\'ia.}
+\captionof{figure}{Diagrama de secuencia del CUS-04: Registrar Ingreso de Mercanc\'ia.}
 \label{fig:seq_cus04}
 \renewcommand{\lf}{\scriptsize}
-\resizebox{\linewidth}{!}{%
+\resizebox{!}{0.54\textheight}{%
 \begin{tikzpicture}
   \def\A{0}\def\CI{4.7}\def\G{9.0}\def\P{12.8}\def\Ar{16.8}\def\U{20.0}\def\R{23.0}\def\L{26.6}
   \hActor{\A}{0}{Almacenero}
@@ -1606,7 +1599,6 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{tikzpicture}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes con creaci\'on din\'amica (\guillemotleft create\guillemotright), actualizaci\'on de stock, validaci\'on de empaque y liberaci\'on (\guillemotleft destroy\guillemotright) del gestor log\'istico.\par}
-\end{figure}
 \end{minipage}
 
 \end{landscape}

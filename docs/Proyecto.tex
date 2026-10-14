@@ -95,6 +95,68 @@
 % ---------- Diagramas TikZ ----------
 \usepackage{tikz}
 \usetikzlibrary{calc, arrows.meta}
+\usepackage{pdflscape}
+
+% ---------- Colores y macros para Diagramas de Secuencia ----------
+\definecolor{cBound}{RGB}{190,190,255}
+\definecolor{cProc}{RGB}{170,255,170}
+\definecolor{cEnt}{RGB}{255,170,170}
+\definecolor{cCtrl}{RGB}{255,255,150}
+\definecolor{cBar}{RGB}{125,205,240}
+\definecolor{cActor}{RGB}{200,150,215}
+
+\newcommand{\lf}{\scriptsize}
+\newcommand{\bw}{0.1}
+\newcommand{\lbl}[1]{\scriptsize\textrm{#1}}
+\tikzset{
+  lbl/.style={font=\lf, fill=white, inner sep=0.6pt},
+  msgline/.style={-{Stealth[length=1.6mm,width=1.2mm]}, line width=0.3pt},
+}
+\newcommand{\lifeline}[3]{\draw[dashed,gray,line width=0.3pt] (#1,#2)--(#1,#3);}
+\newcommand{\actbar}[4]{\fill[#4,draw=black!60,line width=0.3pt] (#1-\bw,#2) rectangle (#1+\bw,#3);}
+\newcommand{\tn}[1]{\underline{\texttt{: #1}}}
+\newcommand{\tnn}[2]{\underline{\texttt{: #1}}\\\underline{\texttt{#2}}}
+\newcommand{\nm}[3]{\node[anchor=north,font=\lf,align=center,inner sep=1pt] at (#1,#2) {#3};}
+\newcommand{\hActor}[3]{%
+  \draw[line width=0.4pt] (#1,#2+0.35) circle (0.15);
+  \draw[line width=0.4pt] (#1,#2+0.2)--(#1,#2-0.15) (#1-0.25,#2+0.07)--(#1+0.25,#2+0.07)
+        (#1,#2-0.15)--(#1-0.2,#2-0.5) (#1,#2-0.15)--(#1+0.2,#2-0.5);
+  \nm{#1}{#2-0.55}{\textrm{: #3}}}
+\newcommand{\hBound}[3]{%
+  \filldraw[cBound,draw=black!70,line width=0.4pt] (#1,#2) circle (0.3);
+  \draw[line width=0.4pt] (#1-0.3,#2)--(#1-0.6,#2) (#1-0.6,#2-0.22)--(#1-0.6,#2+0.22);
+  \nm{#1}{#2-0.35}{#3}}
+\newcommand{\hProc}[3]{%
+  \filldraw[cProc,draw=black!70,line width=0.4pt] (#1,#2) circle (0.3);
+  \nm{#1}{#2-0.35}{#3}}
+\newcommand{\hEnt}[3]{%
+  \filldraw[cEnt,draw=black!70,line width=0.4pt] (#1,#2) circle (0.3);
+  \nm{#1}{#2-0.35}{#3}}
+\newcommand{\hCtrl}[3]{%
+  \filldraw[cCtrl,draw=black!70,line width=0.4pt] (#1,#2) circle (0.3);
+  \draw[-{Stealth[length=1.2mm]},line width=0.3pt] (#1+0.05,#2+0.3) arc (180:20:0.13);
+  \nm{#1}{#2-0.35}{#3}}
+\newcommand{\domsg}[6]{%
+  \pgfmathsetmacro{\dd}{ifthenelse(#4>#3,1,-1)}%
+  \pgfmathsetmacro{\xa}{#3+\dd*\bw}%
+  \pgfmathsetmacro{\xb}{#4-\dd*\bw}%
+  \draw[msgline,#2] (\xa,#5)--(\xb,#5);%
+  \if#1c\pgfmathsetmacro{\xm}{(#3+#4)/2}%
+    \node[lbl,anchor=south,align=center,yshift=0.1cm] at (\xm,#5) {#6};%
+  \else\pgfmathsetmacro{\xm}{min(#3,#4)+\bw+0.05}%
+    \node[lbl,anchor=south west,align=left,yshift=0.1cm] at (\xm,#5) {#6};%
+  \fi}
+\newcommand{\msg}[4]{\domsg{c}{}{#1}{#2}{#3}{#4}}
+\newcommand{\ret}[4]{\domsg{c}{dashed}{#1}{#2}{#3}{#4}}
+\newcommand{\msgl}[4]{\domsg{l}{}{#1}{#2}{#3}{#4}}
+\newcommand{\retl}[4]{\domsg{l}{dashed}{#1}{#2}{#3}{#4}}
+\newcommand{\selfmsg}[4]{%
+  \draw[msgline] (#1+\bw,#2)--(#1+\bw+0.8,#2)--(#1+\bw+0.8,#2-0.55)--(#1+\bw,#2-0.55);%
+  \if#4r\node[lbl,anchor=west,align=left] at (#1+\bw+0.9,#2-0.275) {#3};%
+  \else\node[lbl,anchor=east,align=right] at (#1-\bw-0.1,#2-0.275) {#3};\fi}
+\newcommand{\destroy}[2]{%
+  \draw[line width=0.6pt] (#1-0.18,#2-0.18)--(#1+0.18,#2+0.18) (#1-0.18,#2+0.18)--(#1+0.18,#2-0.18);%
+  \node[anchor=west,font=\lf] at (#1+0.3,#2) {\guillemotleft destroy\guillemotright};}
 
 % ---------- Índice (TOC funcional) ----------
 \setcounter{tocdepth}{2}
@@ -1298,7 +1360,268 @@ La matriz de trazabilidad consolida la relación entre los requerimientos (RF/RN
     {\raggedright \small \emph{Nota.} Elaboración propia (2026). Consolidación visual de la relación entre los requerimientos (RF/RNF), Casos de Uso del Sistema (CUS), las clases del dominio implicadas y los módulos de pantalla asociados.\par}
 \end{figure}
 
-\section{Cap\'itulo 8: Dise\~no de la Soluci\'on (Avance Final)}
+\clearpage
+\section{Cap\'itulo 8: Dise\~no I - Diagramas de Secuencia (Laboratorio 09)}
+
+\subsection{Introducci\'on y Marco de Modelado Din\'amico}
+
+El presente cap\'itulo formaliza la primera etapa del dise\~no del sistema para la jugueter\'ia minorista ``Mundo del Juguete'', centrada en la elaboraci\'on de los \textbf{Diagramas de Secuencia}. A partir de los Casos de Uso del Sistema (CUS) y el modelo conceptual de clases previamente consolidados, se modela el comportamiento temporal y la secuencia de invocaciones entre los actores del negocio, las pantallas o interfaces de usuario, los controladores de procesos y las entidades del dominio.
+
+El modelado din\'amico permite asegurar la aplicaci\'on rigurosa del Principio de Responsabilidad \'Unica (SRP) y la arquitectura de tres capas \textbf{Boundary-Control-Entity (BCE)} (Larman, 2003):
+\begin{itemize}
+    \item \textbf{Boundary / Interfaz (\texttt{CI\_*}):} Componentes lim\'itrofes que capturan los est\'imulos del usuario y despliegan respuestas en pantalla.
+    \item \textbf{Control / Proceso (\texttt{CP\_*}, \texttt{CC\_*}):} Controladores encargados de la l\'ogica transaccional, orquestaci\'on de c\'alculos y validaci\'on de reglas de negocio.
+    \item \textbf{Entity / Entidad:} Clases que encapsulan los datos persistentes de la base de datos relacional (\emph{Cliente, Producto, Venta, Comprobante, Orden de Compra, etc.}).
+\end{itemize}
+
+Asimismo, se representan expl\'icitamente los ciclos de vida de los objetos transaccionales ef\'imeros mediante mensajes de creaci\'on (\guillemotleft create\guillemotright) y destrucci\'on (\guillemotleft destroy\guillemotright), evitando cuellos de botella en memoria.
+
+\subsection{Diagramas de Secuencia de los Casos de Uso del Sistema (CUS)}
+
+Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, barras de activaci\'on y r\'afagas de mensajes, los diagramas se disponen en \textbf{orientaci\'on horizontal (landscape)}, vinculando en cada caso sus objetivos operativos, actores y descripci\'on detallada del flujo.
+
+\begin{landscape}
+
+% ======================= CUS-01 =======================
+\subsection{CUS-01: Registrar Venta}
+
+\noindent\begin{minipage}[t]{0.38\linewidth}
+\vspace{0pt}
+\small \singlespacing
+\textbf{Registro de venta}
+
+\medskip
+\textbf{Objetivo:} Registrar una venta validando el cliente y la disponibilidad de los juguetes, dej\'andola en estado ``Pendiente'' hasta que se efect\'ue el cobro.
+
+\medskip
+\textbf{Participantes:}
+\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
+  \item \textbf{Actor:} Vendedor.
+  \item \textbf{Interfaz:} \texttt{CI\_Venta}.
+  \item \textbf{Control:} \texttt{CP\_Venta}.
+  \item \textbf{Entidades:} \texttt{Cliente/Producto/Venta}.
+\end{itemize}
+
+\medskip
+\textbf{Flujo b\'asico:} El vendedor solicita registrar la venta con el DNI del cliente. La interfaz env\'ia los datos del cliente y la consulta de juguetes al control. \texttt{CP\_Venta} valida la disponibilidad de stock y consulta en las entidades los datos del cliente y el cat\'alogo. Cuando las entidades confirman la disponibilidad y los datos, el control devuelve a la interfaz el total preliminar y el c\'odigo de venta. La interfaz informa al vendedor que la venta qued\'o registrada en estado ``Pendiente''.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.60\linewidth}
+\vspace{0pt}
+\begin{figure}[H]
+\centering
+\caption{Diagrama de secuencia del CUS-01: Registrar Venta.}
+\label{fig:seq_cus01}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}
+  \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{11.8}
+  \hActor{\A}{0}{Vendedor}\hBound{\B}{0}{\tn{CI\_Venta}}
+  \hProc{\C}{0}{\tn{CP\_Venta}}\hEnt{\D}{0}{\tn{Cliente/Producto/Venta}}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11}}
+  \msg{\A}{\B}{-2.0}{1: registrarVenta(dni)}
+  \msg{\B}{\C}{-3.2}{2: enviarDatosCliente()\\consultaJuguetes}
+  \selfmsg{\C}{-4.4}{3: validarStock()\\disponibilidad}{l}
+  \msg{\C}{\D}{-5.9}{4: consultarCliente()\\consultarCatalogo()}
+  \ret{\D}{\C}{-7.2}{5: confirmarStock()\\(datos)}
+  \ret{\C}{\B}{-8.4}{6: mostrarTotal()\\(codigoVenta)}
+  \ret{\B}{\A}{-9.6}{7: ventaRegistrada\\(estado Pendiente)}
+  \actbar{\A}{-1.9}{-9.7}{cActor}\actbar{\B}{-1.9}{-9.7}{cBar}
+  \actbar{\C}{-3.1}{-8.5}{cBar}\actbar{\D}{-5.8}{-7.3}{cBar}
+  \destroy{\C}{-9.0}
+\end{tikzpicture}}
+\par\vspace{0.5ex}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Interacci\'on entre el vendedor, la interfaz \texttt{CI\_Venta}, el control de proceso y las entidades de dominio.\par}
+\end{figure}
+\end{minipage}
+
+\clearpage
+% ======================= CUS-02 =======================
+\subsection{CUS-02: Procesar Pago y Emitir Comprobante}
+
+\noindent\begin{minipage}[t]{0.38\linewidth}
+\vspace{0pt}
+\small \singlespacing
+\textbf{Proceso de pago}
+
+\medskip
+\textbf{Objetivo:} Cobrar una venta que ya fue registrada como pendiente y entregar el comprobante respectivo al cliente.
+
+\medskip
+\textbf{Participantes:}
+\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
+  \item \textbf{Actor:} Cajero.
+  \item \textbf{Interfaz:} \texttt{CI\_Pago}.
+  \item \textbf{Control:} \texttt{CP\_Pago}.
+  \item \textbf{Entidades:} \texttt{Venta/Comprobante/Pago}.
+\end{itemize}
+
+\medskip
+\textbf{Flujo b\'asico:} El cajero ingresa en la interfaz el c\'odigo de una venta pendiente. \texttt{CI\_Pago} solicita a \texttt{CP\_Pago} el cobro y los datos de pago. El control busca la venta en la entidad y calcula el vuelto y los impuestos. La entidad devuelve la venta verificada con el monto final. Con esos datos, \texttt{CP\_Pago} procesa la transacci\'on, ya sea en efectivo o electr\'onica. Despu\'es emite el comprobante (boleta o factura) hacia la interfaz, que le informa al cajero que el pago se complet\'o y que el comprobante fue generado.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.60\linewidth}
+\vspace{0pt}
+\begin{figure}[H]
+\centering
+\caption{Diagrama de secuencia del CUS-02: Procesar Pago y Emitir Comprobante.}
+\label{fig:seq_cus02}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}
+  \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{11.8}
+  \hActor{\A}{0}{Cajero}\hBound{\B}{0}{\tn{CI\_Pago}}
+  \hProc{\C}{0}{\tn{CP\_Pago}}\hEnt{\D}{0}{\tn{Venta/Comprobante/Pago}}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11.2}}
+  \msg{\A}{\B}{-2.0}{1: ingresarCodigoVenta()}
+  \msg{\B}{\C}{-3.2}{2: solicitarCobro()\\datosDePago}
+  \msg{\C}{\D}{-4.7}{3: buscarVenta()\\calcularMonto()}
+  \ret{\D}{\C}{-6.1}{4: ventaVerificada\\(montoFinal)}
+  \selfmsg{\C}{-7.2}{5: procesarTransaccion()\\efectivo/electr\'onico}{l}
+  \ret{\C}{\B}{-8.7}{6: emitirComprobante()\\Boleta/Factura}
+  \ret{\B}{\A}{-9.9}{7: pagoCompletado\\(comprobante)}
+  \actbar{\A}{-1.9}{-10.0}{cActor}\actbar{\B}{-1.9}{-10.0}{cBar}
+  \actbar{\C}{-3.1}{-8.8}{cBar}\actbar{\D}{-4.6}{-6.2}{cBar}
+  \destroy{\C}{-9.3}
+\end{tikzpicture}}
+\par\vspace{0.5ex}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes del cajero para la verificaci\'on de venta, cobro de fondos y emisi\'on legal del comprobante.\par}
+\end{figure}
+\end{minipage}
+
+\clearpage
+% ======================= CUS-03 =======================
+\subsection{CUS-03: Gestionar Abastecimiento}
+
+\noindent\begin{minipage}[t]{0.38\linewidth}
+\vspace{0pt}
+\small \singlespacing
+\textbf{Abastecimiento de productos}
+
+\medskip
+\textbf{Objetivo:} Detectar los productos con stock cr\'itico y generar una Orden de Compra (OC) para reponerlos con el proveedor adecuado.
+
+\medskip
+\textbf{Participantes:}
+\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
+  \item \textbf{Actor:} Administrador.
+  \item \textbf{Interfaz:} \texttt{CI\_Abastecimiento}.
+  \item \textbf{Control:} \texttt{CP\_Abastecimiento}.
+  \item \textbf{Entidades:} \texttt{Producto/Proveedor/OC}.
+\end{itemize}
+
+\medskip
+\textbf{Flujo b\'asico:} El administrador consulta el reporte de stock cr\'itico desde la interfaz, que pide al control los productos bajo el stock m\'inimo. \texttt{CP\_Abastecimiento} consulta en las entidades el inventario y los proveedores activos, y recibe el listado de juguetes a reponer. A partir de ese listado, el control calcula el presupuesto y selecciona al proveedor m\'as conveniente. Luego genera la OC, y la interfaz le notifica al administrador que la orden fue enviada al proveedor.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.60\linewidth}
+\vspace{0pt}
+\begin{figure}[H]
+\centering
+\caption{Diagrama de secuencia del CUS-03: Gestionar Abastecimiento.}
+\label{fig:seq_cus03}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}
+  \def\A{0}\def\B{3.8}\def\C{7.8}\def\D{12.2}
+  \hActor{\A}{0}{Administrador}\hBound{\B}{0}{\tn{CI\_Abastecimiento}}
+  \hProc{\C}{0}{\tn{CP\_Abastecimiento}}\hEnt{\D}{0}{\tn{Producto/Proveedor/OC}}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11.2}}
+  \msg{\A}{\B}{-2.0}{1: consultarReporteStockCritico()}
+  \msg{\B}{\C}{-3.2}{2: solicitarProductos()\\bajoStockMinimo}
+  \msg{\C}{\D}{-4.7}{3: consultarInventario()\\proveedoresActivos()}
+  \ret{\D}{\C}{-6.1}{4: listadoJuguetes\\aReponer}
+  \selfmsg{\C}{-7.2}{5: calcularPresupuesto\\seleccionarProveedor()}{l}
+  \ret{\C}{\B}{-8.7}{6: generarOrdenCompra()\\(OC)}
+  \ret{\B}{\A}{-9.9}{7: notificacionEnviada\\(proveedor)}
+  \actbar{\A}{-1.9}{-10.0}{cActor}\actbar{\B}{-1.9}{-10.0}{cBar}
+  \actbar{\C}{-3.1}{-8.8}{cBar}\actbar{\D}{-4.6}{-6.2}{cBar}
+  \destroy{\C}{-9.3}
+\end{tikzpicture}}
+\par\vspace{0.5ex}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Secuencia para la consulta de inventario cr\'itico, c\'alculo presupuestal y generaci\'on de la orden de compra.\par}
+\end{figure}
+\end{minipage}
+
+\clearpage
+% ======================= CUS-04 =======================
+\subsection{CUS-04: Registrar Ingreso de Mercanc\'ia}
+
+\noindent\begin{minipage}[t]{0.36\linewidth}
+\vspace{0pt}
+\small \singlespacing
+\textbf{Registro de recepci\'on}
+
+\medskip
+\textbf{Objetivo:} Registrar el ingreso de mercader\'ia al almac\'en, manteniendo actualizados el stock, las ubicaciones y los movimientos de inventario.
+
+\medskip
+\textbf{Participantes:}
+\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
+  \item \textbf{Actor:} Almacenero.
+  \item \textbf{Interfaz:} \texttt{CI\_InterfazAlmacen}.
+  \item \textbf{Controladores:} \texttt{CC\_GestorRecepciones}, \texttt{CP\_Inventario}, \texttt{CC\_ControladorLogistico}.
+  \item \textbf{Entidades:} \texttt{Articulo}, \texttt{Ubicacion}, \texttt{RegistroMovimiento}.
+\end{itemize}
+
+\medskip
+\textbf{Flujo b\'asico:} El almacenero ingresa la recepci\'on con sus \'items. La interfaz valida la recepci\'on y crea din\'amicamente al gestor de recepciones (\texttt{CC\_GestorRecepciones}), que inicia el registro formal. \texttt{CP\_Inventario} actualiza el stock en \texttt{Articulo} y recibe la confirmaci\'on. Luego verifica en \texttt{Ubicacion} que las ubicaciones sean v\'alidas y solicita al controlador log\'istico (\texttt{CC\_ControladorLogistico}) la verificaci\'on del empaque. Este procesa los datos del empaque y responde que est\'a verificado. Con todo validado, se registran los movimientos de art\'iculos en \texttt{RegistroMovimiento}, que devuelve el documento de recepci\'on. El control de inventario confirma el registro al gestor, este lo confirma a la interfaz (donde el gestor se destruye para liberar recursos) y finalmente se muestra el documento final al almacenero.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.62\linewidth}
+\vspace{0pt}
+\begin{figure}[H]
+\centering
+\caption{Diagrama de secuencia del CUS-04: Registrar Ingreso de Mercanc\'ia.}
+\label{fig:seq_cus04}
+\renewcommand{\lf}{\scriptsize}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}
+  \def\A{0}\def\CI{4.7}\def\G{9.0}\def\P{12.8}\def\Ar{16.8}\def\U{20.0}\def\R{23.0}\def\L{26.6}
+  \hActor{\A}{0}{Almacenero}
+  \hBound{\CI}{0}{\tnn{CI\_Interfaz}{Almacen}}
+  \hProc{\P}{0}{\tn{CP\_Inventario}}
+  \hEnt{\Ar}{0}{\tn{Articulo}}\hEnt{\U}{0}{\tn{Ubicacion}}\hEnt{\R}{0}{\tnn{Registro}{Movimiento}}
+  \hCtrl{\L}{0}{\tnn{CC\_Controlador}{Logistico}}
+  \hCtrl{\G}{-3.4}{\tnn{CC\_Gestor}{Recepciones}}
+  \foreach \x in {\A,\CI,\P,\Ar,\U,\R,\L}{\lifeline{\x}{-1.4}{-22.2}}
+  \lifeline{\G}{-4.4}{-19.9}
+  \msgl{\A}{\CI}{-2.0}{1: ingresarRecepcion\\(id\_recepcion, items)}
+  \draw[msgline] (\CI+\bw,-3.4)--(\G-0.3,-3.4);
+  \node[lbl,anchor=south west,align=left,yshift=0.1cm] at (\CI+0.15,-3.4) {2: validarRecepcion\\(id\_recepcion)};
+  \node[lbl,anchor=north west] at (\CI+0.15,-3.5) {\guillemotleft create\guillemotright};
+  \selfmsg{\G}{-5.0}{3: iniciarRegistro(id\_recepcion)}{r}
+  \msgl{\G}{\P}{-6.6}{4: actualizarStock\\(item\_ids)}
+  \draw[msgline] (\P+\bw,-6.6)--(\Ar-\bw,-6.6);
+  \retl{\Ar}{\G}{-7.6}{5: stockConfirmado}
+  \msgl{\P}{\U}{-8.8}{6: verificarUbicaciones(item\_ids)}
+  \retl{\U}{\P}{-9.8}{7: ubicacionesValidas}
+  \msgl{\P}{\L}{-11.1}{10: solicitarVerificacionEmpaque(recepcion)}
+  \selfmsg{\L}{-11.9}{10a: procesarDatosEmpaque()}{l}
+  \retl{\L}{\P}{-13.1}{11: empaqueVerificado(idEmpaque)}
+  \domsg{l}{}{\L}{\P}{-14.1}{12: registrarMovimientoArticulos(items)}
+  \msgl{\P}{\R}{-15.3}{13: movimientoRegistrado}
+  \retl{\R}{\P}{-16.3}{14: documentoRecepcion}
+  \domsg{l}{}{\P}{\G}{-17.7}{15: confirmarRegistro\\(documento)}
+  \domsg{l}{}{\G}{\CI}{-19.0}{16: confirmarRegistro\\(documento)}
+  \retl{\CI}{\A}{-21.2}{17: mostrarDocumentoFinal\\(documento)}
+  \actbar{\A}{-1.9}{-21.3}{cActor}\actbar{\CI}{-1.9}{-21.3}{cBar}
+  \actbar{\G}{-4.9}{-19.1}{cBar}\actbar{\P}{-6.5}{-17.8}{cBar}
+  \actbar{\Ar}{-6.5}{-7.7}{cBar}\actbar{\U}{-8.7}{-9.9}{cBar}
+  \actbar{\L}{-11.0}{-14.2}{cBar}\actbar{\R}{-15.2}{-16.4}{cBar}
+  \destroy{\G}{-19.8}
+\end{tikzpicture}}
+\par\vspace{0.5ex}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes con creaci\'on din\'amica (\guillemotleft create\guillemotright), actualizaci\'on de stock, validaci\'on de empaque y liberaci\'on (\guillemotleft destroy\guillemotright) del gestor log\'istico.\par}
+\end{figure}
+\end{minipage}
+
+\end{landscape}
+
+\subsection{Conclusiones del Laboratorio 09 (Dise\~no I)}
+
+Tras completar el dise\~no din\'amico de los Casos de Uso base, se establecen las siguientes conclusiones fundamentales:
+\begin{itemize}
+    \item \textbf{Coherencia arquitect\'onica bajo el patr\'on BCE:} La separaci\'on expl\'icita entre interfaces (\texttt{CI\_*}), controladores (\texttt{CP\_*}, \texttt{CC\_*}) y entidades asegura que las vistas no accedan directamente a los datos, respetando el patr\'on Modelo-Vista-Controlador de Laravel.
+    \item \textbf{Gesti\'on eficiente de recursos en ejecuci\'on:} El uso de mecanismos de creaci\'on din\'amica (\guillemotleft create\guillemotright) y liberaci\'on (\guillemotleft destroy\guillemotright) en procesos complejos (como la recepci\'on de mercanc\'ia) minimiza la sobrecarga de memoria del servidor.
+    \item \textbf{Gu\'ia directa para la implementaci\'on en Laravel:} Cada mensaje modelado en los diagramas de secuencia se traduce directamente en m\'etodos de controladores, eventos o llamadas Eloquent, garantizando una implementaci\'on guiada y libre de ambig\"uedades.
+\end{itemize}
+
+\clearpage
+\section{Cap\'itulo 9: Dise\~no de la Soluci\'on (Avance Final)}
 
 \subsection{Diagrama de Clases UML (Estructura de Paquetes)}
 
@@ -1366,9 +1689,7 @@ tipos de datos:
 \end{figure}
 
 \clearpage
-
-
-\section{Cap\'itulo 9: Estrategia de GIT y Conclusiones}
+\section{Cap\'itulo 10: Estrategia de GIT y Conclusiones}
 
 \subsection{Estrategia de GIT y Repositorio}
 

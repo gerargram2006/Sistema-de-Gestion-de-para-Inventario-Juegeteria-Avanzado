@@ -83,10 +83,23 @@ Usuarios, clientes, categorías, inventario de productos, ventas, detalle\_venta
 - Diagrama de clases de negocio y paquetes arquitectónicos.
 - Diagramas de actividades por cada caso de uso del negocio (CUN-01 al CUN-06).
 - Diagramas de casos de uso del sistema (CUS) clasificados por actor operativo.
+- Diagramas de secuencia del sistema (CUS-01 al CUS-04) bajo el patrón Boundary-Control-Entity (BCE) generados nativamente en TikZ en orientación apaisada/horizontal.
 - Diagrama de integración y modelo de dominio conceptual.
 - Diagrama de Gantt del plan de ingeniería de requerimientos.
 - Prototipos de pantallas UI/UX (Login, Ventas, Pago, Abastecimiento y Almacén).
 - Diagrama entidad-relación (ERD conceptual).
+
+### Estructura Capitular del Documento Académico (`docs/Proyecto.tex`)
+1. **Capítulo 1:** Introducción y Contexto del Negocio
+2. **Capítulo 2:** Planificación y Gestión del Proyecto (Gantt)
+3. **Capítulo 3:** Modelado del Negocio (CUN-01 al CUN-06 y Actividades)
+4. **Capítulo 4:** Especificación de Requerimientos del Software (RF y RNF)
+5. **Capítulo 5:** Casos de Uso del Sistema (CUS y Especificaciones Detalladas)
+6. **Capítulo 6:** Prototipos de Pantallas e Interfaces de Usuario (UI/UX)
+7. **Capítulo 7:** Trazabilidad de Requerimientos y Modelo de Dominio
+8. **Capítulo 8:** Diseño I - Diagramas de Secuencia (Laboratorio 09, orientación horizontal)
+9. **Capítulo 9:** Diseño de la Solución (Avance Final)
+10. **Capítulo 10:** Estrategia de GIT y Conclusiones
 
 ## Instalación y Ejecución de la Aplicación
 

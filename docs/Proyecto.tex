@@ -660,6 +660,7 @@ El diagrama de clases de negocio representa de manera gráfica la interacción d
 \clearpage
 
 \subsection{Reglas de Negocio}
+\enlargethispage{2\baselineskip}
 
 De acuerdo con la normativa operativa del sistema de gestión para la juguetería, se han identificado y descrito las siguientes reglas de negocio fundamentales:
 
@@ -1381,6 +1382,7 @@ Asimismo, se representan expl\'icitamente los ciclos de vida de los objetos tran
 Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, barras de activaci\'on y r\'afagas de mensajes, los diagramas se disponen en \textbf{orientaci\'on horizontal (landscape)}, vinculando en cada caso sus objetivos operativos, actores y descripci\'on detallada del flujo.
 
 \begin{landscape}
+\singlespacing
 
 % ======================= CUS-01 =======================
 \subsection{CUS-01: Registrar Venta}
@@ -1410,7 +1412,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-01: Registrar Venta.}
 \label{fig:seq_cus01}
-\resizebox{\linewidth}{!}{%
+\resizebox{!}{0.46\textheight}{%
 \begin{tikzpicture}
   \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{11.8}
   \hActor{\A}{0}{Vendedor}\hBound{\B}{0}{\tn{CI\_Venta}}
@@ -1463,7 +1465,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-02: Procesar Pago y Emitir Comprobante.}
 \label{fig:seq_cus02}
-\resizebox{\linewidth}{!}{%
+\resizebox{!}{0.46\textheight}{%
 \begin{tikzpicture}
   \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{12.2}
   \hActor{\A}{0}{Cajero}\hBound{\B}{0}{\tn{CI\_Pago}}
@@ -1517,7 +1519,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-03: Gestionar Abastecimiento.}
 \label{fig:seq_cus03}
-\resizebox{\linewidth}{!}{%
+\resizebox{!}{0.46\textheight}{%
 \begin{tikzpicture}
   \def\A{0}\def\B{3.8}\def\C{7.8}\def\D{12.2}
   \hActor{\A}{0}{Administrador}\hBound{\B}{0}{\tn{CI\_Abastecimiento}}
@@ -1549,7 +1551,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 
 \noindent\begin{minipage}[t]{0.38\linewidth}
 \vspace{0pt}
-\small \singlespacing \raggedright
+\footnotesize \singlespacing \raggedright
 \textbf{Registro de recepci\'on}
 
 \smallskip
@@ -1573,7 +1575,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \captionof{figure}{Diagrama de secuencia del CUS-04: Registrar Ingreso de Mercanc\'ia.}
 \label{fig:seq_cus04}
 \renewcommand{\lf}{\scriptsize}
-\resizebox{!}{0.54\textheight}{%
+\resizebox{!}{0.48\textheight}{%
 \begin{tikzpicture}
   \def\A{0}\def\CI{4.4}\def\G{8.4}\def\P{11.8}\def\OC{15.2}\def\Ar{18.2}\def\U{21.0}\def\R{24.0}\def\L{27.4}
   \hActor{\A}{0}{Almacenero}

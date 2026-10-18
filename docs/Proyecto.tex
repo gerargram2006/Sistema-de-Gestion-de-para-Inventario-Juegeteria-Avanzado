@@ -1385,13 +1385,13 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 % ======================= CUS-01 =======================
 \subsection{CUS-01: Registrar Venta}
 
-\noindent\begin{minipage}[t]{0.38\linewidth}
+\noindent\begin{minipage}[t]{0.40\linewidth}
 \vspace{0pt}
 \small \singlespacing \raggedright
 \textbf{Registro de venta}
 
 \medskip
-\textbf{Objetivo:} Registrar una venta validando el cliente y la disponibilidad de los juguetes, dej\'andola en estado ``Pendiente'' hasta que se efect\'ue el cobro.
+\textbf{Objetivo:} Registrar una venta validando el cliente y la disponibilidad de los juguetes, reservando el stock provisional y dej\'andola en estado ``Pendiente'' hasta que se efect\'ue el cobro.
 
 \medskip
 \textbf{Participantes:}
@@ -1403,9 +1403,9 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{itemize}
 
 \medskip
-\textbf{Flujo b\'asico:} El vendedor solicita registrar la venta con el DNI del cliente. La interfaz env\'ia los datos del cliente y la consulta de juguetes al control. \texttt{CP\_Venta} valida la disponibilidad de stock y consulta en las entidades los datos del cliente y el cat\'alogo. Cuando las entidades confirman la disponibilidad y los datos, el control devuelve a la interfaz el total preliminar y el c\'odigo de venta. La interfaz informa al vendedor que la venta qued\'o registrada en estado ``Pendiente''.
+\textbf{Flujo b\'asico:} El vendedor solicita registrar la venta con el DNI del cliente. La interfaz env\'ia los datos del cliente y la consulta de juguetes al control. \texttt{CP\_Venta} valida la disponibilidad de stock y consulta en las entidades los datos del cliente y el cat\'alogo. Cuando las entidades confirman la disponibilidad y los datos, el control reserva el stock provisional de los juguetes y calcula el subtotal, los impuestos y el total con el c\'odigo de venta. La interfaz informa al vendedor que la venta qued\'o registrada en estado ``Pendiente'', con el stock reservado. Los flujos alternos (cliente no registrado y stock insuficiente) se indican en la nota del diagrama.
 \end{minipage}\hfill
-\begin{minipage}[t]{0.60\linewidth}
+\begin{minipage}[t]{0.58\linewidth}
 \vspace{0pt}
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-01: Registrar Venta.}
@@ -1415,33 +1415,36 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
   \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{11.8}
   \hActor{\A}{0}{Vendedor}\hBound{\B}{0}{\tn{CI\_Venta}}
   \hProc{\C}{0}{\tn{CP\_Venta}}\hEnt{\D}{0}{\tn{Cliente/Producto/Venta}}
-  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11}}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11.4}}
   \msg{\A}{\B}{-2.0}{1: registrarVenta(dni)}
-  \msg{\B}{\C}{-3.2}{2: enviarDatosCliente()\\consultaJuguetes}
-  \selfmsg{\C}{-4.4}{3: validarStock()\\disponibilidad}{l}
-  \msg{\C}{\D}{-5.9}{4: consultarCliente()\\consultarCatalogo()}
-  \ret{\D}{\C}{-7.2}{5: confirmarStock()\\(datos)}
-  \ret{\C}{\B}{-8.4}{6: mostrarTotal()\\(codigoVenta)}
-  \ret{\B}{\A}{-9.6}{7: ventaRegistrada\\(estado Pendiente)}
-  \actbar{\A}{-1.9}{-9.7}{cActor}\actbar{\B}{-1.9}{-9.7}{cBar}
-  \actbar{\C}{-3.1}{-8.5}{cBar}\actbar{\D}{-5.8}{-7.3}{cBar}
-  \destroy{\C}{-9.0}
+  \msg{\B}{\C}{-3.1}{2: enviarDatosCliente()\\consultaJuguetes}
+  \selfmsg{\C}{-4.1}{3: validarStock()\\disponibilidad}{l}
+  \msg{\C}{\D}{-5.4}{4: consultarCliente()\\consultarCatalogo()}
+  \ret{\D}{\C}{-6.5}{5: confirmarStock()\\(datos, precios)}
+  \msg{\C}{\D}{-7.6}{6: reservarStock(cantidades)}
+  \ret{\D}{\C}{-8.6}{7: stockReservado}
+  \ret{\C}{\B}{-9.7}{8: mostrarTotal\\(subtotal, impuestos,\\total, codigoVenta)}
+  \ret{\B}{\A}{-10.9}{9: ventaRegistrada\\(estado Pendiente)}
+  \actbar{\A}{-1.9}{-11.0}{cActor}\actbar{\B}{-1.9}{-11.0}{cBar}
+  \actbar{\C}{-3.0}{-9.8}{cBar}\actbar{\D}{-5.3}{-8.7}{cBar}
+  \destroy{\C}{-10.3}
+  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (5.9,-12.5) {\textbf{Flujos alternos:} 3a cliente no registrado \(\rightarrow\) registro r\'apido;\\ 6a stock insuficiente \(\rightarrow\) advertencia y bloqueo de unidades excedentes.};
 \end{tikzpicture}}
 \par\vspace{0.5ex}
-{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Interacci\'on entre el vendedor, la interfaz \texttt{CI\_Venta}, el control de proceso y las entidades de dominio.\par}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Interacci\'on entre el vendedor, la interfaz \texttt{CI\_Venta}, el control de proceso y las entidades de dominio; se incluye la reserva de stock y los flujos alternos.\par}
 \end{minipage}
 
 \clearpage
 % ======================= CUS-02 =======================
 \subsection{CUS-02: Procesar Pago y Emitir Comprobante}
 
-\noindent\begin{minipage}[t]{0.38\linewidth}
+\noindent\begin{minipage}[t]{0.40\linewidth}
 \vspace{0pt}
 \small \singlespacing \raggedright
 \textbf{Proceso de pago}
 
 \medskip
-\textbf{Objetivo:} Cobrar una venta que ya fue registrada como pendiente y entregar el comprobante respectivo al cliente.
+\textbf{Objetivo:} Cobrar una venta que ya fue registrada como pendiente, actualizar el estado de la venta y el stock definitivo, y entregar el comprobante respectivo al cliente.
 
 \medskip
 \textbf{Participantes:}
@@ -1453,39 +1456,43 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{itemize}
 
 \medskip
-\textbf{Flujo b\'asico:} El cajero ingresa en la interfaz el c\'odigo de una venta pendiente. \texttt{CI\_Pago} solicita a \texttt{CP\_Pago} el cobro y los datos de pago. El control busca la venta en la entidad y calcula el vuelto y los impuestos. La entidad devuelve la venta verificada con el monto final. Con esos datos, \texttt{CP\_Pago} procesa la transacci\'on, ya sea en efectivo o electr\'onica. Despu\'es emite el comprobante (boleta o factura) hacia la interfaz, que le informa al cajero que el pago se complet\'o y que el comprobante fue generado.
+\textbf{Flujo b\'asico:} El cajero ingresa en la interfaz el c\'odigo de una venta pendiente. \texttt{CI\_Pago} solicita a \texttt{CP\_Pago} el cobro y los datos de pago (m\'etodo elegido). El control busca la venta en la entidad, calcula el monto final y el vuelto, y procesa la transacci\'on (efectivo o electr\'onica). Luego actualiza el estado de la venta a ``Completada'' y el stock definitivo en el inventario, y genera el comprobante (boleta o factura) mediante un mensaje de creaci\'on hacia la entidad. La interfaz informa al cajero que el pago se complet\'o y que el comprobante fue generado. Los flujos alternos (monto insuficiente y transacci\'on rechazada) se indican en la nota del diagrama.
 \end{minipage}\hfill
-\begin{minipage}[t]{0.60\linewidth}
+\begin{minipage}[t]{0.58\linewidth}
 \vspace{0pt}
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-02: Procesar Pago y Emitir Comprobante.}
 \label{fig:seq_cus02}
 \resizebox{\linewidth}{!}{%
 \begin{tikzpicture}
-  \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{11.8}
+  \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{12.2}
   \hActor{\A}{0}{Cajero}\hBound{\B}{0}{\tn{CI\_Pago}}
   \hProc{\C}{0}{\tn{CP\_Pago}}\hEnt{\D}{0}{\tn{Venta/Comprobante/Pago}}
-  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11.2}}
-  \msg{\A}{\B}{-2.0}{1: ingresarCodigoVenta()}
-  \msg{\B}{\C}{-3.2}{2: solicitarCobro()\\datosDePago}
-  \msg{\C}{\D}{-4.7}{3: buscarVenta()\\calcularMonto()}
-  \ret{\D}{\C}{-6.1}{4: ventaVerificada\\(montoFinal)}
-  \selfmsg{\C}{-7.2}{5: procesarTransaccion()\\efectivo/electr\'onico}{l}
-  \ret{\C}{\B}{-8.7}{6: emitirComprobante()\\Boleta/Factura}
-  \ret{\B}{\A}{-9.9}{7: pagoCompletado\\(comprobante)}
-  \actbar{\A}{-1.9}{-10.0}{cActor}\actbar{\B}{-1.9}{-10.0}{cBar}
-  \actbar{\C}{-3.1}{-8.8}{cBar}\actbar{\D}{-4.6}{-6.2}{cBar}
-  \destroy{\C}{-9.3}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-12.4}}
+  \msg{\A}{\B}{-1.9}{1: ingresarCodigoVenta()}
+  \msg{\B}{\C}{-2.9}{2: solicitarCobro()\\datosDePago}
+  \msg{\C}{\D}{-4.1}{3: buscarVenta()\\calcularMonto()}
+  \ret{\D}{\C}{-5.2}{4: ventaVerificada\\(montoFinal)}
+  \selfmsg{\C}{-6.1}{5: calcularVuelto()\\procesarTransaccion()}{l}
+  \msg{\C}{\D}{-7.4}{6: actualizarEstadoYStock()\\(venta Completada,\\stock definitivo)}
+  \msg{\C}{\D}{-8.6}{7: generarComprobante(tipo)\\\guillemotleft create\guillemotright}
+  \ret{\D}{\C}{-9.6}{8: comprobanteEmitido\\(numDocumento)}
+  \ret{\C}{\B}{-10.7}{9: pagoVerificado\\(comprobante)}
+  \ret{\B}{\A}{-11.8}{10: pagoCompletado\\(comprobante)}
+  \actbar{\A}{-1.8}{-11.9}{cActor}\actbar{\B}{-1.8}{-11.9}{cBar}
+  \actbar{\C}{-2.9}{-10.8}{cBar}\actbar{\D}{-4.2}{-9.7}{cBar}
+  \destroy{\C}{-11.2}
+  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (6.2,-13.3) {\textbf{Flujos alternos:} 5a monto en efectivo menor al total \(\rightarrow\) error y exige monto igual o superior;\\ 5b tarjeta rechazada \(\rightarrow\) notificaci\'on de fallo y reintento o medio alternativo.};
 \end{tikzpicture}}
 \par\vspace{0.5ex}
-{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes del cajero para la verificaci\'on de venta, cobro de fondos y emisi\'on legal del comprobante.\par}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes del cajero para la verificaci\'on de venta, cobro de fondos, actualizaci\'on de stock y emisi\'on legal del comprobante.\par}
 \end{minipage}
 
 \clearpage
 % ======================= CUS-03 =======================
 \subsection{CUS-03: Gestionar Abastecimiento}
 
-\noindent\begin{minipage}[t]{0.38\linewidth}
+\noindent\begin{minipage}[t]{0.40\linewidth}
 \vspace{0pt}
 \small \singlespacing \raggedright
 \textbf{Abastecimiento de productos}
@@ -1503,9 +1510,9 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \end{itemize}
 
 \medskip
-\textbf{Flujo b\'asico:} El administrador consulta el reporte de stock cr\'itico desde la interfaz, que pide al control los productos bajo el stock m\'inimo. \texttt{CP\_Abastecimiento} consulta en las entidades el inventario y los proveedores activos, y recibe el listado de juguetes a reponer. A partir de ese listado, el control calcula el presupuesto y selecciona al proveedor m\'as conveniente. Luego genera la OC, y la interfaz le notifica al administrador que la orden fue enviada al proveedor.
+\textbf{Flujo b\'asico:} El administrador consulta el reporte de stock cr\'itico desde la interfaz, que pide al control los productos bajo el stock m\'inimo. \texttt{CP\_Abastecimiento} consulta en las entidades el inventario y los proveedores activos, y recibe el listado de juguetes a reponer. A partir de ese listado, el control calcula el presupuesto y selecciona al proveedor m\'as conveniente. Luego genera la Orden de Compra como un objeto nuevo (\guillemotleft create\guillemotright) en la entidad \texttt{OC}, recibe su confirmaci\'on y env\'ia la notificaci\'on correspondiente al proveedor. La interfaz informa al administrador que la orden fue enviada. Los flujos alternos (modificaci\'on por encima del presupuesto y proveedor inactivo) se indican en la nota del diagrama.
 \end{minipage}\hfill
-\begin{minipage}[t]{0.60\linewidth}
+\begin{minipage}[t]{0.58\linewidth}
 \vspace{0pt}
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-03: Gestionar Abastecimiento.}
@@ -1515,33 +1522,38 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
   \def\A{0}\def\B{3.8}\def\C{7.8}\def\D{12.2}
   \hActor{\A}{0}{Administrador}\hBound{\B}{0}{\tn{CI\_Abastecimiento}}
   \hProc{\C}{0}{\tn{CP\_Abastecimiento}}\hEnt{\D}{0}{\tn{Producto/Proveedor/OC}}
-  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11.2}}
-  \msg{\A}{\B}{-2.0}{1: consultarReporteStockCritico()}
-  \msg{\B}{\C}{-3.2}{2: solicitarProductos()\\bajoStockMinimo}
-  \msg{\C}{\D}{-4.7}{3: consultarInventario()\\proveedoresActivos()}
-  \ret{\D}{\C}{-6.1}{4: listadoJuguetes\\aReponer}
-  \selfmsg{\C}{-7.2}{5: calcularPresupuesto\\seleccionarProveedor()}{l}
-  \ret{\C}{\B}{-8.7}{6: generarOrdenCompra()\\(OC)}
-  \ret{\B}{\A}{-9.9}{7: notificacionEnviada\\(proveedor)}
-  \actbar{\A}{-1.9}{-10.0}{cActor}\actbar{\B}{-1.9}{-10.0}{cBar}
-  \actbar{\C}{-3.1}{-8.8}{cBar}\actbar{\D}{-4.6}{-6.2}{cBar}
-  \destroy{\C}{-9.3}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-12.2}}
+  \msg{\A}{\B}{-1.9}{1: consultarReporteStockCritico()}
+  \msg{\B}{\C}{-2.9}{2: solicitarProductos()\\bajoStockMinimo}
+  \msg{\C}{\D}{-4.1}{3: consultarInventario()\\proveedoresActivos()}
+  \ret{\D}{\C}{-5.2}{4: listadoJuguetes\\aReponer}
+  \selfmsg{\C}{-6.2}{5: calcularPresupuesto\\seleccionarProveedor()}{l}
+  \msg{\C}{\D}{-7.5}{6: generarOrdenCompra()\\\guillemotleft create\guillemotright}
+  \ret{\D}{\C}{-8.5}{7: ocGenerada\\(nroOC)}
+  \msg{\C}{\D}{-9.7}{8: notificarProveedor(nroOC)}
+  \ret{\D}{\C}{-10.7}{9: proveedorNotificado}
+  \ret{\C}{\B}{-11.1}{10: ordenGenerada\\(nroOC)}
+  \ret{\B}{\A}{-11.7}{11: notificacionEnviada\\(proveedor)}
+  \actbar{\A}{-1.8}{-11.8}{cActor}\actbar{\B}{-1.8}{-11.8}{cBar}
+  \actbar{\C}{-2.9}{-11.2}{cBar}\actbar{\D}{-4.2}{-10.8}{cBar}
+  \destroy{\C}{-11.5}
+  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (6.0,-13.3) {\textbf{Flujos alternos:} 3a modificaci\'on por encima del presupuesto \(\rightarrow\) solicita autorizaci\'on extraordinaria;\\ 5a proveedor seleccionado inactivo \(\rightarrow\) alerta e impide asociar orden.};
 \end{tikzpicture}}
 \par\vspace{0.5ex}
-{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Secuencia para la consulta de inventario cr\'itico, c\'alculo presupuestal y generaci\'on de la orden de compra.\par}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Secuencia para la consulta de inventario cr\'itico, c\'alculo presupuestal, generaci\'on y notificaci\'on de la orden de compra.\par}
 \end{minipage}
 
 \clearpage
 % ======================= CUS-04 =======================
 \subsection{CUS-04: Registrar Ingreso de Mercanc\'ia}
 
-\noindent\begin{minipage}[t]{0.36\linewidth}
+\noindent\begin{minipage}[t]{0.38\linewidth}
 \vspace{0pt}
 \small \singlespacing \raggedright
 \textbf{Registro de recepci\'on}
 
 \smallskip
-\textbf{Objetivo:} Registrar el ingreso de mercader\'ia al almac\'en, manteniendo actualizados el stock, las ubicaciones y los movimientos de inventario.
+\textbf{Objetivo:} Registrar el ingreso de mercader\'ia al almac\'en, manteniendo actualizados el stock, las ubicaciones y los movimientos de inventario, y cambiando el estado de la Orden de Compra a ``Completada / Recibida''.
 
 \smallskip
 \textbf{Participantes:}
@@ -1549,13 +1561,13 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
   \item \textbf{Actor:} Almacenero.
   \item \textbf{Interfaz:} \texttt{CI\_InterfazAlmacen}.
   \item \textbf{Controladores:} \texttt{CC\_GestorRecepciones}, \texttt{CP\_Inventario}, \texttt{CC\_ControladorLogistico}.
-  \item \textbf{Entidades:} \texttt{Articulo}, \texttt{Ubicacion}, \texttt{RegistroMovimiento}.
+  \item \textbf{Entidades:} \texttt{OrdenCompra}, \texttt{Articulo}, \texttt{Ubicacion}, \texttt{RegistroMovimiento}.
 \end{itemize}
 
 \smallskip
-\textbf{Flujo b\'asico:} El almacenero ingresa la recepci\'on con sus \'items. La interfaz valida la recepci\'on y crea din\'amicamente al gestor (\texttt{CC\_GestorRecepciones}), que inicia el registro formal. \texttt{CP\_Inventario} actualiza el stock en \texttt{Articulo} y recibe la confirmaci\'on. Luego verifica en \texttt{Ubicacion} que las ubicaciones sean v\'alidas y solicita al controlador log\'istico (\texttt{CC\_ControladorLogistico}) la verificaci\'on del empaque. Este procesa los datos y responde que est\'a verificado. Con todo validado, se registran los movimientos en \texttt{RegistroMovimiento}, que devuelve el documento de recepci\'on. El control de inventario confirma el registro al gestor, este a la interfaz (donde el gestor se destruye para liberar recursos) y se muestra el documento final al almacenero.
+\textbf{Flujo b\'asico:} El almacenero ingresa la recepci\'on con el n\'umero de Orden de Compra y sus \'items. La interfaz valida la recepci\'on y crea din\'amicamente al gestor (\texttt{CC\_GestorRecepciones}), que inicia el registro formal. \texttt{CP\_Inventario} busca y valida la Orden de Compra pendiente de recepci\'on. Tras confirmar el detalle esperado, actualiza el stock en \texttt{Articulo} y verifica en \texttt{Ubicacion} que las ubicaciones sean v\'alidas. Luego solicita al controlador log\'istico (\texttt{CC\_ControladorLogistico}) la verificaci\'on del empaque. Con todo validado, se registran los movimientos en \texttt{RegistroMovimiento}, se actualiza el estado de la Orden de Compra a ``Completada / Recibida'' y se genera el documento de recepci\'on. El control confirma el registro al gestor, este a la interfaz (y el gestor se destruye para liberar recursos) y se muestra el documento final al almacenero. Los flujos alternos (OC no existe o ya recepcionada, y productos dañados o faltantes) se indican en la nota del diagrama.
 \end{minipage}\hfill
-\begin{minipage}[t]{0.62\linewidth}
+\begin{minipage}[t]{0.60\linewidth}
 \vspace{0pt}
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-04: Registrar Ingreso de Mercanc\'ia.}
@@ -1563,42 +1575,46 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \renewcommand{\lf}{\scriptsize}
 \resizebox{!}{0.54\textheight}{%
 \begin{tikzpicture}
-  \def\A{0}\def\CI{4.7}\def\G{9.0}\def\P{12.8}\def\Ar{16.8}\def\U{20.0}\def\R{23.0}\def\L{26.6}
+  \def\A{0}\def\CI{4.4}\def\G{8.4}\def\P{11.8}\def\OC{15.2}\def\Ar{18.2}\def\U{21.0}\def\R{24.0}\def\L{27.4}
   \hActor{\A}{0}{Almacenero}
   \hBound{\CI}{0}{\tnn{CI\_Interfaz}{Almacen}}
   \hProc{\P}{0}{\tn{CP\_Inventario}}
-  \hEnt{\Ar}{0}{\tn{Articulo}}\hEnt{\U}{0}{\tn{Ubicacion}}\hEnt{\R}{0}{\tnn{Registro}{Movimiento}}
+  \hEnt{\OC}{0}{\tn{OrdenCompra}}\hEnt{\Ar}{0}{\tn{Articulo}}\hEnt{\U}{0}{\tn{Ubicacion}}\hEnt{\R}{0}{\tnn{Registro}{Movimiento}}
   \hCtrl{\L}{0}{\tnn{CC\_Controlador}{Logistico}}
   \hCtrl{\G}{-3.4}{\tnn{CC\_Gestor}{Recepciones}}
-  \foreach \x in {\A,\CI,\P,\Ar,\U,\R,\L}{\lifeline{\x}{-1.4}{-22.2}}
-  \lifeline{\G}{-4.4}{-19.9}
-  \msgl{\A}{\CI}{-2.0}{1: ingresarRecepcion\\(id\_recepcion, items)}
+  \foreach \x in {\A,\CI,\P,\OC,\Ar,\U,\R,\L}{\lifeline{\x}{-1.4}{-23.6}}
+  \lifeline{\G}{-4.4}{-21.6}
+  \msgl{\A}{\CI}{-2.0}{1: ingresarRecepcion\\(nroOC, items)}
   \draw[msgline] (\CI+\bw,-3.4)--(\G-0.3,-3.4);
-  \node[lbl,anchor=south west,align=left,yshift=0.1cm] at (\CI+0.15,-3.4) {2: validarRecepcion\\(id\_recepcion)};
+  \node[lbl,anchor=south west,align=left,yshift=0.1cm] at (\CI+0.15,-3.4) {2: validarRecepcion\\(nroOC, items)};
   \node[lbl,anchor=north west] at (\CI+0.15,-3.5) {\guillemotleft create\guillemotright};
-  \selfmsg{\G}{-5.0}{3: iniciarRegistro(id\_recepcion)}{r}
-  \msgl{\G}{\P}{-6.6}{4: actualizarStock\\(item\_ids)}
-  \draw[msgline] (\P+\bw,-6.6)--(\Ar-\bw,-6.6);
-  \retl{\Ar}{\G}{-7.6}{5: stockConfirmado}
-  \msgl{\P}{\U}{-8.8}{6: verificarUbicaciones(item\_ids)}
-  \retl{\U}{\P}{-9.8}{7: ubicacionesValidas}
-  \msgl{\P}{\L}{-11.1}{10: solicitarVerificacionEmpaque(recepcion)}
-  \selfmsg{\L}{-11.9}{10a: procesarDatosEmpaque()}{l}
-  \retl{\L}{\P}{-13.1}{11: empaqueVerificado(idEmpaque)}
-  \domsg{l}{}{\L}{\P}{-14.1}{12: registrarMovimientoArticulos(items)}
-  \msgl{\P}{\R}{-15.3}{13: movimientoRegistrado}
-  \retl{\R}{\P}{-16.3}{14: documentoRecepcion}
-  \domsg{l}{}{\P}{\G}{-17.7}{15: confirmarRegistro\\(documento)}
-  \domsg{l}{}{\G}{\CI}{-19.0}{16: confirmarRegistro\\(documento)}
-  \retl{\CI}{\A}{-21.2}{17: mostrarDocumentoFinal\\(documento)}
-  \actbar{\A}{-1.9}{-21.3}{cActor}\actbar{\CI}{-1.9}{-21.3}{cBar}
-  \actbar{\G}{-4.9}{-19.1}{cBar}\actbar{\P}{-6.5}{-17.8}{cBar}
-  \actbar{\Ar}{-6.5}{-7.7}{cBar}\actbar{\U}{-8.7}{-9.9}{cBar}
-  \actbar{\L}{-11.0}{-14.2}{cBar}\actbar{\R}{-15.2}{-16.4}{cBar}
-  \destroy{\G}{-19.8}
+  \selfmsg{\G}{-5.0}{3: iniciarRegistro(nroOC)}{r}
+  \msgl{\G}{\P}{-6.6}{4: procesarRecepcion(nroOC, items)}
+  \msgl{\P}{\OC}{-8.0}{5: buscarOC(nroOC)}
+  \retl{\OC}{\P}{-9.0}{6: detalleOC\\(esperados)}
+  \msgl{\P}{\Ar}{-10.2}{7: actualizarStock(items)}
+  \retl{\Ar}{\P}{-11.2}{8: stockConfirmado}
+  \msgl{\P}{\U}{-12.4}{9: verificarUbicaciones(items)}
+  \retl{\U}{\P}{-13.4}{10: ubicacionesValidas}
+  \msgl{\P}{\L}{-14.6}{11: solicitarVerificacionEmpaque(nroOC, items)}
+  \selfmsg{\L}{-15.4}{12: procesarDatosEmpaque()}{l}
+  \retl{\L}{\P}{-16.6}{13: empaqueVerificado(idEmpaque)}
+  \msgl{\P}{\R}{-17.8}{14: registrarMovimientoArticulos(items)}
+  \retl{\R}{\P}{-18.8}{15: movimientoRegistrado}
+  \msgl{\P}{\OC}{-19.8}{16: actualizarEstadoOC(nroOC,\\\texttt{Completada/Recibida})}
+  \retl{\OC}{\P}{-20.8}{17: ocActualizada}
+  \msgl{\P}{\G}{-21.6}{18: confirmarRegistro(\\documentoRecepcion)}
+  \msgl{\G}{\CI}{-22.2}{19: confirmarRegistro(\\documentoRecepcion)}
+  \retl{\CI}{\A}{-23.0}{20: mostrarDocumentoFinal\\(documentoRecepcion)}
+  \actbar{\A}{-1.9}{-23.1}{cActor}\actbar{\CI}{-1.9}{-23.1}{cBar}
+  \actbar{\G}{-4.9}{-22.3}{cBar}\actbar{\P}{-6.5}{-21.7}{cBar}
+  \actbar{\OC}{-7.9}{-20.9}{cBar}\actbar{\Ar}{-10.1}{-11.3}{cBar}
+  \actbar{\U}{-12.3}{-13.5}{cBar}\actbar{\L}{-14.5}{-16.7}{cBar}\actbar{\R}{-17.7}{-18.9}{cBar}
+  \destroy{\G}{-22.9}
+  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (13.7,-25.2) {\textbf{Flujos alternos:} 4a n\'umero de OC no existe o ya recepcionada \(\rightarrow\) error y bloqueo del proceso;\\ 6a productos dañados o faltantes \(\rightarrow\) registrar observaci\'on y alerta.};
 \end{tikzpicture}}
 \par\vspace{0.5ex}
-{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes con creaci\'on din\'amica (\guillemotleft create\guillemotright), actualizaci\'on de stock, validaci\'on de empaque y liberaci\'on (\guillemotleft destroy\guillemotright) del gestor log\'istico.\par}
+{\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes con creaci\'on din\'amica (\guillemotleft create\guillemotright), b\'usqueda y actualizaci\'on de estado de la OC, actualizaci\'on de stock, validaci\'on de empaque y liberaci\'on (\guillemotleft destroy\guillemotright) del gestor log\'istico.\par}
 \end{minipage}
 
 \end{landscape}

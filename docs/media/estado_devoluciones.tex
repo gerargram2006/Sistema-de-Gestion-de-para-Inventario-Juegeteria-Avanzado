@@ -1,0 +1,23 @@
+% Diagrama de estados: Devoluciones o cambios
+\begin{tikzpicture}
+  \node[ok]  (sol) at (0,0)    {Devolución\\solicitada};
+  \node[ok]  (rev) at (4.7,0)  {Devolución\\en revisión};
+  \node[ok]  (apr) at (9.4,0)  {Devolución\\aprobada};
+  \node[ok]  (ree) at (14.1,0) {Reembolso\\realizado};
+  \node[bad] (rch) at (4.7,-2.6) {Devolución\\rechazada};
+  \node[ok]  (cam) at (9.4,-2.6) {Cambio\\realizado};
+  \node[inicio] (ini) at (0,1.5) {};
+  \node[fin] (f1) at (4.7,-4.2) {};
+  \node[fin] (f2) at (9.4,-4.2) {};
+  \node[fin] (f3) at (14.1,-1.6) {};
+
+  \draw[trans] (ini) -- (sol);
+  \draw[trans] (sol) -- node[etq, above] {validar\\venta} (rev);
+  \draw[trans] (rev) -- node[etq, above] {producto\\válido} (apr);
+  \draw[trans] (apr) -- node[etq, above] {reembolsar\\dinero} (ree);
+  \draw[trans] (rev) -- node[etq, right] {no procede} (rch);
+  \draw[trans] (apr) -- node[etq, right] {cambiar producto} (cam);
+  \draw[trans] (rch) -- (f1);
+  \draw[trans] (cam) -- (f2);
+  \draw[trans] (ree) -- (f3);
+\end{tikzpicture}

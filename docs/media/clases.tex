@@ -1,0 +1,70 @@
+% Diagrama de clases del dominio
+\begin{tikzpicture}
+  % ---------------- Fila superior ----------------
+  \node[clase=cProveedor, anchor=north] (prov) at (0,0) {\textbf{Proveedor}
+    \nodepart{two} +int id\_proveedor\\ +string ruc\\ +string razon\_social\\ +string contacto\\ +string telefono
+    \nodepart{three} \strut};
+  \node[clase=cCategoria, anchor=north] (cat) at (4.6,0) {\textbf{Categoria}
+    \nodepart{two} +int id\_categoria\\ +string nombre\\ +string descripcion
+    \nodepart{three} \strut};
+  \node[clase=cUsuario, anchor=north] (usu) at (9.2,0.6) {\textbf{Usuario}
+    \nodepart{two} +int id\_usuario\\ +string nombre\\ +string dni\\ +string usuario\\ +string contrasena\\ +string rol\\ +boolean estado
+    \nodepart{three} +autenticar()};
+  \node[clase=cCliente, anchor=north] (cli) at (13.8,0) {\textbf{Cliente}
+    \nodepart{two} +int id\_cliente\\ +string num\_documento\\ +string razon\_social\\ +string direccion\\ +string telefono
+    \nodepart{three} \strut};
+
+  % ---------------- Fila media ----------------
+  \node[clase=cOrden, anchor=north] (ord) at (0.6,-5.6) {\textbf{OrdenCompra}
+    \nodepart{two} +int id\_orden\\ +string codigo\_orden\\ +datetime fecha\_emision\\ +string estado\\ +double total\_estimado
+    \nodepart{three} \strut};
+  \node[clase=cProducto, anchor=north] (pro) at (5.6,-5.2) {\textbf{Producto}
+    \nodepart{two} +int id\_producto\\ +string sku\\ +string nombre\\ +double precio\_venta\\ +int stock\_actual\\ +int stock\_minimo
+    \nodepart{three} +actualizarStock()};
+  \node[clase=cVenta, anchor=north] (ven) at (12.0,-5.6) {\textbf{Venta}
+    \nodepart{two} +int id\_venta\\ +string codigo\_ticket\\ +datetime fecha\_hora\\ +double total\\ +string estado
+    \nodepart{three} \strut};
+
+  % ---------------- Fila inferior ----------------
+  \node[clase=cDetCompra, anchor=north] (dc) at (2.6,-11.2) {\textbf{DetalleCompra}
+    \nodepart{two} +int id\_detalle\_compra\\ +int cantidad\_solicitada\\ +int cantidad\_recibida\\ +double precio\_costo
+    \nodepart{three} \strut};
+  \node[clase=cDetVenta, anchor=north] (dv) at (7.6,-11.2) {\textbf{DetalleVenta}
+    \nodepart{two} +int id\_detalle\_venta\\ +int cantidad\\ +double precio\_unitario\\ +double subtotal
+    \nodepart{three} \strut};
+  \node[clase=cComprobante, anchor=north] (cpb) at (13.0,-11.2) {\textbf{Comprobante}
+    \nodepart{two} +int id\_comprobante\\ +string tipo\_comprobante\\ +string serie\_numero\\ +string medio\_pago\\ +datetime fecha\_emision\\ +double monto\_pagado
+    \nodepart{three} \strut};
+
+  % ---------------- Asociaciones ----------------
+  % Proveedor 1 -- abastece -- 0..* OrdenCompra
+  \draw[rel] ($(prov.south)+(0.2,0)$) node[mult, below right] {1}
+     -- node[relnom] {abastece} ($(ord.north)+(-0.4,0)$) node[mult, above right] {0..*};
+  % Usuario 1 -- gestiona -- 0..* OrdenCompra
+  \draw[rel] ($(usu.south)+(-1.0,0)$) node[mult, below left] {1}
+     -- ++(0,-0.55) node[relnom] {gestiona} -- ++(0,-0.05) -- ++(0,-0.45) -| ($(ord.north)+(0.5,0)$) node[mult, above right] {0..*};
+  % Categoria 1 -- clasifica -- 0..* Producto
+  \draw[rel] ($(cat.south)+(0,0)$) node[mult, below right] {1}
+     -- node[relnom, pos=0.45] {clasifica} ($(pro.north)+(-1.0,0)$) node[mult, above right] {0..*};
+  % Usuario 1 -- registra -- 0..* Venta
+  \draw[rel] ($(usu.south)+(0.6,0)$) node[mult, below right] {1}
+     -- ++(0,-0.75) node[relnom] {registra} -- ++(0,-0.6) -| ($(ven.north)+(-0.5,0)$) node[mult, above left] {0..*};
+  % Cliente 1 -- realiza -- 0..* Venta
+  \draw[rel] (cli.south) node[mult, below right] {1}
+     -- ++(0,-1.4) node[relnom, pos=0.6] {realiza} -| ($(ven.north)+(0.5,0)$) node[mult, above right] {0..*};
+  % OrdenCompra 1 <>-- contiene -- 1..* DetalleCompra
+  \draw[composicion] (ord.south) node[mult, below left=1pt and 3pt] {1}
+     -- ++(0,-1.2) node[relnom] {contiene} -| ($(dc.north)+(-0.5,0)$) node[mult, above left] {1..*};
+  % Producto 1 -- incluye -- 0..* DetalleCompra
+  \draw[rel] ($(pro.south)+(-0.5,0)$) node[mult, below left] {1}
+     -- ++(0,-0.6) node[relnom] {incluye} -- ++(0,-0.4) -| ($(dc.north)+(0.6,0)$) node[mult, above right] {0..*};
+  % Producto 1 -- incluye -- 0..* DetalleVenta
+  \draw[rel] ($(pro.south)+(0.6,0)$) node[mult, below right] {1}
+     -- ++(0,-0.6) node[relnom] {incluye} -- ++(0,-0.4) -| ($(dv.north)+(-0.5,0)$) node[mult, above left] {0..*};
+  % Venta 1 <>-- contiene -- 1..* DetalleVenta
+  \draw[composicion] ($(ven.south)+(-0.6,0)$) node[mult, below left=1pt and 3pt] {1}
+     -- ++(0,-1.0) node[relnom] {contiene} -- ++(0,-0.6) -| ($(dv.north)+(0.6,0)$) node[mult, above right] {1..*};
+  % Venta 1 -- genera -- 1 Comprobante
+  \draw[rel] ($(ven.south)+(0.6,0)$) node[mult, below right] {1}
+     -- ++(0,-1.0) node[relnom] {genera} -| (cpb.north) node[mult, above right] {1};
+\end{tikzpicture}

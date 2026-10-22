@@ -1,0 +1,41 @@
+% Diagrama de estados: Ventas
+\begin{tikzpicture}
+  % Fila 1
+  \node[ok]  (sol)  at (0,0)  {Venta\\solicitada};
+  \node[ok]  (val)  at (4.7,0)  {Validando\\stock};
+  \node[ok]  (pen)  at (9.4,0)  {Venta\\pendiente};
+  \node[ok]  (cob)  at (14.1,0) {Venta\\en cobro};
+  % Fila 2
+  \node[bad] (can)  at (4.7,-2.6)  {Venta\\cancelada};
+  \node[bad] (anu)  at (9.4,-2.6)  {Venta\\anulada};
+  \node[ok]  (pag)  at (14.1,-2.6) {Venta\\pagada};
+  % Fila 3
+  \node[ok]  (cmp)  at (14.1,-6.0) {Comprobante\\emitido};
+  \node[bad] (dpar) at (9.4,-6.0)  {Devuelta\\parcial};
+  \node[bad] (dtot) at (4.7,-6.0)  {Devuelta\\total};
+  % Inicio y fines
+  \node[inicio] (ini) at (0,1.5) {};
+  \node[fin] (f1) at (4.7,-4.2) {};
+  \node[fin] (f2) at (9.4,-4.2) {};
+  \node[fin] (f3) at (4.7,-7.6) {};
+  \node[fin] (f4) at (9.4,-7.6) {};
+  \node[fin] (f5) at (14.1,-7.6) {};
+
+  \draw[trans] (ini) -- (sol);
+  \draw[trans] (sol) -- node[etq, above] {consultar\\juguetes} (val);
+  \draw[trans] (val) -- node[etq, above] {stock\\disponible} (pen);
+  \draw[trans] (pen) -- node[etq, above] {cobrar\\venta} (cob);
+  \draw[trans] (cob.north west) ++(0.5,0) to[out=80, in=100, looseness=1.6]
+        node[etq, above left, pos=0.35] {pago rechazado\\reintentar} ($(cob.north east)+(-0.5,0)$);
+  \draw[trans] (val) -- node[etq, right] {sin stock} (can);
+  \draw[trans] (pen) -- node[etq, right] {anular} (anu);
+  \draw[trans] (cob) -- node[etq, left]  {pago aprobado} (pag);
+  \draw[trans] (pag) -- node[etq, left]  {emitir comprobante} (cmp);
+  \draw[trans] (cmp) -- node[etq, above] {devolver\\ítems} (dpar);
+  \draw[trans] (dpar) -- node[etq, above] {devolver\\resto} (dtot);
+  \draw[trans] (can) -- (f1);
+  \draw[trans] (anu) -- (f2);
+  \draw[trans] (dtot) -- (f3);
+  \draw[trans] (dpar) -- (f4);
+  \draw[trans] (cmp) -- (f5);
+\end{tikzpicture}

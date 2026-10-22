@@ -1,0 +1,59 @@
+% Diagrama de paquetes: arquitectura en capas
+\begin{tikzpicture}[node distance=0.35cm]
+  % ================= Capa de Lógica de Negocio (se ubica primero) =================
+  \node[comp, anchor=west] (c01) at (0,-5.6) {CUN-01: Registrar Venta};
+  \node[comp, right=of c01] (c04) {CUN-04: Devoluciones y Cambios};
+  \node[comp, right=1.6cm of c04] (c02) {CUN-02: Gestionar Abastecimiento};
+  \node[comp, right=of c02] (c03) {CUN-03: Controlar Inventario};
+  \node[comp, anchor=west] (c05) at ($(c02.center |- 0,-3.2)+(1.6,0)$) {CUN-05: Flujo Interno};
+  \node[comp, right=of c05] (c06) {CUN-06: Flujo Externo};
+  \paquete{pFlu}{(c05)(c06)}{Flujos\_Venta\_Reposicion}{pkgbody}{pkgtab}
+  \paquete{pGVD}{(c01)(c04)}{Gestion\_Ventas\_Devoluciones}{pkgbody}{pkgtab}
+  \paquete{pGIA}{(c02)(c03)}{Gestion\_Inventario\_Abastecimiento}{pkgbody}{pkgtab}
+  \paquete{capaLN}{(pFlu)(pGVD)(pGIA)($(pFlu.north)+(0,0.45)$)}{Capa de Lógica de Negocio (Casos de Uso)}{capa}{capatab}
+
+  % ================= Capa de Presentación (UI) =================
+  \node[comp] (cTer) at ($(pGVD.center |- 0,0)+(-1.2,0)$) {Interfaz Vendedor / Cajero};
+  \node[comp] (cAlm) at ($(c02.center |- 0,0)+(-0.6,0)$)  {Interfaz Encargado Almacén};
+  \node[comp] (cAdm) at (pFlu.center |- 0,0)  {Interfaz Administrador};
+  \paquete{uiTer}{(cTer)}{UI\_Terminal\_Ventas}{pkgbody}{pkgtab}
+  \paquete{uiAlm}{(cAlm)}{UI\_Portal\_Almacen}{pkgbody}{pkgtab}
+  \paquete{uiAdm}{(cAdm)}{UI\_Dashboard\_Admin}{pkgbody}{pkgtab}
+  \paquete{capaUI}{(uiTer)(uiAlm)(uiAdm)($(uiTer.north)+(0,0.45)$)}{Capa de Presentación (UI)}{capa}{capatab}
+
+  % ================= Capa de Dominio (Entidades) =================
+  \node[comp, anchor=west] (eCat) at (0.2,-9.8) {Categorias};
+  \node[comp, right=of eCat] (eInv) {Inventario\_Productos};
+  \node[comp, right=1.6cm of eInv] (eVen) {Ventas};
+  \node[comp, right=of eVen] (eDV) {Detalle\_Ventas};
+  \node[comp, below=1.3cm of eVen.south west, anchor=north west] (eDev) {Devoluciones};
+  \node[comp, right=1.6cm of eDV] (eCom) {Compras};
+  \node[comp, right=of eCom] (eDC) {Detalle\_Compras};
+  \node[comp, anchor=west] (eUsu) at (eCom.west |- eDev) {Usuarios};
+  \node[comp, right=of eUsu] (eCli) {Clientes};
+  \paquete{mCat}{(eCat)(eInv)}{Modulo\_Catálogo\_Inventario}{pkgbody}{pkgtab}
+  \paquete{mVen}{(eVen)(eDV)(eDev)}{Modulo\_Ventas}{pkgbody}{pkgtab}
+  \paquete{mCom}{(eCom)(eDC)}{Modulo\_Compras}{pkgbody}{pkgtab}
+  \paquete{mUsu}{(eUsu)(eCli)}{Modulo\_Usuarios}{pkgbody}{pkgtab}
+  \paquete{capaDom}{(mCat)(mVen)(mCom)(mUsu)($(mCat.north)+(0,0.45)$)}{Capa de Dominio (Entidades)}{capa}{capatab}
+
+  % ================= Dependencias «use» (Presentación -> Lógica) =================
+  \draw[dep] (uiTer.south) -- node[estereo, pos=0.3] {«use»} (uiTer.south |- pGVD.north);
+  \draw[dep] (uiAlm.south) -- node[estereo, pos=0.3] {«use»} (uiAlm.south |- pGIA.north);
+  \draw[dep] (uiAdm.south) -- node[estereo, pos=0.4] {«use»} (uiAdm.south |- pFlu.north);
+  \draw[dep] (uiAdm.east) -- ($(capaLN.east |- uiAdm.east)+(0.45,0)$) |- node[estereo, pos=0.3] {«use»} (pGIA.east);
+  % Flujos -> Gestión
+  \draw[dep] (pFlu.west) -| node[estereo, pos=0.25] {«use»} ($(pGVD.north east)+(-0.8,0)$);
+  \draw[dep] (c06.south |- pFlu.south) -- node[estereo] {«use»} (c06.south |- pGIA.north);
+
+  % ================= Dependencias «access» (Lógica -> Dominio) =================
+  \draw[dep] (c01.south |- pGVD.south) -- node[estereo, pos=0.6] {«access»} ++(0,-0.75) -| ($(eInv.north |- mCat.north)+(-0.5,0)$);
+  \draw[dep] (c04.south |- pGVD.south) -- ++(0,-1.4) -| node[estereo, pos=0.25] {«access»} ($(mVen.north)+(-0.4,0)$);
+  \draw[dep] (c02.south |- pGIA.south) -- ++(0,-1.0) -| node[estereo, pos=0.25] {«access»} ($(mCat.north east)+(-0.5,0)$);
+  \draw[dep] (c03.south |- pGIA.south) -- ++(0,-1.0) -| node[estereo, pos=0.75] {«access»} (mCom.north);
+
+  % ================= Dependencias «import» (dentro del Dominio) =================
+  \draw[dep] (mVen.west |- eVen) -- node[estereo, above=1pt] {«import»} (mCat.east |- eVen);
+  \draw[dep] (mVen.east |- eDev) -- node[estereo, above=1pt] {«import»} (mUsu.west |- eDev);
+  \draw[dep] (mCom.south) -- node[estereo, right=2pt] {«import»} (mCom.south |- mUsu.north);
+\end{tikzpicture}

@@ -1,0 +1,31 @@
+% Diagrama de estados: Compras
+\begin{tikzpicture}
+  \node[ok]  (bor) at (0,0)    {Compra en\\borrador};
+  \node[ok]  (gen) at (4.7,0)  {Compra\\generada};
+  \node[ok]  (env) at (9.4,0)  {Compra\\enviada};
+  \node[ok]  (rpa) at (14.1,0) {Recepción\\parcial};
+  \node[bad] (can) at (4.7,-2.6)  {Compra\\cancelada};
+  \node[bad] (rec) at (9.4,-2.6)  {Compra\\rechazada};
+  \node[ok]  (rcb) at (14.1,-2.6) {Compra\\recibida};
+  \node[ok]  (sug) at (0,-2.6)    {Reintento\\sugerido};
+  \node[inicio] (ini) at (0,1.5) {};
+  \node[fin] (f1) at (0,-4.2) {};
+  \node[fin] (f2) at (9.4,-4.2) {};
+  \node[fin] (f3) at (14.1,-4.2) {};
+
+  \draw[trans] (ini) -- (bor);
+  \draw[trans] (bor) -- node[etq, above] {aprobar\\presupuesto} (gen);
+  \draw[trans] (gen) -- node[etq, above] {enviar a\\proveedor} (env);
+  \draw[trans] (env) -- node[etq, above] {recepción\\parcial} (rpa);
+  \draw[trans] (gen) -- node[etq, left]  {cancelar} (can);
+  \draw[trans] (env) -- node[etq, left]  {proveedor rechaza} (rec);
+  \draw[trans] (rpa) -- node[etq, left]  {completar} (rcb);
+  \draw[trans] ($(env.south east)+(-0.25,0)$) |- (11.6,-1.15) node[etq, above right, pos=0.6] {recepción total}
+        |- ($(rcb.west)+(0,-0.2)$);
+  % Sugerir al cliente volver a intentar la compra
+  \draw[trans] (can) -- node[etq, above] {sugerir volver\\a intentar} (sug);
+  \draw[trans] (sug) -- node[etq, left] {acepta\\reintentar} (bor);
+  \draw[trans] (sug) -- node[etq, left] {no acepta} (f1);
+  \draw[trans] (rec) -- (f2);
+  \draw[trans] (rcb) -- (f3);
+\end{tikzpicture}

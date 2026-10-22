@@ -1,0 +1,76 @@
+% =====================================================================
+%  Estilos TikZ comunes para todos los diagramas
+% =====================================================================
+\usetikzlibrary{positioning,arrows.meta,shapes.multipart,calc,fit,backgrounds}
+
+% --- Paleta ---
+\definecolor{okFill}{HTML}{E1F5EE}
+\definecolor{okDraw}{HTML}{0F6E56}
+\definecolor{okText}{HTML}{085041}
+\definecolor{badFill}{HTML}{FAECE7}
+\definecolor{badDraw}{HTML}{993C1D}
+\definecolor{badText}{HTML}{712B13}
+\definecolor{lineaGris}{HTML}{5F5E5A}
+\definecolor{pkgFill}{HTML}{F7F7F5}
+\definecolor{compFill}{HTML}{FFFFFF}
+
+% --- Diagramas de estado ---
+\tikzset{
+  estado/.style={rectangle, rounded corners=4pt, minimum width=2.9cm,
+    minimum height=1.25cm, align=center, font=\sffamily\bfseries\small,
+    line width=0.6pt},
+  ok/.style={estado, fill=okFill, draw=okDraw, text=okText},
+  bad/.style={estado, fill=badFill, draw=badDraw, text=badText},
+  inicio/.style={circle, fill=lineaGris, minimum size=7pt, inner sep=0pt},
+  fin/.style={circle, draw=lineaGris, line width=0.9pt, minimum size=11pt,
+    inner sep=0pt, path picture={\fill[lineaGris] (path picture bounding box.center) circle (3pt);}},
+  trans/.style={-{Stealth[length=6pt]}, draw=lineaGris, line width=0.7pt},
+  etq/.style={font=\sffamily\scriptsize, text=lineaGris!80!black, align=center},
+}
+
+% --- Diagrama de paquetes ---
+\tikzset{
+  comp/.style={rectangle, rounded corners=1.5pt, draw=black!70, fill=compFill,
+    font=\sffamily\scriptsize, minimum height=0.65cm, inner xsep=8pt,
+    path picture={
+      \coordinate (pp) at ($(path picture bounding box.north east)+(-0.22,-0.14)$);
+      \draw[black!60, line width=0.3pt] (pp) rectangle ++(0.14,-0.1);
+      \draw[black!60, line width=0.3pt, fill=white] ($(pp)+(-0.03,-0.02)$) rectangle ++(0.06,-0.025);
+      \draw[black!60, line width=0.3pt, fill=white] ($(pp)+(-0.03,-0.06)$) rectangle ++(0.06,-0.025);
+    }},
+  pkgbody/.style={rectangle, draw=black!75, line width=0.6pt, inner sep=7pt},
+  pkgtab/.style={rectangle, draw=black!75, fill=pkgFill, line width=0.6pt,
+    font=\sffamily\scriptsize\bfseries, inner sep=2.5pt, anchor=south west},
+  capa/.style={rectangle, draw=black!85, line width=0.8pt, inner sep=9pt},
+  capatab/.style={rectangle, draw=black!85, fill=white, line width=0.8pt,
+    font=\sffamily\scriptsize\bfseries, inner sep=3pt, anchor=south west},
+  dep/.style={-{Stealth[length=5pt]}, dashed, draw=black!65, line width=0.6pt},
+  estereo/.style={font=\sffamily\tiny, text=black!75, fill=white, inner sep=1pt},
+}
+
+% \paquete{id}{(nodo1)(nodo2)...}{Título}{estilo-cuerpo}{estilo-pestaña}
+\newcommand{\paquete}[5]{%
+  \node[#4, fit={#2}] (#1) {};
+  \node[#5] at (#1.north west) {#3};
+}
+
+% --- Diagrama de clases ---
+\tikzset{
+  clase/.style={rectangle split, rectangle split parts=3, draw=#1, line width=0.9pt,
+    fill=white, font=\sffamily\scriptsize, align=left, text width=3.5cm, execute at begin node={\hyphenpenalty=10000},
+    rectangle split part align={center,left,left}, inner sep=4pt},
+  rel/.style={draw=black!70, line width=0.6pt},
+  composicion/.style={rel, {Diamond[length=8pt, width=5pt]}-},
+  mult/.style={font=\sffamily\tiny, inner sep=1.5pt},
+  relnom/.style={font=\sffamily\scriptsize, fill=white, inner sep=1.5pt},
+}
+\definecolor{cProveedor}{HTML}{D4A017}
+\definecolor{cCategoria}{HTML}{E07B39}
+\definecolor{cUsuario}{HTML}{B13FB8}
+\definecolor{cCliente}{HTML}{1A9E8C}
+\definecolor{cOrden}{HTML}{5B66D6}
+\definecolor{cProducto}{HTML}{1C9BC2}
+\definecolor{cVenta}{HTML}{2E9E4F}
+\definecolor{cDetCompra}{HTML}{7FA61B}
+\definecolor{cDetVenta}{HTML}{8857C7}
+\definecolor{cComprobante}{HTML}{D2463F}

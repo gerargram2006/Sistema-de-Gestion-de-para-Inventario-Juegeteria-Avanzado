@@ -96,6 +96,7 @@
 \usepackage{tikz}
 \usetikzlibrary{calc, arrows.meta}
 \usepackage{pdflscape}
+\input{media/estilos.tex}
 
 % ---------- Colores y macros para Diagramas de Secuencia ----------
 \definecolor{cBound}{RGB}{190,190,255}
@@ -1631,7 +1632,145 @@ Tras completar el dise\~no din\'amico de los Casos de Uso base, se establecen la
 \end{itemize}
 
 \clearpage
-\section{Cap\'itulo 9: Dise\~no de la Soluci\'on (Avance Final)}
+\section{Cap\'itulo 9: Dise\~no II - Diagramas de Estados y Diagrama de Paquetes (Laboratorio 10)}
+
+\subsection{Introducci\'on y Competencias del Dise\~no II}
+
+El presente cap\'itulo formaliza la segunda etapa del dise\~no arquitectural y comportamental para el sistema de gesti\'on de inventario de la jugueter\'ia ``Mundo del Juguete'', correspondiente al desarrollo del Laboratorio 10 (Semana 10). En esta fase se modelan las din\'amicas internas y las restricciones estructurales del software a trav\'es de dos perspectivas complementarias:
+\begin{itemize}
+    \item \textbf{Modelado comportamental mediante Diagramas de Estados (OMG UML 2.5):} Captura de los ciclos de vida completos de las entidades y transacciones neur\'algicas del negocio, formalizando los estados v\'alidos, los eventos desencadenantes, las condiciones de guarda y los caminos de excepci\'on o fallo (cancelaciones, rechazos, anulaciones y devoluciones).
+    \item \textbf{Dise\~no arquitectural mediante Diagramas de Paquetes y Clases del Dominio:} Descomposici\'on modular del sistema bajo una arquitectura limpia en tres capas (Presentaci\'on, L\'ogica de Negocio y Dominio), definiendo expl\'icitamente las dependencias unidireccionales (\guillemotleft use\guillemotright, \guillemotleft access\guillemotright, \guillemotleft import\guillemotright) y el modelo de datos relacional para su implementaci\'on en Laravel y Eloquent ORM.
+\end{itemize}
+
+\subsection{Diagramas de Estados del Sistema}
+
+De acuerdo con los est\'andares de la ingenier\'ia de software (Larman, 2003; Pressman y Maxim, 2021), una m\'aquina de estados modela el comportamiento de una entidad especificando la secuencia de estados por los que atraviesa a lo largo de su ciclo de vida en respuesta a eventos discretos. A continuaci\'on se especifican e ilustran vectorialmente los cinco diagramas de estado representativos de las operaciones de la jugueter\'ia.
+
+% --- 1. Ventas ---
+\subsubsection{Ciclo de Vida de las Ventas}
+
+El proceso de venta inicia cuando el cliente solicita los art\'iculos en tienda (\emph{Venta solicitada}). El sistema consulta el cat\'alogo y verifica la existencia f\'isica (\emph{Validando stock}). Si no se cuenta con existencias, la transacci\'on culmina en \emph{Venta cancelada}. Si hay stock suficiente, la venta pasa al estado \emph{Venta pendiente}, desde donde el cajero puede anularla (\emph{Venta anulada}) o proceder al cobro (\emph{Venta en cobro}). Ante fallos en la pasarela o medios electr\'onicos, se permite reintentar el pago; una vez aprobado, la transacci\'on se marca como \emph{Venta pagada} y se procede a la emisi\'on legal del comprobante (\emph{Comprobante emitido}). Con posterioridad a la emisi\'on, el cliente puede solicitar devoluciones de mercanc\'ia, derivando en \emph{Devuelta parcial} o \emph{Devuelta total}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de estados: ciclo de vida de una venta.}
+  \label{fig:estado_ventas}
+  \resizebox{0.92\linewidth}{!}{\input{media/estado_ventas.tex}}
+  \par\vspace{0.5ex}
+  {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Muestra los estados operativos, transiciones de pago y flujos alternos de cancelaci\'on y devoluci\'on.\par}
+\end{figure}
+
+\clearpage
+% --- 2. Compras ---
+\subsubsection{Ciclo de Vida de Compras y Abastecimiento}
+
+La gesti\'on de compras a f\'abricas y distribuidores inicia con la preparaci\'on de un pedido tentativo (\emph{Compra en borrador}). Tras la evaluaci\'on presupuestal de la gerencia (\emph{Compra generada}), la Orden de Compra (OC) es transmitida al proveedor (\emph{Compra enviada}). En caso de cancelaci\'on administrativa o desabastecimiento cr\'itico del proveedor, la orden pasa a \emph{Compra cancelada} o \emph{Compra rechazada}, brindando una opci\'on de reintento asistido (\emph{Reintento sugerido}). Cuando la mercanc\'ia arriba a las bodegas de la tienda, la orden puede registrar entregas graduales (\emph{Recepci\'on parcial}) o definitivas (\emph{Recepci\'on total}) hasta alcanzar el estado final de \emph{Compra recibida}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de estados: ciclo de vida de una compra/abastecimiento.}
+  \label{fig:estado_compras}
+  \resizebox{0.92\linewidth}{!}{\input{media/estado_compras.tex}}
+  \par\vspace{0.5ex}
+  {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de compras desde el borrador inicial, aprobaci\'on, env\'io, rechazos de f\'abrica y recepci\'on en almac\'en.\par}
+\end{figure}
+
+% --- 3. Devoluciones ---
+\subsubsection{Ciclo de Vida de Devoluciones y Cambios}
+
+El cliente presenta el producto adquirido junto con el comprobante emitido (\emph{Devoluci\'on solicitada}). El personal de atenci\'on examina el comprobante y el estado f\'isico del juguete (\emph{Devoluci\'on en revisi\'on}). Si se detecta manipulaci\'on indebida o vencimiento del plazo, la solicitud es derivada a \emph{Devoluci\'on rechazada}. En caso favorable (\emph{Devoluci\'on aprobada}), el cliente puede optar por el intercambio por un juguete alternativo (\emph{Cambio realizado}) o la restituci\'on econ\'omica de los fondos (\emph{Reembolso realizado}).
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de estados: devoluciones o cambios de producto.}
+  \label{fig:estado_devoluciones}
+  \resizebox{0.92\linewidth}{!}{\input{media/estado_devoluciones.tex}}
+  \par\vspace{0.5ex}
+  {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Validaci\'on de garant\'ias, resoluci\'on de cambios de art\'iculo y reembolsos monetarios.\par}
+\end{figure}
+
+\clearpage
+% --- 4. Inventario ---
+\subsubsection{Ciclo de Vida del Producto en Inventario}
+
+El stock de cada juguete se encuentra activo en vitrina y bodega (\emph{Producto disponible}). A medida que se concretan ventas, si las existencias caen por debajo del umbral de seguridad (\emph{stock $\leq$ m\'inimo}), el sistema lo clasifica en \emph{Stock bajo}, emitiendo alertas de reposici\'on. Si las unidades se agotan por completo (\emph{stock = 0}), el art\'iculo pasa a \emph{Producto agotado}. Ante obsolescencia o decisi\'on comercial, puede descontinuarse (\emph{Producto inactivo}). Las recepciones de compra retornan el producto al estado disponible mediante reposiciones parciales o totales.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de estados: ciclo de vida de un producto en inventario.}
+  \label{fig:estado_inventario}
+  \resizebox{0.92\linewidth}{!}{\input{media/estado_inventario.tex}}
+  \par\vspace{0.5ex}
+  {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Transiciones din\'amicas de existencias, estados cr\'iticos de agotamiento y reabastecimiento log\'istico.\par}
+\end{figure}
+
+% --- 5. Recepción ---
+\subsubsection{Ciclo de Vida de la Recepci\'on en Almac\'en}
+
+Al ingresar el transporte de carga, el almacenero apertura el proceso (\emph{Recepci\'on iniciada}). Se actualiza el kardex y se inspecciona la disponibilidad f\'isica de los anaqueles (\emph{Validando ubicaciones}). Si no se cuenta con espacio f\'isico asignable, se declara \emph{Recepci\'on rechazada}. Con ubicaciones v\'alidas, se efect\'ua la inspecci\'on t\'ecnica de sellos y cajas (\emph{Empaque verificado}), se asientan las entradas en el kardex (\emph{Movimiento registrado}) y se emite la conformidad de la entrega (\emph{Recepci\'on confirmada}).
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de estados: recepci\'on f\'isica en almac\'en.}
+  \label{fig:estado_recepcion}
+  \resizebox{0.92\linewidth}{!}{\input{media/estado_recepcion.tex}}
+  \par\vspace{0.5ex}
+  {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Protocolo de control de accesos f\'isicos, verificaci\'on de empaques y confirmaci\'on de movimientos de almac\'en.\par}
+\end{figure}
+
+\clearpage
+% --- Paquetes ---
+\subsection{Diagrama de Paquetes (Arquitectura en Capas)}
+
+Para garantizar un bajo acoplamiento, alta cohesi\'on y facilitar el mantenimiento de la plataforma en Laravel, el sistema se ha estructurado en una arquitectura estricta de \textbf{tres capas} interconectadas mediante dependencias dirigidas sin ciclos:
+\begin{itemize}\sloppy
+    \item \textbf{Capa de Presentaci\'on (UI):} Contiene los m\'odulos de interfaz gr\'afica accesibles por los distintos roles de usuario: \texttt{UI\_Terminal\_Ventas} (para el vendedor y cajero), \texttt{UI\_Portal\_Almacen} (para el encargado de bodega) y \texttt{UI\_Dashboard\_Admin} (para el administrador gerencial). Esta capa interact\'ua con la l\'ogica mediante el estereotipo \guillemotleft use\guillemotright.
+    \item \textbf{Capa de L\'ogica de Negocio (Casos de Uso):} Encapsula las reglas operativas en subm\'odulos cohesivos: \texttt{Gestion\_Ventas\_Devoluciones} (orquestando CUN-01 y CUN-04), \texttt{Gestion\_Inventario\_Abastecimiento} (CUN-02 y CUN-03) y \texttt{Flujos\_Venta\_Reposicion} (CUN-05 y CUN-06). Esta capa accede a las entidades mediante el estereotipo \guillemotleft access\guillemotright.
+    \item \textbf{Capa de Dominio (Entidades):} Modela los datos permanentes de la jugueter\'ia distribuidos en paquetes: \texttt{Modulo\_Cat\'alogo\_Inventario} (Categorias, Inventario\_Productos), \texttt{Modulo\_Ventas} (Ventas, Detalle\_Ventas, Devoluciones), \texttt{Modulo\_Compras} (Compras, Detalle\_Compras) y \texttt{Modulo\_Usuarios} (Usuarios, Clientes). Las dependencias internas de dominio se gestionan estrictamente v\'ia \guillemotleft import\guillemotright.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de paquetes: arquitectura en capas del sistema.}
+  \label{fig:paquetes_arquitectura}
+  \resizebox{0.95\linewidth}{!}{\input{media/paquetes.tex}}
+  \par\vspace{0.5ex}
+  {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Arquitectura desacoplada en capas de Presentaci\'on, L\'ogica de Negocio y Dominio con dependencias \guillemotleft use\guillemotright, \guillemotleft access\guillemotright{} e \guillemotleft import\guillemotright.\par}
+\end{figure}
+
+\clearpage
+% --- Clases ---
+\subsection{Diagrama de Clases del Dominio}
+
+El modelo estructural del dominio plasma las diez entidades persistentes fundamentales del sistema con sus atributos tipificados, operaciones transaccionales, multiplicidades y relaciones de agregaci\'on/composici\'on:
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de clases del dominio y relaciones relacionales.}
+  \label{fig:clases_dominio_lab10}
+  \resizebox{0.92\linewidth}{!}{\input{media/clases.tex}}
+  \par\vspace{0.5ex}
+  {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Especificaci\'on detallada de entidades, llaves primarias/for\'aneas, m\'etodos de negocio y multiplicidades del sistema.\par}
+\end{figure}
+
+\clearpage
+% --- Conclusiones Lab 10 ---
+\subsection{Conclusiones del Laboratorio 10 (Dise\~no II)}
+
+A partir del desarrollo integral de los diagramas de estados, el diagrama de paquetes y el modelo de clases, se desprenden las siguientes conclusiones fundamentales:
+
+\begin{enumerate}
+  \item \textbf{Los diagramas de estado muestran todo el ciclo de vida de cada proceso:} En los cinco diagramas (ventas, compras, devoluciones, inventario y recepci\'on en almac\'en) se visualiza con precisi\'on en qu\'e estados puede encontrarse cada entidad y cu\'ales son los eventos que provocan su transici\'on. Esto dota al equipo de programaci\'on de especificaciones inequ\'ivocas para el backend en Laravel.
+  \item \textbf{Los caminos de error est\'an contemplados desde el dise\~no:} Cada proceso incluye sus v\'ias alternas de cancelaci\'on, rechazo o anulaci\'on (p. ej., cancelaci\'on por stock insuficiente, rechazo de orden de compra por el proveedor, o rechazo de recepci\'on por ubicaci\'on inv\'alida). Contemplar estas excepciones previene que la base de datos caiga en inconsistencias l\'ogicas y simplifica las pruebas unitarias.
+  \item \textbf{Los procesos est\'an conectados entre s\'i de manera integral:} Las ventas dependen directamente de la disponibilidad del stock, mientras que la recepci\'on de una compra repone los almacenes (haciendo que el art\'iculo transite de ``agotado'' o ``stock bajo'' a ``producto disponible''). A su vez, las devoluciones exigen la existencia de un comprobante emitido. El dise\~no sincronizado garantiza que el inventario refleje con fidelidad las operaciones reales.
+  \item \textbf{El diagrama de paquetes organiza el sistema en tres capas con responsabilidades separadas:} La delimitaci\'on entre Presentaci\'on (vistas de vendedor, almac\'en y administrador), L\'ogica de Negocio (CUN-01 al CUN-06) y Dominio (entidades de base de datos) asegura que modificaciones en la interfaz de usuario no impacten ni degraden las reglas transaccionales ni los modelos de datos.
+  \item \textbf{Las dependencias entre paquetes son estrictamente unidireccionales:} La presentaci\'on interact\'ua con la l\'ogica mediante \guillemotleft use\guillemotright, la l\'ogica accede al dominio mediante \guillemotleft access\guillemotright, y los m\'odulos de dominio \'unicamente importan recursos requeridos mediante \guillemotleft import\guillemotright. La ausencia de dependencias c\'iclicas mantiene el acoplamiento al m\'inimo y habilita la realizaci\'on de pruebas de integraci\'on aisladas.
+  \item \textbf{El diagrama de clases define el esquema f\'isico de base de datos:} Las asociaciones y multiplicidades (p. ej., un proveedor abastece m\'ultiples \'ordenes de compra, una venta genera un comprobante) y las composiciones fuertes (la venta contiene sus detalles, la orden de compra contiene los suyos) se trasladan de forma directa a las migraciones y modelos relacionales de \emph{Eloquent ORM}.
+  \item \textbf{Estos diagramas constituyen la gu\'ia definitiva de implementaci\'on y aseguramiento de calidad (QA):} Cada transici\'on de estado modelada equivale a un escenario formal de prueba (\emph{PHPUnit}), y cada paquete estructural se materializa en controladores, servicios y modelos en la base del c\'odigo.
+\end{enumerate}
+
+\clearpage
+\section{Cap\'itulo 10: Dise\~no de la Soluci\'on (Avance Final)}
 
 \subsection{Diagrama de Clases UML (Estructura de Paquetes)}
 
@@ -1699,7 +1838,7 @@ tipos de datos:
 \end{figure}
 
 \clearpage
-\section{Cap\'itulo 10: Estrategia de GIT y Conclusiones}
+\section{Cap\'itulo 11: Estrategia de GIT y Conclusiones}
 
 \subsection{Estrategia de GIT y Repositorio}
 

@@ -167,8 +167,32 @@
   \draw[line width=0.6pt] (#1-0.18,#2-0.18)--(#1+0.18,#2+0.18) (#1-0.18,#2+0.18)--(#1+0.18,#2-0.18);%
   \node[anchor=west,font=\lf] at (#1+0.3,#2) {\guillemotleft destroy\guillemotright};}
 
-% ---------- Índice (TOC funcional) ----------
+% ---------- Índice (TOC funcional y formato APA 7 sin duplicación de números) ----------
+\setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{2}
+
+\usepackage{titletoc}
+
+\titlecontents{section}
+  [0pt]
+  {\addvspace{0.8em}\bfseries}
+  {}
+  {}
+  {\titlerule*[0.5pc]{.}\contentspage}
+
+\titlecontents{subsection}
+  [1.5em]
+  {\addvspace{0.2em}\normalfont}
+  {}
+  {}
+  {\titlerule*[0.5pc]{.}\contentspage}
+
+\titlecontents{subsubsection}
+  [3.0em]
+  {\normalfont}
+  {}
+  {}
+  {\titlerule*[0.5pc]{.}\contentspage}
 
 
 
@@ -1396,7 +1420,6 @@ En correspondencia directa y biunívoca con cada una de las conclusiones formula
 % CAPÍTULO 6: REFERENCIAS BIBLIOGRÁFICAS
 % ============================================================
 \section{CAP\'ITULO 6: REFERENCIAS BIBLIOGR\'AFICAS}
-\addcontentsline{toc}{section}{CAP\'ITULO 6: REFERENCIAS BIBLIOGR\'AFICAS}
 
 \begin{thebibliography}{99}
   \setlength{\itemsep}{6pt}
@@ -1447,7 +1470,6 @@ En correspondencia directa y biunívoca con cada una de las conclusiones formula
 % CAPÍTULO 7: ANEXOS
 % ============================================================
 \section{CAP\'ITULO 7: ANEXOS}
-\addcontentsline{toc}{section}{CAP\'ITULO 7: ANEXOS}
 
 \subsection{Anexo 1: Repositorio en GitHub y Estrategia de GIT}
 

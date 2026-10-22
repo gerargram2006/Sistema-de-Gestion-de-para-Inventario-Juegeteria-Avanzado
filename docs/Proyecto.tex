@@ -39,7 +39,10 @@
   colorlinks=true,
   linkcolor=black,
   citecolor=blue,
-  urlcolor=blue
+  urlcolor=blue,
+  linktoc=all,
+  plainpages=false,
+  pdfpagelabels=true
 }
 
 % ---------- Geometría y espaciado (Formato 2.5 cm y APA 7) ----------
@@ -168,7 +171,6 @@
   \node[anchor=west,font=\lf] at (#1+0.3,#2) {\guillemotleft destroy\guillemotright};}
 
 % ---------- Índice (TOC funcional y formato APA 7 sin duplicación de números) ----------
-\setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{2}
 
 \usepackage{titletoc}
@@ -243,6 +245,7 @@
 % ABSTRACT Y RESUMEN
 % ============================================================
 
+\phantomsection
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 
@@ -261,6 +264,7 @@ decision-making based on automated reports.
 
 \newpage
 
+\phantomsection
 \section*{Resumen}
 \addcontentsline{toc}{section}{Resumen}
 

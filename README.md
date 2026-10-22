@@ -93,17 +93,32 @@ Usuarios, clientes, categorías, inventario de productos, ventas, detalle\_venta
 - Diagrama entidad-relación (ERD conceptual).
 
 ### Estructura Capitular del Documento Académico (`docs/Proyecto.tex`)
-1. **Capítulo 1:** Introducción y Contexto del Negocio
-2. **Capítulo 2:** Planificación y Gestión del Proyecto (Gantt)
-3. **Capítulo 3:** Modelado del Negocio (CUN-01 al CUN-06 y Actividades)
-4. **Capítulo 4:** Especificación de Requerimientos del Software (RF y RNF)
-5. **Capítulo 5:** Casos de Uso del Sistema (CUS y Especificaciones Detalladas)
-6. **Capítulo 6:** Prototipos de Pantallas e Interfaces de Usuario (UI/UX)
-7. **Capítulo 7:** Trazabilidad de Requerimientos y Modelo de Dominio
-8. **Capítulo 8:** Diseño I - Diagramas de Secuencia (Laboratorio 09, orientación horizontal)
-9. **Capítulo 9:** Diseño II - Diagramas de Estados y Diagrama de Paquetes (Laboratorio 10)
-10. **Capítulo 10:** Diseño de la Solución (Avance Final)
-11. **Capítulo 11:** Estrategia de GIT y Conclusiones
+
+El documento académico sigue estrictamente la guía-plantilla oficial de TECSUP, estructurada en 7 capítulos:
+
+1. **Capítulo 1: Justificación del Proyecto**
+   - 1.1 Planteamiento del problema general y justificación del proyecto.
+   - 1.2 Objetivo general.
+   - 1.3 Objetivos específicos (OE1 al OE4).
+2. **Capítulo 2: Marco Teórico Referencial o Diseño Metodológico**
+   - 2.1 Marco teórico y tecnológico (POO, Arquitectura MVC, Laravel, Eloquent ORM).
+   - 2.2 Explicación metodológica del modelo en cascada (Waterfall).
+3. **Capítulo 3: Desarrollo de la Solución**
+   - 3.1 Primer grupo de entregables (Semana 5): Organización objetivo, actores, trabajadores, CUN y entidades del negocio.
+   - 3.2 Segundo grupo de entregables (Semana 7): Modelo del negocio (Diagramas CUN-01 a CUN-06), Requerimientos Funcionales y No Funcionales, matrices de trazabilidad y especificación de alto y bajo nivel.
+   - 3.3 Tercer grupo de entregables (Semana 09): Prototipos de pantallas (UI/UX) y enlaces a prototipos interactivos.
+   - 3.4 Cuarto grupo de entregables (Semana 10): Casos de uso del sistema (CUS-01 a CUS-04), actores del sistema y demostración del avance de interfaces.
+   - 3.5 Quinto grupo de entregables (Semana 13): Diagramas de diseño (paquetes en 3 capas, despliegue, componentes, secuencia BCE en orientación horizontal, diagramas de estados, modelo de dominio relacional y ERD conceptual) y cronograma del proyecto (diagrama de Gantt).
+   - 3.6 Sexto grupo de entregables (Semana 15): Matriz formal de casos de prueba del proyecto (CP-01 a CP-06 con sustento y evidencias).
+4. **Capítulo 4: Conclusiones**
+   - Conclusiones evaluadas en correspondencia directa con los objetivos específicos y la metodología aplicada.
+5. **Capítulo 5: Recomendaciones**
+   - Recomendaciones técnicas y de gestión formuladas en correspondencia biunívoca con las conclusiones.
+6. **Capítulo 6: Referencias Bibliográficas**
+   - Fuentes académicas en estricto cumplimiento del formato APA 7.ª edición.
+7. **Capítulo 7: Anexos**
+   - Anexo 1: Repositorio en GitHub y estrategia de control de versiones.
+   - Anexo 2: Estructura del proyecto Laravel y entorno de ejecución.
 
 ## Instalación y Ejecución de la Aplicación
 

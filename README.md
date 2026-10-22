@@ -84,6 +84,9 @@ Usuarios, clientes, categorías, inventario de productos, ventas, detalle\_venta
 - Diagramas de actividades por cada caso de uso del negocio (CUN-01 al CUN-06).
 - Diagramas de casos de uso del sistema (CUS) clasificados por actor operativo.
 - Diagramas de secuencia del sistema (CUS-01 al CUS-04) bajo el patrón Boundary-Control-Entity (BCE) generados nativamente en TikZ en orientación apaisada/horizontal.
+- Diagramas de estados de entidades y procesos clave (Ventas, Compras, Devoluciones, Inventario, Recepción) renderizados en TikZ.
+- Diagrama de paquetes de software en arquitectura de 3 capas (Presentación, Lógica de Negocio y Dominio) con dependencias dirigidas.
+- Diagrama de clases del dominio y modelo relacional (10 clases, tipado estricto, multiplicidades y composiciones).
 - Diagrama de integración y modelo de dominio conceptual.
 - Diagrama de Gantt del plan de ingeniería de requerimientos.
 - Prototipos de pantallas UI/UX (Login, Ventas, Pago, Abastecimiento y Almacén).
@@ -98,8 +101,9 @@ Usuarios, clientes, categorías, inventario de productos, ventas, detalle\_venta
 6. **Capítulo 6:** Prototipos de Pantallas e Interfaces de Usuario (UI/UX)
 7. **Capítulo 7:** Trazabilidad de Requerimientos y Modelo de Dominio
 8. **Capítulo 8:** Diseño I - Diagramas de Secuencia (Laboratorio 09, orientación horizontal)
-9. **Capítulo 9:** Diseño de la Solución (Avance Final)
-10. **Capítulo 10:** Estrategia de GIT y Conclusiones
+9. **Capítulo 9:** Diseño II - Diagramas de Estados y Diagrama de Paquetes (Laboratorio 10)
+10. **Capítulo 10:** Diseño de la Solución (Avance Final)
+11. **Capítulo 11:** Estrategia de GIT y Conclusiones
 
 ## Instalación y Ejecución de la Aplicación
 

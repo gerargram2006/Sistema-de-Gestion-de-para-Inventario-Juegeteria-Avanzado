@@ -1,0 +1,46 @@
+% =====================================================================
+%  Estilos TikZ para los diagramas de componentes (UML)
+% =====================================================================
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\definecolor{compFill}{HTML}{E1F5EE}
+\definecolor{compDraw}{HTML}{0F6E56}
+\definecolor{compText}{HTML}{085041}
+\definecolor{compSub}{HTML}{1D9E75}
+\definecolor{linea}{HTML}{5F5E5A}
+
+\tikzset{
+  componente/.style={rectangle, rounded corners=4pt, fill=compFill, draw=compDraw, line width=0.8pt,
+    minimum width=4.1cm, minimum height=1.9cm, align=center, inner sep=4pt},
+  conector/.style={draw=linea, line width=0.8pt},
+  etiq/.style={font=\sffamily\small, text=linea, align=center},
+}
+
+% \componente{id}{(x,y)}{Nombre}{subtítulo}
+\newcommand{\componente}[4]{%
+  \node[componente] (#1) at #2 {%
+    {\sffamily\small\color{compSub}\guillemotleft componente\guillemotright}\\[1pt]
+    {\sffamily\bfseries\large\color{compText}#3}\\[1pt]
+    {\sffamily\small\color{compSub}#4}};
+  \iconocomponente{($(#1.north east)+(-0.32,-0.32)$)}
+}
+
+% Ícono UML de componente (rectángulo con dos pestañas a la izquierda)
+% \iconocomponente{(centro)}
+\newcommand{\iconocomponente}[1]{%
+  \begin{scope}[shift={#1}, line width=0.6pt, draw=compDraw]
+    \draw[fill=white] (-0.14,-0.19) rectangle (0.18,0.19);
+    \draw[fill=white] (-0.22,0.04) rectangle (-0.06,0.12);
+    \draw[fill=white] (-0.22,-0.12) rectangle (-0.06,-0.04);
+  \end{scope}%
+}
+
+% Notación "ball-and-socket" (interfaz provista / requerida)
+% \ensamble{(punto)}{d}: d = ángulo (en grados) hacia el componente que PROVEE.
+%   La bola (círculo) es la interfaz provista; el semicírculo (socket) la
+%   requerida, abierto hacia el proveedor.
+\newcommand{\ensamble}[2]{%
+  \fill[white] #1 circle (0.14);
+  \draw[conector] #1 circle (0.14);
+  \draw[conector] ($#1+({#2+90}:0.27)$) arc[start angle={#2+90}, end angle={#2+270}, radius=0.27];
+}

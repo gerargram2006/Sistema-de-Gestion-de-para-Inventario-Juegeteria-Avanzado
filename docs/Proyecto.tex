@@ -108,6 +108,7 @@
 \usetikzlibrary{calc, arrows.meta}
 \usepackage{pdflscape}
 \input{media/estilos.tex}
+\input{media/estilos-2.tex}
 
 % ---------- Colores y macros para Diagramas de Secuencia ----------
 \definecolor{cBound}{RGB}{190,190,255}
@@ -171,7 +172,7 @@
   \node[anchor=west,font=\lf] at (#1+0.3,#2) {\guillemotleft destroy\guillemotright};}
 
 % ---------- Índice (TOC funcional y formato APA 7 sin duplicación de números) ----------
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
 
 \usepackage{titletoc}
 
@@ -1249,17 +1250,110 @@ La Matriz de Trazabilidad de Requerimientos es una técnica de aseguramiento de 
 
 \subsubsection{3.5.1 Diagramas de dise\~no (Diagrama de Paquetes, Diagrama de Despliegue, Diagrama de Componentes)}
 
-Conforme a la calendarización metodológica del ciclo de vida en Cascada (Waterfall) adoptada por el equipo, el presente grupo de entregables corresponde a la fase de diseño arquitectural avanzada, programada formalmente para la Semana 13 del ciclo académico. En esta etapa se contempla la especificación y modelado detallado de los siguientes artefactos:
+Conforme a la metodología Cascada (Waterfall), la fase de diseño arquitectural avanzada formaliza la estructura modular, las interfaces de comunicación y la distribución técnica del software. Como parte de los entregables desarrollados, se presenta la especificación del \textbf{Diagrama de Componentes} bajo el estándar UML 2.5, detallando la vista general de la arquitectura, la distribución por módulos funcionales del negocio, sus matrices de interfaces provistas y requeridas, y la justificación técnica de impacto en los Requerimientos No Funcionales (RNF).
 
+\paragraph{Diagrama de Componentes: Vista General del Sistema.}
+El modelado de componentes en la vista general descompone la plataforma en cuatro subsistemas modulares altamente cohesionados y desacoplados:
 \begin{itemize}
-    \item \textbf{Diagrama de Paquetes:} Organización arquitectónica en tres capas desacopladas (Capa de Presentación en Blade/HTML5, Capa de Lógica de Negocio en controladores transaccionales y Capa de Dominio en modelos persistentes Eloquent ORM sobre MySQL) con dependencias unidireccionales estrictas.
-    \item \textbf{Diagrama de Despliegue y Arquitectura Tecnológica:} Topología de ejecución cliente-servidor web moderna integrada por el navegador cliente, servidor web/aplicación Nginx con PHP-FPM 8.2 (Laravel 11) y servidor dedicado de base de datos MySQL 8.0 bajo motor InnoDB con soporte transaccional ACID.
-    \item \textbf{Diagramas de Secuencia (Patrón BCE):} Modelado dinámico y cronológico del intercambio de mensajes entre fronteras (\emph{boundaries}), controladores (\emph{controls}) y entidades (\emph{entities}) para los casos de uso transaccionales CUS-01 (Registrar Venta), CUS-02 (Procesar Pago y Comprobante), CUS-03 (Gestionar Abastecimiento) y CUS-04 (Registrar Ingreso de Mercancía), incluyendo la creación y destrucción de instancias para la optimización de recursos.
-    \item \textbf{Diagramas de Estados:} Definición formal del ciclo de vida, eventos detonantes y transiciones para las entidades transaccionales del sistema: ventas comerciales, compras y abastecimiento, devoluciones/garantías, productos en inventario y recepción física de mercancía en bodega.
-    \item \textbf{Diagrama de Clases del Dominio y Base de Datos (ERD Conceptual):} Especificación estructurada de las 10 entidades persistentes, relaciones relacionales, llaves primarias/foráneas, tipificación rigurosa y normalización en tercera forma normal (3FN).
+    \item \textbf{Seguridad:} Centraliza la autenticación, control de sesiones y autorización basada en roles (RBAC) mediante Middleware, validando accesos tanto para la capa de presentación como para los controladores transaccionales.
+    \item \textbf{Vistas (CI\_*):} Agrupa las plantillas interactivas de presentación (Blade / HTML5 / CSS) correspondientes a las interfaces de usuario.
+    \item \textbf{Lógica (CP\_*):} Orquesta la lógica del negocio y las reglas de procesamiento mediante controladores transaccionales que responden a las peticiones del frontend.
+    \item \textbf{Base de Datos (Entidades):} Gestiona la capa de persistencia estructurada mediante el mapeo objeto-relacional Eloquent ORM sobre el motor relacional MySQL.
 \end{itemize}
 
-La sintaxis completa en \LaTeX{} y el código vectorial nativo en TikZ correspondientes a este grupo de diagramas se encuentran estructurados y preservados a continuación dentro del código fuente de este documento como bloques comentados (\texttt{\%}), listos para su descomentado y compilación oficial en la Semana 13:
+La Figura~\ref{fig:componentes_sistema} ilustra la interacción entre estos cuatro componentes centrales mediante la notación estándar de ensamble \emph{ball-and-socket} (interfaz provista y requerida).
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de componentes: vista general de la arquitectura del sistema.}
+  \label{fig:componentes_sistema}
+  \resizebox{0.95\linewidth}{!}{\input{media/componentes_sistema.tex}}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diagrama de componentes bajo notación UML 2.5 que modela las interfaces provistas y requeridas entre Vistas, Lógica, Base de datos y Seguridad.\par}
+\end{figure}
+
+\paragraph{Diagrama de Componentes por Módulo Funcional del Negocio.}
+A nivel operacional, el sistema se estructura en seis componentes funcionales que articulan directamente los casos de uso transaccionales de la juguetería ``Mundo del Juguete'': \emph{Ventas (CUS-01)}, \emph{Almacén (CUS-03)}, \emph{Abastecimiento (CUS-02)}, \emph{Devoluciones (CUS-04)}, \emph{Catálogo} y \emph{Seguridad}. 
+
+Como se observa en la Figura~\ref{fig:componentes_modulos}, el componente Almacén constituye el núcleo de la interoperabilidad operativa al proveer validación de existencias a Ventas, reposición de mercancía a Abastecimiento y reingreso físico a Devoluciones, mientras que Seguridad brinda la interfaz transversal de permisos por rol a todos los módulos.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de componentes: arquitectura por módulos funcionales del negocio.}
+  \label{fig:componentes_modulos}
+  \resizebox{0.90\linewidth}{!}{\input{media/componentes_modulos.tex}}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Modelado de acoplamiento e interfaces de comunicación entre los módulos funcionales del punto de venta e inventario.\par}
+\end{figure}
+
+\paragraph{Matriz de Interfaz y Componente.}
+La Tabla~\ref{tab:matriz_componentes_sistema} y la Tabla~\ref{tab:matriz_componentes_modulos} formalizan el inventario riguroso de interfaces que cada componente provee y requiere, certificando la completitud del diseño arquitectural y garantizando que toda dependencia posea un componente proveedor definido.
+
+\begin{table}[H]
+  \centering
+  \caption{Matriz de interfaz y componente: vista general del sistema.}
+  \label{tab:matriz_componentes_sistema}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Componente} & \textbf{Interfaces que provee} & \textbf{Interfaces que requiere} \\ \hline
+    Seguridad & Permisos por rol (a Lógica); Restringe vistas por rol (a Vistas) & Usuarios y roles (de Base de datos) \\ \hline
+    Vistas (CI\_*) & Ninguna & Peticiones de interfaz (de Lógica); Restringe vistas por rol (de Seguridad) \\ \hline
+    Lógica (CP\_*) & Peticiones de interfaz (a Vistas) & Datos (de Base de datos); Permisos por rol (de Seguridad) \\ \hline
+    Base de datos (entidades) & Datos (a Lógica); Usuarios y roles (a Seguridad) & Ninguna \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Contratos de interfaz provistos y requeridos entre las capas arquitectónicas principales.\par}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Matriz de interfaz y componente por módulo funcional.}
+  \label{tab:matriz_componentes_modulos}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Componente} & \textbf{Interfaces que provee} & \textbf{Interfaces que requiere} \\ \hline
+    Ventas (CUN-01) & Consultar venta (a Devoluciones) & Validar stock (de Almacén); Datos de cliente (de Catálogo); Permisos por rol (de Seguridad)* \\ \hline
+    Almacén (CUN-03) & Validar stock (a Ventas); Reponer stock (a Abastecimiento); Reingresar stock (a Devoluciones) & Permisos por rol (de Seguridad)* \\ \hline
+    Abastecimiento (CUN-02) & Ninguna & Reponer stock (de Almacén); Permisos por rol (de Seguridad)* \\ \hline
+    Devoluciones (CUN-04) & Ninguna & Consultar venta (de Ventas); Reingresar stock (de Almacén); Permisos por rol (de Seguridad)* \\ \hline
+    Catálogo & Datos de cliente (a Ventas) & Permisos por rol (de Seguridad)* \\ \hline
+    Seguridad & Permisos por rol (a todos los módulos) & Ninguna \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Relación de contratos entre módulos funcionales. (*) Interfaz requerida transversalmente por todos los módulos.\par}
+\end{table}
+
+\paragraph{Justificación Técnica: Impacto Arquitectónico en los Requerimientos No Funcionales.}
+El diseño arquitectónico del sistema para ``Mundo del Juguete'' se fundamenta en el patrón \emph{Boundary-Control-Entity} (BCE), implementado mediante una arquitectura Modelo-Vista-Controlador (MVC) en PHP con Laravel y persistencia en MySQL. Esta estructura técnica no solo resuelve el flujo transaccional de los Casos de Uso del Sistema (CUS), sino que garantiza el cumplimiento estricto de los Requerimientos No Funcionales (RNF) de mantenibilidad y escalabilidad:
+
+\begin{itemize}
+    \item \textbf{Impacto en la Mantenibilidad:} La separación estructurada de responsabilidades reduce la deuda técnica y facilita la depuración y auditoría del código:
+    \begin{itemize}
+        \item \emph{Desacoplamiento de Componentes:} Al aislar la capa de Presentación en plantillas Blade estandarizadas con CSS/Tailwind, el equipo de desarrollo puede modificar las interfaces de caja o almacén sin riesgo de alterar la lógica del servidor.
+        \item \emph{Encapsulamiento Lógico:} Los Controladores centralizan exclusivamente las reglas del negocio (validación en tiempo real del stock crítico, cálculos de impuestos y descuentos). Las modificaciones comerciales se aplican en un único controlador, evitando efectos en cascada.
+        \item \emph{Gestión Estandarizada de Datos:} Los modelos de persistencia fuertemente tipados con Eloquent ORM aseguran que los ajustes de atributos o relaciones se realicen en archivos de migración y modelo únicos, resguardando la integridad referencial.
+    \end{itemize}
+    \item \textbf{Impacto en la Escalabilidad:} El sistema está preparado para absorber el crecimiento operativo y transaccional:
+    \begin{itemize}
+        \item \emph{Alta Concurrencia Transaccional:} La gestión optimizada de peticiones y el procesamiento de tareas en Laravel permiten que múltiples cajeros y administradores operen en paralelo sin experimentar cuellos de botella en el servidor web.
+        \item \emph{Elasticidad del Modelo de Persistencia:} La persistencia en MySQL estructurada en 3FN mediante Eloquent ORM otorga flexibilidad y soporte para índices transaccionales y particionamiento a medida que el catálogo de juguetes y compras se incremente.
+        \item \emph{Escalabilidad de Infraestructura y Seguridad:} La centralización del control de acceso y autenticación mediante roles (RNF-03) y su integración con servicios de directorio activo (Active Directory / LDAP bajo Windows Server / Linux) desvincula la administración de credenciales del código fuente, permitiendo incorporar nuevas sucursales y personal sin modificar el software.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Conclusiones del Diseño Arquitectónico por Componentes.}
+La formulación del modelo de componentes y sus matrices de interfaces permite extraer los siguientes hallazgos y lineamientos técnicos para el proyecto:
+\begin{enumerate}
+    \item \textbf{Estructuración interna del sistema:} La división en cuatro subsistemas desacoplados (Vistas, Lógica, Base de datos y Seguridad) clarifica las responsabilidades operativas y sirve de guía directa para la organización del código fuente en Laravel.
+    \item \textbf{Contratos explícitos mediante interfaces:} El uso de la notación \emph{ball-and-socket} hace explícito lo que cada componente ofrece y necesita, garantizando que cada módulo dependa de un contrato y no de la implementación interna de los demás.
+    \item \textbf{Verificación de completitud y dependencias:} Las matrices de trazabilidad de interfaz validan que toda interfaz requerida disponga de un componente proveedor correspondiente, descartando a tiempo dependencias circulares o faltantes.
+    \item \textbf{Rol neurálgico del componente Almacén:} Al centralizar las interfaces de validación, reposición y reingreso de existencias físicas hacia Ventas, Abastecimiento y Devoluciones, el componente Almacén se consolida como el eje transaccional de mayor criticidad operativa.
+    \item \textbf{Centralización y auditoría de la seguridad:} La provisión transversal de la interfaz de permisos por rol desde el componente Seguridad garantiza que las políticas de autenticación y autorización se administren en un único punto auditable.
+    \item \textbf{Mantenibilidad del software:} La separación de responsabilidades permite que modificaciones en la capa visual o en las políticas comerciales se resuelvan en un componente aislado sin propagar efectos en cascada.
+    \item \textbf{Escalabilidad arquitectónica:} La arquitectura modular orientada a contratos permite que el sistema crezca ante mayores volúmenes de ventas, usuarios concurrentes y sucursales sin requerir la refactorización de los módulos existentes.
+\end{enumerate}
+
+Asimismo, los artefactos complementarios de diseño avanzado (Diagrama de Paquetes en tres capas, Diagrama de Despliegue tecnológico, Diagramas de Secuencia BCE y Diagramas de Estados) se encuentran codificados a continuación para su consolidación formal en las semanas subsiguientes:
 
 % =========================================================================
 % BLOQUE COMENTADO PARA ACTIVAR EN SEMANA 13 (DIAGRAMAS DE DISEÑO)

@@ -1,0 +1,27 @@
+% =========================================================================
+% BLOQUE COMENTADO PARA ACTIVAR EN SEMANA 15 (MATRIZ DE CASOS DE PRUEBA)
+% =========================================================================
+% \begingroup
+% \singlespacing
+% \footnotesize
+% \setlength{\tabcolsep}{4pt}
+% \setlength{\LTleft}{0pt plus \textwidth}
+% \setlength{\LTright}{0pt plus \textwidth}
+% \renewcommand{\arraystretch}{1.2}
+% \begin{longtable}{|L{1.1cm}|L{1.9cm}|L{3.2cm}|L{2.8cm}|L{3.2cm}|C{1.8cm}|}
+%   \caption{Matriz de casos de prueba del proyecto y sustento de ejecución.}
+%   \label{tab:matriz_casos_prueba}\\
+%   \hline
+%   \textbf{ID} & \textbf{Caso de Uso} & \textbf{Descripción / Prueba} & \textbf{Datos de Entrada} & \textbf{Resultado Esperado} & \textbf{Estado} \\
+%   \hline
+%   \endfirsthead
+%   CP-01 & CUS-01 / RF-01 & Autenticación de usuario vendedor con credenciales válidas. & Usuario: \texttt{vendedor1}, Password: \texttt{Pass123*} & Acceso concedido al panel POS de ventas y token de sesión emitido. & \textbf{Aprobado} \\
+%   CP-02 & CUS-01 / RF-03 & Validación de stock en tiempo real y reserva provisional. & SKU: \texttt{JUG-001}, Cantidad: 2 (Stock disponible: 15) & Stock provisional reservado y total calculado con código de venta. & \textbf{Aprobado} \\
+%   CP-03 & CUS-01 / RF-06 & Control de excepción por intento de venta con stock insuficiente. & SKU: \texttt{JUG-002}, Cantidad: 20 (Stock disponible: 5) & Bloqueo de adición, alerta de unidades insuficientes en pantalla. & \textbf{Aprobado} \\
+%   CP-04 & CUS-02 / RF-04 & Cobro de venta, cálculo de vuelto y emisión de boleta legal. & Venta: \texttt{V-1001}, Monto: S/ 100.00, Efectivo: S/ 120.00 & Vuelto calculado S/ 20.00, venta completada y boleta B001-105 emitida. & \textbf{Aprobado} \\
+%   CP-05 & CUS-03 / RF-07 & Detección de stock crítico y generación de orden de compra. & Stock actual $\leq$ Stock mínimo (3 $\leq$ 5 unidades) & Alerta enviada al administrador y borrador de OC generado con proveedor. & \textbf{Aprobado} \\
+%   CP-06 & CUS-04 / RF-10 & Recepción de mercancía física y actualización de kardex. & Nro OC: \texttt{OC-2026-08}, Cantidad: 50 unidades recibidas & Estado de OC a 'Recibida' e incremento automático de 50 en kardex. & \textbf{Aprobado} \\
+%   \hline
+% \end{longtable}
+% \endgroup
+% =========================================================================

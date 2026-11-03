@@ -1,0 +1,191 @@
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.15}
+    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-01 Registrar Venta.}
+    \label{tab:cus_01}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{Nombre:} Registrar Venta & \textbf{Actor:} Vendedor \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Clasificación:} Primario / Detallado} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item El vendedor debe haber iniciado sesión con credenciales válidas en el sistema.
+            \item El cliente debe estar registrado o contar con sus datos disponibles para la venta.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item La venta queda registrada con estado pendiente de pago.
+            \item El stock provisional de los productos queda reservado en el sistema.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Selecciona la opción 'Nueva Venta' en el módulo principal. & 2. El sistema despliega la interfaz para ingresar cliente y productos. \\
+        \hline
+        3. Ingresa el documento de identidad o código del cliente. & 4. El sistema valida los datos del cliente y habilita el buscador. \\
+        \hline
+        5. Busca y selecciona los juguetes solicitados y cantidades. & 6. El sistema verifica disponibilidad de stock en tiempo real (\texttt{<<include>>}). \\
+        \hline
+        7. Confirma el detalle de los productos agregados a la lista. & 8. El sistema calcula subtotal, impuestos y total preliminar con código de venta. \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item \textbf{3a.} El cliente no se encuentra registrado: El sistema muestra alerta y permite registrarlo rápidamente.
+            \item \textbf{6a.} Stock insuficiente para juguetes: El sistema muestra advertencia y bloquea unidades excedentes.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+    \end{tabularx}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-01.\par}
+\end{table}
+
+\clearpage
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.15}
+    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-02 Procesar Pago y Emitir Comprobante.}
+    \label{tab:cus_02}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{Nombre:} Procesar Pago y Emitir Comprobante & \textbf{Actor:} Cajero \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Clasificación:} Primario / Detallado} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item El sistema debe tener una venta registrada previamente con estado pendiente de pago.
+            \item La caja registradora debe encontrarse abierta y con fondo de efectivo validado.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item El estado de la venta cambia a 'Completada / Pagada'.
+            \item Se genera y emite el comprobante de pago legal (boleta o factura).
+            \item Se actualiza el stock definitivo en el inventario de la juguetería.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Ingresa el código de la venta pendiente a cobrar. & 2. El sistema recupera el detalle de la venta y muestra el monto total a pagar. \\
+        \hline
+        3. Selecciona el método de pago (Efectivo, Tarjeta, Transferencia). & 4. El sistema solicita los datos correspondientes al medio de pago elegido. \\
+        \hline
+        5. Ingresa el monto recibido o confirma transacción electrónica. & 6. El sistema calcula el vuelto (si aplica) y procesa el pago (\texttt{<<include>>}). \\
+        \hline
+        7. Solicita la emisión del comprobante de pago (Boleta/Factura). & 8. El sistema genera el comprobante, descuenta el stock y finaliza la venta (\texttt{<<include>>}). \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item \textbf{5a.} Monto en efectivo menor al total: El sistema muestra error y exige monto igual o superior.
+            \item \textbf{5b.} Transacción electrónica rechazada: El sistema notifica el fallo y permite reintentar o cambiar de método.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+    \end{tabularx}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-02.\par}
+\end{table}
+
+\clearpage
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.15}
+    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-03 Gestionar Abastecimiento de Productos.}
+    \label{tab:cus_03}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{Nombre:} Gestionar Abastecimiento de Productos & \textbf{Actor:} Administrador \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Clasificación:} Secundario / Detallado} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item El administrador debe haber iniciado sesión con privilegios gerenciales en el sistema.
+            \item Deben existir productos con niveles de inventario iguales o inferiores al stock mínimo.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item Se genera formalmente la Orden de Compra en el sistema.
+            \item Se notifica de manera automática al proveedor correspondiente.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Selecciona la opción 'Gestión de Abastecimiento' en inventarios. & 2. El sistema despliega el reporte de productos con stock crítico o agotado. \\
+        \hline
+        3. Selecciona los productos y las cantidades sugeridas a reponer. & 4. El sistema valida los datos y habilita el módulo de selección de proveedores. \\
+        \hline
+        5. Selecciona al proveedor autorizado y condiciones de entrega. & 6. El sistema calcula presupuesto estimado y genera Orden de Compra (\texttt{<<include>>}). \\
+        \hline
+        7. Confirma y autoriza la emisión de la orden de compra. & 8. El sistema registra la orden y envía notificación al proveedor (\texttt{<<include>>}). \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item \textbf{3a.} Modificación por encima del presupuesto: El sistema solicita autorización extraordinaria.
+            \item \textbf{5a.} Proveedor seleccionado inactivo: El sistema emite alerta impidiendo asociar orden y solicita otro.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+    \end{tabularx}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-03.\par}
+\end{table}
+
+\clearpage
+\begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.15}
+    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-04 Registrar Ingreso de Mercanc\'ia.}
+    \label{tab:cus_04}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{Nombre:} Registrar Ingreso de Mercancía & \textbf{Actor:} Encargado de Almacén \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Clasificación:} Secundario / Detallado} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item El encargado de almacén debe estar autenticado en el sistema de logística.
+            \item Debe existir una Orden de Compra previamente emitida y 'Pendiente de Recepción'.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item El stock en bodega se actualiza incrementando las cantidades recibidas.
+            \item La Orden de Compra cambia su estado a 'Completada / Recibida'.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
+        \hline
+        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
+        \hline
+        1. Selecciona la opción 'Recepción de Mercancía' en almacén. & 2. El sistema solicita número de Orden de Compra o factura del proveedor. \\
+        \hline
+        3. Ingresa el número de la Orden de Compra física recibida. & 4. El sistema busca y despliega detalle de productos esperados para validación. \\
+        \hline
+        5. Conteo físico y registro de cantidades de juguetes recibidas. & 6. El sistema compara cantidades con la orden y actualiza inventario (\texttt{<<include>>}). \\
+        \hline
+        7. Confirma el registro final de recepción de la mercancía. & 8. El sistema actualiza el estado de la orden y emite constancia de ingreso. \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
+        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+            \item \textbf{4a.} Número de Orden no existe o ya recepcionada: El sistema muestra error y bloquea el proceso.
+            \item \textbf{6a.} Detección de productos dañados o faltantes: El sistema permite registrar observación y alerta.
+        \end{itemize}\vspace{-0.25cm}} \\
+        \hline
+    \end{tabularx}
+    \par\vspace{1ex}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-04.\par}
+\end{table}

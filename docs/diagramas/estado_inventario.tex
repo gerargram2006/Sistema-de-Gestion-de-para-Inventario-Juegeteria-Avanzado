@@ -1,0 +1,17 @@
+% Diagrama de estados: Productos en inventario
+\begin{tikzpicture}
+  \node[ok]  (dis) at (0,0)    {Producto\\disponible};
+  \node[bad] (baj) at (4.7,0)  {Stock\\bajo};
+  \node[bad] (ago) at (9.4,0)  {Producto\\agotado};
+  \node[bad] (ina) at (14.1,0) {Producto\\inactivo};
+  \node[inicio] (ini) at (0,1.5) {};
+  \node[fin] (f1) at (14.1,-1.6) {};
+
+  \draw[trans] (ini) -- (dis);
+  \draw[trans] (dis) -- node[etq, above] {stock $\leq$\\mínimo} (baj);
+  \draw[trans] (baj) -- node[etq, above] {stock\\$= 0$} (ago);
+  \draw[trans] (ago) -- node[etq, above] {descontinuar\\producto} (ina);
+  \draw[trans] ($(baj.south)+(-0.3,0)$) -- ++(0,-0.55) -| node[etq, below, pos=0.25] {reposición parcial} ($(dis.south)+(0.5,0)$);
+  \draw[trans] ($(ago.south)+(0.6,0)$) -- ++(0,-1.6) -| node[etq, below, pos=0.25] {reposición total (recepción de compra)} ($(dis.south)+(-0.5,0)$);
+  \draw[trans] (ina) -- (f1);
+\end{tikzpicture}

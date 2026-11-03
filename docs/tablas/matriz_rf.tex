@@ -1,0 +1,54 @@
+\begingroup
+\singlespacing
+\small
+\setlength{\LTleft}{0pt plus \textwidth}
+\setlength{\LTright}{0pt plus \textwidth}
+\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|L{1.4cm}|C{1.1cm}|L{4.1cm}|L{8.1cm}|}
+  \caption{Matriz de trazabilidad de requerimientos funcionales (RF) --- Mundo del Juguete.}
+  \label{tab:matriz_trazabilidad_rf}\\
+  \hline
+  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
+  \hline
+  \endfirsthead
+  \multicolumn{4}{c}{\tablename~\thetable: Matriz de trazabilidad de requerimientos funcionales (RF) (continuación)}\\
+  \hline
+  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
+  \hline
+  \endhead
+  RF-01 & RF & Actor: Vendedor/Cajero --- CUN-01 & Evita accesos no autorizados a las operaciones de venta. \\
+  RF-02 & RF & Actor: Vendedor --- CUN-01 & Permite iniciar el registro de la venta seleccionando productos. \\
+  RF-03 & RF & Regla de negocio --- CUN-01 & Evita vender productos sin stock disponible. \\
+  RF-04 & RF & CUN-01 & Formaliza la transacción y genera el comprobante para el cliente. \\
+  RF-05 & RF & Regla de negocio --- CUN-01 & Mantiene el inventario actualizado en tiempo real tras la venta. \\
+  RF-06 & RF & CUN-01 & Informa al usuario ante errores de stock o conexión. \\
+  RF-07 & RF & Actor: Administrador --- CUN-02 & Permite anticipar quiebres de stock revisando el catálogo. \\
+  RF-08 & RF & CUN-02 & Facilita negociar precio y condiciones con el proveedor. \\
+  RF-09 & RF & Actor: Administrador --- CUN-02 & Formaliza el pedido de mercancía al proveedor. \\
+  RF-10 & RF & Actor: Administrador/Almacenero --- CUN-02 & Registra la llegada física de la mercancía. \\
+  RF-11 & RF & Regla de negocio --- CUN-02 & Mantiene el inventario actualizado tras el abastecimiento. \\
+  RF-12 & RF & Actor: Administrador --- CUN-03 & Restringe el acceso al módulo de control de inventario. \\
+  RF-13 & RF & CUN-03 & Documenta los resultados de la verificación física del stock. \\
+  RF-14 & RF & CUN-03 & Identifica pérdidas y mermas para prevenir descuadres económicos. \\
+  RF-15 & RF & CUN-03 & Actualiza los niveles mínimos según la auditoría realizada. \\
+  RF-16 & RF & CUN-03 & Proporciona información actualizada para la toma de decisiones. \\
+  RF-17 & RF & Actor: Cliente --- CUN-04 & Permite registrar solicitudes de devolución o cambio. \\
+  RF-18 & RF & CUN-04 & Verifica la validez de la compra y el estado del producto. \\
+  RF-19 & RF & Regla de negocio --- CUN-04 & Evita devoluciones fuera de las políticas o plazos establecidos. \\
+  RF-20 & RF & Actor: Vendedor --- CUN-04 & Resuelve la solicitud del cliente (cambio o reembolso). \\
+  RF-21 & RF & Regla de negocio --- CUN-04 & Ajusta el inventario según la solución aplicada. \\
+  RF-22 & RF & Actor: Vendedor --- CUN-05 & Combina el registro de venta con el descuento automático de stock. \\
+  RF-23 & RF & Actor: Cajero --- CUN-05 & Formaliza el cobro y entrega el comprobante de pago. \\
+  RF-24 & RF & Actor: Administrador --- CUN-05 & Inicia el proceso de reposición de stock. \\
+  RF-25 & RF & Actor: Encargado de almacén --- CUN-05 & Cierra el ciclo de abastecimiento actualizando el inventario. \\
+  RF-26 & RF & Actor: Cliente --- CUN-06 & Registra el inicio de la interacción comercial del cliente. \\
+  RF-27 & RF & Actor: Vendedor --- CUN-06 & Documenta la atención brindada al cliente en tienda. \\
+  RF-28 & RF & CUN-06 & Confirma la entrega física satisfactoria al cliente. \\
+  RF-29 & RF & Actor: Administrador --- CUN-06 & Formaliza la solicitud de reabastecimiento al proveedor externo. \\
+  RF-30 & RF & Actor: Proveedor --- CUN-06 & Registra el despacho de mercancía realizado por el proveedor. \\
+  RF-31 & RF & CUN-06 & Actualiza formalmente el ingreso de mercancía en el sistema. \\
+  \hline
+\end{longtable}
+\par\vspace{1ex}
+\raggedright\noindent\small\emph{Nota.} Elaboración propia (2026). La tabla vincula cada requerimiento funcional con su origen actor o caso de uso del negocio.
+\endgroup

@@ -1,0 +1,68 @@
+% Diagrama de componentes por módulo funcional
+\begin{tikzpicture}
+  \componente{ven}{(0,0)}{Ventas}{CUS-01}
+  \componente{alm}{(6.5,0)}{Almacén}{CUS-03}
+  \componente{aba}{(13,0)}{Abastecimiento}{CUS-02}
+  \componente{cat}{(0,-5)}{Catálogo}{clientes y categorías}
+  \componente{dev}{(6.5,-5)}{Devoluciones}{CUS-04}
+  \componente{seg}{(3.25,-10.4)}{Seguridad}{autenticación y roles}
+
+  % Validar stock: provee Almacén, requiere Ventas
+  \coordinate (i1) at (3.25,0);
+  \draw[conector] (alm.west) -- ($(i1)+(0:0.14)$);
+  \draw[conector] (ven.east) -- ($(i1)+(180:0.27)$);
+  \ensamble{(i1)}{0}
+  \node[etiq, above=8pt] at (i1) {Validar stock};
+
+  % Reponer stock: provee Almacén, requiere Abastecimiento
+  \coordinate (i2) at (9.75,0);
+  \draw[conector] (alm.east) -- ($(i2)+(180:0.14)$);
+  \draw[conector] (aba.west) -- ($(i2)+(0:0.27)$);
+  \ensamble{(i2)}{180}
+  \node[etiq, above=8pt] at (i2) {Reponer stock};
+
+  % Datos de cliente: provee Catálogo, requiere Ventas
+  \coordinate (i3) at (0,-2.5);
+  \draw[conector] (cat.north) -- ($(i3)+(270:0.14)$);
+  \draw[conector] (ven.south) -- ($(i3)+(90:0.27)$);
+  \ensamble{(i3)}{270}
+  \node[etiq, left=8pt] at (i3) {Datos de cliente};
+
+  % Reingresar stock: provee Almacén, requiere Devoluciones
+  \coordinate (i4) at (6.5,-2.5);
+  \draw[conector] (alm.south) -- ($(i4)+(90:0.14)$);
+  \draw[conector] (dev.north) -- ($(i4)+(270:0.27)$);
+  \ensamble{(i4)}{90}
+  \node[etiq, right=8pt] at (i4) {Reingresar stock};
+
+  % Consultar venta: provee Ventas, requiere Devoluciones (diagonal)
+  \coordinate (vA) at ($(ven.south east)+(-0.3,0)$);
+  \coordinate (dA) at ($(dev.north west)+(0.4,0)$);
+  \coordinate (i5) at ($(vA)!0.5!(dA)$);
+  \pgfmathanglebetweenpoints{\pgfpointanchor{i5}{center}}{\pgfpointanchor{vA}{center}}
+  \let\angVenta\pgfmathresult
+  \draw[conector] (vA) -- ($(i5)+(\angVenta:0.14)$);
+  \draw[conector] (dA) -- ($(i5)+({\angVenta+180}:0.27)$);
+  \ensamble{(i5)}{\angVenta}
+  \node[etiq, above right=2pt and 8pt] at (i5) {Consultar venta};
+
+  % ---- Permisos por rol: provee Seguridad, requerida por TODOS los módulos ----
+  \def\yb{-7.6}
+  \coordinate (bL) at (-2.6,\yb);
+  \coordinate (bR) at (13,\yb);
+  \draw[conector] (bL) -- (bR);
+  \draw[conector] (ven.west) -| (bL);
+  \draw[conector] (cat.south) -- (cat.south |- bL) coordinate (j1);
+  \draw[conector] (dev.south) -- (dev.south |- bL) coordinate (j2);
+  \draw[conector] ($(alm.east)+(0,-0.55)$) -| (9.75,\yb) coordinate (j3);
+  \draw[conector] (aba.south) -- (aba.south |- bL) coordinate (j4);
+  \coordinate (j5) at (3.25,\yb);
+  \foreach \j in {j1,j2,j3,j4,j5} \fill[linea] (\j) circle (2.2pt);
+
+  \coordinate (i6) at (3.25,-8.5);
+  \draw[conector] (j5) -- ($(i6)+(90:0.27)$);
+  \draw[conector] (seg.north) -- ($(i6)+(270:0.14)$);
+  \ensamble{(i6)}{270}
+  \node[etiq, right=8pt] at (i6) {Permisos por rol};
+  \node[etiq, anchor=west] at (5.4,-9.0) {Interfaz requerida por todos los módulos};
+\end{tikzpicture}

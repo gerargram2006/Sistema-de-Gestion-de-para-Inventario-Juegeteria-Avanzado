@@ -1,0 +1,21 @@
+% Diagrama de estados: Recepción en almacén
+\begin{tikzpicture}
+  \node[ok]  (ini2) at (0,0)    {Recepción\\iniciada};
+  \node[ok]  (val)  at (4.7,0)  {Validando\\ubicaciones};
+  \node[ok]  (emp)  at (9.4,0)  {Empaque\\verificado};
+  \node[ok]  (mov)  at (14.1,0) {Movimiento\\registrado};
+  \node[bad] (rch)  at (4.7,-2.6)  {Recepción\\rechazada};
+  \node[ok]  (con)  at (14.1,-2.6) {Recepción\\confirmada};
+  \node[inicio] (ini) at (0,1.5) {};
+  \node[fin] (f1) at (4.7,-4.2) {};
+  \node[fin] (f2) at (14.1,-4.2) {};
+
+  \draw[trans] (ini) -- (ini2);
+  \draw[trans] (ini2) -- node[etq, above] {actualizar\\stock} (val);
+  \draw[trans] (val) -- node[etq, above] {ubicaciones\\válidas} (emp);
+  \draw[trans] (emp) -- node[etq, above] {registrar\\movimiento} (mov);
+  \draw[trans] (val) -- node[etq, right] {ubicación inválida} (rch);
+  \draw[trans] (mov) -- node[etq, left]  {confirmar registro} (con);
+  \draw[trans] (rch) -- (f1);
+  \draw[trans] (con) -- (f2);
+\end{tikzpicture}

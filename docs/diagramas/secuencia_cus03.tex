@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+  \def\A{0}\def\B{3.8}\def\C{7.8}\def\D{12.2}
+  \hActor{\A}{0}{Administrador}\hBound{\B}{0}{\tn{CI\_Abastecimiento}}
+  \hProc{\C}{0}{\tn{CP\_Abastecimiento}}\hEnt{\D}{0}{\tn{Producto/Proveedor/OC}}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-12.2}}
+  \msg{\A}{\B}{-1.9}{1: consultarReporteStockCritico()}
+  \msg{\B}{\C}{-2.9}{2: solicitarProductos()\\bajoStockMinimo}
+  \msg{\C}{\D}{-4.1}{3: consultarInventario()\\proveedoresActivos()}
+  \ret{\D}{\C}{-5.2}{4: listadoJuguetes\\aReponer}
+  \selfmsg{\C}{-6.2}{5: calcularPresupuesto\\seleccionarProveedor()}{l}
+  \msg{\C}{\D}{-7.5}{6: generarOrdenCompra()\\\guillemotleft create\guillemotright}
+  \ret{\D}{\C}{-8.5}{7: ocGenerada\\(nroOC)}
+  \msg{\C}{\D}{-9.7}{8: notificarProveedor(nroOC)}
+  \ret{\D}{\C}{-10.7}{9: proveedorNotificado}
+  \ret{\C}{\B}{-11.1}{10: ordenGenerada\\(nroOC)}
+  \ret{\B}{\A}{-11.7}{11: notificacionEnviada\\(proveedor)}
+  \actbar{\A}{-1.8}{-11.8}{cActor}\actbar{\B}{-1.8}{-11.8}{cBar}
+  \actbar{\C}{-2.9}{-11.2}{cBar}\actbar{\D}{-4.2}{-10.8}{cBar}
+  \destroy{\C}{-11.5}
+  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (6.0,-13.3) {\textbf{Flujos alternos:} 3a modificaci\'on por encima del presupuesto \(\rightarrow\) solicita autorizaci\'on extraordinaria;\\ 5a proveedor seleccionado inactivo \(\rightarrow\) alerta e impide asociar orden.};
+\end{tikzpicture}

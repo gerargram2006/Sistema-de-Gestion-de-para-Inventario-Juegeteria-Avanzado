@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+  \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{11.8}
+  \hActor{\A}{0}{Vendedor}\hBound{\B}{0}{\tn{CI\_Venta}}
+  \hProc{\C}{0}{\tn{CP\_Venta}}\hEnt{\D}{0}{\tn{Cliente/Producto/Venta}}
+  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11.4}}
+  \msg{\A}{\B}{-2.0}{1: registrarVenta(dni)}
+  \msg{\B}{\C}{-3.1}{2: enviarDatosCliente()\\consultaJuguetes}
+  \selfmsg{\C}{-4.1}{3: validarStock()\\disponibilidad}{l}
+  \msg{\C}{\D}{-5.4}{4: consultarCliente()\\consultarCatalogo()}
+  \ret{\D}{\C}{-6.5}{5: confirmarStock()\\(datos, precios)}
+  \msg{\C}{\D}{-7.6}{6: reservarStock(cantidades)}
+  \ret{\D}{\C}{-8.6}{7: stockReservado}
+  \ret{\C}{\B}{-9.7}{8: mostrarTotal\\(subtotal, impuestos,\\total, codigoVenta)}
+  \ret{\B}{\A}{-10.9}{9: ventaRegistrada\\(estado Pendiente)}
+  \actbar{\A}{-1.9}{-11.0}{cActor}\actbar{\B}{-1.9}{-11.0}{cBar}
+  \actbar{\C}{-3.0}{-9.8}{cBar}\actbar{\D}{-5.3}{-8.7}{cBar}
+  \destroy{\C}{-10.3}
+  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (5.9,-12.5) {\textbf{Flujos alternos:} 3a cliente no registrado \(\rightarrow\) registro r\'apido;\\ 6a stock insuficiente \(\rightarrow\) advertencia y bloqueo de unidades excedentes.};
+\end{tikzpicture}

@@ -1,0 +1,42 @@
+% Diagrama de componentes: vista general del sistema
+\begin{tikzpicture}
+  \componente{seg}{(7,3.8)}{Seguridad}{autenticación y roles}
+  \componente{vis}{(0,0)}{Vistas}{interfaces CI\_*}
+  \componente{log}{(7,0)}{Lógica}{controladores CP\_*}
+  \componente{bd}{(14,0)}{Base de datos}{entidades del modelo}
+
+  % Peticiones de interfaz: provee Lógica, requiere Vistas
+  \coordinate (p1) at (3.5,0);
+  \draw[conector] (log.west) -- ($(p1)+(0:0.14)$);
+  \draw[conector] (vis.east) -- ($(p1)+(180:0.27)$);
+  \ensamble{(p1)}{0}
+  \node[etiq, above=6pt] at (p1) {Peticiones\\de interfaz};
+
+  % Datos: provee Base de datos, requiere Lógica
+  \coordinate (p2) at (10.5,0);
+  \draw[conector] (bd.west) -- ($(p2)+(0:0.14)$);
+  \draw[conector] (log.east) -- ($(p2)+(180:0.27)$);
+  \ensamble{(p2)}{0}
+  \node[etiq, above=8pt] at (p2) {Datos};
+
+  % Permisos por rol: provee Seguridad, requiere Lógica
+  \coordinate (p3) at (7,1.9);
+  \draw[conector] (seg.south) -- ($(p3)+(90:0.14)$);
+  \draw[conector] (log.north) -- ($(p3)+(270:0.27)$);
+  \ensamble{(p3)}{90}
+  \node[etiq, right=8pt] at (p3) {Permisos por rol};
+
+  % Restringe vistas por rol: provee Seguridad, requiere Vistas
+  \coordinate (p4) at (3.5,3.8);
+  \draw[conector] (seg.west) -- ($(p4)+(0:0.14)$);
+  \draw[conector] (vis.north) |- ($(p4)+(180:0.27)$);
+  \ensamble{(p4)}{0}
+  \node[etiq, above=8pt] at ($(p4)+(-1.3,0)$) {Restringe vistas por rol};
+
+  % Usuarios y roles: provee Base de datos, requiere Seguridad
+  \coordinate (p5) at (10.5,3.8);
+  \draw[conector] (bd.north) |- ($(p5)+(0:0.14)$);
+  \draw[conector] (seg.east) -- ($(p5)+(180:0.27)$);
+  \ensamble{(p5)}{0}
+  \node[etiq, above=8pt] at ($(p5)+(1.2,0)$) {Usuarios y roles};
+\end{tikzpicture}

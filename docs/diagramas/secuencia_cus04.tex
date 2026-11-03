@@ -1,0 +1,39 @@
+\begin{tikzpicture}
+  \def\A{0}\def\CI{4.4}\def\G{8.4}\def\P{11.8}\def\OC{15.2}\def\Ar{18.2}\def\U{21.0}\def\R{24.0}\def\L{27.4}
+  \hActor{\A}{0}{Almacenero}
+  \hBound{\CI}{0}{\tnn{CI\_Interfaz}{Almacen}}
+  \hProc{\P}{0}{\tn{CP\_Inventario}}
+  \hEnt{\OC}{0}{\tn{OrdenCompra}}\hEnt{\Ar}{0}{\tn{Articulo}}\hEnt{\U}{0}{\tn{Ubicacion}}\hEnt{\R}{0}{\tnn{Registro}{Movimiento}}
+  \hCtrl{\L}{0}{\tnn{CC\_Controlador}{Logistico}}
+  \hCtrl{\G}{-3.4}{\tnn{CC\_Gestor}{Recepciones}}
+  \foreach \x in {\A,\CI,\P,\OC,\Ar,\U,\R,\L}{\lifeline{\x}{-1.4}{-23.6}}
+  \lifeline{\G}{-4.4}{-21.6}
+  \msgl{\A}{\CI}{-2.0}{1: ingresarRecepcion\\(nroOC, items)}
+  \draw[msgline] (\CI+\bw,-3.4)--(\G-0.3,-3.4);
+  \node[lbl,anchor=south west,align=left,yshift=0.1cm] at (\CI+0.15,-3.4) {2: validarRecepcion\\(nroOC, items)};
+  \node[lbl,anchor=north west] at (\CI+0.15,-3.5) {\guillemotleft create\guillemotright};
+  \selfmsg{\G}{-5.0}{3: iniciarRegistro(nroOC)}{r}
+  \msgl{\G}{\P}{-6.6}{4: procesarRecepcion(nroOC, items)}
+  \msgl{\P}{\OC}{-8.0}{5: buscarOC(nroOC)}
+  \retl{\OC}{\P}{-9.0}{6: detalleOC\\(esperados)}
+  \msgl{\P}{\Ar}{-10.2}{7: actualizarStock(items)}
+  \retl{\Ar}{\P}{-11.2}{8: stockConfirmado}
+  \msgl{\P}{\U}{-12.4}{9: verificarUbicaciones(items)}
+  \retl{\U}{\P}{-13.4}{10: ubicacionesValidas}
+  \msgl{\P}{\L}{-14.6}{11: solicitarVerificacionEmpaque(nroOC, items)}
+  \selfmsg{\L}{-15.4}{12: procesarDatosEmpaque()}{l}
+  \retl{\L}{\P}{-16.6}{13: empaqueVerificado(idEmpaque)}
+  \msgl{\P}{\R}{-17.8}{14: registrarMovimientoArticulos(items)}
+  \retl{\R}{\P}{-18.8}{15: movimientoRegistrado}
+  \msgl{\P}{\OC}{-19.8}{16: actualizarEstadoOC(nroOC,\\\texttt{Completada/Recibida})}
+  \retl{\OC}{\P}{-20.8}{17: ocActualizada}
+  \msgl{\P}{\G}{-21.6}{18: confirmarRegistro(\\documentoRecepcion)}
+  \msgl{\G}{\CI}{-22.2}{19: confirmarRegistro(\\documentoRecepcion)}
+  \retl{\CI}{\A}{-23.0}{20: mostrarDocumentoFinal\\(documentoRecepcion)}
+  \actbar{\A}{-1.9}{-23.1}{cActor}\actbar{\CI}{-1.9}{-23.1}{cBar}
+  \actbar{\G}{-4.9}{-22.3}{cBar}\actbar{\P}{-6.5}{-21.7}{cBar}
+  \actbar{\OC}{-7.9}{-20.9}{cBar}\actbar{\Ar}{-10.1}{-11.3}{cBar}
+  \actbar{\U}{-12.3}{-13.5}{cBar}\actbar{\L}{-14.5}{-16.7}{cBar}\actbar{\R}{-17.7}{-18.9}{cBar}
+  \destroy{\G}{-22.9}
+  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (13.7,-25.2) {\textbf{Flujos alternos:} 4a n\'umero de OC no existe o ya recepcionada \(\rightarrow\) error y bloqueo del proceso;\\ 6a productos da\~nados o faltantes \(\rightarrow\) registrar observaci\'on y alerta.};
+\end{tikzpicture}

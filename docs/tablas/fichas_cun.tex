@@ -1,0 +1,175 @@
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso CUN-01: Gestionar ventas (registrar venta)}
+  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+    \hline
+    Caso & Gestionar ventas (registrar venta) \\
+    \hline
+    Descripción & Permite al vendedor procesar la salida de productos solicitados por el cliente dentro del sistema de inventario. \\
+    \hline
+    Precondición & El usuario (vendedor o cajero) debe haber iniciado sesión y el cliente debe haber seleccionado los juguetes a comprar con stock disponible. \\
+    \hline
+    Secuencia &
+    1. El vendedor ingresa la opción de registrar venta en el sistema. \newline
+    2. El vendedor selecciona o ingresa los productos solicitados por el cliente. \newline
+    3. El sistema valida el stock disponible de los juguetes. \newline
+    4. El vendedor confirma la transacción de venta. \newline
+    5. El sistema procesa el registro de la venta y ejecuta de manera automática la actualización del inventario. \newline
+    6. El sistema muestra un mensaje de confirmación de venta exitosa. \\
+    \hline
+    Errores/Flujos alternativos & Stock insuficiente para la cantidad solicitada, error en la conexión o fallo al procesar el registro. \\
+    \hline
+    Postcondición & La venta queda registrada en el sistema y el inventario de los juguetes vendidos se actualiza automáticamente. \\
+    \hline
+    Objetivo & Agilizar el proceso de venta y mantener el nivel de stock actualizado en tiempo real en la tienda. \\
+    \hline
+  \end{tabular}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-01.
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso CUN-02: Gestionar abastecimiento}
+  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+    \hline
+    Caso & Gestionar abastecimiento \\
+    \hline
+    Descripción & El proceso de cotizar, hacer el pedido al proveedor y recepcionar los nuevos juguetes. \\
+    \hline
+    Precondición & El administrador identifica la necesidad de reponer stock en la tienda para evitar quiebres de inventario. \\
+    \hline
+    Secuencia &
+    1. El administrador revisa el catálogo de productos y detecta baja disponibilidad o la necesidad de nuevos artículos. \newline
+    2. El administrador cotiza los productos con el proveedor externo. \newline
+    3. El administrador realiza y emite el pedido formal al proveedor. \newline
+    4. El proveedor despacha y envía la nueva mercancía solicitada hacia la tienda. \newline
+    5. El administrador o encargado de almacén recibe y recepciona los nuevos juguetes en el establecimiento. \newline
+    6. El sistema o el administrador registra la entrada de la nueva mercancía para actualizar los niveles de stock. \\
+    \hline
+    Errores/Flujos alternativos & Falta de stock en el proveedor, retraso en la entrega de la mercadería o discrepancias en la recepción de los juguetes. \\
+    \hline
+    Postcondición & El inventario de la tienda es abastecido con los nuevos productos y los niveles de stock quedan actualizados. \\
+    \hline
+    Objetivo & Mantener el stock de la tienda actualizado y evitar quiebres de inventario mediante una correcta provisión de mercancía. \\
+    \hline
+  \end{tabular}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-02.
+\end{table}
+
+\clearpage
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso CUN-03: Controlar inventario}
+  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+    \hline
+    Caso & Controlar inventario \\
+    \hline
+    Descripción & El proceso interno de realizar auditorías, registrar mermas (juguetes rotos) y actualizar los niveles mínimos de stock. \\
+    \hline
+    Precondición & El administrador o personal autorizado requiere verificar físicamente la mercancía y el estado del almacén. \\
+    \hline
+    Secuencia &
+    1. El administrador accede al módulo de control de inventario. \newline
+    2. Se realiza una auditoría física de los juguetes almacenados en la tienda. \newline
+    3. Se identifican y registran las mermas o artículos dañados. \newline
+    4. Se actualizan los niveles mínimos de stock y los registros de existencias. \newline
+    5. El sistema guarda los cambios y emite un informe actualizado de inventario. \\
+    \hline
+    Errores/Flujos alternativos & Discrepancias entre el stock físico y el sistema, o registro de mermas con datos erróneos. \\
+    \hline
+    Postcondición & El inventario físico y del sistema coinciden, con las mermas registradas y saldos actualizados. \\
+    \hline
+    Objetivo & Mantener la precisión de existencias, prevenir pérdidas económicas y asegurar control interno. \\
+    \hline
+  \end{tabular}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-03.
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso CUN-04: Gestionar devoluciones y cambios}
+  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+    \hline
+    Caso & Gestionar devoluciones y cambios \\
+    \hline
+    Descripción & El proceso desde que un cliente reporta un juguete defectuoso hasta que se resuelve con cambio o reembolso. \\
+    \hline
+    Precondición & El cliente se presenta en el establecimiento con el juguete y el comprobante de pago original. \\
+    \hline
+    Secuencia &
+    1. El cliente se acerca al vendedor para reportar un juguete defectuoso o solicitar cambio. \newline
+    2. El vendedor recibe el producto y solicita el comprobante de pago. \newline
+    3. El vendedor verifica el estado del juguete y las condiciones de la devolución. \newline
+    4. El vendedor procesa la solicitud seleccionando cambio de producto o reembolso. \newline
+    5. El sistema actualiza el registro de inventario o genera la nota de crédito respectiva. \newline
+    6. Se entrega el nuevo producto o se efectúa el reembolso al cliente. \\
+    \hline
+    Errores/Flujos alternativos & Comprobante inválido, producto fuera del plazo permitido o daños atribuibles a mal uso. \\
+    \hline
+    Postcondición & La devolución queda registrada y el inventario se ajusta según la solución aplicada. \\
+    \hline
+    Objetivo & Atender eficientemente incidencias de clientes y garantizar la satisfacción y trazabilidad. \\
+    \hline
+  \end{tabular}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-04.
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso CUN-05: Flujo de venta y reposici\'on (trabajadores del negocio)}
+  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+    \hline
+    Caso & Flujo de venta y reposición (trabajadores del negocio) \\
+    \hline
+    Descripción & Describe la interacción interna de los empleados y el sistema desde la venta hasta la reposición de mercancía. \\
+    \hline
+    Precondición & Existen productos registrados y la tienda se encuentra formalmente abierta al público. \\
+    \hline
+    Secuencia & 
+    1. El Vendedor registra la venta de los productos solicitados. \newline
+    2. El Sistema actualiza el stock provisional. \newline
+    3. El Cajero cobra al cliente y emite el comprobante de pago. \newline
+    4. El Administrador verifica niveles de stock y emite orden de reposición. \newline
+    5. El Encargado de almacén recibe la mercancía física y valida los ítems. \newline
+    6. El Sistema actualiza definitivamente el inventario en bodega. \\
+    \hline
+    Errores/Flujos alternativos & Fallas de red interna, desabastecimiento en mostrador o retrasos en la estiba de almacén. \\
+    \hline
+    Postcondición & La venta queda saldada, el stock sincronizado y el almacén reabastecido. \\
+    \hline
+  \end{tabular}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación del flujo interno (CUN-05).
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Caso de uso CUN-06: Flujo con actores externos de negocio}
+  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+    \hline
+    Caso & Flujo con actores externos de negocio \\
+    \hline
+    Descripción & Muestra la interacción entre Clientes y Proveedores externos con los puntos de contacto de la juguetería. \\
+    \hline
+    Precondición & El cliente solicita una compra o la empresa emite una orden de compra hacia el proveedor mayorista. \\
+    \hline
+    Secuencia & 
+    1. El Cliente solicita la compra de juguetes en la tienda. \newline
+    2. El Vendedor procesa la solicitud y el Cajero efectúa el cobro. \newline
+    3. El Cliente recibe su compra embalada con su comprobante legal. \newline
+    4. El Administrador transmite la orden de reposición al Proveedor. \newline
+    5. El Proveedor despacha el lote de juguetes hacia la tienda. \newline
+    6. El Sistema registra formalmente el ingreso de la mercancía. \\
+    \hline
+    Errores/Flujos alternativos & Rechazo del pago por parte del cliente, falta de existencias en el proveedor o demoras logísticas. \\
+    \hline
+    Postcondición & El cliente recibe su producto y la tienda completa el aprovisionamiento. \\
+    \hline
+  \end{tabular}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación del flujo externo (CUN-06).
+\end{table}

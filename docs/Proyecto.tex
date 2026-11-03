@@ -118,8 +118,8 @@
 \usepackage{tikz}
 \usetikzlibrary{calc, arrows.meta}
 \usepackage{pdflscape}
-\input{media/estilos.tex}
-\input{media/estilos-2.tex}
+\input{diagramas/estilos.tex}
+\input{diagramas/estilos-2.tex}
 
 % ---------- Colores y macros para Diagramas de Secuencia ----------
 \definecolor{cBound}{RGB}{190,190,255}
@@ -559,82 +559,11 @@ Los requerimientos del sistema formalizan las necesidades operativas de la jugue
 
 \paragraph{Matrices de Trazabilidad de Requerimientos:}
 
-\begingroup
-\singlespacing
-\small
-\setlength{\LTleft}{0pt plus \textwidth}
-\setlength{\LTright}{0pt plus \textwidth}
-\renewcommand{\arraystretch}{1.15}
-\begin{longtable}{|L{1.4cm}|C{1.1cm}|L{4.1cm}|L{8.1cm}|}
-  \caption{Matriz de trazabilidad de requerimientos funcionales (RF) --- Mundo del Juguete.}
-  \label{tab:matriz_trazabilidad_rf}\\
-  \hline
-  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
-  \hline
-  \endfirsthead
-  \multicolumn{4}{c}{\tablename~\thetable: Matriz de trazabilidad de requerimientos funcionales (RF) (continuación)}\\
-  \hline
-  \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
-  \hline
-  \endhead
-  RF-01 & RF & Actor: Vendedor/Cajero --- CUN-01 & Evita accesos no autorizados a las operaciones de venta. \\
-  RF-02 & RF & Actor: Vendedor --- CUN-01 & Permite iniciar el registro de la venta seleccionando productos. \\
-  RF-03 & RF & Regla de negocio --- CUN-01 & Evita vender productos sin stock disponible. \\
-  RF-04 & RF & CUN-01 & Formaliza la transacción y genera el comprobante para el cliente. \\
-  RF-05 & RF & Regla de negocio --- CUN-01 & Mantiene el inventario actualizado en tiempo real tras la venta. \\
-  RF-06 & RF & CUN-01 & Informa al usuario ante errores de stock o conexión. \\
-  RF-07 & RF & Actor: Administrador --- CUN-02 & Permite anticipar quiebres de stock revisando el catálogo. \\
-  RF-08 & RF & CUN-02 & Facilita negociar precio y condiciones con el proveedor. \\
-  RF-09 & RF & Actor: Administrador --- CUN-02 & Formaliza el pedido de mercancía al proveedor. \\
-  RF-10 & RF & Actor: Administrador/Almacenero --- CUN-02 & Registra la llegada física de la mercancía. \\
-  RF-11 & RF & Regla de negocio --- CUN-02 & Mantiene el inventario actualizado tras el abastecimiento. \\
-  RF-12 & RF & Actor: Administrador --- CUN-03 & Restringe el acceso al módulo de control de inventario. \\
-  RF-13 & RF & CUN-03 & Documenta los resultados de la verificación física del stock. \\
-  RF-14 & RF & CUN-03 & Identifica pérdidas y mermas para prevenir descuadres económicos. \\
-  RF-15 & RF & CUN-03 & Actualiza los niveles mínimos según la auditoría realizada. \\
-  RF-16 & RF & CUN-03 & Proporciona información actualizada para la toma de decisiones. \\
-  RF-17 & RF & Actor: Cliente --- CUN-04 & Permite registrar solicitudes de devolución o cambio. \\
-  RF-18 & RF & CUN-04 & Verifica la validez de la compra y el estado del producto. \\
-  RF-19 & RF & Regla de negocio --- CUN-04 & Evita devoluciones fuera de las políticas o plazos establecidos. \\
-  RF-20 & RF & Actor: Vendedor --- CUN-04 & Resuelve la solicitud del cliente (cambio o reembolso). \\
-  RF-21 & RF & Regla de negocio --- CUN-04 & Ajusta el inventario según la solución aplicada. \\
-  RF-22 & RF & Actor: Vendedor --- CUN-05 & Combina el registro de venta con el descuento automático de stock. \\
-  RF-23 & RF & Actor: Cajero --- CUN-05 & Formaliza el cobro y entrega el comprobante de pago. \\
-  RF-24 & RF & Actor: Administrador --- CUN-05 & Inicia el proceso de reposición de stock. \\
-  RF-25 & RF & Actor: Encargado de almacén --- CUN-05 & Cierra el ciclo de abastecimiento actualizando el inventario. \\
-  RF-26 & RF & Actor: Cliente --- CUN-06 & Registra el inicio de la interacción comercial del cliente. \\
-  RF-27 & RF & Actor: Vendedor --- CUN-06 & Documenta la atención brindada al cliente en tienda. \\
-  RF-28 & RF & CUN-06 & Confirma la entrega física satisfactoria al cliente. \\
-  RF-29 & RF & Actor: Administrador --- CUN-06 & Formaliza la solicitud de reabastecimiento al proveedor externo. \\
-  RF-30 & RF & Actor: Proveedor --- CUN-06 & Registra el despacho de mercancía realizado por el proveedor. \\
-  RF-31 & RF & CUN-06 & Actualiza formalmente el ingreso de mercancía en el sistema. \\
-  \hline
-\end{longtable}
-\par\vspace{1ex}
-\raggedright\noindent\small\emph{Nota.} Elaboración propia (2026). La tabla vincula cada requerimiento funcional con su origen actor o caso de uso del negocio.
-\endgroup
+\input{tablas/matriz_rf.tex}
 
 \vspace{1em}
 
-\begin{table}[H]
-  \centering
-  \caption{Matriz de trazabilidad de requerimientos no funcionales (RNF) --- Mundo del Juguete.}
-  \label{tab:matriz_trazabilidad_rnf}
-  \begin{tabularx}{\textwidth}{|L{1.4cm}|C{1.1cm}|L{4.1cm}|X|}
-    \hline
-    \textbf{ID} & \textbf{Tipo} & \textbf{Origen} & \textbf{Justificación} \\
-    \hline
-    RNF-01 & RNF & Regla de negocio (calidad de servicio) & Garantiza rapidez en la atención al cliente en caja. \\
-    RNF-02 & RNF & Regla de negocio & Evita pérdidas de ventas por caídas del sistema en horario comercial. \\
-    RNF-03 & RNF & Regla de negocio (seguridad por rol) & Protege información sensible según el rol autenticado. \\
-    RNF-04 & RNF & Regla de negocio & Permite operar sin bloqueos con múltiples usuarios concurrentes. \\
-    RNF-05 & RNF & Regla de negocio & Facilita la rápida adopción del sistema sin capacitaciones complejas. \\
-    RNF-06 & RNF & Regla de negocio & Previene pérdidas de datos ante fallos técnicos o eléctricos. \\
-    \hline
-  \end{tabularx}
-  \par\vspace{1ex}
-  \raggedright\noindent\small\emph{Nota.} Elaboración propia (2026). La tabla vincula cada requerimiento no funcional con la regla de negocio que lo origina.
-\end{table}
+\input{tablas/matriz_rnf.tex}
 
 \paragraph{Planificaci\'on del An\'alisis de Requerimientos: Diagrama de Gantt}
 
@@ -645,83 +574,7 @@ que permite visualizar el avance de cada tarea y sus dependencias temporales y l
 
 \begin{figure}[H]
   \centering
-  \resizebox{\textwidth}{!}{%
-    \begin{tikzpicture}[x=1cm, y=1cm]
-
-      % Definici\'on de dimensiones
-      \def\gw{0.45} % Ancho de cada d\'ia
-      \def\gh{0.7}  % Alto de cada fila de tarea
-
-      % Fondo amarillo claro
-      \fill[yellow!15] (-4.8, 1.8) rectangle (22, -5.5);
-
-      % T\'itulo principal
-      \node[font=\sffamily\bfseries, anchor=south] at (14*\gw, 1.3) {Planificaci\'on del An\'alisis de Requerimientos - Mundo del Juguete};
-
-      % Meses (Cabecera)
-      \node[font=\sffamily\scriptsize\bfseries] at (15.5*\gw, 0.9) {abril 2026};
-      \node[font=\sffamily\scriptsize\bfseries] at (31.5*\gw, 0.9) {mayo};
-
-      % Encabezados de la tabla izquierda
-      \node[font=\sffamily\scriptsize] at (-4.0, 0.4) {Inicio};
-      \node[font=\sffamily\scriptsize] at (-2.4, 0.4) {Fin};
-      \node[font=\sffamily\scriptsize] at (-0.8, 0.4) {Duraci\'on};
-
-      % D\'ias (Cabecera) y l\'ineas verticales de la cuadr\'icula
-      \foreach \d/\dw/\dn in {1/mi/1, 2/ju/2, 3/vi/3, 4/s\'a/4, 5/do/5, 6/lu/6, 7/ma/7, 8/mi/8, 9/ju/9, 10/vi/10, 11/s\'a/11, 12/do/12, 13/lu/13, 14/ma/14, 15/mi/15, 16/ju/16, 17/vi/17, 18/s\'a/18, 19/do/19, 20/lu/20, 21/ma/21, 22/mi/22, 23/ju/23, 24/vi/24, 25/s\'a/25, 26/do/26, 27/lu/27, 28/ma/28, 29/mi/29, 30/ju/30, 31/vi/1, 32/s\'a/2} {
-          \node[font=\sffamily\tiny, anchor=south] at ({\d*\gw - \gw/2}, 0.2) {\dw};
-          \node[font=\sffamily\tiny, anchor=north] at ({\d*\gw - \gw/2}, 0.2) {\dn};
-          \draw[black!20] (\d*\gw, 0.7) -- (\d*\gw, -4.2);
-      }
-      % Primera l\'inea vertical del calendario
-      \draw[black!20] (0, 0.7) -- (0, -4.2);
-
-      % L\'ineas verticales de la tabla izquierda
-      \draw[black!20] (-4.8, 0.7) -- (-4.8, -4.2);
-      \draw[black!20] (-3.2, 0.7) -- (-3.2, -4.2);
-      \draw[black!20] (-1.6, 0.7) -- (-1.6, -4.2);
-
-      % L\'ineas horizontales de la cuadr\'icula
-      \foreach \r in {0, 1, 2, 3, 4, 5, 6} {
-          \draw[black!20] (-4.8, -\r*\gh) -- (32*\gw, -\r*\gh);
-      }
-      \draw[black!20] (-4.8, 0.7) -- (32*\gw, 0.7); % L\'inea superior
-
-      % Datos de las tareas
-      \ganttbar{1}{1 de abr}{7 de abr}{7 d\'ias}{1}{7}{Recopilaci\'on y An\'alisis de Informaci\'on}
-      \ganttbar{2}{8 de abr}{13 de abr}{6 d\'ias}{8}{13}{Modelado de Actores y Entidades del Negocio}
-      \ganttbar{3}{14 de abr}{21 de abr}{8 d\'ias}{14}{21}{Definici\'on de Casos de Uso del Negocio (CUN)}
-      \ganttbar{4}{14 de abr}{19 de abr}{6 d\'ias}{14}{19}{Elaboraci\'on de Diagramas de Actividades}
-      \ganttbar{5}{22 de abr}{28 de abr}{7 d\'ias}{22}{28}{Especificaci\'on de Requerimientos Funcionales y No Funcionales}
-      \ganttbar{6}{29 de abr}{2 de may}{4 d\'ias}{29}{32}{Consolidaci\'on y Revisi\'on Final del Documento}
-
-      % Flechas de dependencias
-      % De Tarea 1 a Tarea 2
-      \draw[-{Stealth[length=1.5mm]}, thick] (7*\gw, -0.35) -- ++(0.15,0) |- (7*\gw + 0.3, -1.05);
-
-      % De Tarea 2 a Tarea 3 y Tarea 4
-      \draw[thick] (13*\gw, -1.05) -- ++(0.15,0) |- (13*\gw + 0.3, -2.45);
-      \draw[-{Stealth[length=1.5mm]}, thick] (13*\gw + 0.15, -1.75) -- (13*\gw + 0.3, -1.75);
-      \draw[-{Stealth[length=1.5mm]}, thick] (13*\gw + 0.15, -2.45) -- (13*\gw + 0.3, -2.45);
-
-      % De Tarea 3 a Tarea 5
-      \draw[-{Stealth[length=1.5mm]}, thick] (21*\gw, -1.75) -- ++(0.15,0) |- (21*\gw + 0.3, -3.15);
-
-      % De Tarea 5 a Tarea 6
-      \draw[-{Stealth[length=1.5mm]}, thick] (28*\gw, -3.15) -- ++(0.15,0) |- (28*\gw + 0.3, -3.85);
-
-      % Meses (Pie)
-      \node[font=\sffamily\scriptsize\bfseries] at (15.5*\gw, -5.2) {abril 2026};
-      \node[font=\sffamily\scriptsize\bfseries] at (31.5*\gw, -5.2) {mayo};
-
-      % D\'ias (Pie)
-      \foreach \d/\dw/\dn in {1/mi/1, 2/ju/2, 3/vi/3, 4/s\'a/4, 5/do/5, 6/lu/6, 7/ma/7, 8/mi/8, 9/ju/9, 10/vi/10, 11/s\'a/11, 12/do/12, 13/lu/13, 14/ma/14, 15/mi/15, 16/ju/16, 17/vi/17, 18/s\'a/18, 19/do/19, 20/lu/20, 21/ma/21, 22/mi/22, 23/ju/23, 24/vi/24, 25/s\'a/25, 26/do/26, 27/lu/27, 28/ma/28, 29/mi/29, 30/ju/30, 31/vi/1, 32/s\'a/2} {
-          \node[font=\sffamily\tiny, anchor=south] at ({\d*\gw - \gw/2}, -4.75) {\dw};
-          \node[font=\sffamily\tiny, anchor=north] at ({\d*\gw - \gw/2}, -4.75) {\dn};
-      }
-
-    \end{tikzpicture}%
-  }
+  \resizebox{\textwidth}{!}{\input{diagramas/gantt_requerimientos.tex}}
   \caption{Diagrama de Gantt para la planificaci\'on del an\'alisis de requerimientos.}
   \label{fig:gantt_analisis_requerimientos}
   \par\vspace{1ex}
@@ -734,175 +587,7 @@ Siguiendo las directrices del proyecto, se ha seleccionado la funcionalidad neur
 
 \paragraph{Fichas de Especificación de los Casos de Uso del Negocio:}
 
-\begin{table}[H]
-  \centering
-  \caption{Caso de uso CUN-01: Gestionar ventas (registrar venta)}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
-    \hline
-    Caso & Gestionar ventas (registrar venta) \\
-    \hline
-    Descripción & Permite al vendedor procesar la salida de productos solicitados por el cliente dentro del sistema de inventario. \\
-    \hline
-    Precondición & El usuario (vendedor o cajero) debe haber iniciado sesión y el cliente debe haber seleccionado los juguetes a comprar con stock disponible. \\
-    \hline
-    Secuencia &
-    1. El vendedor ingresa la opción de registrar venta en el sistema. \newline
-    2. El vendedor selecciona o ingresa los productos solicitados por el cliente. \newline
-    3. El sistema valida el stock disponible de los juguetes. \newline
-    4. El vendedor confirma la transacción de venta. \newline
-    5. El sistema procesa el registro de la venta y ejecuta de manera automática la actualización del inventario. \newline
-    6. El sistema muestra un mensaje de confirmación de venta exitosa. \\
-    \hline
-    Errores/Flujos alternativos & Stock insuficiente para la cantidad solicitada, error en la conexión o fallo al procesar el registro. \\
-    \hline
-    Postcondición & La venta queda registrada en el sistema y el inventario de los juguetes vendidos se actualiza automáticamente. \\
-    \hline
-    Objetivo & Agilizar el proceso de venta y mantener el nivel de stock actualizado en tiempo real en la tienda. \\
-    \hline
-  \end{tabular}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-01.\end{table}
-
-\begin{table}[H]
-  \centering
-  \caption{Caso de uso CUN-02: Gestionar abastecimiento}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
-    \hline
-    Caso & Gestionar abastecimiento \\
-    \hline
-    Descripción & El proceso de cotizar, hacer el pedido al proveedor y recepcionar los nuevos juguetes. \\
-    \hline
-    Precondición & El administrador identifica la necesidad de reponer stock en la tienda para evitar quiebres de inventario. \\
-    \hline
-    Secuencia &
-    1. El administrador revisa el catálogo de productos y detecta baja disponibilidad o la necesidad de nuevos artículos. \newline
-    2. El administrador cotiza los productos con el proveedor externo. \newline
-    3. El administrador realiza y emite el pedido formal al proveedor. \newline
-    4. El proveedor despacha y envía la nueva mercancía solicitada hacia la tienda. \newline
-    5. El administrador o encargado de almacén recibe y recepciona los nuevos juguetes en el establecimiento. \newline
-    6. El sistema o el administrador registra la entrada de la nueva mercancía para actualizar los niveles de stock. \\
-    \hline
-    Errores/Flujos alternativos & Falta de stock en el proveedor, retraso en la entrega de la mercadería o discrepancias en la recepción de los juguetes. \\
-    \hline
-    Postcondición & El inventario de la tienda es abastecido con los nuevos productos y los niveles de stock quedan actualizados. \\
-    \hline
-    Objetivo & Mantener el stock de la tienda actualizado y evitar quiebres de inventario mediante una correcta provisión de mercancía. \\
-    \hline
-  \end{tabular}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-02.\end{table}
-
-\clearpage
-\begin{table}[H]
-  \centering
-  \caption{Caso de uso CUN-03: Controlar inventario}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
-    \hline
-    Caso & Controlar inventario \\
-    \hline
-    Descripción & El proceso interno de realizar auditorías, registrar mermas (juguetes rotos) y actualizar los niveles mínimos de stock. \\
-    \hline
-    Precondición & El administrador o personal autorizado requiere verificar físicamente la mercancía y el estado del almacén. \\
-    \hline
-    Secuencia &
-    1. El administrador accede al módulo de control de inventario. \newline
-    2. Se realiza una auditoría física de los juguetes almacenados en la tienda. \newline
-    3. Se identifican y registran las mermas o artículos dañados. \newline
-    4. Se actualizan los niveles mínimos de stock y los registros de existencias. \newline
-    5. El sistema guarda los cambios y emite un informe actualizado de inventario. \\
-    \hline
-    Errores/Flujos alternativos & Discrepancias entre el stock físico y el sistema, o registro de mermas con datos erróneos. \\
-    \hline
-    Postcondición & El inventario físico y del sistema coinciden, con las mermas registradas y saldos actualizados. \\
-    \hline
-    Objetivo & Mantener la precisión de existencias, prevenir pérdidas económicas y asegurar control interno. \\
-    \hline
-  \end{tabular}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-03.\end{table}
-
-\begin{table}[H]
-  \centering
-  \caption{Caso de uso CUN-04: Gestionar devoluciones y cambios}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
-    \hline
-    Caso & Gestionar devoluciones y cambios \\
-    \hline
-    Descripción & El proceso desde que un cliente reporta un juguete defectuoso hasta que se resuelve con cambio o reembolso. \\
-    \hline
-    Precondición & El cliente se presenta en el establecimiento con el juguete y el comprobante de pago original. \\
-    \hline
-    Secuencia &
-    1. El cliente se acerca al vendedor para reportar un juguete defectuoso o solicitar cambio. \newline
-    2. El vendedor recibe el producto y solicita el comprobante de pago. \newline
-    3. El vendedor verifica el estado del juguete y las condiciones de la devolución. \newline
-    4. El vendedor procesa la solicitud seleccionando cambio de producto o reembolso. \newline
-    5. El sistema actualiza el registro de inventario o genera la nota de crédito respectiva. \newline
-    6. Se entrega el nuevo producto o se efectúa el reembolso al cliente. \\
-    \hline
-    Errores/Flujos alternativos & Comprobante inválido, producto fuera del plazo permitido o daños atribuibles a mal uso. \\
-    \hline
-    Postcondición & La devolución queda registrada y el inventario se ajusta según la solución aplicada. \\
-    \hline
-    Objetivo & Atender eficientemente incidencias de clientes y garantizar la satisfacción y trazabilidad. \\
-    \hline
-  \end{tabular}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-04.\end{table}
-
-\begin{table}[H]
-  \centering
-  \caption{Caso de uso CUN-05: Flujo de venta y reposici\'on (trabajadores del negocio)}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
-    \hline
-    Caso & Flujo de venta y reposición (trabajadores del negocio) \\
-    \hline
-    Descripción & Describe la interacción interna de los empleados y el sistema desde la venta hasta la reposición de mercancía. \\
-    \hline
-    Precondición & Existen productos registrados y la tienda se encuentra formalmente abierta al público. \\
-    \hline
-    Secuencia & 
-    1. El Vendedor registra la venta de los productos solicitados. \newline
-    2. El Sistema actualiza el stock provisional. \newline
-    3. El Cajero cobra al cliente y emite el comprobante de pago. \newline
-    4. El Administrador verifica niveles de stock y emite orden de reposición. \newline
-    5. El Encargado de almacén recibe la mercancía física y valida los ítems. \newline
-    6. El Sistema actualiza definitivamente el inventario en bodega. \\
-    \hline
-    Errores/Flujos alternativos & Fallas de red interna, desabastecimiento en mostrador o retrasos en la estiba de almacén. \\
-    \hline
-    Postcondición & La venta queda saldada, el stock sincronizado y el almacén reabastecido. \\
-    \hline
-  \end{tabular}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación del flujo interno (CUN-05).\end{table}
-
-\begin{table}[H]
-  \centering
-  \caption{Caso de uso CUN-06: Flujo con actores externos de negocio}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
-    \hline
-    Caso & Flujo con actores externos de negocio \\
-    \hline
-    Descripción & Muestra la interacción entre Clientes y Proveedores externos con los puntos de contacto de la juguetería. \\
-    \hline
-    Precondición & El cliente solicita una compra o la empresa emite una orden de compra hacia el proveedor mayorista. \\
-    \hline
-    Secuencia & 
-    1. El Cliente solicita la compra de juguetes en la tienda. \newline
-    2. El Vendedor procesa la solicitud y el Cajero efectúa el cobro. \newline
-    3. El Cliente recibe su compra embalada con su comprobante legal. \newline
-    4. El Administrador transmite la orden de reposición al Proveedor. \newline
-    5. El Proveedor despacha el lote de juguetes hacia la tienda. \newline
-    6. El Sistema registra formalmente el ingreso de la mercancía. \\
-    \hline
-    Errores/Flujos alternativos & Rechazo del pago por parte del cliente, falta de existencias en el proveedor o demoras logísticas. \\
-    \hline
-    Postcondición & El cliente recibe su producto y la tienda completa el aprovisionamiento. \\
-    \hline
-  \end{tabular}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación del flujo externo (CUN-06).\end{table}
+\input{tablas/fichas_cun.tex}
 
 \clearpage
 \paragraph{Reglas de Negocio Vinculadas:}
@@ -1088,26 +773,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-01: Registrar Venta.}
 \label{fig:seq_cus01}
-\resizebox{!}{0.46\textheight}{%
-\begin{tikzpicture}
-  \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{11.8}
-  \hActor{\A}{0}{Vendedor}\hBound{\B}{0}{\tn{CI\_Venta}}
-  \hProc{\C}{0}{\tn{CP\_Venta}}\hEnt{\D}{0}{\tn{Cliente/Producto/Venta}}
-  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-11.4}}
-  \msg{\A}{\B}{-2.0}{1: registrarVenta(dni)}
-  \msg{\B}{\C}{-3.1}{2: enviarDatosCliente()\\consultaJuguetes}
-  \selfmsg{\C}{-4.1}{3: validarStock()\\disponibilidad}{l}
-  \msg{\C}{\D}{-5.4}{4: consultarCliente()\\consultarCatalogo()}
-  \ret{\D}{\C}{-6.5}{5: confirmarStock()\\(datos, precios)}
-  \msg{\C}{\D}{-7.6}{6: reservarStock(cantidades)}
-  \ret{\D}{\C}{-8.6}{7: stockReservado}
-  \ret{\C}{\B}{-9.7}{8: mostrarTotal\\(subtotal, impuestos,\\total, codigoVenta)}
-  \ret{\B}{\A}{-10.9}{9: ventaRegistrada\\(estado Pendiente)}
-  \actbar{\A}{-1.9}{-11.0}{cActor}\actbar{\B}{-1.9}{-11.0}{cBar}
-  \actbar{\C}{-3.0}{-9.8}{cBar}\actbar{\D}{-5.3}{-8.7}{cBar}
-  \destroy{\C}{-10.3}
-  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (5.9,-12.5) {\textbf{Flujos alternos:} 3a cliente no registrado \(\rightarrow\) registro r\'apido;\\ 6a stock insuficiente \(\rightarrow\) advertencia y bloqueo de unidades excedentes.};
-\end{tikzpicture}}
+\resizebox{!}{0.46\textheight}{\input{diagramas/secuencia_cus01.tex}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Interacci\'on entre el vendedor, la interfaz \texttt{CI\_Venta}, el control de proceso y las entidades de dominio; se incluye la reserva de stock y los flujos alternos.\par}
 \end{minipage}
@@ -1141,27 +807,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-02: Procesar Pago y Emitir Comprobante.}
 \label{fig:seq_cus02}
-\resizebox{!}{0.46\textheight}{%
-\begin{tikzpicture}
-  \def\A{0}\def\B{3.8}\def\C{7.6}\def\D{12.2}
-  \hActor{\A}{0}{Cajero}\hBound{\B}{0}{\tn{CI\_Pago}}
-  \hProc{\C}{0}{\tn{CP\_Pago}}\hEnt{\D}{0}{\tn{Venta/Comprobante/Pago}}
-  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-12.4}}
-  \msg{\A}{\B}{-1.9}{1: ingresarCodigoVenta()}
-  \msg{\B}{\C}{-2.9}{2: solicitarCobro()\\datosDePago}
-  \msg{\C}{\D}{-4.1}{3: buscarVenta()\\calcularMonto()}
-  \ret{\D}{\C}{-5.2}{4: ventaVerificada\\(montoFinal)}
-  \selfmsg{\C}{-6.1}{5: calcularVuelto()\\procesarTransaccion()}{l}
-  \msg{\C}{\D}{-7.4}{6: actualizarEstadoYStock()\\(venta Completada,\\stock definitivo)}
-  \msg{\C}{\D}{-8.6}{7: generarComprobante(tipo)\\\guillemotleft create\guillemotright}
-  \ret{\D}{\C}{-9.6}{8: comprobanteEmitido\\(numDocumento)}
-  \ret{\C}{\B}{-10.7}{9: pagoVerificado\\(comprobante)}
-  \ret{\B}{\A}{-11.8}{10: pagoCompletado\\(comprobante)}
-  \actbar{\A}{-1.8}{-11.9}{cActor}\actbar{\B}{-1.8}{-11.9}{cBar}
-  \actbar{\C}{-2.9}{-10.8}{cBar}\actbar{\D}{-4.2}{-9.7}{cBar}
-  \destroy{\C}{-11.2}
-  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (6.2,-13.3) {\textbf{Flujos alternos:} 5a monto en efectivo menor al total \(\rightarrow\) error y exige monto igual o superior;\\ 5b tarjeta rechazada \(\rightarrow\) notificaci\'on de fallo y reintento o medio alternativo.};
-\end{tikzpicture}}
+\resizebox{!}{0.46\textheight}{\input{diagramas/secuencia_cus02.tex}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes del cajero para la verificaci\'on de venta, cobro de fondos, actualizaci\'on de stock y emisi\'on legal del comprobante.\par}
 \end{minipage}
@@ -1195,28 +841,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \centering
 \captionof{figure}{Diagrama de secuencia del CUS-03: Gestionar Abastecimiento.}
 \label{fig:seq_cus03}
-\resizebox{!}{0.46\textheight}{%
-\begin{tikzpicture}
-  \def\A{0}\def\B{3.8}\def\C{7.8}\def\D{12.2}
-  \hActor{\A}{0}{Administrador}\hBound{\B}{0}{\tn{CI\_Abastecimiento}}
-  \hProc{\C}{0}{\tn{CP\_Abastecimiento}}\hEnt{\D}{0}{\tn{Producto/Proveedor/OC}}
-  \foreach \x in {\A,\B,\C,\D}{\lifeline{\x}{-1.1}{-12.2}}
-  \msg{\A}{\B}{-1.9}{1: consultarReporteStockCritico()}
-  \msg{\B}{\C}{-2.9}{2: solicitarProductos()\\bajoStockMinimo}
-  \msg{\C}{\D}{-4.1}{3: consultarInventario()\\proveedoresActivos()}
-  \ret{\D}{\C}{-5.2}{4: listadoJuguetes\\aReponer}
-  \selfmsg{\C}{-6.2}{5: calcularPresupuesto\\seleccionarProveedor()}{l}
-  \msg{\C}{\D}{-7.5}{6: generarOrdenCompra()\\\guillemotleft create\guillemotright}
-  \ret{\D}{\C}{-8.5}{7: ocGenerada\\(nroOC)}
-  \msg{\C}{\D}{-9.7}{8: notificarProveedor(nroOC)}
-  \ret{\D}{\C}{-10.7}{9: proveedorNotificado}
-  \ret{\C}{\B}{-11.1}{10: ordenGenerada\\(nroOC)}
-  \ret{\B}{\A}{-11.7}{11: notificacionEnviada\\(proveedor)}
-  \actbar{\A}{-1.8}{-11.8}{cActor}\actbar{\B}{-1.8}{-11.8}{cBar}
-  \actbar{\C}{-2.9}{-11.2}{cBar}\actbar{\D}{-4.2}{-10.8}{cBar}
-  \destroy{\C}{-11.5}
-  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (6.0,-13.3) {\textbf{Flujos alternos:} 3a modificaci\'on por encima del presupuesto \(\rightarrow\) solicita autorizaci\'on extraordinaria;\\ 5a proveedor seleccionado inactivo \(\rightarrow\) alerta e impide asociar orden.};
-\end{tikzpicture}}
+\resizebox{!}{0.46\textheight}{\input{diagramas/secuencia_cus03.tex}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Secuencia para la consulta de inventario cr\'itico, c\'alculo presupuestal, generaci\'on y notificaci\'on de la orden de compra.\par}
 \end{minipage}
@@ -1251,46 +876,7 @@ Para otorgar la m\'axima legibilidad y amplitud visual a las l\'ineas de vida, b
 \captionof{figure}{Diagrama de secuencia del CUS-04: Registrar Ingreso de Mercanc\'ia.}
 \label{fig:seq_cus04}
 \renewcommand{\lf}{\scriptsize}
-\resizebox{!}{0.48\textheight}{%
-\begin{tikzpicture}
-  \def\A{0}\def\CI{4.4}\def\G{8.4}\def\P{11.8}\def\OC{15.2}\def\Ar{18.2}\def\U{21.0}\def\R{24.0}\def\L{27.4}
-  \hActor{\A}{0}{Almacenero}
-  \hBound{\CI}{0}{\tnn{CI\_Interfaz}{Almacen}}
-  \hProc{\P}{0}{\tn{CP\_Inventario}}
-  \hEnt{\OC}{0}{\tn{OrdenCompra}}\hEnt{\Ar}{0}{\tn{Articulo}}\hEnt{\U}{0}{\tn{Ubicacion}}\hEnt{\R}{0}{\tnn{Registro}{Movimiento}}
-  \hCtrl{\L}{0}{\tnn{CC\_Controlador}{Logistico}}
-  \hCtrl{\G}{-3.4}{\tnn{CC\_Gestor}{Recepciones}}
-  \foreach \x in {\A,\CI,\P,\OC,\Ar,\U,\R,\L}{\lifeline{\x}{-1.4}{-23.6}}
-  \lifeline{\G}{-4.4}{-21.6}
-  \msgl{\A}{\CI}{-2.0}{1: ingresarRecepcion\\(nroOC, items)}
-  \draw[msgline] (\CI+\bw,-3.4)--(\G-0.3,-3.4);
-  \node[lbl,anchor=south west,align=left,yshift=0.1cm] at (\CI+0.15,-3.4) {2: validarRecepcion\\(nroOC, items)};
-  \node[lbl,anchor=north west] at (\CI+0.15,-3.5) {\guillemotleft create\guillemotright};
-  \selfmsg{\G}{-5.0}{3: iniciarRegistro(nroOC)}{r}
-  \msgl{\G}{\P}{-6.6}{4: procesarRecepcion(nroOC, items)}
-  \msgl{\P}{\OC}{-8.0}{5: buscarOC(nroOC)}
-  \retl{\OC}{\P}{-9.0}{6: detalleOC\\(esperados)}
-  \msgl{\P}{\Ar}{-10.2}{7: actualizarStock(items)}
-  \retl{\Ar}{\P}{-11.2}{8: stockConfirmado}
-  \msgl{\P}{\U}{-12.4}{9: verificarUbicaciones(items)}
-  \retl{\U}{\P}{-13.4}{10: ubicacionesValidas}
-  \msgl{\P}{\L}{-14.6}{11: solicitarVerificacionEmpaque(nroOC, items)}
-  \selfmsg{\L}{-15.4}{12: procesarDatosEmpaque()}{l}
-  \retl{\L}{\P}{-16.6}{13: empaqueVerificado(idEmpaque)}
-  \msgl{\P}{\R}{-17.8}{14: registrarMovimientoArticulos(items)}
-  \retl{\R}{\P}{-18.8}{15: movimientoRegistrado}
-  \msgl{\P}{\OC}{-19.8}{16: actualizarEstadoOC(nroOC,\\\texttt{Completada/Recibida})}
-  \retl{\OC}{\P}{-20.8}{17: ocActualizada}
-  \msgl{\P}{\G}{-21.6}{18: confirmarRegistro(\\documentoRecepcion)}
-  \msgl{\G}{\CI}{-22.2}{19: confirmarRegistro(\\documentoRecepcion)}
-  \retl{\CI}{\A}{-23.0}{20: mostrarDocumentoFinal\\(documentoRecepcion)}
-  \actbar{\A}{-1.9}{-23.1}{cActor}\actbar{\CI}{-1.9}{-23.1}{cBar}
-  \actbar{\G}{-4.9}{-22.3}{cBar}\actbar{\P}{-6.5}{-21.7}{cBar}
-  \actbar{\OC}{-7.9}{-20.9}{cBar}\actbar{\Ar}{-10.1}{-11.3}{cBar}
-  \actbar{\U}{-12.3}{-13.5}{cBar}\actbar{\L}{-14.5}{-16.7}{cBar}\actbar{\R}{-17.7}{-18.9}{cBar}
-  \destroy{\G}{-22.9}
-  \node[draw,dashed,black!60,inner sep=3.5pt,align=left,font=\lf] at (13.7,-25.2) {\textbf{Flujos alternos:} 4a n\'umero de OC no existe o ya recepcionada \(\rightarrow\) error y bloqueo del proceso;\\ 6a productos da\~nados o faltantes \(\rightarrow\) registrar observaci\'on y alerta.};
-\end{tikzpicture}}
+\resizebox{!}{0.48\textheight}{\input{diagramas/secuencia_cus04.tex}}
 \par\vspace{0.5ex}
 {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de mensajes con creaci\'on din\'amica (\guillemotleft create\guillemotright), b\'usqueda y actualizaci\'on de estado de la OC, actualizaci\'on de stock, validaci\'on de empaque y liberaci\'on (\guillemotleft destroy\guillemotright) del gestor log\'istico.\par}
 \end{minipage}
@@ -1314,225 +900,12 @@ Para la funcionalidad comercial y logística seleccionada, se detallan los Casos
 
 La Tabla~\ref{tab:cus_prioridades} consolida los casos de uso identificados para el sistema informático, estableciendo su nivel de prioridad para la arquitectura de software:
 
-\begin{table}[H]
-    \centering
-    \caption{Identificaci\'on y priorizaci\'on de Casos de Uso del Sistema (CUS)}
-    \label{tab:cus_prioridades}
-    \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}p{3.2cm}|X|>{\centering\arraybackslash}p{2.2cm}|}
-        \hline
-        Código CUS & Nombre del Caso de Uso & Descripción Breve & Prioridad \\
-        \hline
-        CUS-01 & Registrar Venta & Permite al vendedor seleccionar productos, verificar stock en tiempo real y reservar existencias provisionalmente. & Alta \\
-        \hline
-        CUS-02 & Procesar Pago y Comprobante & Permite al cajero liquidar la venta en diversos métodos de pago y emitir la boleta o factura legal. & Alta \\
-        \hline
-        CUS-03 & Gestionar Abastecimiento & Permite al administrador evaluar stock crítico, cotizar con proveedores y formalizar órdenes de compra. & Media-Alta \\
-        \hline
-        CUS-04 & Registrar Ingreso de Mercancía & Permite al encargado de almacén validar bultos recibidos de órdenes de compra e incrementar el inventario. & Media-Alta \\
-        \hline
-        CUS-05 & Realizar Control de Inventario & Permite ejecutar auditorías físicas, registrar pérdidas/mermas y recalibrar el kardex del sistema. & Media \\
-        \hline
-        CUS-06 & Gestionar Devoluciones y Cambios & Permite procesar reclamos y garantías de clientes emitiendo notas de crédito o entregando reemplazos. & Media \\
-        \hline
-    \end{tabularx}
-    \par\vspace{1ex}
-    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Clasificación de prioridades y alcance operativo de los CUS.\par}
-\end{table}
+\input{tablas/prioridades_cus.tex}
 
 \clearpage
 \paragraph{Fichas de Especificación de Bajo Nivel de los CUS Principales:}
 
-\begin{table}[H]
-    \centering
-    \small
-    \renewcommand{\arraystretch}{1.15}
-    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-01 Registrar Venta.}
-    \label{tab:cus_01}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
-        \hline
-        \textbf{Nombre:} Registrar Venta & \textbf{Actor:} Vendedor \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Clasificación:} Primario / Detallado} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item El vendedor debe haber iniciado sesión con credenciales válidas en el sistema.
-            \item El cliente debe estar registrado o contar con sus datos disponibles para la venta.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item La venta queda registrada con estado pendiente de pago.
-            \item El stock provisional de los productos queda reservado en el sistema.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
-        \hline
-        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
-        \hline
-        1. Selecciona la opción 'Nueva Venta' en el módulo principal. & 2. El sistema despliega la interfaz para ingresar cliente y productos. \\
-        \hline
-        3. Ingresa el documento de identidad o código del cliente. & 4. El sistema valida los datos del cliente y habilita el buscador. \\
-        \hline
-        5. Busca y selecciona los juguetes solicitados y cantidades. & 6. El sistema verifica disponibilidad de stock en tiempo real (\texttt{<<include>>}). \\
-        \hline
-        7. Confirma el detalle de los productos agregados a la lista. & 8. El sistema calcula subtotal, impuestos y total preliminar con código de venta. \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item \textbf{3a.} El cliente no se encuentra registrado: El sistema muestra alerta y permite registrarlo rápidamente.
-            \item \textbf{6a.} Stock insuficiente para juguetes: El sistema muestra advertencia y bloquea unidades excedentes.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-    \end{tabularx}
-    \par\vspace{1ex}
-    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-01.\par}
-\end{table}
-
-\clearpage
-\begin{table}[H]
-    \centering
-    \small
-    \renewcommand{\arraystretch}{1.15}
-    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-02 Procesar Pago y Emitir Comprobante.}
-    \label{tab:cus_02}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
-        \hline
-        \textbf{Nombre:} Procesar Pago y Emitir Comprobante & \textbf{Actor:} Cajero \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Clasificación:} Primario / Detallado} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item El sistema debe tener una venta registrada previamente con estado pendiente de pago.
-            \item La caja registradora debe encontrarse abierta y con fondo de efectivo validado.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item El estado de la venta cambia a 'Completada / Pagada'.
-            \item Se genera y emite el comprobante de pago legal (boleta o factura).
-            \item Se actualiza el stock definitivo en el inventario de la juguetería.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
-        \hline
-        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
-        \hline
-        1. Ingresa el código de la venta pendiente a cobrar. & 2. El sistema recupera el detalle de la venta y muestra el monto total a pagar. \\
-        \hline
-        3. Selecciona el método de pago (Efectivo, Tarjeta, Transferencia). & 4. El sistema solicita los datos correspondientes al medio de pago elegido. \\
-        \hline
-        5. Ingresa el monto recibido o confirma transacción electrónica. & 6. El sistema calcula el vuelto (si aplica) y procesa el pago (\texttt{<<include>>}). \\
-        \hline
-        7. Solicita la emisión del comprobante de pago (Boleta/Factura). & 8. El sistema genera el comprobante, descuenta el stock y finaliza la venta (\texttt{<<include>>}). \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item \textbf{5a.} Monto en efectivo menor al total: El sistema muestra error y exige monto igual o superior.
-            \item \textbf{5b.} Transacción electrónica rechazada: El sistema notifica el fallo y permite reintentar o cambiar de método.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-    \end{tabularx}
-    \par\vspace{1ex}
-    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-02.\par}
-\end{table}
-
-\clearpage
-\begin{table}[H]
-    \centering
-    \small
-    \renewcommand{\arraystretch}{1.15}
-    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-03 Gestionar Abastecimiento de Productos.}
-    \label{tab:cus_03}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
-        \hline
-        \textbf{Nombre:} Gestionar Abastecimiento de Productos & \textbf{Actor:} Administrador \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Clasificación:} Secundario / Detallado} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item El administrador debe haber iniciado sesión con privilegios gerenciales en el sistema.
-            \item Deben existir productos con niveles de inventario iguales o inferiores al stock mínimo.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item Se genera formalmente la Orden de Compra en el sistema.
-            \item Se notifica de manera automática al proveedor correspondiente.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
-        \hline
-        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
-        \hline
-        1. Selecciona la opción 'Gestión de Abastecimiento' en inventarios. & 2. El sistema despliega el reporte de productos con stock crítico o agotado. \\
-        \hline
-        3. Selecciona los productos y las cantidades sugeridas a reponer. & 4. El sistema valida los datos y habilita el módulo de selección de proveedores. \\
-        \hline
-        5. Selecciona al proveedor autorizado y condiciones de entrega. & 6. El sistema calcula presupuesto estimado y genera Orden de Compra (\texttt{<<include>>}). \\
-        \hline
-        7. Confirma y autoriza la emisión de la orden de compra. & 8. El sistema registra la orden y envía notificación al proveedor (\texttt{<<include>>}). \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item \textbf{3a.} Modificación por encima del presupuesto: El sistema solicita autorización extraordinaria.
-            \item \textbf{5a.} Proveedor seleccionado inactivo: El sistema emite alerta impidiendo asociar orden y solicita otro.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-    \end{tabularx}
-    \par\vspace{1ex}
-    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-03.\par}
-\end{table}
-
-\clearpage
-\begin{table}[H]
-    \centering
-    \small
-    \renewcommand{\arraystretch}{1.15}
-    \caption{Ficha de especificaci\'on de Caso de Uso del Sistema: CUS-04 Registrar Ingreso de Mercanc\'ia.}
-    \label{tab:cus_04}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{7.5cm}|>{\raggedright\arraybackslash}X|}
-        \hline
-        \textbf{Nombre:} Registrar Ingreso de Mercancía & \textbf{Actor:} Encargado de Almacén \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Clasificación:} Secundario / Detallado} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Precondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item El encargado de almacén debe estar autenticado en el sistema de logística.
-            \item Debe existir una Orden de Compra previamente emitida y 'Pendiente de Recepción'.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Postcondiciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item El stock en bodega se actualiza incrementando las cantidades recibidas.
-            \item La Orden de Compra cambia su estado a 'Completada / Recibida'.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-        \multicolumn{2}{|c|}{\textbf{Flujo Básico}} \\
-        \hline
-        \textbf{Acción del Actor} & \textbf{Respuesta del Sistema} \\
-        \hline
-        1. Selecciona la opción 'Recepción de Mercancía' en almacén. & 2. El sistema solicita número de Orden de Compra o factura del proveedor. \\
-        \hline
-        3. Ingresa el número de la Orden de Compra física recibida. & 4. El sistema busca y despliega detalle de productos esperados para validación. \\
-        \hline
-        5. Conteo físico y registro de cantidades de juguetes recibidas. & 6. El sistema compara cantidades con la orden y actualiza inventario (\texttt{<<include>>}). \\
-        \hline
-        7. Confirma el registro final de recepción de la mercancía. & 8. El sistema actualiza el estado de la orden y emite constancia de ingreso. \\
-        \hline
-        \multicolumn{2}{|l|}{\textbf{Flujos Alternos / Excepciones:}} \\
-        \multicolumn{2}{|p{\dimexpr\textwidth-2\tabcolsep-2\arrayrulewidth\relax}|}{\vspace{-0.25cm}\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-            \item \textbf{4a.} Número de Orden no existe o ya recepcionada: El sistema muestra error y bloquea el proceso.
-            \item \textbf{6a.} Detección de productos dañados o faltantes: El sistema permite registrar observación y alerta.
-        \end{itemize}\vspace{-0.25cm}} \\
-        \hline
-    \end{tabularx}
-    \par\vspace{1ex}
-    {\raggedright \small \emph{Nota.} Elaboración propia (2026). Especificación formal del caso de uso CUS-04.\par}
-\end{table}
+\input{tablas/fichas_cus.tex}
 
 \clearpage
 \subsubsection{3.4.2 Descripci\'on de los Actores del sistema relacionados}
@@ -1639,7 +1012,7 @@ La Figura~\ref{fig:componentes_sistema} ilustra la interacción entre estos cuat
   \centering
   \caption{Diagrama de componentes: vista general de la arquitectura del sistema.}
   \label{fig:componentes_sistema}
-  \resizebox{0.95\linewidth}{!}{\input{media/componentes_sistema.tex}}
+  \resizebox{0.95\linewidth}{!}{\input{diagramas/componentes_sistema.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diagrama de componentes bajo notación UML 2.5 que modela las interfaces provistas y requeridas entre Vistas, Lógica, Base de datos y Seguridad.\par}
 \end{figure}
@@ -1653,7 +1026,7 @@ Como se observa en la Figura~\ref{fig:componentes_modulos}, el componente Almac�
   \centering
   \caption{Diagrama de componentes: arquitectura por módulos funcionales del negocio.}
   \label{fig:componentes_modulos}
-  \resizebox{0.90\linewidth}{!}{\input{media/componentes_modulos.tex}}
+  \resizebox{0.90\linewidth}{!}{\input{diagramas/componentes_modulos.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboración propia (2026). Modelado de acoplamiento e interfaces de comunicación entre los módulos funcionales del punto de venta e inventario.\par}
 \end{figure}
@@ -1661,39 +1034,7 @@ Como se observa en la Figura~\ref{fig:componentes_modulos}, el componente Almac�
 \paragraph{Matriz de Interfaz y Componente.}
 La Tabla~\ref{tab:matriz_componentes_sistema} y la Tabla~\ref{tab:matriz_componentes_modulos} formalizan el inventario riguroso de interfaces que cada componente provee y requiere, certificando la completitud del diseño arquitectural y garantizando que toda dependencia posea un componente proveedor definido.
 
-\begin{table}[H]
-  \centering
-  \caption{Matriz de interfaz y componente: vista general del sistema.}
-  \label{tab:matriz_componentes_sistema}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
-    \hline
-    \textbf{Componente} & \textbf{Interfaces que provee} & \textbf{Interfaces que requiere} \\ \hline
-    Seguridad & Permisos por rol (a Lógica); Restringe vistas por rol (a Vistas) & Usuarios y roles (de Base de datos) \\ \hline
-    Vistas (CI\_*) & Ninguna & Peticiones de interfaz (de Lógica); Restringe vistas por rol (de Seguridad) \\ \hline
-    Lógica (CP\_*) & Peticiones de interfaz (a Vistas) & Datos (de Base de datos); Permisos por rol (de Seguridad) \\ \hline
-    Base de datos (entidades) & Datos (a Lógica); Usuarios y roles (a Seguridad) & Ninguna \\ \hline
-  \end{tabularx}
-  \par\vspace{0.2cm}
-  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Contratos de interfaz provistos y requeridos entre las capas arquitectónicas principales.\par}
-\end{table}
-
-\begin{table}[H]
-  \centering
-  \caption{Matriz de interfaz y componente por módulo funcional.}
-  \label{tab:matriz_componentes_modulos}
-  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
-    \hline
-    \textbf{Componente} & \textbf{Interfaces que provee} & \textbf{Interfaces que requiere} \\ \hline
-    Ventas (CUN-01) & Consultar venta (a Devoluciones) & Validar stock (de Almacén); Datos de cliente (de Catálogo); Permisos por rol (de Seguridad)* \\ \hline
-    Almacén (CUN-03) & Validar stock (a Ventas); Reponer stock (a Abastecimiento); Reingresar stock (a Devoluciones) & Permisos por rol (de Seguridad)* \\ \hline
-    Abastecimiento (CUN-02) & Ninguna & Reponer stock (de Almacén); Permisos por rol (de Seguridad)* \\ \hline
-    Devoluciones (CUN-04) & Ninguna & Consultar venta (de Ventas); Reingresar stock (de Almacén); Permisos por rol (de Seguridad)* \\ \hline
-    Catálogo & Datos de cliente (a Ventas) & Permisos por rol (de Seguridad)* \\ \hline
-    Seguridad & Permisos por rol (a todos los módulos) & Ninguna \\ \hline
-  \end{tabularx}
-  \par\vspace{0.2cm}
-  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Relación de contratos entre módulos funcionales. (*) Interfaz requerida transversalmente por todos los módulos.\par}
-\end{table}
+\input{tablas/matrices_componentes.tex}
 
 \paragraph{Justificación Técnica: Impacto Arquitectónico en los Requerimientos No Funcionales.}
 El diseño arquitectónico del sistema para ``Mundo del Juguete'' se fundamenta en el patrón \emph{Boundary-Control-Entity} (BCE), implementado mediante una arquitectura Modelo-Vista-Controlador (MVC) en PHP con Laravel y persistencia en MySQL. Esta estructura técnica no solo resuelve el flujo transaccional de los Casos de Uso del Sistema (CUS), sino que garantiza el cumplimiento estricto de los Requerimientos No Funcionales (RNF) de mantenibilidad y escalabilidad:
@@ -1737,7 +1078,7 @@ Para garantizar un bajo acoplamiento, alta cohesi\'on y facilitar el mantenimien
   \centering
   \caption{Diagrama de paquetes: arquitectura en capas del sistema.}
   \label{fig:paquetes_arquitectura}
-  \resizebox{0.95\linewidth}{!}{\input{media/paquetes.tex}}
+  \resizebox{0.95\linewidth}{!}{\input{diagramas/paquetes.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Arquitectura desacoplada en capas de Presentaci\'on, L\'ogica de Negocio y Dominio con dependencias \guillemotleft use\guillemotright, \guillemotleft access\guillemotright{} e \guillemotleft import\guillemotright.\par}
 \end{figure}
@@ -1759,7 +1100,7 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   \centering
   \caption{Diagrama de estados: ciclo de vida de una venta.}
   \label{fig:estado_ventas}
-  \resizebox{0.92\linewidth}{!}{\input{media/estado_ventas.tex}}
+  \resizebox{0.92\linewidth}{!}{\input{diagramas/estado_ventas.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Muestra los estados operativos, transiciones de pago y flujos alternos de cancelaci\'on y devoluci\'on.\par}
 \end{figure}
@@ -1769,7 +1110,7 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   \centering
   \caption{Diagrama de estados: ciclo de vida de una compra/abastecimiento.}
   \label{fig:estado_compras}
-  \resizebox{0.92\linewidth}{!}{\input{media/estado_compras.tex}}
+  \resizebox{0.92\linewidth}{!}{\input{diagramas/estado_compras.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de compras desde el borrador inicial, aprobaci\'on, env\'io, rechazos de f\'abrica y recepci\'on en almac\'en.\par}
 \end{figure}
@@ -1779,7 +1120,7 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   \centering
   \caption{Diagrama de estados: devoluciones o cambios de producto.}
   \label{fig:estado_devoluciones}
-  \resizebox{0.92\linewidth}{!}{\input{media/estado_devoluciones.tex}}
+  \resizebox{0.92\linewidth}{!}{\input{diagramas/estado_devoluciones.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Validaci\'on de garant\'ias, resoluci\'on de cambios de art\'iculo y reembolsos monetarios.\par}
 \end{figure}
@@ -1789,7 +1130,7 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   \centering
   \caption{Diagrama de estados: ciclo de vida de un producto en inventario.}
   \label{fig:estado_inventario}
-  \resizebox{0.92\linewidth}{!}{\input{media/estado_inventario.tex}}
+  \resizebox{0.92\linewidth}{!}{\input{diagramas/estado_inventario.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Transiciones din\'amicas de existencias, estados cr\'iticos de agotamiento y reabastecimiento log\'istico.\par}
 \end{figure}
@@ -1799,7 +1140,7 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   \centering
   \caption{Diagrama de estados: recepci\'on f\'isica en almac\'en.}
   \label{fig:estado_recepcion}
-  \resizebox{0.92\linewidth}{!}{\input{media/estado_recepcion.tex}}
+  \resizebox{0.92\linewidth}{!}{\input{diagramas/estado_recepcion.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Protocolo de control de accesos f\'isicos, verificaci\'on de empaques y confirmaci\'on de movimientos de almac\'en.\par}
 \end{figure}
@@ -1812,7 +1153,7 @@ El modelo estructural del dominio plasma las diez entidades persistentes fundame
   \centering
   \caption{Diagrama de clases del dominio y relaciones relacionales.}
   \label{fig:clases_dominio_lab10}
-  \resizebox{0.92\linewidth}{!}{\input{media/clases.tex}}
+  \resizebox{0.92\linewidth}{!}{\input{diagramas/clases.tex}}
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Especificaci\'on detallada de entidades, llaves primarias/for\'aneas, m\'etodos de negocio y multiplicidades del sistema.\par}
 \end{figure}
@@ -1855,76 +1196,7 @@ A continuación, la Figura~\ref{fig:gantt_cronograma_proyecto} presenta el crono
 
 \begin{figure}[H]
   \centering
-  \resizebox{\textwidth}{!}{%
-    \begin{tikzpicture}[x=1cm, y=1cm]
-
-      % Definici\'on de dimensiones
-      \def\gw{0.45} % Ancho de cada d\'ia
-      \def\gh{0.7}  % Alto de cada fila de tarea
-
-      % Fondo amarillo claro
-      \fill[yellow!15] (-4.8, 1.8) rectangle (22, -5.5);
-
-      % T\'itulo principal
-      \node[font=\sffamily\bfseries, anchor=south] at (14*\gw, 1.3) {Cronograma Integral de Desarrollo del Proyecto - Mundo del Juguete};
-
-      % Meses (Cabecera)
-      \node[font=\sffamily\scriptsize\bfseries] at (15.5*\gw, 0.9) {abril 2026};
-      \node[font=\sffamily\scriptsize\bfseries] at (31.5*\gw, 0.9) {mayo};
-
-      % Encabezados de la tabla izquierda
-      \node[font=\sffamily\scriptsize] at (-4.0, 0.4) {Inicio};
-      \node[font=\sffamily\scriptsize] at (-2.4, 0.4) {Fin};
-      \node[font=\sffamily\scriptsize] at (-0.8, 0.4) {Duraci\'on};
-
-      % D\'ias (Cabecera) y l\'ineas verticales de la cuadr\'icula
-      \foreach \d/\dw/\dn in {1/mi/1, 2/ju/2, 3/vi/3, 4/s\'a/4, 5/do/5, 6/lu/6, 7/ma/7, 8/mi/8, 9/ju/9, 10/vi/10, 11/s\'a/11, 12/do/12, 13/lu/13, 14/ma/14, 15/mi/15, 16/ju/16, 17/vi/17, 18/s\'a/18, 19/do/19, 20/lu/20, 21/ma/21, 22/mi/22, 23/ju/23, 24/vi/24, 25/s\'a/25, 26/do/26, 27/lu/27, 28/ma/28, 29/mi/29, 30/ju/30, 31/vi/1, 32/s\'a/2} {
-          \node[font=\sffamily\tiny, anchor=south] at ({\d*\gw - \gw/2}, 0.2) {\dw};
-          \node[font=\sffamily\tiny, anchor=north] at ({\d*\gw - \gw/2}, 0.2) {\dn};
-          \draw[black!20] (\d*\gw, 0.7) -- (\d*\gw, -4.2);
-      }
-      % Primera l\'inea vertical del calendario
-      \draw[black!20] (0, 0.7) -- (0, -4.2);
-
-      % L\'ineas verticales de la tabla izquierda
-      \draw[black!20] (-4.8, 0.7) -- (-4.8, -4.2);
-      \draw[black!20] (-3.2, 0.7) -- (-3.2, -4.2);
-      \draw[black!20] (-1.6, 0.7) -- (-1.6, -4.2);
-
-      % L\'ineas horizontales de la cuadr\'icula
-      \foreach \r in {0, 1, 2, 3, 4, 5, 6} {
-          \draw[black!20] (-4.8, -\r*\gh) -- (32*\gw, -\r*\gh);
-      }
-      \draw[black!20] (-4.8, 0.7) -- (32*\gw, 0.7); % L\'inea superior
-
-      % Datos de las tareas
-      \ganttbar{1}{1 de abr}{7 de abr}{7 d\'ias}{1}{7}{Levantamiento y An\'alisis de Requerimientos}
-      \ganttbar{2}{8 de abr}{13 de abr}{6 d\'ias}{8}{13}{Modelado de Negocio y Dominio Conceptual}
-      \ganttbar{3}{14 de abr}{21 de abr}{8 d\'ias}{14}{21}{Prototipado UI/UX y Especificaci\'on CUS}
-      \ganttbar{4}{14 de abr}{19 de abr}{6 d\'ias}{14}{19}{Modelado Din\'amico BCE (Secuencias)}
-      \ganttbar{5}{22 de abr}{28 de abr}{7 d\'ias}{22}{28}{Dise\~no de Arquitectura, Paquetes y Componentes}
-      \ganttbar{6}{29 de abr}{2 de may}{4 d\'ias}{29}{32}{Pruebas de Software QA y Cierre Final}
-
-      % Flechas de dependencias
-      \draw[-{Stealth[length=1.5mm]}, thick] (7*\gw, -0.35) -- ++(0.15,0) |- (7*\gw + 0.3, -1.05);
-      \draw[thick] (13*\gw, -1.05) -- ++(0.15,0) |- (13*\gw + 0.3, -2.45);
-      \draw[-{Stealth[length=1.5mm]}, thick] (13*\gw + 0.15, -1.75) -- (13*\gw + 0.3, -1.75);
-      \draw[-{Stealth[length=1.5mm]}, thick] (13*\gw + 0.15, -2.45) -- (13*\gw + 0.3, -2.45);
-      \draw[-{Stealth[length=1.5mm]}, thick] (21*\gw, -1.75) -- ++(0.15,0) |- (21*\gw + 0.3, -3.15);
-      \draw[-{Stealth[length=1.5mm]}, thick] (28*\gw, -3.15) -- ++(0.15,0) |- (28*\gw + 0.3, -3.85);
-
-      % Meses (Pie)
-      \node[font=\sffamily\scriptsize\bfseries] at (15.5*\gw, -5.2) {abril 2026};
-      \node[font=\sffamily\scriptsize\bfseries] at (31.5*\gw, -5.2) {mayo};
-
-      % D\'ias (Pie)
-      \foreach \d/\dw/\dn in {1/mi/1, 2/ju/2, 3/vi/3, 4/s\'a/4, 5/do/5, 6/lu/6, 7/ma/7, 8/mi/8, 9/ju/9, 10/vi/10, 11/s\'a/11, 12/do/12, 13/lu/13, 14/ma/14, 15/mi/15, 16/ju/16, 17/vi/17, 18/s\'a/18, 19/do/19, 20/lu/20, 21/ma/21, 22/mi/22, 23/ju/23, 24/vi/24, 25/s\'a/25, 26/do/26, 27/lu/27, 28/ma/28, 29/mi/29, 30/ju/30, 31/vi/1, 32/s\'a/2} {
-          \node[font=\sffamily\tiny, anchor=south] at ({\d*\gw - \gw/2}, -4.75) {\dw};
-          \node[font=\sffamily\tiny, anchor=north] at ({\d*\gw - \gw/2}, -4.75) {\dn};
-      }
-
-    \end{tikzpicture}%
-  }
+  \resizebox{\textwidth}{!}{\input{diagramas/gantt_cronograma.tex}}
   \caption{Diagrama de Gantt: Cronograma integral de ejecuci\'on del proyecto.}
   \label{fig:gantt_cronograma_proyecto}
   \par\vspace{1ex}
@@ -1950,33 +1222,7 @@ La matriz consolidada de casos de prueba del proyecto comprende la verificación
 
 La codificación formal en \LaTeX{} de la matriz de casos de prueba (con columnas de ID, Caso de Uso, Descripción, Datos de Entrada, Resultado Esperado y Estado de Conformidad) se encuentra redactada y preservada en el código fuente como bloque comentado (\texttt{\%}), disponible para su descomentado en la entrega final de la Semana 15:
 
-% =========================================================================
-% BLOQUE COMENTADO PARA ACTIVAR EN SEMANA 15 (MATRIZ DE CASOS DE PRUEBA)
-% =========================================================================
-% \begingroup
-% \singlespacing
-% \footnotesize
-% \setlength{\tabcolsep}{4pt}
-% \setlength{\LTleft}{0pt plus \textwidth}
-% \setlength{\LTright}{0pt plus \textwidth}
-% \renewcommand{\arraystretch}{1.2}
-% \begin{longtable}{|L{1.1cm}|L{1.9cm}|L{3.2cm}|L{2.8cm}|L{3.2cm}|C{1.8cm}|}
-%   \caption{Matriz de casos de prueba del proyecto y sustento de ejecución.}
-%   \label{tab:matriz_casos_prueba}\\
-%   \hline
-%   \textbf{ID} & \textbf{Caso de Uso} & \textbf{Descripción / Prueba} & \textbf{Datos de Entrada} & \textbf{Resultado Esperado} & \textbf{Estado} \\
-%   \hline
-%   \endfirsthead
-%   CP-01 & CUS-01 / RF-01 & Autenticación de usuario vendedor con credenciales válidas. & Usuario: \texttt{vendedor1}, Password: \texttt{Pass123*} & Acceso concedido al panel POS de ventas y token de sesión emitido. & \textbf{Aprobado} \\
-%   CP-02 & CUS-01 / RF-03 & Validación de stock en tiempo real y reserva provisional. & SKU: \texttt{JUG-001}, Cantidad: 2 (Stock disponible: 15) & Stock provisional reservado y total calculado con código de venta. & \textbf{Aprobado} \\
-%   CP-03 & CUS-01 / RF-06 & Control de excepción por intento de venta con stock insuficiente. & SKU: \texttt{JUG-002}, Cantidad: 20 (Stock disponible: 5) & Bloqueo de adición, alerta de unidades insuficientes en pantalla. & \textbf{Aprobado} \\
-%   CP-04 & CUS-02 / RF-04 & Cobro de venta, cálculo de vuelto y emisión de boleta legal. & Venta: \texttt{V-1001}, Monto: S/ 100.00, Efectivo: S/ 120.00 & Vuelto calculado S/ 20.00, venta completada y boleta B001-105 emitida. & \textbf{Aprobado} \\
-%   CP-05 & CUS-03 / RF-07 & Detección de stock crítico y generación de orden de compra. & Stock actual $\leq$ Stock mínimo (3 $\leq$ 5 unidades) & Alerta enviada al administrador y borrador de OC generado con proveedor. & \textbf{Aprobado} \\
-%   CP-06 & CUS-04 / RF-10 & Recepción de mercancía física y actualización de kardex. & Nro OC: \texttt{OC-2026-08}, Cantidad: 50 unidades recibidas & Estado de OC a 'Recibida' e incremento automático de 50 en kardex. & \textbf{Aprobado} \\
-%   \hline
-% \end{longtable}
-% \endgroup
-% =========================================================================
+\input{tablas/casos_prueba.tex}
 
 \clearpage
 % ============================================================

@@ -1,0 +1,33 @@
+\begin{table}[H]
+  \centering
+  \caption{Matriz de interfaz y componente: vista general del sistema.}
+  \label{tab:matriz_componentes_sistema}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Componente} & \textbf{Interfaces que provee} & \textbf{Interfaces que requiere} \\ \hline
+    Seguridad & Permisos por rol (a Lógica); Restringe vistas por rol (a Vistas) & Usuarios y roles (de Base de datos) \\ \hline
+    Vistas (CI\_*) & Ninguna & Peticiones de interfaz (de Lógica); Restringe vistas por rol (de Seguridad) \\ \hline
+    Lógica (CP\_*) & Peticiones de interfaz (a Vistas) & Datos (de Base de datos); Permisos por rol (de Seguridad) \\ \hline
+    Base de datos (entidades) & Datos (a Lógica); Usuarios y roles (a Seguridad) & Ninguna \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Contratos de interfaz provistos y requeridos entre las capas arquitectónicas principales.\par}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Matriz de interfaz y componente por módulo funcional.}
+  \label{tab:matriz_componentes_modulos}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Componente} & \textbf{Interfaces que provee} & \textbf{Interfaces que requiere} \\ \hline
+    Ventas (CUN-01) & Consultar venta (a Devoluciones) & Validar stock (de Almacén); Datos de cliente (de Catálogo); Permisos por rol (de Seguridad)* \\ \hline
+    Almacén (CUN-03) & Validar stock (a Ventas); Reponer stock (a Abastecimiento); Reingresar stock (a Devoluciones) & Permisos por rol (de Seguridad)* \\ \hline
+    Abastecimiento (CUN-02) & Ninguna & Reponer stock (de Almacén); Permisos por rol (de Seguridad)* \\ \hline
+    Devoluciones (CUN-04) & Ninguna & Consultar venta (de Ventas); Reingresar stock (de Almacén); Permisos por rol (de Seguridad)* \\ \hline
+    Catálogo & Datos de cliente (a Ventas) & Permisos por rol (de Seguridad)* \\ \hline
+    Seguridad & Permisos por rol (a todos los módulos) & Ninguna \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Relación de contratos entre módulos funcionales. (*) Interfaz requerida transversalmente por todos los módulos.\par}
+\end{table}

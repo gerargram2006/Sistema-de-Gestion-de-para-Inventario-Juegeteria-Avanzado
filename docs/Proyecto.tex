@@ -988,6 +988,11 @@ El prototipado constituye una técnica fundamental en la ingeniería de requerim
 
 El prototipo de alta fidelidad del sistema fue diseñado en Figma y maquetado con componentes Blade y hojas de estilo CSS en Laravel, garantizando validaciones de entrada reactivas y adaptabilidad responsiva. Conforme a las directrices de orden documental, los enlaces oficiales al repositorio de código fuente y a la estructura de vistas interactivas se encuentran centralizados formalmente en el Anexo 1 de este informe, evitando redundancia en el cuerpo del documento.
 
+\begin{itemize}
+    \item \textbf{Enlace oficial al prototipo y repositorio de vistas Blade:} \\
+    \url{https://github.com/gerargram2006/Sistema-de-Gestion-de-para-Inventario-Juegeteria-Avanzado/tree/main/resources/views}
+\end{itemize}
+
 A continuación, se presentan las capturas de pantalla de los módulos principales diseñados para la operación de la juguetería:
 
 \begin{figure}[H]
@@ -1812,30 +1817,34 @@ El modelo estructural del dominio plasma las diez entidades persistentes fundame
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Especificaci\'on detallada de entidades, llaves primarias/for\'aneas, m\'etodos de negocio y multiplicidades del sistema.\par}
 \end{figure}
 
-\clearpage
-\paragraph{Diagrama de Clases UML y Arquitectura MVC:}
-Para asegurar la escalabilidad del sistema y cumplir con el Principio de Responsabilidad Única (SRP), el código fuente se organiza separando las entidades de dominio frente a los componentes de infraestructura técnica y la interfaz web:
-
-\begin{figure}[H]
-  \centering
-  \caption{Diagrama de clases UML: arquitectura MVC y dependencias.}
-  \label{fig:clases_mvc_lab10}
-  \includegraphics[width=0.90\textwidth]{media/image6.jpeg}
-  \par\vspace{0.2cm}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representa la estructura de paquetes y clases del patrón MVC en Laravel.
-\end{figure}
-
-\paragraph{Diagrama de Base de Datos (ERD Conceptual):}
-El modelo entidad-relación (ERD) conceptual garantiza la integridad referencial y la normalización de datos en tercera forma normal (3FN):
-
-\begin{figure}[H]
-  \centering
-  \caption{Diagrama entidad-relaci\'on (ERD conceptual de base de datos).}
-  \label{fig:erd_conceptual}
-  \includegraphics[width=0.85\textwidth]{media/image7.jpeg}
-  \par\vspace{0.2cm}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Esquema relacional con tablas maestras, transacciones comerciales y control de existencias.
-\end{figure}
+% =========================================================================
+% BLOQUE COMENTADO: SE ACTIVARÁ EN LA FASE FINAL CORRESPONDIENTE
+% =========================================================================
+% \clearpage
+% \paragraph{Diagrama de Clases UML y Arquitectura MVC:}
+% Para asegurar la escalabilidad del sistema y cumplir con el Principio de Responsabilidad Única (SRP), el código fuente se organiza separando las entidades de dominio frente a los componentes de infraestructura técnica y la interfaz web:
+%
+% \begin{figure}[H]
+%   \centering
+%   \caption{Diagrama de clases UML: arquitectura MVC y dependencias.}
+%   \label{fig:clases_mvc_lab10}
+%   \includegraphics[width=0.90\textwidth]{media/image6.jpeg}
+%   \par\vspace{0.2cm}
+%   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representa la estructura de paquetes y clases del patrón MVC en Laravel.
+% \end{figure}
+%
+% \paragraph{Diagrama de Base de Datos (ERD Conceptual):}
+% El modelo entidad-relación (ERD) conceptual garantiza la integridad referencial y la normalización de datos en tercera forma normal (3FN):
+%
+% \begin{figure}[H]
+%   \centering
+%   \caption{Diagrama entidad-relaci\'on (ERD conceptual de base de datos).}
+%   \label{fig:erd_conceptual}
+%   \includegraphics[width=0.85\textwidth]{media/image7.jpeg}
+%   \par\vspace{0.2cm}
+%   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Esquema relacional con tablas maestras, transacciones comerciales y control de existencias.
+% \end{figure}
+% =========================================================================
 
 \clearpage
 \subsubsection{3.5.2 Cronograma del Proyecto}

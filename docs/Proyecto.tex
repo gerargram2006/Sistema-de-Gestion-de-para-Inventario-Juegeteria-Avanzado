@@ -91,8 +91,16 @@
 \captionsetup{labelsep=period, labelfont=bf, textfont=it, skip=6pt, hypcap=false}
 \captionsetup[figure]{font=small, justification=raggedright, singlelinecheck=false, labelsep=newline, hypcap=false}
 \captionsetup[table]{position=above}
+\newif\ifInsideTikzER
+\InsideTikzERfalse
 \AtBeginEnvironment{figure}{\singlespacing\setlength{\parindent}{0pt}}
-\AtBeginEnvironment{tabular}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}}
+\AtBeginEnvironment{tabular}{%
+  \ifInsideTikzER
+    \renewcommand{\arraystretch}{1.05}%
+  \else
+    \singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}%
+  \fi
+}
 \AtBeginEnvironment{tabularx}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}}
 
 % Columnas reutilizables y colores para el diagrama de Gantt
@@ -119,6 +127,29 @@
 \usepackage{pdflscape}
 \input{diagramas/estilos.tex}
 \input{diagramas/estilos-2.tex}
+\input{diagramas/estilos-3.tex}
+
+% ---------- Diccionario de Datos (Lab S12) ----------
+\newcolumntype{D}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\PK}{PK}
+\newcommand{\FK}[2]{FK: #1\newline(#2)}
+\newcommand{\diccionario}[4]{%
+  \begin{table}[H]
+    \centering
+    \caption{Diccionario de datos: tabla \protect\texttt{#2}.}
+    \label{tab:dic_#1}
+    {\footnotesize\renewcommand{\arraystretch}{1.25}\setlength{\tabcolsep}{4pt}
+    \begin{tabularx}{\textwidth}{|D{3.25cm}|D{2.65cm}|M{0.75cm}|D{2.6cm}|M{0.9cm}|Y|}
+      \hline
+      \textbf{Campo} & \textbf{Tipo de dato} & \textbf{PK} & \textbf{FK (referencia)} & \textbf{Nulo} & \textbf{Descripción} \\ \hline
+      #4
+    \end{tabularx}}
+    \par\vspace{0.2cm}
+    {\raggedright \small \emph{Nota.} Elaboración propia (2026). #3\par}
+  \end{table}%
+}
 
 % ---------- Colores y macros para Diagramas de Secuencia ----------
 \definecolor{cBound}{RGB}{190,190,255}
@@ -1067,12 +1098,23 @@ Para garantizar un bajo acoplamiento, alta cohesi\'on y facilitar el mantenimien
 
 \clearpage
 \paragraph{Diagrama de Despliegue y Arquitectura Tecnológica:}
-La topología de infraestructura técnica y distribución de nodos físicos del sistema comprende:
+La topología de infraestructura técnica y distribución de nodos físicos del sistema (Figura~\ref{fig:diagrama_despliegue}) comprende los equipos clientes, la infraestructura de red y seguridad, los servidores de aplicación y base de datos, los servicios externos integrados y el respaldo en la nube:
 \begin{itemize}
-    \item \textbf{Nodo Cliente (Terminal POS y Navegador Web):} Ejecuta la interfaz responsiva en Blade, HTML5 y CSS vanilla, interactuando mediante peticiones HTTPS seguras hacia el servidor web.
-    \item \textbf{Nodo Servidor Web y de Aplicaciones:} Servidor Linux Ubuntu con Nginx y PHP-FPM 8.2+ ejecutando el framework Laravel 11, orquestando el enrutamiento REST, middleware de autenticación, controladores MVC y validaciones transaccionales.
-    \item \textbf{Nodo Servidor de Base de Datos:} Servidor dedicado MySQL 8.0 gestionando la persistencia relacional con motor de almacenamiento InnoDB para garantizar integridad transaccional ACID y copias de seguridad diarias automatizadas.
+    \item \textbf{Nodos Cliente (Terminal POS de Ventas y Caja, PC de Almacén y PC del Administrador):} Ejecutan la interfaz web responsiva en Blade, HTML5 y CSS mediante navegador web (sin instalación local de aplicaciones de escritorio) e incorporan periféricos operativos como la impresora de comprobantes en caja, interactuando mediante peticiones HTTPS seguras.
+    \item \textbf{Infraestructura de Red y Seguridad (Router y Firewall):} Filtra y enruta de manera segura todo el tráfico HTTPS proveniente de los terminales de la tienda hacia el servidor de aplicación, aislando la red interna de accesos no autorizados.
+    \item \textbf{Nodo Servidor Web y de Aplicaciones:} Servidor Linux Ubuntu con Nginx y PHP-FPM 8.2+ ejecutando el framework Laravel 11, alojando los artefactos de \emph{Vistas} (\texttt{CI\_*}), \emph{Lógica} (\texttt{CP\_*}), \emph{Seguridad} (roles y acceso) y \emph{Registros} (auditoría de acciones).
+    \item \textbf{Sistemas Externos Integrados:} Comunicación cifrada vía HTTPS con la \emph{Pasarela de pagos} (medios de pago electrónicos) y el servicio de \emph{Facturación electrónica} (emisión de boletas y facturas válidas).
+    \item \textbf{Nodo Servidor de Base de Datos y Respaldo en la Nube:} Servidor dedicado MySQL 8.0 gestionando la persistencia relacional con motor de almacenamiento InnoDB para garantizar integridad transaccional ACID vía protocolo SQL (TCP) exclusivo desde el servidor de aplicación, con replicación y copias externas automatizadas hacia la nube mediante HTTPS.
 \end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de despliegue: infraestructura física, nodos y protocolos de comunicación.}
+  \label{fig:diagrama_despliegue}
+  \resizebox{0.88\linewidth}{!}{\input{diagramas/despliegue.tex}}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Distribución física de nodos cliente, router/firewall, servidor de aplicación, servicios externos, servidor de base de datos y respaldo en la nube bajo notación UML.\par}
+\end{figure}
 
 \clearpage
 \paragraph{Diagramas de Estados del Sistema:}
@@ -1139,6 +1181,38 @@ El modelo estructural del dominio plasma las diez entidades persistentes fundame
   \par\vspace{0.2cm}
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Especificaci\'on detallada de entidades, llaves primarias/for\'aneas, m\'etodos de negocio y multiplicidades del sistema.\par}
 \end{figure}
+
+\clearpage
+\paragraph{Modelo de Datos Relacional (Diagrama Entidad-Relación):}
+El modelo físico de datos traduce los procesos de ventas, abastecimiento, control de inventario y devoluciones de la juguetería en nueve tablas relacionales normalizadas (\texttt{clientes}, \texttt{usuarios}, \texttt{ventas}, \texttt{detalle\_ventas}, \texttt{devoluciones}, \texttt{compras}, \texttt{detalle\_compras}, \texttt{productos} y \texttt{categorias}). Como ilustra la Figura~\ref{fig:modelo_datos_er}, las cardinalidades uno a muchos (\texttt{1 -- N}) y las restricciones de clave primaria y foránea garantizan la integridad referencial y la trazabilidad operativa en el motor MySQL:
+
+\begin{figure}[H]
+  \centering
+  \caption{Modelo de datos relacional (diagrama entidad-relación y cardinalidades 1 a N).}
+  \label{fig:modelo_datos_er}
+  \resizebox{\textwidth}{!}{\input{diagramas/modelo_datos.tex}}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Leyenda: \textbf{PK} = clave primaria (\emph{Primary Key}); \textbf{FK} = clave foránea (\emph{Foreign Key}); \textbf{1 -- N} = relación uno a muchos.\par}
+\end{figure}
+
+\clearpage
+\paragraph{Diccionario de Datos:}
+A continuación se detalla cada una de las nueve tablas del modelo de datos, especificando el tipo de dato de cada campo, sus claves primarias (PK), claves foráneas (FK) con la tabla y campo al que hacen referencia, y la admisión de valores nulos (Tablas~\ref{tab:dic_clientes} a~\ref{tab:dic_categorias}):
+
+\input{tablas/diccionario_datos.tex}
+
+\paragraph{Conclusiones del Diseño de Despliegue y Modelo de Datos:}
+De la especificación de la topología de despliegue físico y el modelo relacional de datos se desprenden las siguientes conclusiones clave para la fase de implementación:
+\begin{enumerate}
+  \item \textbf{El diagrama de despliegue muestra dónde se ejecuta cada parte del sistema.} Deja claro qué equipos físicos se necesitan (las PC de ventas, almacén y administración, el router con firewall, el servidor de aplicación y el servidor de base de datos) y qué componentes de software corren en cada uno, lo que sirve de guía para instalar y configurar el sistema en la tienda.
+  \item \textbf{Los usuarios solo necesitan un navegador web.} Como toda la aplicación se ejecuta en el servidor, las PC de la tienda no requieren instalar programas propios; basta con el navegador y los periféricos de cada puesto (por ejemplo, la impresora de comprobantes en caja). Esto abarata el mantenimiento y facilita agregar nuevos puestos de trabajo.
+  \item \textbf{La seguridad de las comunicaciones está contemplada desde el diseño.} Todo el tráfico de los usuarios pasa por el router y firewall y viaja cifrado por HTTPS, y la base de datos solo es accesible desde el servidor de aplicación mediante SQL (TCP), sin exposición directa a la red de la tienda.
+  \item \textbf{El sistema se integra con servicios externos necesarios para la operación.} La conexión con la pasarela de pagos y con la facturación electrónica permite cobrar con medios electrónicos y emitir boletas y facturas válidas sin desarrollar esas funciones desde cero.
+  \item \textbf{El respaldo en la nube protege la información del negocio.} El servidor de base de datos envía sus copias directamente a la nube, de modo que ante una falla del equipo o un incidente en la tienda los datos de ventas, compras e inventario pueden recuperarse.
+  \item \textbf{El modelo de datos traduce los procesos del negocio en tablas concretas.} Las nueve tablas (\texttt{clientes}, \texttt{usuarios}, \texttt{ventas}, \texttt{detalle\_ventas}, \texttt{devoluciones}, \texttt{compras}, \texttt{detalle\_compras}, \texttt{productos} y \texttt{categorias}) cubren los casos de uso de ventas, abastecimiento, inventario y devoluciones, y sus claves primarias y foráneas garantizan la integridad de la información.
+  \item \textbf{Las relaciones uno a muchos permiten trazar cada operación.} Gracias a ellas se puede saber qué usuario registró cada venta, compra o devolución, qué productos incluyó y cómo afectó al stock, lo que facilita los controles y la auditoría.
+  \item \textbf{El diagrama de despliegue y el modelo de datos son la base de la implementación.} Junto con los diagramas de las semanas anteriores, permiten al equipo pasar del diseño a la construcción: preparar la infraestructura, crear la base de datos y programar los módulos sobre una estructura ya definida.
+\end{enumerate}
 
 % =========================================================================
 % BLOQUE COMENTADO: SE ACTIVARÁ EN LA FASE FINAL CORRESPONDIENTE

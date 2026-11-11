@@ -1,0 +1,68 @@
+% =====================================================================
+%  Estilos TikZ: diagrama de despliegue y modelo de datos (Lab S12)
+% =====================================================================
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.multipart,shapes.geometric}
+
+% ---------------- Paleta ----------------
+\definecolor{dispFill}{HTML}{F1EFE8}  \definecolor{dispDraw}{HTML}{5F5E5A}  \definecolor{dispText}{HTML}{2C2C2A}
+\definecolor{servFill}{HTML}{E6F1FB}  \definecolor{servDraw}{HTML}{185FA5}  \definecolor{servText}{HTML}{0C447C}
+\definecolor{extFill}{HTML}{EEEDFE}   \definecolor{extDraw}{HTML}{534AB7}   \definecolor{extText}{HTML}{3C3489}
+\definecolor{artFill}{HTML}{EAF3DE}   \definecolor{artDraw}{HTML}{3B6D11}   \definecolor{artText}{HTML}{27500A}
+\definecolor{perFill}{HTML}{E1F5EE}   \definecolor{perDraw}{HTML}{0F6E56}   \definecolor{perText}{HTML}{085041}
+\definecolor{lineaDesp}{HTML}{5F5E5A}
+
+% ================= DIAGRAMA DE DESPLIEGUE =================
+\tikzset{
+  nodo/.style={rectangle, line width=0.8pt, align=center, inner sep=6pt, font=\sffamily},
+  com/.style={draw=lineaDesp, line width=0.8pt},
+  etqDesp/.style={font=\sffamily\small, text=lineaDesp, fill=white, inner sep=1.5pt},
+}
+
+% Profundidad del efecto 3D de los nodos UML
+\newcommand{\prof}{0.3}
+
+% \nodoTresD{id}{posición}{ancla}{relleno}{borde}{contenido}
+\newcommand{\nodoTresD}[6]{%
+  \node[nodo, fill=#4, draw=#5, anchor=#3] (#1) at #2 {#6};
+  \fill[#4!80!#5!60] (#1.north west) -- ++(\prof,\prof) -- ($(#1.north east)+(\prof,\prof)$)
+        -- (#1.north east) -- cycle;
+  \fill[#4!70!#5!70] (#1.north east) -- ++(\prof,\prof) -- ($(#1.south east)+(\prof,\prof)$)
+        -- (#1.south east) -- cycle;
+  \draw[#5, line width=0.8pt] (#1.north west) -- ++(\prof,\prof) -- ($(#1.north east)+(\prof,\prof)$)
+        -- ($(#1.south east)+(\prof,\prof)$) -- (#1.south east);
+  \draw[#5, line width=0.8pt] (#1.north east) -- ++(\prof,\prof);
+}
+
+% Encabezado de un nodo: «estereotipo», nombre y subtítulo opcional
+\newcommand{\cab}[4]{%
+  {\small\color{#4}\guillemotleft #1\guillemotright}\\[1pt]
+  {\bfseries\large\color{#4}#2}\ifx&#3&\else\\[1pt]{\small\color{#4!80}#3}\fi}
+
+% Cajita interna (artefacto o periférico)
+% \caja{ancho}{relleno}{borde}{texto}
+\newcommand{\caja}[4]{%
+  \fcolorbox{#3}{#2}{\parbox[c][0.55cm][c]{#1}{\centering\small #4}}}
+% Artefacto con estereotipo «artifact»
+\newcommand{\artefacto}[3]{%
+  \fcolorbox{artDraw}{artFill}{\parbox[c][1.25cm][c]{#1}{\centering
+    {\footnotesize\color{artText}\guillemotleft artifact\guillemotright}\\[-1pt]
+    {\bfseries\color{artText}#2}\ifx&#3&\else\\[-1pt]{\footnotesize\color{artText!80}#3}\fi}}}
+
+% ================= MODELO DE DATOS (formato clásico en blanco y negro) =================
+\tikzset{
+  tablaer/.style={draw=black, line width=0.6pt, inner sep=2pt, fill=white,
+    font=\footnotesize, anchor=north},
+  relER/.style={draw=black, line width=0.6pt},
+  multER/.style={font=\footnotesize, inner sep=1.5pt},
+}
+
+% \tablaER{id}{posición}{nombre}{filas: clave & campo & tipo \\ ...}
+\newcommand{\tablaER}[4]{%
+  \node[tablaer] (#1) at #2 {%
+    \InsideTikzERtrue
+    \begin{tabular}{@{}p{0.85cm}@{}p{3.25cm}@{}p{2.6cm}@{}}
+      \multicolumn{3}{c}{\textbf{#3}}\\ \hline
+      #4
+    \end{tabular}};
+}
+

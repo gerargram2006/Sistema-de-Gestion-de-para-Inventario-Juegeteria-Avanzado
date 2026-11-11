@@ -1,0 +1,90 @@
+% =====================================================================
+%  Diccionario de Datos (9 tablas del modelo relacional - Lab S12)
+% =====================================================================
+
+\diccionario{clientes}{clientes}{Almacena los datos de los clientes que realizan compras en la tienda.}{%
+    \texttt{id\_cliente} & INT & \PK & -- & No & Identificador único del cliente (autoincremental). \\ \hline
+    \texttt{dni} & VARCHAR(8) & -- & -- & No & Documento Nacional de Identidad del cliente. \\ \hline
+    \texttt{nombres} & VARCHAR(100) & -- & -- & No & Nombres y apellidos del cliente. \\ \hline
+    \texttt{telefono} & VARCHAR(15) & -- & -- & Sí & Teléfono de contacto. \\ \hline
+    \texttt{correo} & VARCHAR(100) & -- & -- & Sí & Correo electrónico para envío de comprobantes. \\ \hline
+    \texttt{estado} & VARCHAR(20) & -- & -- & No & Estado del registro (activo / inactivo). \\ \hline
+}
+
+\diccionario{usuarios}{usuarios}{Registra a los trabajadores que usan el sistema y su rol de acceso.}{%
+    \texttt{id\_usuario} & INT & \PK & -- & No & Identificador único del usuario. \\ \hline
+    \texttt{nombre} & VARCHAR(100) & -- & -- & No & Nombre completo del trabajador. \\ \hline
+    \texttt{usuario} & VARCHAR(50) & -- & -- & No & Nombre de acceso al sistema (único). \\ \hline
+    \texttt{clave\_hash} & VARCHAR(255) & -- & -- & No & Contraseña cifrada mediante función hash. \\ \hline
+    \texttt{rol} & VARCHAR(30) & -- & -- & No & Rol del usuario: vendedor, cajero, encargado de almacén o administrador. \\ \hline
+    \texttt{estado} & VARCHAR(20) & -- & -- & No & Estado del usuario (activo / inactivo). \\ \hline
+}
+
+\diccionario{ventas}{ventas}{Cabecera de cada venta realizada en caja.}{%
+    \texttt{id\_venta} & INT & \PK & -- & No & Identificador único de la venta. \\ \hline
+    \texttt{id\_cliente} & INT & -- & \FK{clientes}{id\_cliente} & No & Cliente que realiza la compra. \\ \hline
+    \texttt{id\_usuario} & INT & -- & \FK{usuarios}{id\_usuario} & No & Vendedor o cajero que registra la venta. \\ \hline
+    \texttt{fecha} & DATETIME & -- & -- & No & Fecha y hora de la venta. \\ \hline
+    \texttt{total} & DECIMAL(10,2) & -- & -- & No & Importe total de la venta. \\ \hline
+    \texttt{metodo\_pago} & VARCHAR(20) & -- & -- & No & Medio de pago: efectivo, tarjeta, transferencia, etc. \\ \hline
+    \texttt{tipo\_comprob} & VARCHAR(10) & -- & -- & No & Tipo de comprobante: boleta o factura. \\ \hline
+    \texttt{nro\_comprob} & VARCHAR(20) & -- & -- & No & Serie y número del comprobante emitido. \\ \hline
+    \texttt{estado} & VARCHAR(20) & -- & -- & No & Estado de la venta: pagada, anulada, devuelta, etc. \\ \hline
+}
+
+\diccionario{detalle_ventas}{detalle\_ventas}{Productos incluidos en cada venta (una fila por producto).}{%
+    \texttt{id\_detalle} & INT & \PK & -- & No & Identificador único del detalle. \\ \hline
+    \texttt{id\_venta} & INT & -- & \FK{ventas}{id\_venta} & No & Venta a la que pertenece el detalle. \\ \hline
+    \texttt{id\_producto} & INT & -- & \FK{productos}{id\_producto} & No & Producto vendido. \\ \hline
+    \texttt{cantidad} & INT & -- & -- & No & Unidades vendidas. \\ \hline
+    \texttt{precio\_unit} & DECIMAL(10,2) & -- & -- & No & Precio unitario al momento de la venta. \\ \hline
+    \texttt{subtotal} & DECIMAL(10,2) & -- & -- & No & Cantidad $\times$ precio unitario. \\ \hline
+}
+
+\diccionario{devoluciones}{devoluciones}{Registra las devoluciones y cambios de productos vendidos.}{%
+    \texttt{id\_devolucion} & INT & \PK & -- & No & Identificador único de la devolución. \\ \hline
+    \texttt{id\_venta} & INT & -- & \FK{ventas}{id\_venta} & No & Venta original que se devuelve o cambia. \\ \hline
+    \texttt{id\_producto} & INT & -- & \FK{productos}{id\_producto} & No & Producto devuelto. \\ \hline
+    \texttt{id\_usuario} & INT & -- & \FK{usuarios}{id\_usuario} & No & Usuario que atiende la devolución. \\ \hline
+    \texttt{tipo} & VARCHAR(20) & -- & -- & No & Tipo de operación: devolución o cambio. \\ \hline
+    \texttt{cantidad} & INT & -- & -- & No & Unidades devueltas. \\ \hline
+    \texttt{motivo} & VARCHAR(255) & -- & -- & Sí & Motivo indicado por el cliente. \\ \hline
+    \texttt{fecha} & DATETIME & -- & -- & No & Fecha y hora de la devolución. \\ \hline
+    \texttt{estado} & VARCHAR(20) & -- & -- & No & Estado: en revisión, aprobada o rechazada. \\ \hline
+}
+
+\diccionario{compras}{compras}{Cabecera de las órdenes de compra a proveedores.}{%
+    \texttt{id\_compra} & INT & \PK & -- & No & Identificador único de la compra. \\ \hline
+    \texttt{id\_usuario} & INT & -- & \FK{usuarios}{id\_usuario} & No & Usuario que registra la compra. \\ \hline
+    \texttt{proveedor} & VARCHAR(100) & -- & -- & No & Nombre o razón social del proveedor. \\ \hline
+    \texttt{fecha} & DATETIME & -- & -- & No & Fecha y hora de la compra. \\ \hline
+    \texttt{total} & DECIMAL(10,2) & -- & -- & No & Importe total de la compra. \\ \hline
+    \texttt{estado} & VARCHAR(20) & -- & -- & No & Estado: generada, enviada, recibida, cancelada, etc. \\ \hline
+}
+
+\diccionario{detalle_compras}{detalle\_compras}{Productos incluidos en cada compra (una fila por producto).}{%
+    \texttt{id\_detalle\_compra} & INT & \PK & -- & No & Identificador único del detalle de compra. \\ \hline
+    \texttt{id\_compra} & INT & -- & \FK{compras}{id\_compra} & No & Compra a la que pertenece el detalle. \\ \hline
+    \texttt{id\_producto} & INT & -- & \FK{productos}{id\_producto} & No & Producto comprado. \\ \hline
+    \texttt{cantidad} & INT & -- & -- & No & Unidades compradas. \\ \hline
+    \texttt{costo\_unit} & DECIMAL(10,2) & -- & -- & No & Costo unitario pagado al proveedor. \\ \hline
+    \texttt{subtotal} & DECIMAL(10,2) & -- & -- & No & Cantidad $\times$ costo unitario. \\ \hline
+}
+
+\diccionario{productos}{productos}{Catálogo de juguetes con su precio y control de stock.}{%
+    \texttt{id\_producto} & INT & \PK & -- & No & Identificador único del producto. \\ \hline
+    \texttt{id\_categoria} & INT & -- & \FK{categorias}{id\_categoria} & No & Categoría a la que pertenece el producto. \\ \hline
+    \texttt{nombre} & VARCHAR(100) & -- & -- & No & Nombre del producto. \\ \hline
+    \texttt{precio} & DECIMAL(10,2) & -- & -- & No & Precio de venta al público. \\ \hline
+    \texttt{stock\_actual} & INT & -- & -- & No & Unidades disponibles en almacén. \\ \hline
+    \texttt{stock\_minimo} & INT & -- & -- & No & Stock mínimo para generar alerta de reposición. \\ \hline
+    \texttt{estado} & VARCHAR(20) & -- & -- & No & Estado: disponible, stock bajo, agotado o inactivo. \\ \hline
+}
+
+\diccionario{categorias}{categorias}{Clasificación de los productos del catálogo.}{%
+    \texttt{id\_categoria} & INT & \PK & -- & No & Identificador único de la categoría. \\ \hline
+    \texttt{nombre} & VARCHAR(50) & -- & -- & No & Nombre de la categoría. \\ \hline
+    \texttt{descripcion} & VARCHAR(255) & -- & -- & Sí & Descripción de la categoría. \\ \hline
+    \texttt{estado} & VARCHAR(20) & -- & -- & No & Estado de la categoría (activa / inactiva). \\ \hline
+}
+

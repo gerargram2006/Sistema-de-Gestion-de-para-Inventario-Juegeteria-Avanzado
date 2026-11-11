@@ -1,0 +1,129 @@
+% Modelo de datos (diagrama entidad-relación, relaciones 1 a N - Lab S12)
+\begin{tikzpicture}
+  % ---------------- Columna izquierda ----------------
+  \tablaER{cli}{(0,0)}{clientes}{%
+    PK & id\_cliente & INT\\
+     & dni & VARCHAR(8)\\
+     & nombres & VARCHAR(100)\\
+     & telefono & VARCHAR(15)\\
+     & correo & VARCHAR(100)\\
+     & estado & VARCHAR(20)}
+
+  \tablaER{usu}{(0,-6.4)}{usuarios}{%
+    PK & id\_usuario & INT\\
+     & nombre & VARCHAR(100)\\
+     & usuario & VARCHAR(50)\\
+     & clave\_hash & VARCHAR(255)\\
+     & rol & VARCHAR(30)\\
+     & estado & VARCHAR(20)}
+
+  \tablaER{com}{(0,-13.4)}{compras}{%
+    PK & id\_compra & INT\\
+    FK & id\_usuario & INT\\
+     & proveedor & VARCHAR(100)\\
+     & fecha & DATETIME\\
+     & total & DECIMAL(10,2)\\
+     & estado & VARCHAR(20)}
+
+  % ---------------- Columna central ----------------
+  \tablaER{ven}{(8.1,-1.6)}{ventas}{%
+    PK & id\_venta & INT\\
+    FK & id\_cliente & INT\\
+    FK & id\_usuario & INT\\
+     & fecha & DATETIME\\
+     & total & DECIMAL(10,2)\\
+     & metodo\_pago & VARCHAR(20)\\
+     & tipo\_comprob & VARCHAR(10)\\
+     & nro\_comprob & VARCHAR(20)\\
+     & estado & VARCHAR(20)}
+
+  \tablaER{dev}{(8.1,-9.6)}{devoluciones}{%
+    PK & id\_devolucion & INT\\
+    FK & id\_venta & INT\\
+    FK & id\_producto & INT\\
+    FK & id\_usuario & INT\\
+     & tipo & VARCHAR(20)\\
+     & cantidad & INT\\
+     & motivo & VARCHAR(255)\\
+     & fecha & DATETIME\\
+     & estado & VARCHAR(20)}
+
+  \tablaER{dco}{(8.1,-17.2)}{detalle\_compras}{%
+    PK & id\_detalle\_compra & INT\\
+    FK & id\_compra & INT\\
+    FK & id\_producto & INT\\
+     & cantidad & INT\\
+     & costo\_unit & DECIMAL(10,2)\\
+     & subtotal & DECIMAL(10,2)}
+
+  % ---------------- Columna derecha ----------------
+  \tablaER{dve}{(16.2,-4.4)}{detalle\_ventas}{%
+    PK & id\_detalle & INT\\
+    FK & id\_venta & INT\\
+    FK & id\_producto & INT\\
+     & cantidad & INT\\
+     & precio\_unit & DECIMAL(10,2)\\
+     & subtotal & DECIMAL(10,2)}
+
+  \tablaER{pro}{(16.2,-11)}{productos}{%
+    PK & id\_producto & INT\\
+    FK & id\_categoria & INT\\
+     & nombre & VARCHAR(100)\\
+     & precio & DECIMAL(10,2)\\
+     & stock\_actual & INT\\
+     & stock\_minimo & INT\\
+     & estado & VARCHAR(20)}
+
+  \tablaER{cat}{(16.2,-18)}{categorias}{%
+    PK & id\_categoria & INT\\
+     & nombre & VARCHAR(50)\\
+     & descripcion & VARCHAR(255)\\
+     & estado & VARCHAR(20)}
+
+  % ---------------- Relaciones 1 a N ----------------
+  % Pasillos verticales entre columnas por donde corren las líneas
+  \coordinate (pA1) at (3.85,0);  \coordinate (pA2) at (4.25,0);
+  \coordinate (pB1) at (11.95,0); \coordinate (pB2) at (12.35,0);
+
+  % clientes 1 - N ventas
+  \coordinate (o) at ($(cli.north east)+(0,-0.75)$); \coordinate (d) at ($(ven.north west)+(0,-1.15)$);
+  \draw[relER] (o) -- (o -| pA2) |- (d);
+  \node[multER, above right] at (o) {1}; \node[multER, above left] at (d) {N};
+  % usuarios 1 - N ventas
+  \coordinate (o) at ($(usu.north east)+(0,-0.75)$); \coordinate (d) at ($(ven.north west)+(0,-1.6)$);
+  \draw[relER] (o) -- (o -| pA1) |- (d);
+  \node[multER, above right] at (o) {1}; \node[multER, below left] at (d) {N};
+  % usuarios 1 - N devoluciones
+  \coordinate (o) at ($(usu.north east)+(0,-2.2)$); \coordinate (d) at ($(dev.north west)+(0,-2.0)$);
+  \draw[relER] (o) -- (o -| pA2) |- (d);
+  \node[multER, above right] at (o) {1}; \node[multER, above left] at (d) {N};
+  % usuarios 1 - N compras
+  \draw[relER] (usu.south) -- (com.north);
+  \node[multER, below right] at (usu.south) {1}; \node[multER, above right] at (com.north) {N};
+  % compras 1 - N detalle_compras
+  \coordinate (o) at ($(com.north east)+(0,-0.75)$); \coordinate (d) at ($(dco.north west)+(0,-1.0)$);
+  \draw[relER] (o) -- (o -| pA2) |- (d);
+  \node[multER, above right] at (o) {1}; \node[multER, above left] at (d) {N};
+  % ventas 1 - N detalle_ventas
+  \coordinate (o) at ($(ven.north east)+(0,-0.75)$); \coordinate (d) at ($(dve.north west)+(0,-1.0)$);
+  \draw[relER] (o) -- (o -| pB1) |- (d);
+  \node[multER, above right] at (o) {1}; \node[multER, above left] at (d) {N};
+  % ventas 1 - N devoluciones
+  \draw[relER] (ven.south) -- (dev.north);
+  \node[multER, below right] at (ven.south) {1}; \node[multER, above right] at (dev.north) {N};
+  % productos 1 - N detalle_ventas
+  \draw[relER] (pro.north) -- (dve.south);
+  \node[multER, above right] at (pro.north) {1}; \node[multER, below right] at (dve.south) {N};
+  % productos 1 - N devoluciones
+  \coordinate (o) at ($(pro.north west)+(0,-1.0)$); \coordinate (d) at ($(dev.north east)+(0,-1.0)$);
+  \draw[relER] (o) -- (o -| pB1) |- (d);
+  \node[multER, above left] at (o) {1}; \node[multER, above right] at (d) {N};
+  % productos 1 - N detalle_compras
+  \coordinate (o) at ($(pro.south west)+(0,0.6)$); \coordinate (d) at ($(dco.north east)+(0,-1.45)$);
+  \draw[relER] (o) -- (o -| pB2) |- (d);
+  \node[multER, above left] at (o) {1}; \node[multER, above right] at (d) {N};
+  % categorias 1 - N productos
+  \draw[relER] (cat.north) -- (pro.south);
+  \node[multER, above right] at (cat.north) {1}; \node[multER, below right] at (pro.south) {N};
+\end{tikzpicture}
+

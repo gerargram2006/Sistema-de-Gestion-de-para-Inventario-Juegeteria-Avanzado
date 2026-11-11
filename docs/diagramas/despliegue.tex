@@ -1,0 +1,54 @@
+% Diagrama de despliegue (Lab S12)
+\begin{tikzpicture}
+  % ---------------- Dispositivos cliente ----------------
+  \nodoTresD{pcv}{(0,0)}{north}{dispFill}{dispDraw}{%
+    \cab{dispositivo}{PC de ventas y caja}{Vendedor y Cajero}{dispText}\\[4pt]
+    \caja{4.4cm}{artFill}{artDraw}{\color{artText}Navegador web}\\[2pt]
+    \caja{4.4cm}{perFill}{perDraw}{\color{perText}Impresora de comprobantes}}
+
+  \nodoTresD{pca}{(6.4,0)}{north}{dispFill}{dispDraw}{%
+    \cab{dispositivo}{PC de almacén}{Encargado de almacén}{dispText}\\[4pt]
+    \caja{4.4cm}{artFill}{artDraw}{\color{artText}Navegador web}}
+
+  \nodoTresD{pcd}{(12.8,0)}{north}{dispFill}{dispDraw}{%
+    \cab{dispositivo}{PC del administrador}{Administrador}{dispText}\\[4pt]
+    \caja{4.4cm}{artFill}{artDraw}{\color{artText}Navegador web}}
+
+  % ---------------- Red ----------------
+  \nodoTresD{rou}{(6.4,-5.3)}{north}{dispFill}{dispDraw}{%
+    \makebox[4.4cm]{}\\[-8pt]\cab{dispositivo}{Router y firewall}{}{dispText}}
+
+  % ---------------- Servidor de aplicación ----------------
+  \nodoTresD{app}{(4.2,-8.4)}{north}{servFill}{servDraw}{%
+    \cab{servidor}{Servidor de aplicación}{}{servText}\\[5pt]
+    \artefacto{4.1cm}{Vistas}{interfaces CI\_*}\hspace{4pt}%
+    \artefacto{4.1cm}{Lógica}{controladores CP\_*}\\[4pt]
+    \artefacto{4.1cm}{Seguridad}{roles y acceso}\hspace{4pt}%
+    \artefacto{4.1cm}{Registros}{auditoría de acciones}}
+
+  % ---------------- Sistemas externos ----------------
+  \nodoTresD{pas}{(13.6,-8.6)}{north}{extFill}{extDraw}{%
+    \makebox[4.2cm]{}\\[-8pt]\cab{sistema externo}{Pasarela de pagos}{pagos electrónicos}{extText}}
+  \nodoTresD{fac}{(13.6,-11.6)}{north}{extFill}{extDraw}{%
+    \makebox[4.2cm]{}\\[-8pt]\cab{sistema externo}{Facturación electrónica}{boletas y facturas}{extText}}
+
+  % ---------------- Datos y respaldo ----------------
+  \nodoTresD{bd}{(1.6,-15.6)}{north}{servFill}{servDraw}{%
+    \cab{servidor}{Servidor de BD}{}{servText}\\[5pt]
+    \artefacto{3.6cm}{Base de datos}{}}
+  \nodoTresD{nube}{(9.6,-15.6)}{north}{extFill}{extDraw}{%
+    \cab{nube}{Respaldo en la nube}{}{extText}\\[5pt]
+    \artefacto{3.6cm}{Copia externa}{}}
+
+  % ---------------- Conexiones ----------------
+  \draw[com] (pcv.south) -- node[etqDesp, pos=0.55] {HTTPS} ($(rou.north west)+(1.0,0)$);
+  \draw[com] (pca.south) -- node[etqDesp] {HTTPS} (rou.north);
+  \draw[com] (pcd.south) -- node[etqDesp, pos=0.45] {HTTPS} ($(rou.north east)+(-1.0,0)$);
+  \draw[com] (rou.south) -- node[etqDesp] {HTTPS} (rou.south |- app.north);
+  \draw[com] (app.east |- pas.west) -- node[etqDesp] {HTTPS} (pas.west);
+  \draw[com] (app.east |- fac.west) -- node[etqDesp] {HTTPS} (fac.west);
+  \draw[com] (bd.north) -- node[etqDesp] {SQL (TCP)} (bd.north |- app.south);
+  \draw[com, -{Stealth[length=7pt]}] (bd.east) -- node[etqDesp, above=2pt, fill=none] {Respaldo}
+        node[etqDesp, below=2pt, fill=none] {(HTTPS)} (nube.west);
+\end{tikzpicture}
+

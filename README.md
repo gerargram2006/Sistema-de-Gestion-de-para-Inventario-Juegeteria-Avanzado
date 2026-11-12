@@ -92,7 +92,10 @@ Usuarios, clientes, categorías, inventario de productos, ventas, detalle\_venta
 - Diagrama de clases del dominio y modelo relacional (10 clases, tipado estricto, multiplicidades y composiciones).
 - Modelo de datos relacional normalizado en TikZ (9 tablas con cardinalidades 1 a N) y diccionario de datos completo.
 - Diagrama de integración y modelo de dominio conceptual.
-- Diagrama de Gantt del plan de ingeniería de requerimientos.
+- Diagrama de Gantt para la planificación del análisis de requerimientos (Semana 7).
+- Diagrama de Gantt: Cronograma integral de desarrollo del proyecto en Cascada (Semana 13).
+- Diagrama de Gantt del plan de despliegue y pase a producción (Semana 13).
+- Diagrama de despliegue en producción con arquitectura física de tres nodos (Terminales POS/PC, Servidor de aplicaciones Apache/Laravel, Servidor MySQL y respaldo en la nube).
 - Prototipos de pantallas UI/UX (Login, Ventas, Pago, Abastecimiento y Almacén).
 - Diagrama entidad-relación (ERD conceptual).
 
@@ -112,7 +115,7 @@ El documento académico sigue estrictamente la guía-plantilla oficial de TECSUP
    - 3.2 Segundo grupo de entregables (Semana 7): Modelo del negocio (Diagramas CUN-01 a CUN-06), Requerimientos Funcionales y No Funcionales, matrices de trazabilidad y especificación de alto y bajo nivel.
    - 3.3 Tercer grupo de entregables (Semana 09): Prototipos de pantallas (UI/UX) y enlaces a prototipos interactivos.
    - 3.4 Cuarto grupo de entregables (Semana 10): Casos de uso del sistema (CUS-01 a CUS-04), actores del sistema y demostración del avance de interfaces.
-   - 3.5 Quinto grupo de entregables (Semana 13): Diagramas de diseño (paquetes en 3 capas, despliegue UML, componentes, secuencia BCE en orientación horizontal, diagramas de estados, modelo de dominio relacional, ERD conceptual, modelo de datos normalizado de 9 tablas y diccionario de datos) y cronograma del proyecto (diagrama de Gantt).
+   - 3.5 Quinto grupo de entregables (Semana 13): Diagramas de diseño (paquetes en 3 capas, despliegue UML, componentes, secuencia BCE en orientación horizontal, diagramas de estados, modelo de dominio relacional, ERD conceptual, modelo de datos normalizado de 9 tablas y diccionario de datos), cronograma del proyecto (diagramas de Gantt) y plan integral de despliegue a producción (arquitectura física en 3 nodos, estrategia piloto, matriz de responsables, pruebas en entorno final, release notes v1.0, capacitación, migración/rollback y análisis de riesgos).
    - 3.6 Sexto grupo de entregables (Semana 15): Matriz formal de casos de prueba del proyecto (CP-01 a CP-06 con sustento y evidencias).
 4. **Capítulo 4: Conclusiones**
    - Conclusiones evaluadas en correspondencia directa con los objetivos específicos y la metodología aplicada.

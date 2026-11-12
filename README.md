@@ -42,7 +42,9 @@ El repositorio integra tanto la base de la aplicación Laravel como la documenta
 ├── config/            Configuración modular de la aplicación
 ├── database/          Migraciones, seeders y fábricas de base de datos
 ├── docs/              Documento académico de investigación en formato APA 7.ª edición
+│   ├── diagramas/     Fuentes modulares TikZ (secuencia, estados, paquetes, despliegue, ER)
 │   ├── media/         Diagramas UML, prototipos UI/UX y evidencias gráficas
+│   ├── tablas/        Tablas modulares (RF/RNF, CUN, CUS, matrices y diccionario de datos)
 │   └── Proyecto.tex   Código fuente LaTeX del informe completo
 ├── public/            Punto de entrada web (index.php) y recursos públicos
 ├── resources/         Vistas Blade, hojas de estilo CSS y scripts JS
@@ -86,7 +88,9 @@ Usuarios, clientes, categorías, inventario de productos, ventas, detalle\_venta
 - Diagramas de secuencia del sistema (CUS-01 al CUS-04) bajo el patrón Boundary-Control-Entity (BCE) generados nativamente en TikZ en orientación apaisada/horizontal.
 - Diagramas de estados de entidades y procesos clave (Ventas, Compras, Devoluciones, Inventario, Recepción) renderizados en TikZ.
 - Diagrama de paquetes de software en arquitectura de 3 capas (Presentación, Lógica de Negocio y Dominio) con dependencias dirigidas.
+- Diagrama de despliegue UML (nodos cliente POS/PC, router/firewall, servidor de aplicación Laravel/Nginx, servicios externos, servidor MySQL y respaldo en la nube) renderizado nativamente en TikZ.
 - Diagrama de clases del dominio y modelo relacional (10 clases, tipado estricto, multiplicidades y composiciones).
+- Modelo de datos relacional normalizado en TikZ (9 tablas con cardinalidades 1 a N) y diccionario de datos completo.
 - Diagrama de integración y modelo de dominio conceptual.
 - Diagrama de Gantt del plan de ingeniería de requerimientos.
 - Prototipos de pantallas UI/UX (Login, Ventas, Pago, Abastecimiento y Almacén).
@@ -108,7 +112,7 @@ El documento académico sigue estrictamente la guía-plantilla oficial de TECSUP
    - 3.2 Segundo grupo de entregables (Semana 7): Modelo del negocio (Diagramas CUN-01 a CUN-06), Requerimientos Funcionales y No Funcionales, matrices de trazabilidad y especificación de alto y bajo nivel.
    - 3.3 Tercer grupo de entregables (Semana 09): Prototipos de pantallas (UI/UX) y enlaces a prototipos interactivos.
    - 3.4 Cuarto grupo de entregables (Semana 10): Casos de uso del sistema (CUS-01 a CUS-04), actores del sistema y demostración del avance de interfaces.
-   - 3.5 Quinto grupo de entregables (Semana 13): Diagramas de diseño (paquetes en 3 capas, despliegue, componentes, secuencia BCE en orientación horizontal, diagramas de estados, modelo de dominio relacional y ERD conceptual) y cronograma del proyecto (diagrama de Gantt).
+   - 3.5 Quinto grupo de entregables (Semana 13): Diagramas de diseño (paquetes en 3 capas, despliegue UML, componentes, secuencia BCE en orientación horizontal, diagramas de estados, modelo de dominio relacional, ERD conceptual, modelo de datos normalizado de 9 tablas y diccionario de datos) y cronograma del proyecto (diagrama de Gantt).
    - 3.6 Sexto grupo de entregables (Semana 15): Matriz formal de casos de prueba del proyecto (CP-01 a CP-06 con sustento y evidencias).
 4. **Capítulo 4: Conclusiones**
    - Conclusiones evaluadas en correspondencia directa con los objetivos específicos y la metodología aplicada.

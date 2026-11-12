@@ -128,6 +128,7 @@
 \input{diagramas/estilos.tex}
 \input{diagramas/estilos-2.tex}
 \input{diagramas/estilos-3.tex}
+\input{diagramas/estilos-4.tex}
 
 % ---------- Diccionario de Datos (Lab S12) ----------
 \newcolumntype{D}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -594,6 +595,18 @@ Los requerimientos del sistema formalizan las necesidades operativas de la jugue
 \vspace{1em}
 
 \input{tablas/matriz_rnf.tex}
+
+\paragraph{Planificaci\'on del An\'alisis de Requerimientos: Diagrama de Gantt.}
+La planificaci\'on temporal del an\'alisis y especificaci\'on de requerimientos se estructur\'o rigurosamente del 2 de septiembre al 4 de diciembre de 2026, abarcando las etapas sucesivas de levantamiento de informaci\'on, modelado de actores y entidades, definici\'on de Casos de Uso del Negocio (CUN), diagramas de actividades, especificaci\'on de requerimientos funcionales y no funcionales, y consolidaci\'on documental, en concordancia directa con el avance y los \emph{commits} del repositorio:
+
+\begin{figure}[H]
+  \caption{Diagrama de Gantt para la planificación del análisis de requerimientos.}
+  \label{fig:gantt_analisis_requerimientos}
+  \centering
+  \resizebox{\textwidth}{!}{\input{diagramas/gantt_requerimientos.tex}}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboraci\'on propia (2026). Planificaci\'on secuencial de las actividades del an\'alisis de requerimientos bajo metodolog\'ia Cascada (Waterfall), iniciando el 2 de septiembre de 2026 y culminando a principios de diciembre.
+\end{figure}
 
 \subsubsection{3.2.3 Especificaci\'on de CUN afines (Funcionalidad) en alto y bajo nivel}
 
@@ -1258,6 +1271,146 @@ A continuación, la Figura~\ref{fig:gantt_cronograma_proyecto} presenta el crono
   \par\vspace{1ex}
   \raggedright\noindent\small \emph{Nota.} Elaboraci\'on propia (2026). Planificaci\'on secuencial de las seis fases del proyecto en apego estricto a la metodolog\'ia Cascada (Waterfall) y al registro de \emph{commits} del repositorio, culminando a principios de diciembre de 2026.
 \end{figure}
+
+\clearpage
+\subsubsection{3.5.3 Plan de Despliegue del Sistema (Implementación II - Salida en Producción)}
+
+El plan de despliegue formaliza la estrategia, arquitectura física y procedimientos operativos para la salida en vivo (\emph{go-live}) del \textbf{Sistema de Gestión de Inventario para la juguetería ``Mundo del Juguete'' v1.0}, aplicación web desarrollada en PHP 8.2 bajo el framework Laravel 11 (motor de plantillas Blade y persistencia mediante Eloquent ORM) y base de datos relacional MySQL 8.0. La planificación cubre las actividades de preparación, pruebas en entorno final, empaquetado del release, migración de datos, capacitación a usuarios, contingencia ante fallos y gestión de riesgos.
+
+\paragraph{Planificación Temporal del Despliegue (Actividad 1):}
+El plan considera exclusivamente las actividades orientadas al pase a producción: probar el producto en su entorno de ejecución final, empaquetar el software, distribuirlo, instalarlo, capacitar a los usuarios y migrar o convertir las bases de datos. La fase preparatoria se ejecuta del \textbf{lunes 16 de noviembre al jueves 17 de diciembre de 2026}. El pase a producción se concentra en una ventana controlada de tres días, del \textbf{viernes 18 al domingo 20 de diciembre}, programando la instalación técnica y la migración de datos en horario nocturno para no interferir con la atención comercial de la juguetería. La salida en vivo oficial se produce el \textbf{martes 22 de diciembre de 2026}, iniciando operaciones en la caja piloto (\texttt{CAJA-01}) y extendiéndose posteriormente al resto de puestos (Figura~\ref{fig:gantt_despliegue}).
+
+\begin{figure}[H]
+  \caption{Diagrama de Gantt del plan de despliegue y pase a producción.}
+  \label{fig:gantt_despliegue}
+  \centering
+  \resizebox{\linewidth}{!}{\input{diagramas/gantt_despliegue.tex}}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cronograma del pase a producción (16 de noviembre al 31 de diciembre de 2026), destacando la ruta crítica, holguras, ventana nocturna de pase y el hito de extensión general.
+\end{figure}
+
+La Tabla~\ref{tab:despliegue_actividades} sintetiza las actividades principales del pase a producción, su cronología y su descripción operativa:
+
+\input{tablas/despliegue_actividades.tex}
+
+\paragraph{Diagrama de Despliegue en Producción y Arquitectura Física (Actividad 2):}
+La Figura~\ref{fig:despliegue_produccion} detalla la topología de infraestructura de producción requerida para la puesta en marcha de ``Mundo del Juguete'' v1.0, delimitando nodos físicos, sistemas operativos, entornos de ejecución, artefactos generados y componentes de software integrados:
+
+\begin{figure}[H]
+  \caption{Diagrama de despliegue en producción: arquitectura de tres nodos, entornos y artefactos.}
+  \label{fig:despliegue_produccion}
+  \centering
+  \resizebox{\linewidth}{!}{\input{diagramas/despliegue_produccion.tex}}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Arquitectura física de tres nodos en red de área local: terminales cliente (\texttt{192.168.1.20--.23}), servidor web de aplicaciones (\texttt{192.168.1.10}), servidor de base de datos MySQL (\texttt{192.168.1.11}) y almacenamiento externo en la nube.
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{\guillemotleft device\guillemotright\ / \guillemotleft server\guillemotright:} Nodos de hardware físicos donde se aloja y procesa el sistema.
+  \item \textbf{\guillemotleft cloud\guillemotright:} Servicio de almacenamiento externo en la nube destinado a la retención de copias de seguridad por 30 días.
+  \item \textbf{\guillemotleft execution environment\guillemotright:} Software base necesario para ejecutar la solución (navegador Google Chrome / Microsoft Edge, servidor web Apache 2.4 con TLS, intérprete PHP 8.2 con Laravel 11 y motor MySQL 8.0 InnoDB).
+  \item \textbf{\guillemotleft artifact\guillemotright:} Archivos físicos resultantes del desarrollo (\texttt{mundojuguete-v1.0.zip}, configuración \texttt{.env}, \emph{assets} compilados por Vite en \texttt{public/build}, esquema \texttt{bd\_mundojuguete} y respaldos \texttt{backup\_diario.sql}).
+  \item \textbf{\guillemotleft component\guillemotright:} Módulos lógicos orquestados en el servidor (\emph{Vistas} con plantillas Blade \texttt{CI\_*}, \emph{Lógica} con controladores \texttt{CP\_*} y \emph{Seguridad} con middleware RBAC).
+  \item \textbf{Canales de conexión:} Enlaces cifrados HTTPS sobre TLS 1.3 en puerto 443 para tráfico web; conexión TCP/IP en puerto 3306 mediante PDO MySQL restringida exclusivamente al servidor de aplicaciones; y canal seguro HTTPS para copias de seguridad automatizadas a las 02:00 horas.
+\end{itemize}
+
+\textbf{Justificación técnica de la distribución:} Se adoptó una arquitectura física de tres nodos para maximizar la rentabilidad, seguridad y desempeño. Los terminales de tienda únicamente exigen un navegador web moderno, permitiendo reutilizar los equipos existentes sin adquirir licencias ni software de escritorio adicional. Asimismo, los dos servidores corresponden a PC con Windows 11 Pro, económicas y de administración accesible para la tienda. La base de datos opera en un nodo dedicado (\texttt{192.168.1.11}) accesible únicamente desde el servidor de aplicaciones (\texttt{192.168.1.10}) a través del puerto 3306, aislando el motor de persistencia del acceso directo desde las cajas (seguridad, RNF-03). Esta segregación previene que las peticiones web simultáneas compitan por recursos con las transacciones de MySQL en horas punta (rendimiento, RNF-01), y el respaldo programado diario en la nube garantiza un tiempo de recuperación menor a 1 hora ante siniestros o fallos de hardware (disponibilidad y respaldo, RNF-02 y RNF-06).
+
+\textbf{Diferenciación arquitectónica:} Mientras el diagrama de componentes modela la organización \emph{lógica} del sistema (módulos, interfaces provistas y dependencias contractuadas), el diagrama de despliegue representa la organización \emph{física} (equipos de cómputo, redes, puertos, software base y ubicación de artefactos ejecutables).
+
+\paragraph{Modo y Estrategia de Despliegue (Actividad 3):}
+La selección del modo de despliegue se fundamenta en un análisis comparativo frente a esquemas tradicionales de instalación local y paquetes distribuibles, como se formaliza en la Tabla~\ref{tab:despliegue_estrategia}:
+
+\input{tablas/despliegue_estrategia.tex}
+
+\textbf{Estrategia de implantación seleccionada: Piloto.} El sistema se pondrá en producción inicialmente en una única caja (\texttt{CAJA-01}) durante una semana de evaluación, del \textbf{22 al 28 de diciembre de 2026}, mientras \texttt{CAJA-02} continúa operando mediante el procedimiento manual habitual. Este enfoque permite validar en condiciones reales de venta el rendimiento transaccional menor a 2 segundos (RNF-01), la usabilidad y adopción con curva de aprendizaje menor a 2 horas (RNF-05) y el control de accesos RBAC (RNF-03), mitigando el riesgo operativo global. Al concluir la semana piloto sin incidencias críticas y con un margen de discrepancia de existencias inferior al 2\%, el martes \textbf{29 de diciembre} se extiende el despliegue hacia \texttt{CAJA-02}, el módulo de almacén y la administración general. Se descartó el enfoque masivo (\emph{big bang}) para salvaguardar la continuidad comercial durante la campaña navideña.
+
+\paragraph{Matriz de Actividades, Responsables y Acciones (Actividad 4):}
+La ejecución del despliegue requiere una asignación inequívoca de responsabilidades técnicas dentro del equipo:
+\begin{itemize}
+  \item \textbf{Gerar Rodrigo Camma Baldeon:} Jefe de proyecto (planificación general, monitoreo de piloto, notas de release y firma del acta).
+  \item \textbf{Simon Rodriguez Anculle:} Responsable de compilación y \emph{build} (ejecución de scripts, empaquetado del release, configuración web y publicación).
+  \item \textbf{Samuel A. Llallacachi Salhua:} Responsable de pruebas (pruebas de aceptación unitarias/integración y verificación de sanidad).
+  \item \textbf{Hugo Ernesto Florez Merma:} Responsable de soporte y capacitación (elaboración de manuales, sesiones formativas y mesa de ayuda).
+  \item \textbf{Barry Valdivia Lovon:} Responsable de base de datos y migración (extracción, limpieza, migraciones y carga de catálogos mediante seeders).
+\end{itemize}
+
+La Tabla~\ref{tab:despliegue_matriz_acciones} detalla la matriz integral de actividades, fechas y dependencias:
+
+\input{tablas/despliegue_matriz.tex}
+
+\textbf{Ruta crítica del despliegue:} La secuencia de tareas determinantes sin holgura comprende: \emph{Planificación $\rightarrow$ Pruebas de aceptación $\rightarrow$ Producción de la unidad $\rightarrow$ Prueba de la unidad $\rightarrow$ Instalación y migración $\rightarrow$ Puesta a disposición $\rightarrow$ Capacitación $\rightarrow$ Salida en vivo (piloto) $\rightarrow$ Extensión y cierre}. Cualquier desviación en esta ruta desplaza la fecha límite de salida en vivo del 22 de diciembre; la actividad más sensible corresponde a la migración de datos, dado que sin catálogo precargado no es viable registrar ventas (CUS-01).
+
+\paragraph{Pruebas en el Entorno Final y Verificación de la Unidad (Actividad 5):}
+Previo al pase definitivo a producción, se ejecutó una batería de casos de prueba en un servidor con características idénticas al entorno productivo para validar la trazabilidad con los requerimientos (Tabla~\ref{tab:despliegue_pruebas_finales}) y se constató la lista de verificación de la unidad de despliegue (Tabla~\ref{tab:despliegue_check_unidad}):
+
+\input{tablas/despliegue_pruebas.tex}
+
+\paragraph{Paquete de Entrega (Release) y Notas de la Versión v1.0 (Actividad 6):}
+El paquete de entrega consolida los artefactos ejecutables, scripts de automatización y documentación operativa (Tabla~\ref{tab:despliegue_release}):
+
+\input{tablas/despliegue_release.tex}
+
+\textbf{Notas del Release (Versión 1.0):}
+\begin{itemize}
+  \item \textbf{Denominación y lanzamiento:} Sistema de Gestión de Inventario para la Juguetería ``Mundo del Juguete'' v1.0 -- Fecha de lanzamiento oficial: 22 de diciembre de 2026.
+  \item \textbf{Alcance funcional:} Implementación completa de CUS-01 (Registrar Venta), CUS-02 (Procesar Pago y Emitir Comprobante), CUS-03 (Gestionar Abastecimiento de Productos) y CUS-04 (Registrar Ingreso de Mercancía), incorporando alertas automáticas de stock crítico y control de acceso por roles (RBAC) con contraseñas cifradas en Bcrypt (RNF-03). Los casos de uso CUS-05 (Auditoría de Inventario) y CUS-06 (Devoluciones y Cambios) quedan programados para la versión 1.1.
+  \item \textbf{Vulnerabilidades subsanadas:} Escapado estricto de salidas en plantillas Blade para prevenir ataques de \emph{Cross-Site Scripting} (XSS) y regeneración obligatoria de token de sesión en login para mitigar riesgos de \emph{Session Fixation}.
+  \item \textbf{Infraestructura requerida:} Servidor web en Windows 11 Pro con Apache 2.4 y PHP 8.2+; servidor de base de datos en Windows 11 Pro con MySQL 8.0; terminales con navegadores Chrome o Edge actualizados. La guía paso a paso se formaliza en \texttt{INSTALL.md}.
+  \item \textbf{Canal de soporte técnico:} \texttt{soporte@mundojuguete.pe}.
+\end{itemize}
+
+\paragraph{Plan de Capacitación y Niveles de Soporte Técnico (Actividad 7):}
+La adopción exitosa del sistema descansa en la capacitación estructurada por perfiles de usuario y en un esquema de mesa de ayuda escalonada (Tablas~\ref{tab:despliegue_capacitacion} y~\ref{tab:despliegue_soporte}):
+
+\input{tablas/despliegue_capacitacion.tex}
+
+\textbf{Control de efectividad:} Al finalizar las inducciones, los usuarios rinden una prueba práctica (registrar y cobrar una venta en menos de 3 minutos). Si durante la semana piloto una consulta operativa se repite más de 5 veces o se reprueba la evaluación, se aplica un refuerzo de 30 minutos, salvaguardando la meta de aprendizaje menor a 2 horas (RNF-05).
+
+\paragraph{Migración de Datos y Plan de Contingencia (Rollback) (Actividad 8):}
+El proceso de transición desde las hojas de cálculo tradicionales hacia la base de datos relacional MySQL se ejecuta mediante un protocolo de cinco fases secuenciales (Tabla~\ref{tab:despliegue_migracion}):
+
+\input{tablas/despliegue_migracion.tex}
+
+\textbf{Criterios objetivos para activación del rollback:}
+\begin{itemize}
+  \item Discrepancia mayor al 2\% en precios o saldos de inventario detectada en la verificación muestral.
+  \item Indisponibilidad o caída de servicio superior a 30 minutos durante horario comercial (incumplimiento del RNF-02).
+  \item Imposibilidad crítica de iniciar sesión en terminales o emitir comprobantes de pago autorizados.
+  \item Pérdida, truncamiento o corrupción de datos transaccionales registrados.
+\end{itemize}
+
+\textbf{Procedimiento de rollback y asignación de responsabilidades:}
+\begin{enumerate}
+  \item El Jefe de proyecto (Camma Baldeon) evalúa el incidente y emite la autorización formal de rollback.
+  \item El Responsable de build (Rodriguez Anculle) conmuta la aplicación al modo mantenimiento mediante el comando \texttt{php artisan down}.
+  \item El Responsable de BD (Valdivia Lovon) restaura la copia de seguridad previa de MySQL tomada antes de la migración.
+  \item El Responsable de soporte (Florez Merma) notifica al personal en cajas el retorno preventivo al registro en hojas de cálculo y talonarios manuales.
+  \item Se documentan las causas raíz y se reprograma la ventana de pase a producción.
+\end{enumerate}
+
+\textbf{Ventana de inactividad técnica permitida:} El negocio admite una indisponibilidad máxima de 6 horas, fijada estratégicamente fuera del horario de atención comercial: desde el \textbf{viernes 18 de diciembre a las 23:00 horas hasta el sábado 19 de diciembre a las 05:00 horas}, asegurando que la tienda inicie su jornada con el sistema o el plan de contingencia plenamente operativo.
+
+\paragraph{Matriz de Análisis de Riesgos del Despliegue (Actividad 9):}
+La prevención de eventualidades operativas, de infraestructura y de adopción se sistematiza en la Tabla~\ref{tab:despliegue_riesgos}:
+
+\input{tablas/despliegue_riesgos.tex}
+
+\paragraph{Conclusiones y Lecciones Aprendidas del Plan de Despliegue:}
+La formulación del plan de despliegue permite arribar a las siguientes conclusiones técnicas:
+\begin{enumerate}
+  \item \textbf{Control integral del pase a producción:} La estructuración de fases, responsables y dependencias posibilitó condensar la instalación y la migración en una única ventana nocturna (18--19 de diciembre), eliminando riesgos de interrupción del servicio comercial.
+  \item \textbf{Idoneidad de la arquitectura web centralizada:} Al sustentarse en una plataforma Laravel desplegada en servidor, los puestos cliente operan exclusivamente desde el navegador web, reduciendo costos de licenciamiento, simplificando actualizaciones y centralizando el stock en tiempo real (RF-03, RF-05).
+  \item \textbf{Criticidad neurálgica de la migración de datos:} El catálogo e inventario inicial constituyen la base de la operativa de ventas (CUS-01); su saneamiento previo y validación muestral estricta garantizan la integridad de la información desde el primer minuto.
+  \item \textbf{Mitigación del riesgo operativo mediante estrategia piloto:} La salida en vivo progresiva en \texttt{CAJA-01} permite comprobar rendimiento (RNF-01), usabilidad (RNF-05) y seguridad (RNF-03) con ventas reales antes de la extensión a toda la tienda en plena campaña navideña.
+  \item \textbf{Trazabilidad rigurosa de calidad y aceptación:} Cada escenario de prueba se enlazó con un requisito medible (incluyendo rendimiento y respaldo RNF-06), sustentando la conformidad técnica de la solución.
+  \item \textbf{Coherencia temporal unificada:} La articulación del cronograma de despliegue, la matriz de responsables, la ventana de inactividad y las notas de release eliminó discrepancias operativas en la planificación.
+  \item \textbf{Evolución hacia la automatización continua (CI/CD):} Como mejora a futuro, la incorporación de flujos automatizados con GitHub Actions para ejecución de tests PHPUnit y empaquetado de artefactos optimizará los despliegues de la versión 1.1.
+\end{enumerate}
+
+La Tabla~\ref{tab:despliegue_dificultades} resume las principales dificultades técnicas identificadas durante la planificación y las soluciones adoptadas:
+
+\input{tablas/despliegue_dificultades.tex}
 
 \clearpage
 \subsection{3.6 Sexto grupo de entregables - Semana 15}

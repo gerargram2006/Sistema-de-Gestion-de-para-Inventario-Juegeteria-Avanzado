@@ -1,0 +1,47 @@
+% Cronograma del plan de despliegue y pase a producción (16/11/2026 al 31/12/2026 - Lab S13)
+% Escala: 1 día = \dx ; día 0 = lunes 16/11/2026
+\begin{tikzpicture}[font=\sffamily\scriptsize]
+  \def\dx{0.3}
+  \def\dy{0.5}
+  \def\xo{5.8}   % inicio del área de barras
+  \def\filas{11.4}
+  % --- Semanas (cada lunes) ---
+  \foreach \d/\lab in {0/16 nov,7/23 nov,14/30 nov,21/7 dic,28/14 dic,35/21 dic,42/28 dic} {
+    \node[anchor=south west, inner sep=1pt] at ({\xo+\d*\dx}, 0.05) {\lab};
+    \draw[black!25] ({\xo+\d*\dx}, 0.05) -- ({\xo+\d*\dx}, {-\filas*\dy});
+  }
+  \draw[black!25] ({\xo+46*\dx}, 0.05) -- ({\xo+46*\dx}, {-\filas*\dy});
+  \node[anchor=south west, inner sep=1pt] at ({\xo+46*\dx}, 0.05) {31 dic};
+  \node[font=\sffamily\scriptsize\bfseries] at ({\xo+7.5*\dx}, 0.75) {Noviembre 2026};
+  \node[font=\sffamily\scriptsize\bfseries] at ({\xo+30.5*\dx}, 0.75) {Diciembre 2026};
+  \draw ({\xo+15*\dx}, 0.05) -- ({\xo+15*\dx}, {-\filas*\dy});
+  % Ventana del pase a producción (18--20/12)
+  \fill[black!8] ({\xo+32*\dx}, 0.05) rectangle ({\xo+35*\dx}, {-\filas*\dy});
+
+  % --- Tareas: fila / nombre / inicio / duración / estilo ---
+  \foreach \f/\nom/\ini/\dur/\est in {
+      1/Planificación del despliegue/0/5/barraGanttDP,
+      2/Material de soporte y manuales/7/12/barraNCGanttDP,
+      3/Pruebas de aceptación (PHPUnit y sistema)/7/19/barraGanttDP,
+      4/Producción de la unidad de despliegue/28/2/barraGanttDP,
+      5/Prueba de la unidad (sanity check)/30/2/barraGanttDP,
+      6/Instalación y migración de datos/32/2/barraGanttDP,
+      7/Puesta a disposición (URL y usuarios)/33/1/barraGanttDP,
+      8/Capacitación de usuarios/34/2/barraGanttDP,
+      9/Piloto en CAJA-01 (salida en vivo)/36/7/barraGanttDP,
+      11/Extensión y cierre (acta de aceptación)/43/3/barraGanttDP} {
+    \node[anchor=east] at (\xo-0.1, {-\f*\dy+0.2}) {\nom};
+    \draw[\est] ({\xo+\ini*\dx}, {-\f*\dy+0.07}) rectangle ({\xo+(\ini+\dur)*\dx}, {-\f*\dy+0.33});
+  }
+  % Hito: extensión al resto de cajas (29/12)
+  \node[anchor=east] at (\xo-0.1, {-10*\dy+0.2}) {Hito: extensión al resto de cajas};
+  \node[hitoGanttDP] at ({\xo+43.5*\dx}, {-10*\dy+0.2}) {};
+
+  % --- Leyenda ---
+  \begin{scope}[shift={(\xo, {-12.4*\dy})}]
+    \draw[barraGanttDP] (0,0) rectangle (0.5,0.25); \node[anchor=west] at (0.6,0.12) {Ruta crítica};
+    \draw[barraNCGanttDP] (2.6,0) rectangle (3.1,0.25); \node[anchor=west] at (3.2,0.12) {Con holgura};
+    \node[hitoGanttDP] at (5.35,0.12) {}; \node[anchor=west] at (5.6,0.12) {Hito};
+    \fill[black!8] (6.6,0) rectangle (7.1,0.25); \node[anchor=west] at (7.2,0.12) {Ventana del pase (18--20/12)};
+  \end{scope}
+\end{tikzpicture}

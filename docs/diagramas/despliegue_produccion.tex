@@ -1,0 +1,52 @@
+% Diagrama de despliegue UML en producción — Sistema de Gestión de Inventario "Mundo del Juguete" v1.0 (Lab S13)
+\begin{tikzpicture}
+  % ================= Nodo 1: Terminales de tienda =================
+  \node[tituloDP] (tA) at (2.5,0.55) {\textbf{\guillemotleft device\guillemotright}\\
+    \textbf{Terminales de tienda (PC)}\\ {[Windows 11]}\\
+    CAJA-01, CAJA-02, ALM-01, ADM-01\\ IP: 192.168.1.20 -- .23};
+  \node[titenvDP] (tEA) at (2.5,-2.6) {\textbf{\guillemotleft execution environment\guillemotright}\\ \textbf{Navegador web}\\ (Chrome / Edge)};
+  \artefactoProd{aA}{(2.5,-4.95)}{cliente web\\(vistas HTML5, CSS, JS)}
+  \cajaTresDProd{entornosDesp}{EA}{(tEA)(aA)}{envFill}{envSide}{0.18}
+  \cajaTresDProd{nodosDesp}{A}{(tA)(EA)($(EA.south)+(0,-0.6)$)}{white}{nodoSide}{0.3}
+
+  % ================= Nodo 2: Servidor de aplicaciones =================
+  \node[tituloDP] (tB) at (12.75,0.55) {\textbf{\guillemotleft server\guillemotright}\\
+    \textbf{Servidor de aplicaciones (PC)}\\ {[Windows 11 Pro]}\\
+    Host: app-mundojuguete\\ IP: 192.168.1.10};
+  % Entorno Apache
+  \node[titenvDP] (tEN) at (9.0,-2.6) {\textbf{\guillemotleft execution environment\guillemotright}\\ \textbf{Apache 2.4}\\ (HTTPS :443)};
+  \artefactoProd{aN}{(9.0,-4.95)}{httpd-vhosts.conf\\certificado TLS}
+  \cajaTresDProd{entornosDesp}{EN}{(tEN)(aN)}{envFill}{envSide}{0.18}
+  % Entorno PHP + Laravel
+  \node[titenvDP] (tEP) at (14.85,-2.6) {\textbf{\guillemotleft execution environment\guillemotright}\\ \textbf{PHP 8.2 + Laravel 11}};
+  \componenteProd{cV}{(13.3,-4.95)}{Vistas\\(Blade, CI\_*)}
+  \componenteProd{cL}{(16.4,-4.95)}{Lógica\\(controladores CP\_*)}
+  \componenteProd{cS}{(13.3,-6.6)}{Seguridad\\(middleware RBAC)}
+  \artefactoProd{aR}{(16.4,-6.6)}{mundojuguete-v1.0.zip\\(release)}
+  \artefactoProd{aE}{(13.3,-8.25)}{.env\\(configuración)}
+  \artefactoProd{aV}{(16.4,-8.25)}{public/build\\(assets Vite)}
+  \cajaTresDProd{entornosDesp}{EP}{(tEP)(cV)(cL)(aE)(aV)}{envFill}{envSide}{0.18}
+  \cajaTresDProd{nodosDesp}{B}{(tB)(EN)(EP)}{white}{nodoSide}{0.3}
+
+  % ================= Nodo 3: Servidor de base de datos =================
+  \node[tituloDP] (tC) at (23.2,0.55) {\textbf{\guillemotleft server\guillemotright}\\
+    \textbf{Servidor de BD (PC)}\\ {[Windows 11 Pro]}\\
+    Host: db-mundojuguete\\ IP: 192.168.1.11};
+  \node[titenvDP] (tEC) at (23.2,-2.6) {\textbf{\guillemotleft execution environment\guillemotright}\\ \textbf{SGBD relacional}\\ (MySQL 8.0, InnoDB)};
+  \artefactoProd{aDB}{(23.2,-4.95)}{bd\_mundojuguete\\(esquema 3FN)}
+  \artefactoProd{aBK}{(23.2,-6.6)}{backup\_diario.sql\\(copia de MySQL)}
+  \cajaTresDProd{entornosDesp}{EC}{(tEC)(aDB)(aBK)}{envFill}{envSide}{0.18}
+  \cajaTresDProd{nodosDesp}{C}{(tC)(EC)}{white}{nodoSide}{0.3}
+
+  % ================= Nodo 4: Respaldo externo =================
+  \node[tituloDP] (tD) at (23.2,-10.6) {\textbf{\guillemotleft cloud\guillemotright}\\ \textbf{Respaldo externo en la nube}};
+  \artefactoProd{aD}{(23.2,-12.3)}{copias diarias\\(retención 30 días)}
+  \cajaTresDProd{nodosDesp}{D}{(tD)(aD)}{white}{nodoSide}{0.3}
+
+  % ================= Conexiones =================
+  \draw[enlaceDP] (A.east |- aA) -- node[etiqenlaceDP, above=2pt] {HTTPS}
+        node[etiqenlaceDP, below=2pt] {TLS 1.3 :443} (B.west |- aA);
+  \draw[enlaceDP] (B.east |- aDB) -- node[etiqenlaceDP, above=2pt] {TCP/IP :3306}
+        node[etiqenlaceDP, below=2pt] {PDO MySQL} (C.west |- aDB);
+  \draw[enlaceDP] (C.south) -- node[etiqenlaceDP, right=3pt] {HTTPS\\copia diaria 02:00} (D.north);
+\end{tikzpicture}

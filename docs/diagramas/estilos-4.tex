@@ -1,0 +1,59 @@
+% =====================================================================
+%  Estilos TikZ: Plan de Despliegue y Cronograma de Producción (Lab S13)
+% =====================================================================
+\usetikzlibrary{positioning,calc,arrows.meta,fit,backgrounds,shapes.geometric}
+
+\pgfdeclarelayer{nodosDesp}
+\pgfdeclarelayer{entornosDesp}
+\pgfsetlayers{nodosDesp,entornosDesp,main}
+
+\definecolor{envFill}{HTML}{E3F2FB}
+\definecolor{envSide}{HTML}{C3DFF2}
+\definecolor{nodoSide}{HTML}{E4E4E4}
+
+\tikzset{
+  tituloDP/.style={align=center, font=\sffamily\small, anchor=north},
+  titenvDP/.style={align=center, font=\sffamily\footnotesize, anchor=north},
+  itemDP/.style={rectangle, draw=black!70, fill=white, line width=0.5pt,
+    font=\sffamily\scriptsize, align=center, text width=2.6cm, inner sep=4pt,
+    minimum height=1.3cm},
+  enlaceDP/.style={draw=black, line width=0.7pt},
+  etiqenlaceDP/.style={font=\sffamily\scriptsize, align=center, fill=white, inner sep=1.5pt},
+}
+
+% Caja 3D de nodo UML: \cajaTresDProd{capa}{id}{lista fit}{relleno}{lateral}{profundidad}
+\newcommand{\cajaTresDProd}[6]{%
+  \begin{pgfonlayer}{#1}
+    \node[draw=black, line width=0.7pt, fill=#4, inner sep=7pt, fit={#3}] (#2) {};
+    \fill[#5] (#2.north west) -- ++(#6,#6) -- ($(#2.north east)+(#6,#6)$)
+          -- ($(#2.south east)+(#6,#6)$) -- (#2.south east) -- (#2.north east) -- cycle;
+    \draw[line width=0.7pt] (#2.north west) -- ++(#6,#6) -- ($(#2.north east)+(#6,#6)$)
+          -- ($(#2.south east)+(#6,#6)$) -- (#2.south east);
+    \draw[line width=0.7pt] (#2.north east) -- ++(#6,#6);
+  \end{pgfonlayer}}
+
+% Ícono de documento (artefacto)
+\newcommand{\iconoDocProd}[1]{%
+  \begin{scope}[shift={($(#1.north east)+(-0.26,-0.2)$)}, line width=0.4pt]
+    \draw[fill=white] (-0.09,-0.12) -- (-0.09,0.12) -- (0.03,0.12) -- (0.09,0.06) -- (0.09,-0.12) -- cycle;
+    \draw (0.03,0.12) -- (0.03,0.06) -- (0.09,0.06);
+  \end{scope}}
+
+% Ícono de componente UML
+\newcommand{\iconoCompProd}[1]{%
+  \begin{scope}[shift={($(#1.north east)+(-0.26,-0.2)$)}, line width=0.4pt]
+    \draw[fill=white] (-0.06,-0.12) rectangle (0.1,0.12);
+    \draw[fill=white] (-0.11,0.03) rectangle (-0.01,0.08);
+    \draw[fill=white] (-0.11,-0.08) rectangle (-0.01,-0.03);
+  \end{scope}}
+
+% \artefactoProd{id}{posición}{texto}   \componenteProd{id}{posición}{texto}
+\newcommand{\artefactoProd}[3]{\node[itemDP] (#1) at #2 {\guillemotleft artifact\guillemotright\\#3}; \iconoDocProd{#1}}
+\newcommand{\componenteProd}[3]{\node[itemDP] (#1) at #2 {\guillemotleft component\guillemotright\\#3}; \iconoCompProd{#1}}
+
+% ---------------- Gantt Despliegue ----------------
+\tikzset{
+  barraGanttDP/.style={fill=black!75, draw=black, line width=0.4pt},
+  barraNCGanttDP/.style={fill=black!20, draw=black, line width=0.4pt},
+  hitoGanttDP/.style={fill=black, draw=black, diamond, inner sep=2.6pt},
+}

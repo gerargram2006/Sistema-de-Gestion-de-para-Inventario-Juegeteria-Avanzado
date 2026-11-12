@@ -1,0 +1,18 @@
+% --- Tabla: Pasos de Migración de Datos ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Procedimiento secuencial de migración de datos hacia MySQL.}
+  \label{tab:despliegue_migracion}
+  \begin{tabularx}{\linewidth}{|>{\centering\arraybackslash}p{0.7cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{N.°} & \textbf{Paso de migración} & \textbf{Responsable} & \textbf{Tiempo estimado} & \textbf{Validación} \\ \hline
+    1 & Extraer y respaldar las hojas de Excel actuales y exportarlas a CSV. & Valdivia Lovon (BD) & 1 h & Comparar tamaño y número de filas entre el Excel y el CSV. \\ \hline
+    2 & Limpiar los datos: quitar juguetes descontinuados, duplicados y precios vacíos. & Valdivia Lovon (BD) & 2 h & Que no existan SKU duplicados ni precios o stocks vacíos. \\ \hline
+    3 & Crear las tablas con \texttt{php artisan migrate -{}-force}. & Rodriguez Anculle (Build) & 0,5 h & Las 9 tablas y sus claves foráneas creadas sin errores. \\ \hline
+    4 & Importar los CSV con \emph{seeders} de Laravel (\texttt{php artisan db:seed}). & Valdivia Lovon (BD) & 1 h & Conteo de registros por tabla: origen = destino. \\ \hline
+    5 & Verificación por muestreo en la interfaz. & Llallacachi Salhua (Pruebas) & 0,5 h & Buscar 20 SKU al azar en el POS y comparar precio y stock con el Excel. \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Protocolo de extracción, saneamiento, migración y verificación muestral de datos iniciales.\par}
+\end{table}

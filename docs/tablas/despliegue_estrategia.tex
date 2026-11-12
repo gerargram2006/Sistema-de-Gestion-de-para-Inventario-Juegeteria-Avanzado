@@ -1,0 +1,17 @@
+% --- Tabla: Modo y Estrategia de Despliegue ---
+\begin{table}[H]
+  \centering
+  \caption{Matriz comparativa de modos de despliegue y selección de estrategia.}
+  \label{tab:despliegue_estrategia}
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Criterio} & \textbf{Instalación en el cliente} & \textbf{Instalador distribuible} & \textbf{Acceso vía Internet / red} \\ \hline
+    Costo de implementación & Alto: hay que instalar y configurar caja por caja. & Medio: se prepara un instalador, pero cada equipo requiere su propia base de datos o conexión. & Bajo: se instala una sola vez en el servidor. \\ \hline
+    Facilidad de actualización & Difícil: actualización manual en cada equipo. & Media: hay que redistribuir el instalador en cada versión. & Muy fácil: se actualiza solo el servidor y todos usan la nueva versión. \\ \hline
+    Soporte requerido & Alto: problemas de sistema operativo y librerías en cada PC. & Medio: errores de instalación por parte del usuario. & Bajo: el usuario solo necesita el navegador. \\ \hline
+    Riesgos principales & Versiones distintas entre cajas y datos inconsistentes. & Instalaciones incompletas o desactualizadas. & Caída de la red local o del servidor central. \\ \hline
+    ¿Se adapta al proyecto? & No: cada caja tendría su propio stock y se perdería la sincronización en tiempo real. & No: mantiene el mismo problema de versiones y no centraliza el inventario. & \textbf{Sí:} centraliza el stock en tiempo real (RF-03, RF-05) y se ajusta a una aplicación web en Laravel. \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Evaluación técnica que sustenta la adopción del despliegue centralizado vía web y estrategia piloto.\par}
+\end{table}

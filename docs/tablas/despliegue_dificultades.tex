@@ -1,0 +1,16 @@
+% --- Tabla: Dificultades y Soluciones ---
+\begin{table}[H]
+  \centering
+  \caption{Dificultades identificadas durante la planificación del despliegue y soluciones.}
+  \label{tab:despliegue_dificultades}
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Dificultad} & \textbf{Solución} \\ \hline
+    Las fechas del plan, la matriz de actividades y la ventana de rollback no coincidían en el primer borrador. & Se elaboró un único cronograma (diagrama de Gantt) y todas las actividades se ajustaron a él. \\ \hline
+    El borrador mencionaba tecnologías que no corresponden al proyecto (Node.js, MongoDB, JDBC). & Se revisó el documento del proyecto y se unificó todo con PHP 8.2, Laravel 11, Apache y MySQL 8.0. \\ \hline
+    Asignar un rol a cada integrante sin dejar actividades sin responsable. & Se agregó el rol de responsable de base de datos y migración para cubrir la actividad más crítica. \\ \hline
+    Definir criterios objetivos para decidir el rollback. & Se usaron los RNF del proyecto como umbrales medibles (disponibilidad, tiempo de respuesta y recuperación). \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Registro de lecciones aprendidas y ajustes metodológicos aplicados durante la formulación del plan.\par}
+\end{table}

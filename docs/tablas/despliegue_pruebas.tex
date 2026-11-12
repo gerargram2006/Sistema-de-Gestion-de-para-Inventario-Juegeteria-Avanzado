@@ -1,0 +1,39 @@
+% --- Tabla: Pruebas en el Entorno Final ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Matriz de pruebas en el entorno final y trazabilidad con requerimientos.}
+  \label{tab:despliegue_pruebas_finales}
+  \begin{tabularx}{\linewidth}{|>{\centering\arraybackslash}p{1.2cm}|>{\centering\arraybackslash}p{1.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{1.4cm}|}
+    \hline
+    \textbf{ID prueba} & \textbf{ID req.} & \textbf{Escenario / pasos} & \textbf{Resultado esperado} & \textbf{Resultado obtenido} & \textbf{Estado} \\ \hline
+    CP-01 & RF-01 RNF-03 & Iniciar sesión con un usuario de rol Vendedor. & Acceso concedido; solo se muestra el módulo de ventas según su rol. & Ingresó al POS; el menú no muestra Abastecimiento ni Almacén. & OK \\ \hline
+    CP-02 & RF-02 RF-03 & (CUS-01) Registrar una venta buscando un juguete por SKU para un cliente con DNI. & Venta en estado ``Pendiente'' y stock reservado provisionalmente. & Venta registrada como ``Pendiente''; stock reservado (2 u.). & OK \\ \hline
+    CP-03 & RF-06 & (CUS-01) Solicitar 10 unidades de un juguete con stock de 4. & El sistema alerta y bloquea las unidades excedentes. & Muestra alerta de stock insuficiente y no permite continuar. & OK \\ \hline
+    CP-04 & RF-04 RF-05 & (CUS-02) Cobrar la venta pendiente en efectivo y emitir boleta. & Venta ``Pagada'', boleta con serie B001 y stock descontado. & Boleta B001 emitida; venta ``Pagada''; stock actualizado. & OK \\ \hline
+    CP-05 & RF-10 RF-11 & (CUS-04) Registrar la recepción de una orden de compra de 100 unidades. & Stock incrementado en 100 y orden en estado ``Recibida''. & Stock +100; orden de compra ``Completada / Recibida''. & OK \\ \hline
+    CP-06 & RNF-01 & Consultar el catálogo de 5\,000 juguetes desde 3 cajas a la vez. & Tiempo de respuesta menor a 2 segundos. & Tiempo promedio de 1,4 s. & OK \\ \hline
+    CP-07 & RNF-06 & Restaurar la base de datos desde la copia diaria. & Base de datos recuperada en menos de 1 hora. & Restauración completa en 25 minutos. & OK \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Validación en entorno idéntico a producción de requerimientos funcionales y no funcionales críticos.\par}
+\end{table}
+
+% --- Tabla: Lista de Verificación de la Unidad de Despliegue ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Lista de verificación de la unidad de despliegue previa a producción.}
+  \label{tab:despliegue_check_unidad}
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{1.8cm}|>{\centering\arraybackslash}p{1.8cm}|}
+    \hline
+    \textbf{Punto de control} & \textbf{Cumple} & \textbf{No cumple} \\ \hline
+    Las pruebas unitarias, de integración y de sistema fueron aprobadas. & X & \\ \hline
+    El producto se ejecuta correctamente en un equipo limpio (sin herramientas de desarrollo). & X & \\ \hline
+    Los parámetros de configuración del entorno final (servidor, base de datos, usuarios) están documentados. & X & \\ \hline
+    Se realizó una copia de respaldo (backup) previa a la instalación. & X & \\ \hline
+    El cliente o docente firmó o aprobó la aceptación del producto. & & X \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). El acta de aceptación formal se suscribirá al cierre definitivo del despliegue (31/12/2026).\par}
+\end{table}

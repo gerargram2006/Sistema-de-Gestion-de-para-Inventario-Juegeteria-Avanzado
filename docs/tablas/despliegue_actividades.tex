@@ -1,0 +1,30 @@
+% --- Tabla: Actividades del Pase a Producción ---
+\begin{table}[H]
+  \centering
+  \caption{Actividades y cronología del pase a producción del sistema.}
+  \label{tab:despliegue_actividades}
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Actividad} & \textbf{Fecha} & \textbf{Descripción} \\ \hline
+    Probar el producto en su entorno de ejecución final &
+    23/11 -- 17/12 &
+    Pruebas de aceptación y pruebas de humo en un servidor con la misma configuración de producción (PC con Windows 11 Pro, Apache, PHP 8.2 y MySQL 8.0), validando la conexión entre Laravel y la base de datos y el acceso desde las terminales de la red local. \\ \hline
+    Empaquetar el software para su distribución &
+    Lun 14/12 -- Mar 15/12 &
+    Generación del release v1.0: \texttt{composer install -{}-no-dev}, compilación de estilos con \texttt{npm run build} (Vite), \texttt{php artisan optimize} y empaquetado en \texttt{mundojuguete-v1.0.zip}, publicado como \emph{release} en GitHub. \\ \hline
+    Distribuir el software &
+    Vie 18/12 (23:00) &
+    Copia del paquete al servidor de aplicaciones (192.168.1.10) por la red local (carpeta compartida de Windows) o con \texttt{git checkout v1.0}. Al ser una aplicación web, no se distribuye nada a las terminales: solo necesitan el navegador. \\ \hline
+    Instalar el software &
+    Vie 18/12 (23:00) -- Sáb 19/12 (05:00) &
+    Configuración del archivo \texttt{.env}, del sitio en Apache con certificado TLS y ejecución de \texttt{php artisan migrate -{}-force} para crear las tablas en MySQL. \\ \hline
+    Migrar o convertir las bases de datos &
+    Sáb 19/12 (01:00 -- 05:00) &
+    Importación del catálogo de juguetes, categorías, clientes e inventario inicial desde las hojas de Excel/CSV actuales mediante \emph{seeders} de Laravel, con verificación de conteos. \\ \hline
+    Capacitar a los usuarios &
+    Dom 20/12 -- Lun 21/12 &
+    Sesiones por perfil (vendedor/cajero, encargado de almacén y administrador) con el sistema ya instalado y datos reales, antes de la salida en vivo del martes 22/12. \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Detalle de fases operativas previas a la salida en vivo programada para el 22 de diciembre de 2026.\par}
+\end{table}

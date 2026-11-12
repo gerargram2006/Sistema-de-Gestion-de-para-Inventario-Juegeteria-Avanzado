@@ -1,0 +1,33 @@
+% --- Tabla: Plan de Capacitación ---
+\begin{table}[H]
+  \centering
+  \footnotesize
+  \caption{Plan de capacitación y entrenamiento operativo de usuarios por perfil.}
+  \label{tab:despliegue_capacitacion}
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{1.6cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
+    \hline
+    \textbf{Perfil de usuario} & \textbf{Temas a capacitar} & \textbf{Modalidad} & \textbf{Duración} & \textbf{Material} & \textbf{Responsable} \\ \hline
+    Vendedor / Cajero & Inicio de sesión, búsqueda de juguetes, registro de venta (CUS-01), cobro y emisión de boletas y facturas (CUS-02). & Presencial & 2 h & Manual rápido de caja & Florez Merma \\ \hline
+    Encargado de almacén & Recepción de mercadería contra la orden de compra y registro de observaciones por productos dañados o faltantes (CUS-04). & Presencial & 1 h & Guía de almacén & Florez Merma \\ \hline
+    Administrador & Alertas de stock crítico y órdenes de compra (CUS-03), reportes de kardex y gestión de usuarios y roles. & Virtual & 1 h & Video tutorial y manual de usuario & Camma Baldeon \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Cronograma y contenidos de inducción operativa para garantizar la adopción del sistema.\par}
+\end{table}
+
+% --- Tabla: Niveles de Soporte Técnico ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Niveles de soporte técnico y mesa de ayuda post-despliegue.}
+  \label{tab:despliegue_soporte}
+  \begin{tabularx}{\linewidth}{|>{\centering\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
+    \hline
+    \textbf{Nivel de soporte} & \textbf{Descripción} & \textbf{Medio de atención} & \textbf{Tiempo de respuesta} \\ \hline
+    Nivel 1 & Consultas de uso del sistema y restablecimiento de contraseñas. & Teléfono y WhatsApp & 30 minutos \\ \hline
+    Nivel 2 & Cuadres de caja incorrectos, fallas de impresión de comprobantes o errores en el stock. & Ticket de servicio & 4 horas \\ \hline
+    Nivel 3 & Caída del servicio Apache o PHP, errores del servidor o bloqueos en MySQL. & Guardia técnica (presencial) & Inmediato (máx. 1 hora, RNF-06) \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Esquema de escalamiento de incidencias técnicas en tienda.\par}
+\end{table}

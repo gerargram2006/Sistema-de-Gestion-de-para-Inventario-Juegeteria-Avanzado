@@ -1,0 +1,19 @@
+% --- Tabla: Matriz de Análisis de Riesgos ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Matriz de análisis, impacto y mitigación de riesgos del despliegue.}
+  \label{tab:despliegue_riesgos}
+  \begin{tabularx}{\linewidth}{|>{\centering\arraybackslash}p{0.7cm}|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{1.4cm}|>{\centering\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{N.°} & \textbf{Riesgo} & \textbf{Prob.} & \textbf{Impacto} & \textbf{Acción preventiva} & \textbf{Plan de contingencia} \\ \hline
+    1 & Diferencias de versión o extensiones de PHP (pdo\_mysql, mbstring) entre el entorno de pruebas y el servidor final. & Media & Alta & Probar en un servidor idéntico al de producción y revisar \texttt{php -m} con una lista de verificación. & Instalar la extensión faltante; si no se resuelve en la ventana, aplicar el rollback y reprogramar. \\ \hline
+    2 & Corrupción de precios o stock durante la migración desde Excel a MySQL. & Baja & Alta & Limpiar los datos antes de importar y validar conteos por tabla. & Vaciar las tablas afectadas y volver a ejecutar los \emph{seeders} desde el respaldo. \\ \hline
+    3 & Lentitud al consultar el catálogo en horas punta. & Media & Media & Crear índices en SKU, nombre y categoría, y activar la caché de Laravel (\texttt{php artisan optimize}). & Reiniciar el servicio de Apache y agregar los índices faltantes en caliente. \\ \hline
+    4 & Rechazo o errores de los cajeros con la nueva interfaz. & Alta & Baja & Simulacros de cobro en el ambiente de pruebas antes del pase. & Personal de soporte Nivel 1 presente en la tienda durante el piloto. \\ \hline
+    5 & Apagón o falla de hardware en la tienda o en los servidores. & Baja & Alta & UPS en los servidores y copia diaria en la nube (RNF-06). & Operar temporalmente con boletas manuales y restaurar desde la copia. \\ \hline
+    6 & Retraso en la migración que impida abrir con el catálogo cargado. & Media & Alta & Ensayar la migración completa en el servidor de pruebas el 17/12. & Abrir con el proceso manual y completar la migración la noche siguiente. \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Gestión preventiva de riesgos operativos, tecnológicos y humanos del pase a producción.\par}
+\end{table}

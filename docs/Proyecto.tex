@@ -13,6 +13,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
+\usepackage[nopatch=footnote]{microtype}
 
 % ---------- Idioma (español) ----------
 \usepackage[spanish,es-tabla]{babel}
@@ -47,6 +48,7 @@
 % ---------- Geometría y espaciado (Formato 2.5 cm y APA 7) ----------
 \usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{setspace}
+\usepackage{needspace}
 \doublespacing
 \setlength{\parskip}{6pt}
 \setlength{\parindent}{0.5in}
@@ -91,6 +93,12 @@
 \captionsetup{labelsep=period, labelfont=bf, textfont=it, skip=6pt, hypcap=false}
 \captionsetup[figure]{font=small, justification=raggedright, singlelinecheck=false, labelsep=newline, hypcap=false}
 \captionsetup[table]{position=above}
+% Espaciado compacto alrededor de figuras y tablas (sin alterar el interlineado APA)
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{2pt plus 1pt minus 1pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
 \newif\ifInsideTikzER
 \InsideTikzERfalse
 \AtBeginEnvironment{figure}{\singlespacing\setlength{\parindent}{0pt}}
@@ -489,7 +497,6 @@ A continuación, se presentan los diagramas de actividades que modelan el compor
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representación de la secuencia de acciones para procesar una venta en mostrador con validación de stock y emisión de comprobante.
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
     \caption{Diagrama de Actividades - CUN-02: Gestionar Abastecimiento}
     \label{fig:act_cun02}
@@ -508,7 +515,6 @@ A continuación, se presentan los diagramas de actividades que modelan el compor
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Secuencia operativa de auditorías físicas, detección de mermas y sincronización de existencias mínimas.
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
     \caption{Diagrama de Actividades - CUN-04: Gestionar Devoluciones y Cambios}
     \label{fig:act_cun04}
@@ -527,7 +533,6 @@ A continuación, se presentan los diagramas de actividades que modelan el compor
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Representación de la interacción interna coordinada entre Vendedor, Cajero, Administrador y Almacenero.
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
     \caption{Diagrama de Actividades - CUN-06: Flujo con Actores Externos de Negocio}
     \label{fig:act_cun06}
@@ -537,6 +542,7 @@ A continuación, se presentan los diagramas de actividades que modelan el compor
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Modelo de interacción con actores externos (Clientes y Proveedores mayoristas).
 \end{figure}
 
+\needspace{5\baselineskip}
 \subsubsection{3.2.2 Descripci\'on actualizada de Requerimientos Funcionales / No Funcionales}
 
 Los requerimientos del sistema formalizan las necesidades operativas de la juguetería minorista, categorizados en Requerimientos Funcionales (RF-01 a RF-31) y Requerimientos No Funcionales (RNF-01 a RNF-06), vinculados de manera biunívoca a los procesos de negocio.
@@ -616,7 +622,6 @@ Siguiendo las directrices del proyecto, se ha seleccionado la funcionalidad neur
 
 \input{tablas/fichas_cun.tex}
 
-\clearpage
 \paragraph{Reglas de Negocio Vinculadas:}
 
 De acuerdo con la operativa comercial de la juguetería ``Mundo del Juguete'', se formalizan las siguientes cinco reglas de negocio que restringen y guían las operaciones:
@@ -652,7 +657,6 @@ A continuación, se ilustran los diagramas de clases de negocio elaborados para 
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Modelo transaccional de venta comercial en mostrador.
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
     \caption{Diagrama de Clases de Negocio: Entidad Compras y Detalle de Compras}
     \label{fig:clases_compras}
@@ -671,7 +675,6 @@ A continuación, se ilustran los diagramas de clases de negocio elaborados para 
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Modelo de resolución de garantías y notas de crédito.
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
     \caption{Diagrama de Clases de Negocio: Entidad Usuarios}
     \label{fig:clases_usuarios}
@@ -690,7 +693,7 @@ A continuación, se ilustran los diagramas de clases de negocio elaborados para 
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Modelo de datos de clientes para facturación electrónica.
 \end{figure}
 
-\clearpage
+\needspace{5\baselineskip}
 \subsection{3.3 Tercer grupo de entregables - Semana 09}
 
 \subsubsection{3.3.1 Capturas del prototipo y enlace (link) al mismo}
@@ -724,7 +727,6 @@ A continuación, se presentan las capturas de pantalla de los módulos principal
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Interfaz para el registro de ventas, búsqueda de juguetes y verificación de existencias.
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
     \centering
     \caption{Prototipo UI/UX: Facturación y Cobro (PAGO)}
@@ -917,7 +919,6 @@ Tras completar el dise\~no din\'amico de los Casos de Uso base, se establecen la
     \item \textbf{Gu\'ia directa para la implementaci\'on en Laravel:} Cada mensaje modelado en los diagramas de secuencia se traduce directamente en m\'etodos de controladores, eventos o llamadas Eloquent, garantizando una implementaci\'on guiada y libre de ambig\"uedades.
 \end{itemize}
 
-\clearpage
 \subsection{3.4 Cuarto grupo de entregables - Semana 10}
 
 Para la funcionalidad comercial y logística seleccionada, se detallan los Casos de Uso del Sistema (CUS), los actores relacionados y la demostración de interfaces con su modelo de dominio.
@@ -933,7 +934,7 @@ La Tabla~\ref{tab:cus_prioridades} consolida los casos de uso identificados para
 
 \input{tablas/fichas_cus.tex}
 
-\clearpage
+\needspace{5\baselineskip}
 \subsubsection{3.4.2 Descripci\'on de los Actores del sistema relacionados}
 
 A continuación, se describen los actores que interactúan directamente con los Casos de Uso del Sistema:
@@ -970,7 +971,6 @@ A continuación, se presentan los diagramas de Casos de Uso del Sistema organiza
     {\raggedright \small \emph{Nota.} Elaboración propia (2026). Casos de uso gerenciales de supervisión y emisión de órdenes de abastecimiento.\par}
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
     \centering
     \caption{Diagrama de CUS para el actor Cajero.}
@@ -989,7 +989,7 @@ A continuación, se presentan los diagramas de Casos de Uso del Sistema organiza
     {\raggedright \small \emph{Nota.} Elaboración propia (2026). Casos de uso logísticos de recepción física y actualización de kardex.\par}
 \end{figure}
 
-\clearpage
+\needspace{5\baselineskip}
 \subsubsection{3.4.3 Demostraci\'on del avance de las interfaces relacionadas}
 
 \paragraph{Concepto del Modelo de Dominio e Integración con CUS:}
@@ -1016,7 +1016,6 @@ La Matriz de Trazabilidad de Requerimientos es una técnica de aseguramiento de 
     {\raggedright \small \emph{Nota.} Elaboración propia (2026). Consolidación visual de la trazabilidad que certifica que cada requerimiento funcional cuenta con un CUS, una clase de dominio y una pantalla asignada.\par}
 \end{figure}
 
-\clearpage
 \subsection{3.5 Quinto grupo de entregables - Semana 13}
 
 \subsubsection{3.5.1 Diagramas de dise\~no (Diagrama de Paquetes, Diagrama de Despliegue, Diagrama de Componentes)}
@@ -1109,7 +1108,6 @@ Para garantizar un bajo acoplamiento, alta cohesi\'on y facilitar el mantenimien
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Arquitectura desacoplada en capas de Presentaci\'on, L\'ogica de Negocio y Dominio con dependencias \guillemotleft use\guillemotright, \guillemotleft access\guillemotright{} e \guillemotleft import\guillemotright.\par}
 \end{figure}
 
-\clearpage
 \paragraph{Diagrama de Despliegue y Arquitectura Tecnológica:}
 La topología de infraestructura técnica y distribución de nodos físicos del sistema (Figura~\ref{fig:diagrama_despliegue}) comprende los equipos clientes, la infraestructura de red y seguridad, los servidores de aplicación y base de datos, los servicios externos integrados y el respaldo en la nube:
 \begin{itemize}
@@ -1129,7 +1127,6 @@ La topología de infraestructura técnica y distribución de nodos físicos del 
   {\raggedright \small \emph{Nota.} Elaboración propia (2026). Distribución física de nodos cliente, router/firewall, servidor de aplicación, servicios externos, servidor de base de datos y respaldo en la nube bajo notación UML.\par}
 \end{figure}
 
-\clearpage
 \paragraph{Diagramas de Estados del Sistema:}
 De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pressman y Maxim, 2021), una máquina de estados modela el comportamiento dinámico de una entidad especificando la secuencia de estados por los que atraviesa a lo largo de su ciclo de vida en respuesta a eventos discretos:
 
@@ -1142,7 +1139,6 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Muestra los estados operativos, transiciones de pago y flujos alternos de cancelaci\'on y devoluci\'on.\par}
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
   \centering
   \caption{Diagrama de estados: ciclo de vida de una compra/abastecimiento.}
@@ -1152,7 +1148,6 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Flujo de compras desde el borrador inicial, aprobaci\'on, env\'io, rechazos de f\'abrica y recepci\'on en almac\'en.\par}
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
   \centering
   \caption{Diagrama de estados: devoluciones o cambios de producto.}
@@ -1162,7 +1157,6 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Validaci\'on de garant\'ias, resoluci\'on de cambios de art\'iculo y reembolsos monetarios.\par}
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
   \centering
   \caption{Diagrama de estados: ciclo de vida de un producto en inventario.}
@@ -1172,7 +1166,6 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Transiciones din\'amicas de existencias, estados cr\'iticos de agotamiento y reabastecimiento log\'istico.\par}
 \end{figure}
 
-\clearpage
 \begin{figure}[H]
   \centering
   \caption{Diagrama de estados: recepci\'on f\'isica en almac\'en.}
@@ -1182,7 +1175,6 @@ De acuerdo con los estándares de la ingeniería de software (Larman, 2003; Pres
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Protocolo de control de accesos f\'isicos, verificaci\'on de empaques y confirmaci\'on de movimientos de almac\'en.\par}
 \end{figure}
 
-\clearpage
 \paragraph{Diagrama de Clases del Dominio y Persistencia:}
 El modelo estructural del dominio plasma las diez entidades persistentes fundamentales del sistema con sus atributos tipificados, operaciones transaccionales, multiplicidades y relaciones de agregaci\'on/composici\'on:
 
@@ -1195,7 +1187,6 @@ El modelo estructural del dominio plasma las diez entidades persistentes fundame
   {\raggedright \small \emph{Nota.} Elaboraci\'on propia (2026). Especificaci\'on detallada de entidades, llaves primarias/for\'aneas, m\'etodos de negocio y multiplicidades del sistema.\par}
 \end{figure}
 
-\clearpage
 \paragraph{Modelo de Datos Relacional (Diagrama Entidad-Relación):}
 El modelo físico de datos traduce los procesos de ventas, abastecimiento, control de inventario y devoluciones de la juguetería en nueve tablas relacionales normalizadas (\texttt{clientes}, \texttt{usuarios}, \texttt{ventas}, \texttt{detalle\_ventas}, \texttt{devoluciones}, \texttt{compras}, \texttt{detalle\_compras}, \texttt{productos} y \texttt{categorias}). Como ilustra la Figura~\ref{fig:modelo_datos_er}, las cardinalidades uno a muchos (\texttt{1 -- N}) y las restricciones de clave primaria y foránea garantizan la integridad referencial y la trazabilidad operativa en el motor MySQL:
 
@@ -1208,7 +1199,6 @@ El modelo físico de datos traduce los procesos de ventas, abastecimiento, contr
   {\raggedright \small \emph{Nota.} Elaboración propia (2026). Leyenda: \textbf{PK} = clave primaria (\emph{Primary Key}); \textbf{FK} = clave foránea (\emph{Foreign Key}); \textbf{1 -- N} = relación uno a muchos.\par}
 \end{figure}
 
-\clearpage
 \paragraph{Diccionario de Datos:}
 A continuación se detalla cada una de las nueve tablas del modelo de datos, especificando el tipo de dato de cada campo, sus claves primarias (PK), claves foráneas (FK) con la tabla y campo al que hacen referencia, y la admisión de valores nulos (Tablas~\ref{tab:dic_clientes} a~\ref{tab:dic_categorias}):
 
@@ -1256,7 +1246,6 @@ De la especificación de la topología de despliegue físico y el modelo relacio
 % \end{figure}
 % =========================================================================
 
-\clearpage
 \subsubsection{3.5.2 Cronograma del Proyecto}
 
 La planificación temporal de las actividades del proyecto ha sido estructurada de forma rigurosa siguiendo las etapas consecutivas de la metodología Cascada (Waterfall): levantamiento de requerimientos, análisis del negocio, prototipado UI/UX, especificación de casos de uso del sistema, diseño arquitectural, implementación y codificación modular en Laravel, aseguramiento de la calidad mediante casos de prueba, y consolidación documental final.
@@ -1272,7 +1261,6 @@ A continuación, la Figura~\ref{fig:gantt_cronograma_proyecto} presenta el crono
   \raggedright\noindent\small \emph{Nota.} Elaboraci\'on propia (2026). Planificaci\'on secuencial de las seis fases del proyecto en apego estricto a la metodolog\'ia Cascada (Waterfall) y al registro de \emph{commits} del repositorio, culminando a principios de diciembre de 2026.
 \end{figure}
 
-\clearpage
 \subsubsection{3.5.3 Plan de Despliegue del Sistema (Implementación II - Salida en Producción)}
 
 El plan de despliegue formaliza la estrategia, arquitectura física y procedimientos operativos para la salida en vivo (\emph{go-live}) del \textbf{Sistema de Gestión de Inventario para la juguetería ``Mundo del Juguete'' v1.0}, aplicación web desarrollada en PHP 8.2 bajo el framework Laravel 11 (motor de plantillas Blade y persistencia mediante Eloquent ORM) y base de datos relacional MySQL 8.0. La planificación cubre las actividades de preparación, pruebas en entorno final, empaquetado del release, migración de datos, capacitación a usuarios, contingencia ante fallos y gestión de riesgos.
@@ -1405,7 +1393,6 @@ La Tabla~\ref{tab:despliegue_dificultades} resume las principales dificultades t
 
 \input{tablas/despliegue_dificultades.tex}
 
-\clearpage
 \subsection{3.6 Sexto grupo de entregables - Semana 15}
 
 \subsubsection{3.6.1 Casos de Prueba del Proyecto (matriz de casos de prueba con sustento de pruebas realizadas)}

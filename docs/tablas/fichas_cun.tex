@@ -1,7 +1,11 @@
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-01: Gestionar ventas (registrar venta)}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+  \label{tab:cun_01}
+  {\small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
     \hline
     Caso & Gestionar ventas (registrar venta) \\
     \hline
@@ -23,15 +27,19 @@
     \hline
     Objetivo & Agilizar el proceso de venta y mantener el nivel de stock actualizado en tiempo real en la tienda. \\
     \hline
-  \end{tabular}
-  \par\vspace{1ex}
+  \end{tabularx}}
+  \par\vspace{0.2ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-01.
 \end{table}
 
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-02: Gestionar abastecimiento}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+  \label{tab:cun_02}
+  {\small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
     \hline
     Caso & Gestionar abastecimiento \\
     \hline
@@ -53,16 +61,19 @@
     \hline
     Objetivo & Mantener el stock de la tienda actualizado y evitar quiebres de inventario mediante una correcta provisión de mercancía. \\
     \hline
-  \end{tabular}
-  \par\vspace{1ex}
+  \end{tabularx}}
+  \par\vspace{0.2ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-02.
 \end{table}
 
-\clearpage
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-03: Controlar inventario}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+  \label{tab:cun_03}
+  {\small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
     \hline
     Caso & Controlar inventario \\
     \hline
@@ -83,15 +94,19 @@
     \hline
     Objetivo & Mantener la precisión de existencias, prevenir pérdidas económicas y asegurar control interno. \\
     \hline
-  \end{tabular}
-  \par\vspace{1ex}
+  \end{tabularx}}
+  \par\vspace{0.2ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-03.
 \end{table}
 
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-04: Gestionar devoluciones y cambios}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+  \label{tab:cun_04}
+  {\small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
     \hline
     Caso & Gestionar devoluciones y cambios \\
     \hline
@@ -113,15 +128,19 @@
     \hline
     Objetivo & Atender eficientemente incidencias de clientes y garantizar la satisfacción y trazabilidad. \\
     \hline
-  \end{tabular}
-  \par\vspace{1ex}
+  \end{tabularx}}
+  \par\vspace{0.2ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación fundamental del CUN-04.
 \end{table}
 
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-05: Flujo de venta y reposici\'on (trabajadores del negocio)}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+  \label{tab:cun_05}
+  {\small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
     \hline
     Caso & Flujo de venta y reposición (trabajadores del negocio) \\
     \hline
@@ -129,7 +148,7 @@
     \hline
     Precondición & Existen productos registrados y la tienda se encuentra formalmente abierta al público. \\
     \hline
-    Secuencia & 
+    Secuencia &
     1. El Vendedor registra la venta de los productos solicitados. \newline
     2. El Sistema actualiza el stock provisional. \newline
     3. El Cajero cobra al cliente y emite el comprobante de pago. \newline
@@ -141,15 +160,19 @@
     \hline
     Postcondición & La venta queda saldada, el stock sincronizado y el almacén reabastecido. \\
     \hline
-  \end{tabular}
-  \par\vspace{1ex}
+  \end{tabularx}}
+  \par\vspace{0.2ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación del flujo interno (CUN-05).
 \end{table}
 
 \begin{table}[H]
   \centering
   \caption{Caso de uso CUN-06: Flujo con actores externos de negocio}
-  \begin{tabular}{|>{\bfseries\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{11.5cm}|}
+  \label{tab:cun_06}
+  {\small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
     \hline
     Caso & Flujo con actores externos de negocio \\
     \hline
@@ -157,7 +180,7 @@
     \hline
     Precondición & El cliente solicita una compra o la empresa emite una orden de compra hacia el proveedor mayorista. \\
     \hline
-    Secuencia & 
+    Secuencia &
     1. El Cliente solicita la compra de juguetes en la tienda. \newline
     2. El Vendedor procesa la solicitud y el Cajero efectúa el cobro. \newline
     3. El Cliente recibe su compra embalada con su comprobante legal. \newline
@@ -169,7 +192,7 @@
     \hline
     Postcondición & El cliente recibe su producto y la tienda completa el aprovisionamiento. \\
     \hline
-  \end{tabular}
-  \par\vspace{1ex}
+  \end{tabularx}}
+  \par\vspace{0.2ex}
   \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cuadro de especificación del flujo externo (CUN-06).
 \end{table}

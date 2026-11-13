@@ -1326,20 +1326,13 @@ La selección del modo de despliegue se fundamenta en un análisis comparativo f
 \textbf{Estrategia de implantación seleccionada: Piloto.} El sistema se pondrá en producción inicialmente en una única caja (\texttt{CAJA-01}) durante una semana de evaluación, del \textbf{22 al 28 de diciembre de 2026}, mientras \texttt{CAJA-02} continúa operando mediante el procedimiento manual habitual. Este enfoque permite validar en condiciones reales de venta el rendimiento transaccional menor a 2 segundos (RNF-01), la usabilidad y adopción con curva de aprendizaje menor a 2 horas (RNF-05) y el control de accesos RBAC (RNF-03), mitigando el riesgo operativo global. Al concluir la semana piloto sin incidencias críticas y con un margen de discrepancia de existencias inferior al 2\%, el martes \textbf{29 de diciembre} se extiende el despliegue hacia \texttt{CAJA-02}, el módulo de almacén y la administración general. Se descartó el enfoque masivo (\emph{big bang}) para salvaguardar la continuidad comercial durante la campaña navideña.
 
 \paragraph{Matriz de Actividades, Responsables y Acciones (Actividad 4):}
-La ejecución del despliegue requiere una asignación inequívoca de responsabilidades técnicas dentro del equipo:
-\begin{itemize}
-  \item \textbf{Gerar Rodrigo Camma Baldeon:} Jefe de proyecto (planificación general, monitoreo de piloto, notas de release y firma del acta).
-  \item \textbf{Simon Rodriguez Anculle:} Responsable de compilación y \emph{build} (ejecución de scripts, empaquetado del release, configuración web y publicación).
-  \item \textbf{Samuel A. Llallacachi Salhua:} Responsable de pruebas (pruebas de aceptación unitarias/integración y verificación de sanidad).
-  \item \textbf{Hugo Ernesto Florez Merma:} Responsable de soporte y capacitación (elaboración de manuales, sesiones formativas y mesa de ayuda).
-  \item \textbf{Barry Valdivia Lovon:} Responsable de base de datos y migración (extracción, limpieza, migraciones y carga de catálogos mediante seeders).
-\end{itemize}
+La ejecución del despliegue requiere una asignación formal e inequívoca de responsabilidades dentro del equipo de proyecto (Tabla~\ref{tab:despliegue_roles}), detallando las actividades, plazos, acciones y dependencias en la matriz correspondiente (Tabla~\ref{tab:despliegue_matriz_acciones}):
 
-La Tabla~\ref{tab:despliegue_matriz_acciones} detalla la matriz integral de actividades, fechas y dependencias:
+\textbf{Roles del equipo:}
 
 \input{tablas/despliegue_matriz.tex}
 
-\textbf{Ruta crítica del despliegue:} La secuencia de tareas determinantes sin holgura comprende: \emph{Planificación $\rightarrow$ Pruebas de aceptación $\rightarrow$ Producción de la unidad $\rightarrow$ Prueba de la unidad $\rightarrow$ Instalación y migración $\rightarrow$ Puesta a disposición $\rightarrow$ Capacitación $\rightarrow$ Salida en vivo (piloto) $\rightarrow$ Extensión y cierre}. Cualquier desviación en esta ruta desplaza la fecha límite de salida en vivo del 22 de diciembre; la actividad más sensible corresponde a la migración de datos, dado que sin catálogo precargado no es viable registrar ventas (CUS-01).
+\textbf{Ruta crítica del despliegue:} La secuencia de tareas determinantes sin holgura comprende: \emph{Planificación $\rightarrow$ Pruebas de aceptación $\rightarrow$ Producción de la unidad $\rightarrow$ Prueba de la unidad $\rightarrow$ Instalación y migración $\rightarrow$ Puesta a disposición $\rightarrow$ Capacitación $\rightarrow$ Salida en vivo (piloto) $\rightarrow$ Extensión y cierre}. Cualquier desviación en esta ruta desplaza la fecha límite de salida en vivo del 22 de diciembre; la actividad más sensible corresponde a la migración de datos, dado que sin catálogo precargado no es viable registrar ventas (CUS-01). El desarrollo de material de soporte presenta holgura hasta el 20 de diciembre.
 
 \paragraph{Pruebas en el Entorno Final y Verificación de la Unidad (Actividad 5):}
 Previo al pase definitivo a producción, se ejecutó una batería de casos de prueba en un servidor con características idénticas al entorno productivo para validar la trazabilidad con los requerimientos (Tabla~\ref{tab:despliegue_pruebas_finales}) y se constató la lista de verificación de la unidad de despliegue (Tabla~\ref{tab:despliegue_check_unidad}):

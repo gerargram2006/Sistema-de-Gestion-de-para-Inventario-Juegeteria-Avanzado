@@ -1,19 +1,42 @@
+% --- Tabla: Roles del Equipo en el Despliegue ---
+\begin{table}[H]
+  \centering
+  \singlespacing
+  \small
+  \caption{Roles del equipo en el plan de despliegue.}
+  \label{tab:despliegue_roles}
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Integrante} & \textbf{Rol en el despliegue} \\ \hline
+    Camma Baldeon, Gerar Rodrigo & Jefe de proyecto \\ \hline
+    Simon Rodriguez Anculle & Responsable de compilación / build \\ \hline
+    Llallacachi Salhua, Samuel A. & Responsable de pruebas \\ \hline
+    Florez Merma, Hugo Ernesto & Responsable de soporte y capacitación \\ \hline
+    Valdivia Lovon, Barry & Responsable de base de datos y migración \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Asignación de responsabilidades operativas en el equipo.\par}
+\end{table}
+
 % --- Tabla: Matriz de Actividades, Responsables y Acciones ---
 \begin{table}[H]
   \centering
+  \singlespacing
+  \scriptsize
+  \setlength{\tabcolsep}{3.5pt}
+  \renewcommand{\arraystretch}{1.2}
   \caption{Matriz de actividades, responsables, acciones y dependencias del despliegue.}
   \label{tab:despliegue_matriz_acciones}
-  \scriptsize
-  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{2.3cm}|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{1.5cm}|>{\centering\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{2.1cm}|}
+  \begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{2.35cm}|>{\raggedright\arraybackslash}p{2.25cm}|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{1.65cm}|>{\centering\arraybackslash}p{1.65cm}|>{\raggedright\arraybackslash}p{2.15cm}|}
     \hline
-    \textbf{Actividad} & \textbf{Responsable} & \textbf{Acciones} & \textbf{Fecha inicio} & \textbf{Fecha fin} & \textbf{Dependencia} \\ \hline
+    \textbf{Actividad} & \textbf{Responsable} & \textbf{Acciones} & \textbf{Fecha}\newline\textbf{inicio} & \textbf{Fecha}\newline\textbf{fin} & \textbf{Dependencia} \\ \hline
     Planificación del despliegue & Camma (Jefe de proyecto) & Definir los artefactos del release v1.0, el cronograma y los responsables. & 16/11/2026 & 20/11/2026 & -- \\ \hline
     Desarrollo del material de soporte & Florez (Soporte y capacitación) & Elaborar el manual de usuario, de operaciones y de mantenimiento, y verificar que sean correctos y suficientes. & 23/11/2026 & 04/12/2026 & Planificación \\ \hline
     Gestión de pruebas de aceptación & Llallacachi (Pruebas) & Asegurar que las pruebas unitarias (PHPUnit), de integración y de sistema pasen en el entorno final. & 23/11/2026 & 11/12/2026 & Planificación \\ \hline
-    Producción de la unidad de despliegue & Rodriguez (Build) & Ejecutar \texttt{composer} y \texttt{npm run build}, optimizar Laravel y generar el paquete \texttt{mundojuguete-v1.0.zip}. & 14/12/2026 & 15/12/2026 & Pruebas de aceptación \\ \hline
+    Producción de la unidad de despliegue & Rodriguez (Build) & Ejecutar \texttt{composer} y \texttt{npm run build}, optimizar Laravel y generar \texttt{mundojuguete-\allowbreak v1.0.zip}. & 14/12/2026 & 15/12/2026 & Pruebas de aceptación \\ \hline
     Prueba de la unidad de despliegue & Llallacachi (Pruebas) & Realizar la verificación de sanidad (\emph{sanity check}) del paquete en un equipo limpio. & 16/12/2026 & 17/12/2026 & Producción de la unidad \\ \hline
     Instalación y migración de datos & Rodriguez (Build) y Valdivia (BD) & Respaldar, instalar el release, ejecutar las migraciones e importar el catálogo desde Excel/CSV. & 18/12/2026 & 19/12/2026 & Prueba de la unidad \\ \hline
-    Puesta a disposición del producto & Rodriguez (Build) & Publicar el sistema en \url{https://192.168.1.10} y crear los usuarios por rol. & 19/12/2026 & 19/12/2026 & Instalación y migración \\ \hline
+    Puesta a disposición del producto & Rodriguez (Build) & Publicar el sistema en \texttt{https://\allowbreak 192.168.1.10} y crear los usuarios por rol. & 19/12/2026 & 19/12/2026 & Instalación y migración \\ \hline
     Capacitación y soporte & Florez (Soporte y capacitación) & Capacitar a vendedores, cajeros, almacenero y administrador en la tienda. & 20/12/2026 & 21/12/2026 & Puesta a disposición \\ \hline
     Salida en vivo (piloto) & Camma (Jefe de proyecto) & Iniciar la operación en CAJA-01 y monitorear el piloto durante una semana. & 22/12/2026 & 28/12/2026 & Capacitación \\ \hline
     Extensión y cierre del despliegue & Camma (Jefe de proyecto) & Extender el sistema a CAJA-02, almacén y administración; firmar el acta de aceptación. & 29/12/2026 & 31/12/2026 & Salida en vivo (piloto) \\ \hline

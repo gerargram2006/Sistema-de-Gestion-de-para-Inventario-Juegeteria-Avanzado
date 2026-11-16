@@ -1,28 +1,66 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 shadow-sm">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
+                        <span class="text-2xl font-black tracking-tight text-indigo-600">🧸 Mundo del Juguete</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-6 sm:-my-px sm:ms-8 sm:flex items-center">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Panel Principal') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('inventario.index')" :active="request()->routeIs('inventario.*')">
+                        {{ __('Catálogo e Inventario') }}
+                    </x-nav-link>
+
+                    @if(Auth::user()->tieneRol('vendedor', 'administrador'))
+                        <x-nav-link :href="route('ventas.pos')" :active="request()->routeIs('ventas.*')">
+                            <span class="inline-flex items-center">
+                                <span class="mr-1">🛒</span> {{ __('Punto de Venta (POS)') }}
+                            </span>
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->tieneRol('cajero', 'administrador'))
+                        <x-nav-link :href="route('caja.index')" :active="request()->routeIs('caja.*')">
+                            <span class="inline-flex items-center">
+                                <span class="mr-1">💳</span> {{ __('Caja y Cobros') }}
+                            </span>
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->tieneRol('almacenero', 'administrador'))
+                        <x-nav-link :href="route('abastecimiento.index')" :active="request()->routeIs('abastecimiento.*')">
+                            <span class="inline-flex items-center">
+                                <span class="mr-1">📦</span> {{ __('Abastecimiento') }}
+                            </span>
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <!-- Role Badge -->
+                <span class="me-3 px-2.5 py-1 text-xs font-semibold rounded-full
+                    @if(Auth::user()->rol === 'administrador') bg-purple-100 text-purple-800 border border-purple-200
+                    @elseif(Auth::user()->rol === 'vendedor') bg-blue-100 text-blue-800 border border-blue-200
+                    @elseif(Auth::user()->rol === 'cajero') bg-green-100 text-green-800 border border-green-200
+                    @elseif(Auth::user()->rol === 'almacenero') bg-amber-100 text-amber-800 border border-amber-200
+                    @else bg-gray-100 text-gray-800 @endif">
+                    {{ ucfirst(Auth::user()->rol ?? 'Usuario') }}
+                </span>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-600 bg-white hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
@@ -35,7 +73,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Mi Perfil') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -45,7 +83,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Cerrar Sesión') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -68,20 +106,42 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Panel Principal') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('inventario.index')" :active="request()->routeIs('inventario.*')">
+                {{ __('Catálogo e Inventario') }}
+            </x-responsive-nav-link>
+
+            @if(Auth::user()->tieneRol('vendedor', 'administrador'))
+                <x-responsive-nav-link :href="route('ventas.pos')" :active="request()->routeIs('ventas.*')">
+                    {{ __('Punto de Venta (POS)') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(Auth::user()->tieneRol('cajero', 'administrador'))
+                <x-responsive-nav-link :href="route('caja.index')" :active="request()->routeIs('caja.*')">
+                    {{ __('Caja y Cobros') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(Auth::user()->tieneRol('almacenero', 'administrador'))
+                <x-responsive-nav-link :href="route('abastecimiento.index')" :active="request()->routeIs('abastecimiento.*')">
+                    {{ __('Abastecimiento') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }} ({{ ucfirst(Auth::user()->rol ?? 'Usuario') }})</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Mi Perfil') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -91,7 +151,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Cerrar Sesión') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

@@ -77,12 +77,10 @@ class VentaController extends Controller
         }
 
         $total = round($subtotalTotal, 2);
-        $codigoVenta = 'TK-' . date('Ymd') . '-' . str_pad((string) (Venta::count() + 1), 4, '0', STR_PAD_LEFT);
 
         DB::beginTransaction();
         try {
             $venta = Venta::create([
-                'codigo_venta' => $codigoVenta,
                 'id_usuario' => Auth::id(),
                 'id_cliente' => $idCliente,
                 'fecha' => now(),
@@ -105,7 +103,7 @@ class VentaController extends Controller
             DB::commit();
 
             return redirect()->route('ventas.show', $venta->id_venta)
-                ->with('success', "Ticket {$codigoVenta} emitido correctamente por S/ " . number_format($total, 2) . ". Dirigirse a Caja para efectuar el cobro.");
+                ->with('success', "Ticket {$venta->codigo_venta} emitido correctamente por S/ " . number_format($total, 2) . ". Dirigirse a Caja para efectuar el cobro.");
         } catch (\Throwable $e) {
             DB::rollBack();
             return back()->withInput()->withErrors(['error' => 'Error al registrar la venta: ' . $e->getMessage()]);

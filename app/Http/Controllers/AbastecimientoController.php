@@ -58,7 +58,6 @@ class AbastecimientoController extends Controller
             'items.*.precio_costo' => 'required|numeric|min:0.01',
         ]);
 
-        $numeroOrden = 'OC-' . date('Ymd') . '-' . str_pad((string) (Compra::count() + 1), 4, '0', STR_PAD_LEFT);
         $totalOrden = 0;
 
         foreach ($validated['items'] as $item) {
@@ -68,7 +67,6 @@ class AbastecimientoController extends Controller
         DB::beginTransaction();
         try {
             $compra = Compra::create([
-                'nro_orden' => $numeroOrden,
                 'proveedor' => $validated['proveedor'],
                 'id_usuario' => Auth::id(),
                 'fecha' => now(),
@@ -89,7 +87,7 @@ class AbastecimientoController extends Controller
             DB::commit();
 
             return redirect()->route('abastecimiento.index')
-                ->with('success', "Orden de abastecimiento {$numeroOrden} generada exitosamente por un total de S/ " . number_format($totalOrden, 2));
+                ->with('success', "Orden de abastecimiento {$compra->nro_orden} generada exitosamente por un total de S/ " . number_format($totalOrden, 2));
         } catch (\Throwable $e) {
             DB::rollBack();
             return back()->withInput()->withErrors(['error' => 'Error al crear la orden: ' . $e->getMessage()]);

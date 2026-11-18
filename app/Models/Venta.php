@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Venta extends Model
 {
@@ -25,6 +26,25 @@ class Venta extends Model
         'nro_comprob',
         'estado',
     ];
+
+    /**
+     * El codigo del ticket (TK-AAAAMMDD-000123) se arma con el id que asigna la
+     * base de datos, asi dos ventas registradas al mismo tiempo nunca
+     * obtienen el mismo codigo.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (Venta $venta) {
+            $venta->codigo_venta ??= 'TMP-' . Str::ulid();
+        });
+
+        static::created(function (Venta $venta) {
+            if (str_starts_with($venta->codigo_venta, 'TMP-')) {
+                $venta->codigo_venta = sprintf('TK-%s-%06d', ($venta->fecha ?? now())->format('Ymd'), $venta->id_venta);
+                $venta->saveQuietly();
+            }
+        });
+    }
 
     protected function casts(): array
     {

@@ -52,6 +52,7 @@ class AbastecimientoTest extends TestCase
         ]);
 
         $compra = Compra::first();
+        $this->assertMatchesRegularExpression('/^OC-\d{8}-\d{6}$/', $compra->nro_orden);
 
         // 2. Recepción de mercadería en almacén
         $responseRecibir = $this->actingAs($almacenero)->post("/abastecimiento/orden/{$compra->id_compra}/recibir");

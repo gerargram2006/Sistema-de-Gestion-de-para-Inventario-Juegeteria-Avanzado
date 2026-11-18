@@ -150,4 +150,37 @@ class VentaPosTest extends TestCase
         $this->assertEquals(6, $producto->stock_actual);
         $this->assertEquals('disponible', $producto->estado);
     }
+    public function test_cada_ticket_recibe_un_codigo_unico_aunque_se_eliminen_ventas(): void
+    {
+        $vendedor = User::factory()->rol(User::ROL_VENDEDOR)->create();
+        $categoria = Categoria::create(['nombre' => 'Didácticos', 'estado' => 'activo']);
+        $producto = Producto::create([
+            'id_categoria' => $categoria->id_categoria,
+            'sku' => 'JUG-DID-001',
+            'nombre' => 'Rompecabezas 100 piezas',
+            'precio' => 30.00,
+            'stock_actual' => 50,
+            'stock_minimo' => 5,
+            'estado' => 'disponible',
+        ]);
+        $cliente = Cliente::create(['dni' => '11223344', 'nombres' => 'Rosa Quispe']);
+
+        $payload = [
+            'id_cliente' => $cliente->id_cliente,
+            'tipo_comprobante' => 'boleta',
+            'items' => [['id_producto' => $producto->id_producto, 'cantidad' => 1]],
+        ];
+
+        $this->actingAs($vendedor)->post('/ventas', $payload);
+        $this->actingAs($vendedor)->post('/ventas', $payload);
+
+        // Con el calculo anterior (count() + 1) la tercera venta repetia el codigo de la segunda
+        Venta::first()->delete();
+        $this->actingAs($vendedor)->post('/ventas', $payload)->assertSessionHasNoErrors();
+
+        $codigos = Venta::pluck('codigo_venta');
+        $this->assertCount(2, $codigos);
+        $this->assertCount(2, $codigos->unique());
+        $codigos->each(fn ($codigo) => $this->assertMatchesRegularExpression('/^TK-\d{8}-\d{6}$/', $codigo));
+    }
 }

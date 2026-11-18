@@ -434,7 +434,7 @@ El proyecto adopta formalmente el modelo de ciclo de vida tradicional en Cascada
 \begin{enumerate}
     \item \textbf{Fase de Ingenier\'ia de Requerimientos:} Levantamiento exhaustivo de las necesidades del negocio de jugueter\'ia, especificaci\'on de Casos de Uso del Negocio (CUN), delimitaci\'on de Requerimientos Funcionales (RF) y No Funcionales (RNF), y validaci\'on de reglas de negocio.
     \item \textbf{Fase de An\'alisis y Dise\~no del Sistema:} Modelado estructural y din\'amico mediante UML (Casos de Uso del Sistema CUS, prototipos UI/UX, diagramas de secuencia BCE, diagramas de estados y diagrama de paquetes en tres capas).
-    \item \textbf{Fase de Implementaci\'on y Codificaci\'on:} Desarrollo modular de los modelos Eloquent, migraciones de base de datos MySQL, controladores transaccionales y vistas Blade en PHP 8.2+.
+    \item \textbf{Fase de Implementaci\'on y Codificaci\'on:} Desarrollo modular de los modelos Eloquent, migraciones de base de datos MySQL, controladores transaccionales y vistas Blade en PHP 8.4.
     \item \textbf{Fase de Verificaci\'on y Pruebas (QA):} Ejecuci\'on de casos de prueba unitarios y de integraci\'on con PHPUnit para garantizar la integridad referencial y la ausencia de defectos antes de la puesta en producci\'on.
     \item \textbf{Fase de Despliegue y Mantenimiento:} Entrega operativa de la soluci\'on y planificaci\'on de mantenimientos preventivos y evolutivos.
 \end{enumerate}
@@ -1113,7 +1113,7 @@ La topología de infraestructura técnica y distribución de nodos físicos del 
 \begin{itemize}
     \item \textbf{Nodos Cliente (Terminal POS de Ventas y Caja, PC de Almacén y PC del Administrador):} Ejecutan la interfaz web responsiva en Blade, HTML5 y CSS mediante navegador web (sin instalación local de aplicaciones de escritorio) e incorporan periféricos operativos como la impresora de comprobantes en caja, interactuando mediante peticiones HTTPS seguras.
     \item \textbf{Infraestructura de Red y Seguridad (Router y Firewall):} Filtra y enruta de manera segura todo el tráfico HTTPS proveniente de los terminales de la tienda hacia el servidor de aplicación, aislando la red interna de accesos no autorizados.
-    \item \textbf{Nodo Servidor Web y de Aplicaciones:} Servidor Linux Ubuntu con Nginx y PHP-FPM 8.2+ ejecutando el framework Laravel 11, alojando los artefactos de \emph{Vistas} (\texttt{CI\_*}), \emph{Lógica} (\texttt{CP\_*}), \emph{Seguridad} (roles y acceso) y \emph{Registros} (auditoría de acciones).
+    \item \textbf{Nodo Servidor Web y de Aplicaciones:} Equipo con Windows 11 Pro, servidor web Apache 2.4 y PHP 8.4 ejecutando el framework Laravel 13, alojando los artefactos de \emph{Vistas} (\texttt{CI\_*}), \emph{Lógica} (\texttt{CP\_*}), \emph{Seguridad} (roles y acceso) y \emph{Registros} (auditoría de acciones).
     \item \textbf{Sistemas Externos Integrados:} Comunicación cifrada vía HTTPS con la \emph{Pasarela de pagos} (medios de pago electrónicos) y el servicio de \emph{Facturación electrónica} (emisión de boletas y facturas válidas).
     \item \textbf{Nodo Servidor de Base de Datos y Respaldo en la Nube:} Servidor dedicado MySQL 8.0 gestionando la persistencia relacional con motor de almacenamiento InnoDB para garantizar integridad transaccional ACID vía protocolo SQL (TCP) exclusivo desde el servidor de aplicación, con replicación y copias externas automatizadas hacia la nube mediante HTTPS.
 \end{itemize}
@@ -1263,7 +1263,7 @@ A continuación, la Figura~\ref{fig:gantt_cronograma_proyecto} presenta el crono
 
 \subsubsection{3.5.3 Plan de Despliegue del Sistema (Implementación II - Salida en Producción)}
 
-El plan de despliegue formaliza la estrategia, arquitectura física y procedimientos operativos para la salida en vivo (\emph{go-live}) del \textbf{Sistema de Gestión de Inventario para la juguetería ``Mundo del Juguete'' v1.0}, aplicación web desarrollada en PHP 8.2 bajo el framework Laravel 11 (motor de plantillas Blade y persistencia mediante Eloquent ORM) y base de datos relacional MySQL 8.0. La planificación cubre las actividades de preparación, pruebas en entorno final, empaquetado del release, migración de datos, capacitación a usuarios, contingencia ante fallos y gestión de riesgos.
+El plan de despliegue formaliza la estrategia, arquitectura física y procedimientos operativos para la salida en vivo (\emph{go-live}) del \textbf{Sistema de Gestión de Inventario para la juguetería ``Mundo del Juguete'' v1.0}, aplicación web desarrollada en PHP 8.4 bajo el framework Laravel 13 (motor de plantillas Blade y persistencia mediante Eloquent ORM) y base de datos relacional MySQL 8.0. La planificación cubre las actividades de preparación, pruebas en entorno final, empaquetado del release, migración de datos, capacitación a usuarios, contingencia ante fallos y gestión de riesgos.
 
 \paragraph{Planificación Temporal del Despliegue (Actividad 1):}
 El plan considera exclusivamente las actividades orientadas al pase a producción: probar el producto en su entorno de ejecución final, empaquetar el software, distribuirlo, instalarlo, capacitar a los usuarios y migrar o convertir las bases de datos. La fase preparatoria se ejecuta del \textbf{lunes 16 de noviembre al jueves 17 de diciembre de 2026}. El pase a producción se concentra en una ventana controlada de tres días, del \textbf{viernes 18 al domingo 20 de diciembre}, programando la instalación técnica y la migración de datos en horario nocturno para no interferir con la atención comercial de la juguetería. La salida en vivo oficial se produce el \textbf{martes 22 de diciembre de 2026}, iniciando operaciones en la caja piloto (\texttt{CAJA-01}) y extendiéndose posteriormente al resto de puestos (Figura~\ref{fig:gantt_despliegue}).
@@ -1296,7 +1296,7 @@ La Figura~\ref{fig:despliegue_produccion} detalla la topología de infraestructu
 \begin{itemize}
   \item \textbf{\guillemotleft device\guillemotright\ / \guillemotleft server\guillemotright:} Nodos de hardware físicos donde se aloja y procesa el sistema.
   \item \textbf{\guillemotleft cloud\guillemotright:} Servicio de almacenamiento externo en la nube destinado a la retención de copias de seguridad por 30 días.
-  \item \textbf{\guillemotleft execution environment\guillemotright:} Software base necesario para ejecutar la solución (navegador Google Chrome / Microsoft Edge, servidor web Apache 2.4 con TLS, intérprete PHP 8.2 con Laravel 11 y motor MySQL 8.0 InnoDB).
+  \item \textbf{\guillemotleft execution environment\guillemotright:} Software base necesario para ejecutar la solución (navegador Google Chrome / Microsoft Edge, servidor web Apache 2.4 con TLS, intérprete PHP 8.4 con Laravel 13 y motor MySQL 8.0 InnoDB).
   \item \textbf{\guillemotleft artifact\guillemotright:} Archivos físicos resultantes del desarrollo (\texttt{mundojuguete-v1.0.zip}, configuración \texttt{.env}, \emph{assets} compilados por Vite en \texttt{public/build}, esquema \texttt{bd\_mundojuguete} y respaldos \texttt{backup\_diario.sql}).
   \item \textbf{\guillemotleft component\guillemotright:} Módulos lógicos orquestados en el servidor (\emph{Vistas} con plantillas Blade \texttt{CI\_*}, \emph{Lógica} con controladores \texttt{CP\_*} y \emph{Seguridad} con middleware RBAC).
   \item \textbf{Canales de conexión:} Enlaces cifrados HTTPS sobre TLS 1.3 en puerto 443 para tráfico web; conexión TCP/IP en puerto 3306 mediante PDO MySQL restringida exclusivamente al servidor de aplicaciones; y canal seguro HTTPS para copias de seguridad automatizadas a las 02:00 horas.
@@ -1337,7 +1337,7 @@ El paquete de entrega consolida los artefactos ejecutables, scripts de automatiz
   \item \textbf{Denominación y lanzamiento:} Sistema de Gestión de Inventario para la Juguetería ``Mundo del Juguete'' v1.0 -- Fecha de lanzamiento oficial: 22 de diciembre de 2026.
   \item \textbf{Alcance funcional:} Implementación completa de CUS-01 (Registrar Venta), CUS-02 (Procesar Pago y Emitir Comprobante), CUS-03 (Gestionar Abastecimiento de Productos) y CUS-04 (Registrar Ingreso de Mercancía), incorporando alertas automáticas de stock crítico y control de acceso por roles (RBAC) con contraseñas cifradas en Bcrypt (RNF-03). Los casos de uso CUS-05 (Auditoría de Inventario) y CUS-06 (Devoluciones y Cambios) quedan programados para la versión 1.1.
   \item \textbf{Vulnerabilidades subsanadas:} Escapado estricto de salidas en plantillas Blade para prevenir ataques de \emph{Cross-Site Scripting} (XSS) y regeneración obligatoria de token de sesión en login para mitigar riesgos de \emph{Session Fixation}.
-  \item \textbf{Infraestructura requerida:} Servidor web en Windows 11 Pro con Apache 2.4 y PHP 8.2+; servidor de base de datos en Windows 11 Pro con MySQL 8.0; terminales con navegadores Chrome o Edge actualizados. La guía paso a paso se formaliza en \texttt{INSTALL.md}.
+  \item \textbf{Infraestructura requerida:} Servidor web en Windows 11 Pro con Apache 2.4 y PHP 8.4; servidor de base de datos en Windows 11 Pro con MySQL 8.0; terminales con navegadores Chrome o Edge actualizados. La guía paso a paso se formaliza en la sección \emph{Instalación} del \texttt{README.md} del repositorio.
   \item \textbf{Canal de soporte técnico:} \texttt{soporte@mundojuguete.pe}.
 \end{itemize}
 
@@ -1441,8 +1441,8 @@ En correspondencia directa y biunívoca con cada una de las conclusiones formula
     \item \textbf{Calibración estacional de umbrales y acuerdos SLA de abastecimiento (correlacionada con la Conclusión 1):} Se recomienda a la gerencia de la juguetería recalibrar los parámetros de stock mínimo de forma bimensual mediante análisis predictivo de rotación (clasificación ABC), diferenciando productos de temporada de aquellos de venta continua. Asimismo, se aconseja formalizar acuerdos de nivel de servicio (SLA) con los proveedores para garantizar entregas en menos de 48 horas tras la emisión de órdenes de compra.
     \item \textbf{Integración de hardware POS avanzado y pasarelas de pago digitales (correlacionada con la Conclusión 2):} Para potenciar la velocidad de atención en mostrador, se sugiere integrar lectores ópticos de código de barras bidimensionales (código QR / DataMatrix), impresoras térmicas de tickets bajo protocolo ESC/POS y pasarelas de pago electrónico nativas (como Yape, Plin o POS Niubiz) comunicadas por API REST directamente con el controlador de cobros de Laravel.
     \item \textbf{Auditorías físicas rotativas asistidas por terminales móviles (correlacionada con la Conclusión 3):} Se recomienda planificar conteos físicos cíclicos semanales para subconjuntos específicos de categorías de juguetes de alto valor, utilizando dispositivos móviles o tabletas que consulten el kardex del sistema en tiempo real. Esto permitirá detectar inmediatamente mermas o productos dañados sin requerir el cierre total del establecimiento.
-    \item \textbf{Optimización de índices y particionamiento en base de datos MySQL (correlacionada con la Conclusión 4):} A medida que el volumen histórico de ventas y detalles crezca en el transcurso de los ejercicios fiscales, se recomienda crear índices compuestos en las tablas transaccionales (\texttt{ventas}, \texttt{detalle\_ventas}, \texttt{movimientos\_kardex}) y configurar tareas programadas de mantenimiento en Laravel (\emph{Artisan commands}) para optimizar el almacenamiento y la velocidad de consultas analíticas.
-    \item \textbf{Automatización de pipelines de Integración Continua (CI/CD) (correlacionada con la Conclusión 5):} Se aconseja incorporar un flujo de trabajo automatizado con GitHub Actions en el repositorio del proyecto, ejecutando los casos de prueba de PHPUnit y análisis estático con PHPStan antes de permitir fusiones (\emph{merge}) hacia la rama principal (\texttt{main}), asegurando que ningún cambio futuro degrade las funcionalidades validadas en este informe.
+    \item \textbf{Optimización de índices y particionamiento en base de datos MySQL (correlacionada con la Conclusión 4):} A medida que el volumen histórico de ventas y detalles crezca en el transcurso de los ejercicios fiscales, se recomienda complementar los índices compuestos ya creados sobre las tablas transaccionales (\texttt{ventas}, \texttt{compras}, \texttt{productos}) con particionamiento por fecha de las ventas históricas y configurar tareas programadas de mantenimiento en Laravel (\emph{Artisan commands}) para optimizar el almacenamiento y la velocidad de consultas analíticas.
+    \item \textbf{Automatización de pipelines de Integración Continua (CI/CD) (correlacionada con la Conclusión 5):} El repositorio ya incorpora un flujo de GitHub Actions que ejecuta los casos de prueba de PHPUnit sobre SQLite y MySQL 8.0 en cada cambio; se aconseja ampliarlo con análisis estático (PHPStan) y protección de rama que exija su aprobación antes de permitir fusiones (\emph{merge}) hacia la rama principal (\texttt{main}), asegurando que ningún cambio futuro degrade las funcionalidades validadas en este informe.
 \end{enumerate}
 
 \clearpage
@@ -1455,14 +1455,14 @@ En correspondencia directa y biunívoca con cada una de las conclusiones formula
   \setlength{\itemsep}{6pt}
   \setlength{\parskip}{0pt}
 
-  \bibitem{banker2016}
-  Banker, K., Bakkum, P., Verch, S., Garrett, D., y Hawkins, T. (2016). \textit{MongoDB in action} (2.ª ed.). Manning Publications. \url{https://www.manning.com/books/mongodb-in-action-second-edition}
-
   \bibitem{ferre2004}
   Ferré Grau, X., y Sánchez Segura, M. I. (2004). \textit{Desarrollo orientado a objetos con UML}. Facultad de Informática -- UPM. \url{https://www.uv.mx/personal/maymendez/files/2011/05/umltotal.pdf}
 
   \bibitem{kendall2011}
   Kendall, K. E., y Kendall, J. E. (2011). \textit{Análisis y diseño de sistemas} (8.ª ed.). Pearson Educación.
+
+  \bibitem{laravel2026}
+  Laravel. (2026). \textit{Laravel 13.x documentation}. \url{https://laravel.com/docs/13.x}
 
   \bibitem{larman2003}
   Larman, C. (2003). \textit{UML y patrones: Introducción al análisis y diseño orientado a objetos y al proceso unificado} (2.ª ed.). Pearson Educación.
@@ -1472,6 +1472,9 @@ En correspondencia directa y biunívoca con cada una de las conclusiones formula
 
   \bibitem{omg2017}
   Object Management Group (OMG). (2017). \textit{Unified Modeling Language (OMG UML): Specification Version 2.5.1}. OMG.
+
+  \bibitem{oracle2026}
+  Oracle Corporation. (2026). \textit{MySQL 8.0 reference manual}. \url{https://dev.mysql.com/doc/refman/8.0/en/}
 
   \bibitem{phpgroup2024}
   PHP Documentation Group. (2024). \textit{PHP Manual: Language reference and standard PHP library}. The PHP Group. \url{https://www.php.net/manual/es/}
@@ -1522,14 +1525,15 @@ Se configuró un archivo \texttt{.gitignore} en la raíz del repositorio para ex
 
 \subsection{Anexo 2: Estructura del Proyecto Laravel y Entorno de Ejecución}
 
-El proyecto está organizado según los estándares de la arquitectura Modelo-Vista-Controlador (MVC) provistos por Laravel 11 y PHP 8.2+:
+El proyecto está organizado según los estándares de la arquitectura Modelo-Vista-Controlador (MVC) provistos por Laravel 13 y PHP 8.4:
 
 \begin{itemize}
-    \item \textbf{\texttt{app/Models/}:} Modelos de Eloquent ORM (\texttt{Producto.php}, \texttt{Venta.php}, \texttt{DetalleVenta.php}, \texttt{OrdenCompra.php}, \texttt{Cliente.php}, \texttt{Usuario.php}).
-    \item \textbf{\texttt{app/Http/Controllers/}:} Controladores transaccionales (\texttt{VentaController.php}, \texttt{InventarioController.php}, \texttt{AbastecimientoController.php}).
+    \item \textbf{\texttt{app/Models/}:} Modelos de Eloquent ORM (\texttt{Producto.php}, \texttt{Categoria.php}, \texttt{Venta.php}, \texttt{DetalleVenta.php}, \texttt{Compra.php}, \texttt{DetalleCompra.php}, \texttt{Devolucion.php}, \texttt{Cliente.php}, \texttt{User.php}).
+    \item \textbf{\texttt{app/Http/Controllers/}:} Controladores transaccionales (\texttt{VentaController.php}, \texttt{CajaController.php}, \texttt{InventarioController.php}, \texttt{AbastecimientoController.php}, \texttt{DevolucionController.php}, \texttt{UsuarioController.php}, \texttt{DashboardController.php}).
     \item \textbf{\texttt{resources/views/}:} Plantillas dinámicas de interfaz en Blade y hojas de estilo CSS.
-    \item \textbf{\texttt{database/migrations/}:} Scripts estructurados de base de datos para la creación de tablas, llaves foráneas e índices en MySQL.
-    \item \textbf{\texttt{docs/}:} Documentación formal del proyecto, archivo fuente \LaTeX{} (\texttt{Proyecto.tex}) e ilustraciones vectoriales TikZ en \texttt{docs/media/}.
+    \item \textbf{\texttt{database/migrations/}:} Scripts estructurados de base de datos para la creación de tablas, llaves foráneas, índices compuestos y restricciones \texttt{CHECK} en MySQL.
+    \item \textbf{\texttt{tests/}:} Pruebas automatizadas de PHPUnit (unitarias y de funcionalidad), ejecutadas en cada \emph{push} mediante GitHub Actions sobre SQLite y MySQL 8.0.
+    \item \textbf{\texttt{docs/}:} Documentación formal del proyecto, archivo fuente \LaTeX{} (\texttt{Proyecto.tex}), diagramas vectoriales TikZ en \texttt{docs/diagramas/}, tablas en \texttt{docs/tablas/} e imágenes en \texttt{docs/media/}.
 \end{itemize}
 
 \end{document}  

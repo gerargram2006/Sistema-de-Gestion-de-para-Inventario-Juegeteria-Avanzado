@@ -51,11 +51,11 @@ class AbastecimientoController extends Controller
     public function crearOrden(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'proveedor' => 'required|string|max:120',
+            'proveedor' => 'required|string|max:100',
             'items' => 'required|array|min:1',
             'items.*.id_producto' => 'required|exists:productos,id_producto',
-            'items.*.cantidad' => 'required|integer|min:1',
-            'items.*.precio_costo' => 'required|numeric|min:0.01',
+            'items.*.cantidad' => 'required|integer|min:1|max:10000',
+            'items.*.precio_costo' => 'required|numeric|min:0.01|max:99999999.99',
         ]);
 
         $totalOrden = 0;

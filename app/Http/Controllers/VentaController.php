@@ -44,7 +44,7 @@ class VentaController extends Controller
             'tipo_comprobante' => 'required|in:ticket,boleta,factura',
             'items' => 'required|array|min:1',
             'items.*.id_producto' => 'required|exists:productos,id_producto',
-            'items.*.cantidad' => 'required|integer|min:1',
+            'items.*.cantidad' => 'required|integer|min:1|max:10000',
         ]);
 
         $idCliente = $validated['id_cliente'];
@@ -161,7 +161,7 @@ class VentaController extends Controller
         $validated = $request->validate([
             'dni' => 'required|digits:8|unique:clientes,dni',
             'nombre' => 'required|string|max:100',
-            'telefono' => 'nullable|string|max:20',
+            'telefono' => 'nullable|string|max:15',
             'email' => 'nullable|email|max:100',
         ]);
 

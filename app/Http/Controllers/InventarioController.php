@@ -43,9 +43,9 @@ class InventarioController extends Controller
             'id_categoria' => 'required|exists:categorias,id_categoria',
             'sku' => 'required|string|max:30|unique:productos,sku',
             'nombre' => 'required|string|max:100',
-            'precio' => 'required|numeric|min:0.1',
-            'stock_actual' => 'required|integer|min:0',
-            'stock_minimo' => 'required|integer|min:1',
+            'precio' => 'required|numeric|min:0.1|max:99999999.99',
+            'stock_actual' => 'required|integer|min:0|max:1000000',
+            'stock_minimo' => 'required|integer|min:1|max:1000000',
         ]);
 
         $estado = 'disponible';
@@ -68,9 +68,9 @@ class InventarioController extends Controller
         $validated = $request->validate([
             'id_categoria' => 'required|exists:categorias,id_categoria',
             'nombre' => 'required|string|max:100',
-            'precio' => 'required|numeric|min:0.1',
-            'stock_actual' => 'required|integer|min:0',
-            'stock_minimo' => 'required|integer|min:1',
+            'precio' => 'required|numeric|min:0.1|max:99999999.99',
+            'stock_actual' => 'required|integer|min:0|max:1000000',
+            'stock_minimo' => 'required|integer|min:1|max:1000000',
         ]);
 
         $producto->fill($validated);

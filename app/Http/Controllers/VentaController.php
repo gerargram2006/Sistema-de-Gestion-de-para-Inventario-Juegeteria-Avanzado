@@ -19,8 +19,12 @@ class VentaController extends Controller
      */
     public function pos(): View
     {
-        $clientes = Cliente::orderBy('nombres')->get();
-        $productos = Producto::with('categoria')
+        $clientes = Cliente::select(['id_cliente', 'dni', 'nombres'])
+            ->orderBy('nombres')
+            ->get();
+
+        $productos = Producto::with('categoria:id_categoria,nombre')
+            ->select(['id_producto', 'id_categoria', 'sku', 'nombre', 'precio', 'stock_actual', 'stock_minimo', 'estado'])
             ->where('stock_actual', '>', 0)
             ->where('estado', '!=', 'agotado')
             ->orderBy('nombre')

@@ -2,11 +2,16 @@
 
 # Sistema de Gestión de Inventario para Juguetería
 
-Proyecto de **Ingeniería de Requerimientos y Diseño de Software** — Entregable:
-**Modelo de negocio (Parte 3)**. Aplica el modelado de negocio y los principios
-de la **Programación Orientada a Objetos (POO)** para el diseño de una
-plataforma de inventario de una juguetería minorista, empleando PHP y Laravel como
-stack de implementación bajo la arquitectura **Modelo-Vista-Controlador (MVC)**.
+[![Pruebas](https://github.com/gerargram2006/Sistema-de-Gestion-de-para-Inventario-Juegeteria-Avanzado/actions/workflows/tests.yml/badge.svg)](https://github.com/gerargram2006/Sistema-de-Gestion-de-para-Inventario-Juegeteria-Avanzado/actions/workflows/tests.yml)
+
+Sistema web de inventario, ventas, caja, abastecimiento y devoluciones para la
+juguetería **"Mundo del Juguete"**. Es un proyecto integrador de tres cursos:
+
+| Curso | Aporte al proyecto |
+|-------|--------------------|
+| **Ingeniería de Requerimientos y Diseño de Software** | Modelo de negocio (CUN), requerimientos RF/RNF, casos de uso del sistema (CUS), diagramas UML y plan de despliegue (`docs/Proyecto.tex`). |
+| **Base de Datos Avanzado** | Modelo relacional normalizado en MySQL 8.0: llaves foráneas con `RESTRICT`, restricciones `CHECK`, índices compuestos y transacciones con bloqueo de filas. |
+| **Desarrollo de Aplicaciones en Internet** | Aplicación web en Laravel 13 (MVC) con autenticación, control de acceso por roles y pruebas automatizadas. |
 
 ## Problemática
 
@@ -26,11 +31,33 @@ y precios), auditorías confiables y generación de reportes para la toma de dec
 
 | Capa | Tecnología |
 |------|------------|
-| Lenguaje de servidor | PHP 8.2+ |
-| Framework web | Laravel (MVC) |
-| Persistencia de datos | Eloquent ORM + MySQL / MariaDB |
-| Motor de plantillas | Blade (HTML5, CSS3, JavaScript) |
-| Entorno de desarrollo | Composer, Vite, PHP Artisan |
+| Lenguaje de servidor | PHP 8.4 |
+| Framework web | Laravel 13 (MVC) + Laravel Breeze (autenticación) |
+| Persistencia de datos | Eloquent ORM + MySQL 8.0 (InnoDB) |
+| Interfaz | Blade, Tailwind CSS 3 y Alpine.js |
+| Herramientas | Composer, npm + Vite, PHP Artisan |
+| Pruebas | PHPUnit 12 + GitHub Actions (SQLite y MySQL 8.0) |
+| Servidor de producción | Windows 11 Pro + Apache 2.4 |
+
+## Módulos de la Aplicación
+
+| Módulo | Ruta | Roles | Descripción |
+|--------|------|-------|-------------|
+| Panel principal | `/dashboard` | Todos | KPIs del día, ventas recientes y alertas de stock crítico. |
+| Catálogo e inventario | `/inventario` | Todos (edición: administrador y almacenero) | Registro y edición de juguetes, filtro por categoría y stock crítico, baja y reactivación de productos. |
+| Punto de venta (CUS-01) | `/ventas/pos` | Vendedor, administrador | Registro de la venta y generación del ticket `TK-AAAAMMDD-NNNNNN`. |
+| Caja y cobros (CUS-02) | `/caja` | Cajero, administrador | Cobro del ticket, descuento de stock y emisión de boleta (`B001`) o factura (`F001`) con correlativo propio por serie. |
+| Abastecimiento (CUS-03/04) | `/abastecimiento` | Almacenero, administrador | Órdenes de compra `OC-AAAAMMDD-NNNNNN` sugeridas por stock crítico y recepción de mercadería. |
+| Devoluciones y cambios (CUS-06) | `/devoluciones` | Vendedor, cajero, administrador | Reembolso o cambio dentro del plazo de 7 días (RF-19), o rechazo con motivo; ajusta el inventario. |
+| Usuarios y roles | `/usuarios` | Administrador | Alta de trabajadores, asignación de rol y baja/reactivación de cuentas (no hay registro público). |
+
+## Base de Datos (MySQL 8.0)
+
+- **9 tablas de negocio:** `users`, `clientes`, `categorias`, `productos`, `ventas`, `detalle_ventas`, `compras`, `detalle_compras` y `devoluciones`, además de las tablas de soporte de Laravel (sesiones, caché y colas).
+- **Integridad referencial:** las llaves foráneas usan `ON DELETE RESTRICT`, por lo que no se puede borrar una categoría con juguetes ni un juguete con ventas (se da de baja con el estado `inactivo`).
+- **Restricciones `CHECK`:** 11 reglas de dominio a nivel de motor: precio de venta mayor que cero, stock no negativo, cantidades mayores que cero y totales, costos y subtotales no negativos (migración `agregar_restricciones_check`).
+- **Índices compuestos:** sobre `ventas(estado, fecha)`, `compras(estado, fecha)`, `productos(estado, nombre)` y otros, verificados con `EXPLAIN` (de recorrido completo `ALL` a acceso por índice `ref`).
+- **Concurrencia:** el cobro, la recepción de compras y las devoluciones se ejecutan en transacciones con `SELECT ... FOR UPDATE`, lo que evita el doble cobro y el stock negativo.
 
 ## Estructura del Proyecto
 
@@ -88,7 +115,7 @@ Usuarios, clientes, categorías, inventario de productos, ventas, detalle\_venta
 - Diagramas de secuencia del sistema (CUS-01 al CUS-04) bajo el patrón Boundary-Control-Entity (BCE) generados nativamente en TikZ en orientación apaisada/horizontal.
 - Diagramas de estados de entidades y procesos clave (Ventas, Compras, Devoluciones, Inventario, Recepción) renderizados en TikZ.
 - Diagrama de paquetes de software en arquitectura de 3 capas (Presentación, Lógica de Negocio y Dominio) con dependencias dirigidas.
-- Diagrama de despliegue UML (nodos cliente POS/PC, router/firewall, servidor de aplicación Laravel/Nginx, servicios externos, servidor MySQL y respaldo en la nube) renderizado nativamente en TikZ.
+- Diagrama de despliegue UML (nodos cliente POS/PC, router/firewall, servidor de aplicación Laravel/Apache, servicios externos, servidor MySQL y respaldo en la nube) renderizado nativamente en TikZ.
 - Diagrama de clases del dominio y modelo relacional (10 clases, tipado estricto, multiplicidades y composiciones).
 - Modelo de datos relacional normalizado en TikZ (9 tablas con cardinalidades 1 a N) y diccionario de datos completo.
 - Diagrama de integración y modelo de dominio conceptual.
@@ -132,9 +159,10 @@ El documento académico sigue estrictamente la guía-plantilla oficial de TECSUP
 Para desplegar y ejecutar localmente la aplicación Laravel:
 
 ### Requisitos Previos
-- PHP 8.2 o superior instalado.
-- Composer 2.x instalado.
-- Servidor de base de datos MySQL o MariaDB.
+- **PHP 8.4** o superior, con las extensiones `pdo_mysql`, `mbstring` y `bcmath`.
+- **Composer 2.x**.
+- **Node.js 20+ y npm** (para compilar los estilos y scripts con Vite).
+- **MySQL 8.0** (o MariaDB 10.2+).
 
 ### Pasos de Configuración
 
@@ -144,34 +172,65 @@ Para desplegar y ejecutar localmente la aplicación Laravel:
    cd Sistema-de-Gestion-de-para-Inventario-Juegeteria-Avanzado
    ```
 
-2. **Instalar dependencias de PHP:**
+2. **Instalar dependencias y compilar los assets:**
    ```bash
    composer install
+   npm install
+   npm run build
    ```
 
-3. **Configurar el archivo de entorno:**
+3. **Configurar el entorno y generar la clave de la aplicación:**
    ```bash
    cp .env.example .env
-   ```
-
-4. **Generar la clave de seguridad de la aplicación:**
-   ```bash
    php artisan key:generate
    ```
 
-5. **Configurar la base de datos:**
-   Editar el archivo `.env` con las credenciales de conexión locales (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
-
-6. **Ejecutar migraciones (cuando aplique):**
-   ```bash
-   php artisan migrate
+4. **Crear la base de datos** `bd_mundojuguete` en MySQL y, si es necesario, ajustar
+   `DB_USERNAME` y `DB_PASSWORD` en el archivo `.env`:
+   ```sql
+   CREATE DATABASE bd_mundojuguete CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    ```
 
-7. **Iniciar el servidor local de desarrollo:**
+5. **Crear las tablas y cargar los datos de demostración:**
+   ```bash
+   php artisan migrate --seed
+   ```
+
+6. **Iniciar el servidor local de desarrollo:**
    ```bash
    php artisan serve
    ```
    La aplicación quedará accesible en `http://localhost:8000`.
+
+### Usuarios de Demostración
+
+El seeder crea un usuario por cada rol (solo para entornos de desarrollo):
+
+| Rol | Correo | Contraseña |
+|-----|--------|------------|
+| Administrador | `admin@mundojuguete.pe` | `Admin123*` |
+| Vendedor | `vendedor@mundojuguete.pe` | `Venta123*` |
+| Cajero | `cajero@mundojuguete.pe` | `Caja123*` |
+| Encargado de almacén | `almacen@mundojuguete.pe` | `Almacen123*` |
+
+> No existe registro público: las cuentas nuevas las crea el administrador desde el módulo **Usuarios**.
+
+### Pruebas Automatizadas
+
+```bash
+php artisan test
+```
+
+Por defecto las pruebas usan SQLite en memoria. Para ejecutarlas contra MySQL (donde
+además se validan las restricciones `CHECK`), cree una base de datos de prueba y exporte
+las variables antes de correrlas:
+
+```bash
+DB_CONNECTION=mysql DB_DATABASE=bd_mundojuguete_test php artisan test
+```
+
+GitHub Actions ejecuta ambas variantes en cada *push* a `main` y en cada *pull request*
+(`.github/workflows/tests.yml`).
 
 ## Conclusiones y Recomendaciones
 
@@ -184,7 +243,8 @@ la inducción operativa del personal.
 ## Estrategia de Control de Versiones (GIT)
 
 El proyecto se gestiona de forma colaborativa a través de un repositorio en GitHub, 
-con un historial superior a **70 commits**. Se utiliza un archivo `.gitignore` para mantener 
+con un historial superior a **150 commits**. Los mensajes siguen el formato
+`tipo(alcance): descripción` (`feat`, `fix`, `docs`, `test`, `chore`, `ci`...), con un commit por cada cambio relevante. Se utiliza un archivo `.gitignore` para mantener 
 el repositorio limpio de metadatos locales y la presente documentación como base del desarrollo del sistema.
 
 > **Nota para colaboradores:** Antes de integrar código o realizar modificaciones, **ejecute siempre `git pull`** 
@@ -205,7 +265,7 @@ Las IAs leen automáticamente estas directrices desde los archivos de configurac
 
 **Institución:** TECSUP · Arequipa, Perú — 2026 · Ciclo III
 
-**Curso:** Ingeniería de Requerimientos y Diseño de Software — Docente: Olanda Saavedra, Claudio
+**Cursos:** Ingeniería de Requerimientos y Diseño de Software (Docente: Olanda Saavedra, Claudio) · Base de Datos Avanzado · Desarrollo de Aplicaciones en Internet
 
 ## Enlaces
 
@@ -213,8 +273,8 @@ Las IAs leen automáticamente estas directrices desde los archivos de configurac
 
 ## Referencias
 
-- Banker, K., Bakkum, P., Verch, S., Garrett, D., y Hawkins, T. (2016). *MongoDB in action* (2.ª ed.). Manning Publications.
-- Bradshaw, S., Brazil, E., y Chodorow, C. (2019). *MongoDB: The definitive guide* (3.ª ed.). O'Reilly Media.
+- Laravel. (2026). *Laravel 13.x documentation*. <https://laravel.com/docs/13.x>
+- Oracle Corporation. (2026). *MySQL 8.0 reference manual*. <https://dev.mysql.com/doc/refman/8.0/en/>
 - Pressman, R. S., y Maxim, B. R. (2021). *Ingeniería del software: Un enfoque práctico* (9.ª ed.). McGraw-Hill Education.
 - Wiegers, K., y Beatty, J. (2013). *Software requirements* (3.ª ed.). Microsoft Press.
 

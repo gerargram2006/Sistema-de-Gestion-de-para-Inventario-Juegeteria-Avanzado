@@ -50,6 +50,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Un trabajador dado de baja (estado distinto de "activo") no puede ingresar
+        if (! Auth::user()->estaActivo()) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => trans('auth.inactive'),
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

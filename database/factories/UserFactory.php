@@ -28,9 +28,31 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'rol' => User::ROL_VENDEDOR,
+            'estado' => User::ESTADO_ACTIVO,
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * Usuario con un rol operativo especifico (administrador, vendedor, cajero, almacenero).
+     */
+    public function rol(string $rol): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'rol' => $rol,
+        ]);
+    }
+
+    /**
+     * Usuario dado de baja: no puede iniciar sesion.
+     */
+    public function inactivo(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'estado' => User::ESTADO_INACTIVO,
+        ]);
     }
 
     /**

@@ -42,6 +42,14 @@ class User extends Authenticatable
         return $this->rol === self::ROL_ALMACENERO;
     }
 
+    public const ESTADO_ACTIVO = 'activo';
+    public const ESTADO_INACTIVO = 'inactivo';
+
+    public function estaActivo(): bool
+    {
+        return $this->estado === self::ESTADO_ACTIVO;
+    }
+
     public function tieneRol(string ...$roles): bool
     {
         return in_array($this->rol, $roles, true);

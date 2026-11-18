@@ -22,7 +22,7 @@
         </a>
         <div class="flex gap-2">
             <button type="button" onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5">
-                🖨️ Imprimir Comprobante
+                <x-icon name="printer" class="w-4 h-4 inline-block align-[-2px] me-1" />Imprimir Comprobante
             </button>
         </div>
     </div>
@@ -32,7 +32,7 @@
         
         <!-- Encabezado de la Empresa -->
         <div class="text-center pb-4 border-b border-dashed border-gray-300">
-            <div class="text-3xl mb-1">🧸</div>
+            <div class="flex justify-center mb-2"><x-application-logo class="w-12 h-12" /></div>
             <h1 class="text-base font-black uppercase tracking-wider text-gray-900">Mundo del Juguete S.A.C.</h1>
             <p class="text-[11px] font-semibold text-gray-600">R.U.C. 20485961234</p>
             <p class="text-[11px] text-gray-500">Av. Los Niños 789, San Isidro, Lima</p>
@@ -140,7 +140,7 @@
             <div class="font-mono bg-gray-50 p-2 rounded border border-gray-100 text-[9px] text-gray-500">
                 Representación impresa de la Boleta Electrónica autorizada mediante Resolución de Superintendencia SUNAT.
             </div>
-            <p class="font-bold text-gray-600 mt-2">¡Gracias por su compra en Mundo del Juguete! 🧸</p>
+            <p class="font-bold text-gray-600 mt-2">¡Gracias por su compra en Mundo del Juguete!</p>
             <p>Conserve su comprobante para cualquier cambio o garantía.</p>
         </div>
 

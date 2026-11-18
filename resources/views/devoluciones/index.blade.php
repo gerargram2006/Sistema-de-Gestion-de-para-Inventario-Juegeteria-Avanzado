@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div>
             <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                <span>🔄</span> {{ __('Devoluciones y Cambios') }}
+                <x-icon name="arrow-path" class="w-7 h-7 text-indigo-600" /> {{ __('Devoluciones y Cambios') }}
             </h2>
             <p class="text-sm text-gray-500 mt-1">
                 Busque la venta por su ticket o comprobante. Plazo de atención: {{ $plazoDias }} días desde la compra (RF-19).
@@ -17,7 +17,7 @@
             @if (session('success'))
                 <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg shadow-sm">
                     <div class="flex items-center">
-                        <span class="text-emerald-500 font-bold mr-2">✓</span>
+                        <x-icon name="check" class="w-5 h-5 text-emerald-500 me-2" />
                         <p class="text-sm text-emerald-800 font-medium">{{ session('success') }}</p>
                     </div>
                 </div>

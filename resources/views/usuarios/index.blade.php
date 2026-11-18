@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                    <span>👥</span> {{ __('Gestión de Usuarios y Roles') }}
+                    <x-icon name="users" class="w-7 h-7 text-indigo-600" /> {{ __('Gestión de Usuarios y Roles') }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">Alta de trabajadores, asignación de rol operativo y baja de cuentas sin perder su historial.</p>
             </div>
@@ -22,7 +22,7 @@
             @if (session('success'))
                 <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg shadow-sm">
                     <div class="flex items-center">
-                        <span class="text-emerald-500 font-bold mr-2">✓</span>
+                        <x-icon name="check" class="w-5 h-5 text-emerald-500 me-2" />
                         <p class="text-sm text-emerald-800 font-medium">{{ session('success') }}</p>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                             Filtrar
                         </button>
                         @if(request()->hasAny(['buscar', 'rol']))
-                            <a href="{{ route('usuarios.index') }}" class="py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition" title="Limpiar filtros">✕</a>
+                            <a href="{{ route('usuarios.index') }}" class="py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition" title="Limpiar filtros"><x-icon name="x-mark" class="w-4 h-4 inline-block align-[-2px] me-1" /></a>
                         @endif
                     </div>
                 </form>
@@ -160,7 +160,7 @@
                             @empty
                                 <tr>
                                     <td colspan="7" class="py-12 text-center text-gray-500">
-                                        <div class="text-3xl mb-2">🔍</div>
+                                        <div class="flex justify-center mb-2"><x-icon name="magnifying-glass" class="w-10 h-10 text-gray-300" /></div>
                                         <div class="font-semibold text-gray-700">No se encontraron usuarios</div>
                                         <div class="text-xs text-gray-400 mt-1">Prueba cambiando los criterios del filtro de búsqueda.</div>
                                     </td>

@@ -3,7 +3,7 @@
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <div class="mb-5 text-center">
-        <h2 class="text-xl font-black text-gray-800">🧸 Mundo del Juguete</h2>
+        <h2 class="text-2xl font-extrabold text-gray-900">Bienvenido</h2>
         <p class="text-xs text-gray-500 mt-1">Inicia sesión para acceder al sistema de inventario y ventas</p>
     </div>
 

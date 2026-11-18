@@ -14,13 +14,13 @@
             <div class="flex space-x-2">
                 @if(Auth::user()->tieneRol('vendedor', 'administrador'))
                     <a href="{{ route('ventas.pos') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 transition ease-in-out duration-150 shadow-sm">
-                        🛒 Nueva Venta POS
+                        <x-icon name="shopping-cart" class="w-4 h-4 inline-block align-[-2px] me-1" />Nueva Venta POS
                     </a>
                 @endif
 
                 @if(Auth::user()->tieneRol('cajero', 'administrador'))
                     <a href="{{ route('caja.index') }}" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 active:bg-emerald-900 transition ease-in-out duration-150 shadow-sm">
-                        💳 Ir a Caja ({{ $ventasPendientes }})
+                        <x-icon name="credit-card" class="w-4 h-4 inline-block align-[-2px] me-1" />Ir a Caja ({{ $ventasPendientes }})
                     </a>
                 @endif
             </div>
@@ -35,7 +35,7 @@
                 <div class="p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg shadow-sm">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <span class="text-2xl mr-3">⚠️</span>
+                            <x-icon name="exclamation-triangle" class="w-7 h-7 me-3 text-amber-500" />
                             <div>
                                 <h3 class="text-sm font-bold text-red-800">
                                     ¡Alerta de Inventario Crítico! ({{ $productosCriticos }} juguetes)
@@ -64,7 +64,7 @@
                         <span class="text-xs text-gray-500">modelos registrados</span>
                     </div>
                     <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-2xl">
-                        🧸
+                        <x-icon name="squares-2x2" class="w-6 h-6" />
                     </div>
                 </div>
 
@@ -76,7 +76,7 @@
                         <span class="text-xs text-gray-500">unidades en almacén</span>
                     </div>
                     <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-2xl">
-                        📦
+                        <x-icon name="cube" class="w-6 h-6" />
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
                         <span class="text-xs text-gray-500">&le; stock mínimo</span>
                     </div>
                     <div class="w-12 h-12 {{ $productosCriticos > 0 ? 'bg-red-50 text-red-600' : 'bg-gray-50 text-gray-400' }} rounded-lg flex items-center justify-center text-2xl">
-                        🚨
+                        <x-icon name="bell-alert" class="w-6 h-6" />
                     </div>
                 </div>
 
@@ -102,7 +102,7 @@
                         <span class="text-xs text-gray-500">tickets pendientes</span>
                     </div>
                     <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-2xl">
-                        ⏳
+                        <x-icon name="clock" class="w-6 h-6" />
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                 <!-- Juguetes con menor stock -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-gray-800 text-base">⚠️ Productos con Menor Stock</h3>
+                        <h3 class="font-bold text-gray-800 text-base"><x-icon name="exclamation-triangle" class="w-4 h-4 inline-block align-[-2px] me-1" />Productos con Menor Stock</h3>
                         <a href="{{ route('inventario.index') }}" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold">Ver catálogo &rarr;</a>
                     </div>
 
@@ -159,7 +159,7 @@
                 <!-- Últimas Ventas Generadas -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-gray-800 text-base">🛒 Últimas Transacciones</h3>
+                        <h3 class="font-bold text-gray-800 text-base"><x-icon name="shopping-cart" class="w-4 h-4 inline-block align-[-2px] me-1" />Últimas Transacciones</h3>
                         @if(Auth::user()->tieneRol('cajero', 'administrador'))
                             <a href="{{ route('caja.index') }}" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold">Ir a caja &rarr;</a>
                         @endif

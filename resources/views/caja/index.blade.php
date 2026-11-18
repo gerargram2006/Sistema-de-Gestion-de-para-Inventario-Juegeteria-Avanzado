@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                    <span>💳</span> {{ __('Módulo de Caja y Cobros') }}
+                    <x-icon name="credit-card" class="w-7 h-7 text-indigo-600" /> {{ __('Módulo de Caja y Cobros') }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">CUS-02: Cobro de tickets pendientes, descuento de inventario y emisión de comprobantes fiscales.</p>
             </div>
@@ -41,7 +41,7 @@
                 <form method="GET" action="{{ route('caja.index') }}" class="flex flex-col sm:flex-row gap-3 items-center">
                     <div class="flex-1 relative w-full">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                            🔍
+                            <x-icon name="magnifying-glass" class="w-4 h-4" />
                         </span>
                         <input type="text" name="buscar" value="{{ $buscar }}"
                             placeholder="Buscar ticket por número (TK-...) o cliente..."
@@ -61,12 +61,12 @@
             <!-- Listado de Tickets Pendientes -->
             <div class="space-y-4">
                 <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <span>⏳</span> Tickets Pendientes de Cobro
+                    <x-icon name="clock" class="w-7 h-7 text-indigo-600" /> Tickets Pendientes de Cobro
                 </h3>
 
                 @if($ticketsPendientes->isEmpty())
                     <div class="bg-white rounded-xl border border-gray-100 p-12 text-center text-gray-500 shadow-sm">
-                        <div class="text-4xl mb-2">🎉</div>
+                        <div class="flex justify-center mb-2"><x-icon name="check-circle" class="w-10 h-10 text-gray-300" /></div>
                         <p class="font-bold text-gray-800 text-base">¡No hay tickets pendientes en cola!</p>
                         <p class="text-xs text-gray-400 mt-1">Todos los tickets generados por los vendedores han sido cobrados o no se han emitido nuevos tickets aún.</p>
                     </div>
@@ -137,7 +137,7 @@
 
                                     <button type="button" @click="$dispatch('open-modal', 'modal-cobrar-{{ $ticket->id_venta }}')"
                                         class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition flex items-center justify-center gap-1.5">
-                                        <span>💳</span> Cobrar Ticket
+                                        <x-icon name="credit-card" class="w-7 h-7 text-indigo-600" /> Cobrar Ticket
                                     </button>
 
                                     <!-- Modal de Cobro -->
@@ -169,10 +169,10 @@
                                                 <div>
                                                     <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Método de Pago</label>
                                                     <select name="metodo_pago" x-model="metodo" class="w-full text-sm border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" required>
-                                                        <option value="efectivo">💵 Efectivo</option>
-                                                        <option value="tarjeta">💳 Tarjeta Débito / Crédito</option>
-                                                        <option value="yape">📱 Yape</option>
-                                                        <option value="plin">📱 Plin</option>
+                                                        <option value="efectivo">Efectivo</option>
+                                                        <option value="tarjeta">Tarjeta Débito / Crédito</option>
+                                                        <option value="yape">Yape</option>
+                                                        <option value="plin">Plin</option>
                                                     </select>
                                                 </div>
 
@@ -215,7 +215,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="p-5 border-b border-gray-100">
                     <h3 class="font-bold text-base text-gray-900 flex items-center gap-2">
-                        <span>✅</span> Comprobantes Emitidos Recientemente
+                        <x-icon name="check-circle" class="w-7 h-7 text-indigo-600" /> Comprobantes Emitidos Recientemente
                     </h3>
                 </div>
                 <div class="overflow-x-auto">
@@ -255,7 +255,7 @@
                                     <td class="py-3 px-4 text-center">
                                         <a href="{{ route('caja.comprobante', $cob->id_venta) }}" target="_blank"
                                             class="inline-flex items-center px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold rounded text-xs transition">
-                                            🖨️ Ver Comprobante
+                                            <x-icon name="printer" class="w-4 h-4 inline-block align-[-2px] me-1" />Ver Comprobante
                                         </a>
                                     </td>
                                 </tr>

@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                    <span>🧸</span> {{ __('Catálogo e Inventario de Juguetes') }}
+                    <x-icon name="cube" class="w-7 h-7 text-indigo-600" /> {{ __('Catálogo e Inventario de Juguetes') }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">Control de existencias, precios, categorías y alertas de stock en tiempo real.</p>
             </div>
@@ -24,7 +24,7 @@
             @if (session('success'))
                 <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg shadow-sm">
                     <div class="flex items-center">
-                        <span class="text-emerald-500 font-bold mr-2">✓</span>
+                        <x-icon name="check" class="w-5 h-5 text-emerald-500 me-2" />
                         <p class="text-sm text-emerald-800 font-medium">{{ session('success') }}</p>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <label for="buscar" class="block text-xs font-semibold text-gray-600 uppercase mb-1">Buscar por Nombre o SKU</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                🔍
+                                <x-icon name="magnifying-glass" class="w-4 h-4" />
                             </span>
                             <input type="text" id="buscar" name="buscar" value="{{ request('buscar') }}"
                                 placeholder="Ej: LEGO, Hot Wheels, JUG-..."
@@ -75,7 +75,7 @@
                         <label for="filtro_stock" class="block text-xs font-semibold text-gray-600 uppercase mb-1">Estado de Stock</label>
                         <select id="filtro_stock" name="filtro_stock" class="w-full py-2 text-sm border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
                             <option value="">Todos</option>
-                            <option value="critico" {{ request('filtro_stock') == 'critico' ? 'selected' : '' }}>⚠️ Stock Crítico</option>
+                            <option value="critico" {{ request('filtro_stock') == 'critico' ? 'selected' : '' }}>Stock Crítico</option>
                         </select>
                     </div>
 
@@ -86,7 +86,7 @@
                         </button>
                         @if(request()->hasAny(['buscar', 'categoria', 'filtro_stock']))
                             <a href="{{ route('inventario.index') }}" class="py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition" title="Limpiar filtros">
-                                ✕
+                                <x-icon name="x-mark" class="w-4 h-4" />
                             </a>
                         @endif
                     </div>
@@ -247,7 +247,7 @@
                             @empty
                                 <tr>
                                     <td colspan="{{ Auth::user()->tieneRol('administrador', 'almacenero') ? 8 : 7 }}" class="py-12 text-center text-gray-500">
-                                        <div class="text-3xl mb-2">🔍</div>
+                                        <div class="flex justify-center mb-2"><x-icon name="magnifying-glass" class="w-10 h-10 text-gray-300" /></div>
                                         <div class="font-semibold text-gray-700">No se encontraron productos</div>
                                         <div class="text-xs text-gray-400 mt-1">Prueba cambiando los criterios del filtro de búsqueda.</div>
                                     </td>

@@ -3,17 +3,17 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                    <span>🛒</span> {{ __('Punto de Venta (POS) - Mundo del Juguete') }}
+                    <x-icon name="shopping-cart" class="w-7 h-7 text-indigo-600" /> {{ __('Punto de Venta (POS) - Mundo del Juguete') }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">CUS-01: Generación de ticket y atención inmediata al cliente.</p>
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('ventas.index') }}" class="inline-flex items-center px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg transition">
-                    📋 Historial de Tickets
+                    <x-icon name="clipboard-document-list" class="w-4 h-4 inline-block align-[-2px] me-1" />Historial de Tickets
                 </a>
                 <button type="button" @click="$dispatch('open-modal', 'modal-nuevo-cliente')"
                     class="inline-flex items-center px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-sm transition">
-                    ➕ Nuevo Cliente
+                    <x-icon name="plus" class="w-4 h-4 inline-block align-[-2px] me-1" />Nuevo Cliente
                 </button>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                         <div class="relative mb-3">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                🔍
+                                <x-icon name="magnifying-glass" class="w-4 h-4" />
                             </span>
                             <input type="text" x-model="search" placeholder="Buscar juguete por nombre o código SKU..."
                                 class="w-full pl-9 pr-4 py-2.5 text-sm border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" />
@@ -102,7 +102,7 @@
                         </template>
 
                         <div x-show="filteredProducts.length === 0" class="col-span-2 py-12 text-center text-gray-500 bg-white rounded-xl border border-gray-100">
-                            <div class="text-3xl mb-2">🧸</div>
+                            <div class="flex justify-center mb-2"><x-icon name="cube" class="w-10 h-10 text-gray-300" /></div>
                             <p class="font-semibold text-gray-700">No se encontraron juguetes coincidentes</p>
                             <p class="text-xs text-gray-400 mt-1">Verifica el nombre o categoría seleccionada.</p>
                         </div>
@@ -201,7 +201,7 @@
 
                                         <!-- Eliminar -->
                                         <button type="button" @click="removeFromCart(item)" class="text-gray-400 hover:text-rose-600 transition">
-                                            ✕
+                                            <x-icon name="x-mark" class="w-4 h-4" />
                                         </button>
                                     </div>
                                 </template>
@@ -232,7 +232,7 @@
                         <div class="pt-2">
                             <button type="submit" :disabled="cart.length === 0"
                                 class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2">
-                                <span>🧾</span> Generar Ticket de Venta
+                                <x-icon name="receipt-percent" class="w-7 h-7 text-indigo-600" /> Generar Ticket de Venta
                             </button>
                             <p class="text-[11px] text-gray-400 text-center mt-2">
                                 El ticket se enviará a Caja para su cobro y emisión oficial.

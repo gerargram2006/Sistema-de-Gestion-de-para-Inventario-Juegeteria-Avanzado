@@ -6,7 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
-                        <span class="text-2xl font-black tracking-tight text-indigo-600">🧸 Mundo del Juguete</span>
+                        <x-application-logo class="w-9 h-9" />
+                        <span class="text-xl font-extrabold tracking-tight text-gray-900">Mundo del <span class="text-indigo-600">Juguete</span></span>
                     </a>
                 </div>
 
@@ -23,7 +24,7 @@
                     @if(Auth::user()->tieneRol('vendedor', 'administrador'))
                         <x-nav-link :href="route('ventas.pos')" :active="request()->routeIs('ventas.*')">
                             <span class="inline-flex items-center">
-                                <span class="mr-1">🛒</span> {{ __('Ventas (POS)') }}
+                                <x-icon name="shopping-cart" class="w-4 h-4 me-1.5" /> {{ __('Ventas (POS)') }}
                             </span>
                         </x-nav-link>
                     @endif
@@ -31,7 +32,7 @@
                     @if(Auth::user()->tieneRol('cajero', 'administrador'))
                         <x-nav-link :href="route('caja.index')" :active="request()->routeIs('caja.*')">
                             <span class="inline-flex items-center">
-                                <span class="mr-1">💳</span> {{ __('Caja') }}
+                                <x-icon name="credit-card" class="w-4 h-4 me-1.5" /> {{ __('Caja') }}
                             </span>
                         </x-nav-link>
                     @endif
@@ -39,7 +40,7 @@
                     @if(Auth::user()->tieneRol('almacenero', 'administrador'))
                         <x-nav-link :href="route('abastecimiento.index')" :active="request()->routeIs('abastecimiento.*')">
                             <span class="inline-flex items-center">
-                                <span class="mr-1">📦</span> {{ __('Abastecimiento') }}
+                                <x-icon name="cube" class="w-4 h-4 me-1.5" /> {{ __('Abastecimiento') }}
                             </span>
                         </x-nav-link>
                     @endif
@@ -47,7 +48,7 @@
                     @if(Auth::user()->tieneRol('vendedor', 'cajero', 'administrador'))
                         <x-nav-link :href="route('devoluciones.index')" :active="request()->routeIs('devoluciones.*')">
                             <span class="inline-flex items-center">
-                                <span class="mr-1">🔄</span> {{ __('Devoluciones') }}
+                                <x-icon name="arrow-path" class="w-4 h-4 me-1.5" /> {{ __('Devoluciones') }}
                             </span>
                         </x-nav-link>
                     @endif
@@ -55,7 +56,7 @@
                     @if(Auth::user()->esAdministrador())
                         <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                             <span class="inline-flex items-center">
-                                <span class="mr-1">👥</span> {{ __('Usuarios') }}
+                                <x-icon name="users" class="w-4 h-4 me-1.5" /> {{ __('Usuarios') }}
                             </span>
                         </x-nav-link>
                     @endif

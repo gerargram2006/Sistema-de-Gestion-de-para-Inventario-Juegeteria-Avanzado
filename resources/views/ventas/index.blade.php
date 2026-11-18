@@ -3,14 +3,14 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                    <span>📋</span> {{ __('Historial de Ventas y Tickets') }}
+                    <x-icon name="clipboard-document-list" class="w-7 h-7 text-indigo-600" /> {{ __('Historial de Ventas y Tickets') }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">Registro de todos los tickets generados en el Punto de Venta.</p>
             </div>
             @if(Auth::user()->tieneRol('vendedor', 'administrador'))
                 <a href="{{ route('ventas.pos') }}"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                    🛒 Ir al POS
+                    <x-icon name="shopping-cart" class="w-4 h-4 inline-block align-[-2px] me-1" />Ir al POS
                 </a>
             @endif
         </div>
@@ -32,9 +32,9 @@
                         <label for="estado" class="block text-xs font-semibold text-gray-600 uppercase mb-1">Estado de Pago</label>
                         <select id="estado" name="estado" class="w-full text-sm border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
                             <option value="">Todos los estados</option>
-                            <option value="pendiente" {{ request('estado') === 'pendiente' ? 'selected' : '' }}>⏳ Pendiente de Cobro</option>
-                            <option value="pagada" {{ request('estado') === 'pagada' ? 'selected' : '' }}>✅ Pagada / Cobrada</option>
-                            <option value="anulada" {{ request('estado') === 'anulada' ? 'selected' : '' }}>❌ Anulada</option>
+                            <option value="pendiente" {{ request('estado') === 'pendiente' ? 'selected' : '' }}>Pendiente de Cobro</option>
+                            <option value="pagada" {{ request('estado') === 'pagada' ? 'selected' : '' }}>Pagada / Cobrada</option>
+                            <option value="anulada" {{ request('estado') === 'anulada' ? 'selected' : '' }}>Anulada</option>
                         </select>
                     </div>
 
@@ -44,7 +44,7 @@
                         </button>
                         @if(request()->hasAny(['fecha', 'estado']))
                             <a href="{{ route('ventas.index') }}" class="py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition" title="Limpiar filtros">
-                                ✕
+                                <x-icon name="x-mark" class="w-4 h-4" />
                             </a>
                         @endif
                     </div>
@@ -94,11 +94,11 @@
                                     <td class="py-3.5 px-4 text-center">
                                         @if($v->estado === 'pendiente')
                                             <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">
-                                                ⏳ Pendiente
+                                                <x-icon name="clock" class="w-4 h-4 inline-block align-[-2px] me-1" />Pendiente
                                             </span>
                                         @elseif($v->estado === 'pagada')
                                             <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">
-                                                ✅ Pagada
+                                                <x-icon name="check-circle" class="w-4 h-4 inline-block align-[-2px] me-1" />Pagada
                                             </span>
                                         @else
                                             <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
@@ -123,7 +123,7 @@
                             @empty
                                 <tr>
                                     <td colspan="8" class="py-12 text-center text-gray-500">
-                                        <div class="text-3xl mb-2">🧾</div>
+                                        <div class="flex justify-center mb-2"><x-icon name="receipt-percent" class="w-10 h-10 text-gray-300" /></div>
                                         <div class="font-semibold text-gray-700">No se encontraron ventas registradas</div>
                                         <div class="text-xs text-gray-400 mt-1">Crea nuevos tickets desde el módulo Punto de Venta.</div>
                                     </td>

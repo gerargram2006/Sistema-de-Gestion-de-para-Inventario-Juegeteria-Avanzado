@@ -3,14 +3,14 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                    <span>📦</span> {{ __('Módulo de Abastecimiento y Almacén') }}
+                    <x-icon name="cube" class="w-7 h-7 text-indigo-600" /> {{ __('Módulo de Abastecimiento y Almacén') }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">CUS-03: Monitoreo de stock crítico y CUS-04: Recepción de mercadería en almacén.</p>
             </div>
             <div>
                 <button type="button" @click="$dispatch('open-modal', 'modal-crear-orden')"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                    ➕ Nueva Orden de Compra
+                    <x-icon name="plus" class="w-4 h-4 inline-block align-[-2px] me-1" />Nueva Orden de Compra
                 </button>
             </div>
         </div>
@@ -42,7 +42,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                            <span>⚠️</span> Alertas de Stock Crítico (CUS-03)
+                            <x-icon name="exclamation-triangle" class="w-7 h-7 text-indigo-600" /> Alertas de Stock Crítico (CUS-03)
                         </h3>
                         <p class="text-xs text-gray-500">Juguetes que han alcanzado o cruzado su umbral mínimo de seguridad.</p>
                     </div>
@@ -53,7 +53,7 @@
 
                 @if($criticos->isEmpty())
                     <div class="bg-white rounded-xl border border-gray-100 p-8 text-center text-gray-500 shadow-sm">
-                        <div class="text-3xl mb-2">🎉</div>
+                        <div class="flex justify-center mb-2"><x-icon name="check-circle" class="w-10 h-10 text-gray-300" /></div>
                         <p class="font-bold text-gray-800">¡Niveles de inventario óptimos!</p>
                         <p class="text-xs text-gray-400 mt-1">Todos los juguetes superan el nivel mínimo de stock de seguridad configurado.</p>
                     </div>
@@ -98,7 +98,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                            <span>🚚</span> Recepción de Mercadería en Almacén (CUS-04)
+                            <x-icon name="truck" class="w-7 h-7 text-indigo-600" /> Recepción de Mercadería en Almacén (CUS-04)
                         </h3>
                         <p class="text-xs text-gray-500">Órdenes de compra emitidas pendientes de confirmación física de ingreso.</p>
                     </div>
@@ -109,7 +109,7 @@
 
                 @if($ordenesPendientes->isEmpty())
                     <div class="bg-white rounded-xl border border-gray-100 p-8 text-center text-gray-500 shadow-sm">
-                        <div class="text-3xl mb-2">📦</div>
+                        <div class="flex justify-center mb-2"><x-icon name="cube" class="w-10 h-10 text-gray-300" /></div>
                         <p class="font-bold text-gray-800">No hay órdenes de compra pendientes de entrega</p>
                         <p class="text-xs text-gray-400 mt-1">Crea una nueva orden de compra cuando requieras reponer stock de proveedores.</p>
                     </div>
@@ -125,7 +125,7 @@
                                         <h4 class="font-bold text-gray-900 text-sm mt-1">Proveedor: {{ $orden->proveedor }}</h4>
                                     </div>
                                     <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800">
-                                        ⏳ Esperando Mercadería
+                                        <x-icon name="clock" class="w-4 h-4 inline-block align-[-2px] me-1" />Esperando Mercadería
                                     </span>
                                 </div>
 
@@ -153,7 +153,7 @@
                                         @csrf
                                         <button type="submit" onclick="return confirm('¿Confirmas que la mercadería física ingresó completa al almacén? Esto actualizará el stock disponible automáticamente.')"
                                             class="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                                            ✓ Confirmar Recepción
+                                            <x-icon name="check" class="w-4 h-4 inline-block align-[-2px] me-1" />Confirmar Recepción
                                         </button>
                                     </form>
                                 </div>
@@ -167,7 +167,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="p-5 border-b border-gray-100">
                     <h3 class="font-bold text-base text-gray-900 flex items-center gap-2">
-                        <span>📜</span> Historial de Mercadería Recibida
+                        <x-icon name="archive-box" class="w-7 h-7 text-indigo-600" /> Historial de Mercadería Recibida
                     </h3>
                 </div>
                 <div class="overflow-x-auto">
@@ -270,7 +270,7 @@
 
                             <div class="col-span-1 text-center pt-3">
                                 <button type="button" @click="removeItem(index)" x-show="items.length > 1" class="text-rose-600 font-bold hover:text-rose-800">
-                                    ✕
+                                    <x-icon name="x-mark" class="w-4 h-4" />
                                 </button>
                             </div>
                         </div>

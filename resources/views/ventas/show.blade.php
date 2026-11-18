@@ -3,13 +3,13 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
-                    <span>🧾</span> Detalle de Ticket: {{ $venta->numero_ticket }}
+                    <x-icon name="receipt-percent" class="w-7 h-7 text-indigo-600" /> Detalle de Ticket: {{ $venta->numero_ticket }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">Información detallada de la orden y estado de pago.</p>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('ventas.pos') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                    🛒 Nuevo Ticket POS
+                    <x-icon name="shopping-cart" class="w-4 h-4 inline-block align-[-2px] me-1" />Nuevo Ticket POS
                 </a>
                 <a href="{{ route('ventas.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-lg uppercase tracking-wider transition">
                     ← Volver
@@ -31,7 +31,7 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                 <!-- Cabecera -->
                 <div class="bg-indigo-900 text-white p-6 text-center">
-                    <div class="text-3xl mb-1">🧸</div>
+                    <div class="flex justify-center mb-2"><x-application-logo class="w-12 h-12" /></div>
                     <h3 class="text-xl font-black uppercase tracking-wider">Mundo del Juguete S.A.C.</h3>
                     <p class="text-xs text-indigo-200">RUC: 20485961234 | Av. Los Niños 789, Lima, Perú</p>
                     <div class="mt-4 inline-block px-3 py-1 bg-indigo-800/80 rounded-full text-xs font-mono tracking-widest text-indigo-100">
@@ -62,11 +62,11 @@
                         <span class="text-gray-400 font-semibold block uppercase">Estado</span>
                         @if($venta->estado === 'pendiente')
                             <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
-                                ⏳ Pendiente de Cobro
+                                <x-icon name="clock" class="w-4 h-4 inline-block align-[-2px] me-1" />Pendiente de Cobro
                             </span>
                         @elseif($venta->estado === 'pagada')
                             <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
-                                ✅ Pagada
+                                <x-icon name="check-circle" class="w-4 h-4 inline-block align-[-2px] me-1" />Pagada
                             </span>
                         @else
                             <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-800">
@@ -124,12 +124,12 @@
                     @if($venta->estado === 'pendiente' && Auth::user()->tieneRol('cajero', 'administrador'))
                         <a href="{{ route('caja.index') }}"
                             class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                            💳 Cobrar en Caja
+                            <x-icon name="credit-card" class="w-4 h-4 inline-block align-[-2px] me-1" />Cobrar en Caja
                         </a>
                     @elseif($venta->estado === 'pagada')
                         <a href="{{ route('caja.comprobante', $venta->id_venta) }}" target="_blank"
                             class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                            🖨️ Ver Comprobante Oficial
+                            <x-icon name="printer" class="w-4 h-4 inline-block align-[-2px] me-1" />Ver Comprobante Oficial
                         </a>
                     @else
                         <span class="text-xs text-gray-500 italic">Ticket pendiente de cobro en módulo de Caja.</span>

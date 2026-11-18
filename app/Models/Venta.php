@@ -135,4 +135,21 @@ class Venta extends Model
     {
         return $this->hasMany(DetalleVenta::class, 'id_venta', 'id_venta');
     }
+
+    public function devoluciones(): HasMany
+    {
+        return $this->hasMany(Devolucion::class, 'id_venta', 'id_venta');
+    }
+
+    /**
+     * Unidades de un juguete de esta venta que ya fueron devueltas o cambiadas
+     * (las solicitudes rechazadas no cuentan).
+     */
+    public function cantidadDevuelta(int $idProducto): int
+    {
+        return (int) $this->devoluciones()
+            ->where('id_producto', $idProducto)
+            ->where('estado', '!=', Devolucion::ESTADO_RECHAZADA)
+            ->sum('cantidad');
+    }
 }

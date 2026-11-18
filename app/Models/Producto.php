@@ -44,6 +44,11 @@ class Producto extends Model
         return $this->hasMany(DetalleVenta::class, 'id_producto', 'id_producto');
     }
 
+    public function devoluciones(): HasMany
+    {
+        return $this->hasMany(Devolucion::class, 'id_producto', 'id_producto');
+    }
+
     public function tieneStockCritico(): bool
     {
         return $this->stock_actual <= $this->stock_minimo;

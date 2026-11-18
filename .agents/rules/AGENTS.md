@@ -1,14 +1,22 @@
-# Reglas del Proyecto (Ingeniería de Requerimientos)
+# Reglas del Proyecto (Sistema de Inventario "Mundo del Juguete")
 
 ## Contexto del Repositorio
-- Entregable del curso de Ingeniería de Requerimientos de TECSUP ("Modelo de negocio, Parte 3").
-- El contenido principal es un documento LaTeX **`docs/Proyecto.tex`** (APA 7.ª edición, Español) junto con sus imágenes en `docs/media/`.
-- La aplicación web Laravel/PHP se encuentra en la raíz del repositorio (`app/`, `config/`, `routes/`, etc.).
+- Proyecto integrador de TECSUP para tres cursos: Ingeniería de Requerimientos y Diseño de Software, Base de Datos Avanzado y Desarrollo de Aplicaciones en Internet.
+- La aplicación web Laravel se encuentra en la raíz del repositorio (`app/`, `config/`, `database/`, `resources/`, `routes/`, `tests/`).
+- La documentación académica es el documento LaTeX **`docs/Proyecto.tex`** (APA 7.ª edición, Español), con diagramas TikZ en `docs/diagramas/`, tablas en `docs/tablas/` e imágenes en `docs/media/`.
+
+## Aplicación Laravel
+- **Stack:** PHP 8.4, Laravel 13 (Breeze con Blade, Tailwind CSS 3 y Alpine.js), MySQL 8.0, Vite y PHPUnit 12. Interfaz y mensajes en español (`lang/es`), zona horaria `America/Lima`.
+- **Roles:** `administrador`, `vendedor`, `cajero` y `almacenero`. El acceso se controla con el middleware `role:` en `routes/web.php`; no existe registro público (las cuentas se crean en el módulo Usuarios).
+- **Base de datos:** nunca editar una migración ya publicada; los cambios de esquema se hacen con una migración nueva. Las llaves foráneas usan `RESTRICT` (los registros con historial se dan de baja con el estado `inactivo`, no se eliminan).
+- **Operaciones de stock y dinero** (cobro, recepción de compras, devoluciones) se ejecutan dentro de `DB::transaction` con `lockForUpdate()`.
+- **Pruebas:** toda corrección o funcionalidad nueva debe llevar su prueba en `tests/`. Ejecutar `php artisan test` antes de cada commit; GitHub Actions las corre en SQLite y MySQL 8.0.
+- Tras cambiar vistas o estilos, compilar con `npm run build` (la carpeta `public/build` no se versiona).
 
 ## Compilación y Verificación
 - El PDF debe compilarse desde `docs/` ejecutando pdflatex **dos veces** (para actualizar el índice dinámico y las referencias cruzadas):
   `pdflatex -interaction=nonstopmode Proyecto.tex` (x2).
-- **No hay herramientas LaTeX instaladas en este entorno**, por lo que los agentes o IAs no pueden compilar el PDF directamente. El usuario debe compilarlo localmente.
+- Si el entorno no tiene LaTeX instalado, el agente debe indicarlo y el usuario compila el PDF localmente (por ejemplo, en Overleaf).
 - No hacer commits de los archivos generados en la compilación (`*.pdf`, `.aux`, `.toc`, `.out`, `.log`, `.synctex.gz`). Ya están en el `.gitignore`.
 
 ## Edición de `docs/Proyecto.tex`

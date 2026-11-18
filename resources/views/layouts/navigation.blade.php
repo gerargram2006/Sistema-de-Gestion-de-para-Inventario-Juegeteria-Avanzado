@@ -11,19 +11,19 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-6 sm:-my-px sm:ms-8 sm:flex items-center">
+                <div class="hidden space-x-4 xl:-my-px xl:ms-6 xl:flex items-center whitespace-nowrap">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Panel Principal') }}
+                        {{ __('Inicio') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('inventario.index')" :active="request()->routeIs('inventario.*')">
-                        {{ __('Catálogo e Inventario') }}
+                        {{ __('Inventario') }}
                     </x-nav-link>
 
                     @if(Auth::user()->tieneRol('vendedor', 'administrador'))
                         <x-nav-link :href="route('ventas.pos')" :active="request()->routeIs('ventas.*')">
                             <span class="inline-flex items-center">
-                                <span class="mr-1">🛒</span> {{ __('Punto de Venta (POS)') }}
+                                <span class="mr-1">🛒</span> {{ __('Ventas (POS)') }}
                             </span>
                         </x-nav-link>
                     @endif
@@ -31,7 +31,7 @@
                     @if(Auth::user()->tieneRol('cajero', 'administrador'))
                         <x-nav-link :href="route('caja.index')" :active="request()->routeIs('caja.*')">
                             <span class="inline-flex items-center">
-                                <span class="mr-1">💳</span> {{ __('Caja y Cobros') }}
+                                <span class="mr-1">💳</span> {{ __('Caja') }}
                             </span>
                         </x-nav-link>
                     @endif
@@ -63,21 +63,22 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <!-- Role Badge -->
-                <span class="me-3 px-2.5 py-1 text-xs font-semibold rounded-full
-                    @if(Auth::user()->rol === 'administrador') bg-purple-100 text-purple-800 border border-purple-200
-                    @elseif(Auth::user()->rol === 'vendedor') bg-blue-100 text-blue-800 border border-blue-200
-                    @elseif(Auth::user()->rol === 'cajero') bg-green-100 text-green-800 border border-green-200
-                    @elseif(Auth::user()->rol === 'almacenero') bg-amber-100 text-amber-800 border border-amber-200
-                    @else bg-gray-100 text-gray-800 @endif">
-                    {{ ucfirst(Auth::user()->rol ?? 'Usuario') }}
-                </span>
+            <div class="hidden xl:flex xl:items-center xl:ms-6 whitespace-nowrap">
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-600 bg-white hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div class="text-end leading-tight">
+                                <div class="max-w-[10rem] truncate" title="{{ Auth::user()->name }}">{{ Auth::user()->name }}</div>
+                                <div class="text-xs font-semibold
+                                    @if(Auth::user()->rol === 'administrador') text-purple-700
+                                    @elseif(Auth::user()->rol === 'vendedor') text-blue-700
+                                    @elseif(Auth::user()->rol === 'cajero') text-green-700
+                                    @elseif(Auth::user()->rol === 'almacenero') text-amber-700
+                                    @else text-gray-500 @endif">
+                                    {{ \App\Http\Controllers\UsuarioController::ROLES[Auth::user()->rol] ?? 'Usuario' }}
+                                </div>
+                            </div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -107,7 +108,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <div class="-me-2 flex items-center xl:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -119,7 +120,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden xl:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Panel Principal') }}

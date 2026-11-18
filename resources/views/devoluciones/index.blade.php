@@ -148,8 +148,8 @@
                                     <div>
                                         <x-input-label for="tipo" :value="__('Solicitud')" />
                                         <select id="tipo" name="tipo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                            <option value="devolucion" @selected(old('tipo') === 'devolucion')>Devolución (reembolso)</option>
-                                            <option value="cambio" @selected(old('tipo') === 'cambio')>Cambio (otra unidad)</option>
+                                            <option value="devolucion" @selected(old('tipo') === 'devolucion')>Devolución</option>
+                                            <option value="cambio" @selected(old('tipo') === 'cambio')>Cambio</option>
                                         </select>
                                     </div>
                                 </div>

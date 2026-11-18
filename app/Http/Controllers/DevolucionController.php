@@ -33,6 +33,12 @@ class DevolucionController extends Controller
                 ->first();
         }
 
+        // Plazo (RF-19) y unidades que aun se pueden devolver por cada juguete
+        $fueraDePlazo = $venta?->fecha->lt(now()->subDays(Devolucion::PLAZO_DIAS)) ?? false;
+        $devolvibles = $venta?->detalles->each(function ($detalle) use ($venta) {
+            $detalle->por_devolver = $detalle->cantidad - $venta->cantidadDevuelta($detalle->id_producto);
+        }) ?? collect();
+
         $recientes = Devolucion::with(['venta', 'producto', 'usuario'])
             ->latest('fecha')
             ->take(10)
@@ -41,6 +47,8 @@ class DevolucionController extends Controller
         return view('devoluciones.index', [
             'buscar' => $buscar,
             'venta' => $venta,
+            'fueraDePlazo' => $fueraDePlazo,
+            'devolvibles' => $devolvibles,
             'recientes' => $recientes,
             'plazoDias' => Devolucion::PLAZO_DIAS,
         ]);

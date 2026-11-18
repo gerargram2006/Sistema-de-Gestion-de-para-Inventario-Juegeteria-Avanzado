@@ -58,14 +58,6 @@
             @endif
 
             @if ($venta)
-                @php
-                    $fueraDePlazo = $venta->fecha->lt(now()->subDays($plazoDias));
-                    $devolvibles = $venta->detalles->map(function ($detalle) use ($venta) {
-                        $detalle->por_devolver = $detalle->cantidad - $venta->cantidadDevuelta($detalle->id_producto);
-                        return $detalle;
-                    });
-                @endphp
-
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Datos de la venta -->
                     <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

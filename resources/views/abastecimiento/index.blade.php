@@ -151,7 +151,7 @@
 
                                     <form method="POST" action="{{ route('abastecimiento.recibir', $orden->id_compra) }}">
                                         @csrf
-                                        <button type="submit" onclick="return confirm('¿Confirmas que la mercadería física ingresó completa al almacén? Esto actualizará el stock disponible automáticamente.')"
+                                        <button type="submit" x-data x-on:click="if (! confirm('¿Confirmas que la mercadería física ingresó completa al almacén? Esto actualizará el stock disponible automáticamente.')) $event.preventDefault()"
                                             class="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
                                             <x-icon name="check" class="w-4 h-4 inline-block align-[-2px] me-1" />Confirmar Recepción
                                         </button>

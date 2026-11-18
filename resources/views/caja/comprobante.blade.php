@@ -21,7 +21,7 @@
             ← Volver a Caja
         </a>
         <div class="flex gap-2">
-            <button type="button" onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5">
+            <button type="button" x-data x-on:click="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center gap-1.5">
                 <x-icon name="printer" class="w-4 h-4 inline-block align-[-2px] me-1" />Imprimir Comprobante
             </button>
         </div>

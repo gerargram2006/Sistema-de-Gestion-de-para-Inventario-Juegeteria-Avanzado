@@ -91,6 +91,8 @@
             </div>
         </div>
 
+        {{-- Credenciales de prueba: solo se muestran con APP_ENV=local, nunca en produccion --}}
+        @env('local')
         <!-- Cuentas de Acceso Rápido para Pruebas y Evidencia -->
         <div class="mt-12 bg-white/90 backdrop-blur-sm border border-indigo-100 p-6 rounded-2xl shadow-sm w-full max-w-3xl text-left">
             <h4 class="font-black text-gray-900 text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -121,6 +123,7 @@
                 </div>
             </div>
         </div>
+        @endenv
     </main>
 
     <!-- Footer -->

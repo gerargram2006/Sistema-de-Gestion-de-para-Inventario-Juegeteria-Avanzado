@@ -135,7 +135,7 @@
                         <span class="text-xs text-gray-500 italic">Ticket pendiente de cobro en módulo de Caja.</span>
                     @endif
 
-                    <button type="button" onclick="window.print()" class="text-xs text-gray-600 hover:text-gray-900 font-semibold underline">
+                    <button type="button" x-data x-on:click="window.print()" class="text-xs text-gray-600 hover:text-gray-900 font-semibold underline">
                         Imprimir copia del Ticket
                     </button>
                 </div>

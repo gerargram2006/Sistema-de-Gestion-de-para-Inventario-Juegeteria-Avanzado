@@ -162,17 +162,9 @@
                                         @endif
                                     </td>
                                     @if(Auth::user()->tieneRol('administrador', 'almacenero'))
-                                        <td class="py-3.5 px-4 text-center whitespace-nowrap" x-data="{
-                                            id: {{ $producto->id_producto }},
-                                            sku: '{{ $producto->sku }}',
-                                            nombre: '{{ addslashes($producto->nombre) }}',
-                                            id_categoria: '{{ $producto->id_categoria }}',
-                                            precio: '{{ $producto->precio }}',
-                                            stock_actual: '{{ $producto->stock_actual }}',
-                                            stock_minimo: '{{ $producto->stock_minimo }}'
-                                        }">
+                                        <td class="py-3.5 px-4 text-center whitespace-nowrap">
                                             <button type="button"
-                                                @click="$dispatch('open-modal', 'modal-editar-' + id)"
+                                                @click="$dispatch('open-modal', 'modal-editar-{{ $producto->id_producto }}')"
                                                 class="text-indigo-600 hover:text-indigo-900 font-medium text-xs bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition">
                                                 Editar
                                             </button>

@@ -54,6 +54,8 @@
             </x-primary-button>
         </div>
 
+        {{-- Acceso rapido de prueba: solo con APP_ENV=local, nunca en produccion --}}
+        @env('local')
         <!-- Acceso Rápido de Credenciales (Pruebas / Demostración) -->
         <div class="mt-6 pt-4 border-t border-gray-100">
             <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2 text-center">
@@ -82,5 +84,6 @@
                 </button>
             </div>
         </div>
+        @endenv
     </form>
 </x-guest-layout>

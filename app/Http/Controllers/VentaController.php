@@ -26,7 +26,7 @@ class VentaController extends Controller
         $productos = Producto::with('categoria:id_categoria,nombre')
             ->select(['id_producto', 'id_categoria', 'sku', 'nombre', 'precio', 'stock_actual', 'stock_minimo', 'estado'])
             ->where('stock_actual', '>', 0)
-            ->where('estado', '!=', 'agotado')
+            ->whereNotIn('estado', ['agotado', 'inactivo'])
             ->orderBy('nombre')
             ->get();
 
@@ -49,28 +49,40 @@ class VentaController extends Controller
 
         $idCliente = $validated['id_cliente'];
         $tipoComprobante = $validated['tipo_comprobante'];
-        $itemsData = $validated['items'];
+
+        // Si el mismo juguete se agrego en varias lineas, se suman sus cantidades
+        // para validar el stock contra el total pedido y no linea por linea.
+        $cantidades = collect($validated['items'])
+            ->groupBy('id_producto')
+            ->map(fn ($lineas) => (int) $lineas->sum('cantidad'));
+
+        $productos = Producto::whereIn('id_producto', $cantidades->keys())->get()->keyBy('id_producto');
 
         $subtotalTotal = 0;
         $detallesAGuardar = [];
 
-        // Validar stock disponible para cada producto en la orden
-        foreach ($itemsData as $item) {
-            $producto = Producto::findOrFail($item['id_producto']);
+        foreach ($cantidades as $idProducto => $cantidad) {
+            $producto = $productos[$idProducto];
 
-            if (!$producto->tieneStockSuficiente($item['cantidad'])) {
+            if ($producto->estado === 'inactivo') {
+                return back()->withInput()->withErrors([
+                    'stock' => "El juguete '{$producto->nombre}' está inactivo y no se puede vender.",
+                ]);
+            }
+
+            if (! $producto->tieneStockSuficiente($cantidad)) {
                 return back()->withInput()->withErrors([
                     'stock' => "Stock insuficiente para el juguete '{$producto->nombre}'. Stock disponible: {$producto->stock_actual} un.",
                 ]);
             }
 
             $precioUnitario = (float) $producto->precio;
-            $subtotalLinea = $precioUnitario * $item['cantidad'];
+            $subtotalLinea = $precioUnitario * $cantidad;
             $subtotalTotal += $subtotalLinea;
 
             $detallesAGuardar[] = [
                 'producto' => $producto,
-                'cantidad' => $item['cantidad'],
+                'cantidad' => $cantidad,
                 'precio_unitario' => $precioUnitario,
                 'subtotal' => $subtotalLinea,
             ];
@@ -106,7 +118,9 @@ class VentaController extends Controller
                 ->with('success', "Ticket {$venta->codigo_venta} emitido correctamente por S/ " . number_format($total, 2) . ". Dirigirse a Caja para efectuar el cobro.");
         } catch (\Throwable $e) {
             DB::rollBack();
-            return back()->withInput()->withErrors(['error' => 'Error al registrar la venta: ' . $e->getMessage()]);
+            report($e);
+
+            return back()->withInput()->withErrors(['error' => 'No se pudo registrar la venta. Intente nuevamente o comuníquese con soporte.']);
         }
     }
 

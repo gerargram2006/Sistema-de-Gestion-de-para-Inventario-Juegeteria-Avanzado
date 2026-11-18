@@ -183,4 +183,46 @@ class VentaPosTest extends TestCase
         $this->assertCount(2, $codigos->unique());
         $codigos->each(fn ($codigo) => $this->assertMatchesRegularExpression('/^TK-\d{8}-\d{6}$/', $codigo));
     }
+    public function test_el_stock_se_valida_con_el_total_aunque_el_juguete_se_repita_en_varias_lineas(): void
+    {
+        $vendedor = User::factory()->rol(User::ROL_VENDEDOR)->create();
+        $categoria = Categoria::create(['nombre' => 'Muñecas', 'estado' => 'activo']);
+        $producto = Producto::create([
+            'id_categoria' => $categoria->id_categoria,
+            'sku' => 'JUG-MUN-020',
+            'nombre' => 'Muñeca de Trapo',
+            'precio' => 25.00,
+            'stock_actual' => 3,
+            'stock_minimo' => 1,
+            'estado' => 'disponible',
+        ]);
+        $cliente = Cliente::create(['dni' => '55667788', 'nombres' => 'Pedro Huamán']);
+
+        // 2 + 2 = 4 unidades pedidas con solo 3 en stock
+        $this->actingAs($vendedor)->post('/ventas', [
+            'id_cliente' => $cliente->id_cliente,
+            'tipo_comprobante' => 'boleta',
+            'items' => [
+                ['id_producto' => $producto->id_producto, 'cantidad' => 2],
+                ['id_producto' => $producto->id_producto, 'cantidad' => 2],
+            ],
+        ])->assertSessionHasErrors('stock');
+
+        $this->assertSame(0, Venta::count());
+
+        // 1 + 2 = 3 unidades: se registra en una sola linea con el total
+        $this->actingAs($vendedor)->post('/ventas', [
+            'id_cliente' => $cliente->id_cliente,
+            'tipo_comprobante' => 'boleta',
+            'items' => [
+                ['id_producto' => $producto->id_producto, 'cantidad' => 1],
+                ['id_producto' => $producto->id_producto, 'cantidad' => 2],
+            ],
+        ])->assertSessionHasNoErrors();
+
+        $venta = Venta::with('detalles')->first();
+        $this->assertCount(1, $venta->detalles);
+        $this->assertSame(3, $venta->detalles->first()->cantidad);
+        $this->assertEquals(75.00, (float) $venta->total);
+    }
 }

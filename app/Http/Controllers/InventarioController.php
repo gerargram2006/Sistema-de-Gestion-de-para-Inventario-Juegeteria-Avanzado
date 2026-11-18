@@ -48,17 +48,9 @@ class InventarioController extends Controller
             'stock_minimo' => 'required|integer|min:1|max:1000000',
         ]);
 
-        $estado = 'disponible';
-        if ($validated['stock_actual'] <= 0) {
-            $estado = 'agotado';
-        } elseif ($validated['stock_actual'] <= $validated['stock_minimo']) {
-            $estado = 'stock bajo';
-        }
-
-        Producto::create([
-            ...$validated,
-            'estado' => $estado,
-        ]);
+        $producto = new Producto($validated);
+        $producto->actualizarEstadoStock();
+        $producto->save();
 
         return redirect()->route('inventario.index')->with('success', 'Juguete registrado exitosamente en el catálogo.');
     }

@@ -72,8 +72,17 @@ class Producto extends Model
         return $this->save();
     }
 
+    /**
+     * Recalcula el estado segun el stock: agotado, stock bajo o disponible.
+     * Un juguete dado de baja (inactivo) conserva su estado aunque cambie
+     * su stock por una venta, devolucion o recepcion.
+     */
     public function actualizarEstadoStock(): void
     {
+        if ($this->estado === 'inactivo') {
+            return;
+        }
+
         if ($this->stock_actual <= 0) {
             $this->estado = 'agotado';
         } elseif ($this->stock_actual <= $this->stock_minimo) {

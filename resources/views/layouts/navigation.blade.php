@@ -43,6 +43,14 @@
                             </span>
                         </x-nav-link>
                     @endif
+
+                    @if(Auth::user()->esAdministrador())
+                        <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
+                            <span class="inline-flex items-center">
+                                <span class="mr-1">👥</span> {{ __('Usuarios') }}
+                            </span>
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -128,6 +136,12 @@
             @if(Auth::user()->tieneRol('almacenero', 'administrador'))
                 <x-responsive-nav-link :href="route('abastecimiento.index')" :active="request()->routeIs('abastecimiento.*')">
                     {{ __('Abastecimiento') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(Auth::user()->esAdministrador())
+                <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
+                    {{ __('Usuarios') }}
                 </x-responsive-nav-link>
             @endif
         </div>

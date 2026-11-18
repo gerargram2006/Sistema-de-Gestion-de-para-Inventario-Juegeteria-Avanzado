@@ -5,6 +5,7 @@ use App\Http\Controllers\CajaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AbastecimientoController::class, 'index'])->name('index');
         Route::post('/orden', [AbastecimientoController::class, 'crearOrden'])->name('crear-orden');
         Route::post('/orden/{compra}/recibir', [AbastecimientoController::class, 'recibirOrden'])->name('recibir');
+    });
+
+    // Gestión de Usuarios y Roles (reemplaza al registro público) - Solo Administrador
+    Route::middleware('role:administrador')->prefix('usuarios')->name('usuarios.')->group(function () {
+        Route::get('/', [UsuarioController::class, 'index'])->name('index');
+        Route::post('/', [UsuarioController::class, 'store'])->name('store');
+        Route::put('/{usuario}', [UsuarioController::class, 'update'])->name('update');
+        Route::patch('/{usuario}/estado', [UsuarioController::class, 'cambiarEstado'])->name('estado');
     });
 
     // Perfil de Usuario

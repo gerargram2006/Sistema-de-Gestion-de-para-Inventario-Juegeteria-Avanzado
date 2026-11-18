@@ -4,4 +4,4 @@
 --}}
 @props(['producto', 'texto' => null])
 
-<x-imagen :ruta="$producto->rutaImagen()" :texto="$texto" :alt="$producto->nombre" {{ $attributes->merge(['class' => 'rounded-lg']) }} />
+<x-imagen :ruta="$producto->rutaImagen()" :verificada="true" :texto="$texto" :alt="$producto->nombre" {{ $attributes->merge(['class' => 'rounded-lg']) }} />

@@ -18,7 +18,7 @@ class CajaController extends Controller
     {
         $buscar = $request->get('buscar');
 
-        $queryPendientes = Venta::with(['cliente', 'usuario', 'detalles.producto'])
+        $queryPendientes = Venta::with(['cliente:id_cliente,dni,nombres', 'usuario:id,name', 'detalles.producto:id_producto,nombre'])
             ->where('estado', 'pendiente');
 
         if ($buscar) {
@@ -33,7 +33,7 @@ class CajaController extends Controller
 
         $ticketsPendientes = $queryPendientes->latest('fecha')->get();
 
-        $ultimasCobradas = Venta::with(['cliente', 'usuario'])
+        $ultimasCobradas = Venta::with(['cliente:id_cliente,nombres', 'usuario:id,name'])
             ->where('estado', 'pagada')
             ->latest('updated_at')
             ->take(8)

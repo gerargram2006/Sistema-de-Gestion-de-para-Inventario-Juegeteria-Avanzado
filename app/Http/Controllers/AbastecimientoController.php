@@ -19,23 +19,26 @@ class AbastecimientoController extends Controller
      */
     public function index(): View
     {
-        $criticos = Producto::with('categoria')
+        $criticos = Producto::with('categoria:id_categoria,nombre')
+            ->select(['id_producto', 'id_categoria', 'sku', 'nombre', 'stock_actual', 'stock_minimo', 'estado'])
             ->stockCritico()
             ->orderBy('stock_actual', 'asc')
             ->get();
 
-        $ordenesPendientes = Compra::with(['usuario', 'detalles.producto'])
+        $ordenesPendientes = Compra::with(['usuario:id,name', 'detalles.producto:id_producto,nombre'])
             ->whereIn('estado', Compra::ESTADOS_POR_RECIBIR)
             ->latest('fecha')
             ->get();
 
-        $ordenesRecibidas = Compra::with(['usuario', 'detalles.producto'])
+        $ordenesRecibidas = Compra::with(['usuario:id,name', 'detalles'])
             ->where('estado', 'recibida')
             ->latest('updated_at')
             ->take(8)
             ->get();
 
-        $todosProductos = Producto::orderBy('nombre')->get();
+        $todosProductos = Producto::select(['id_producto', 'nombre', 'stock_actual'])
+            ->orderBy('nombre')
+            ->get();
 
         return view('abastecimiento.index', compact(
             'criticos',

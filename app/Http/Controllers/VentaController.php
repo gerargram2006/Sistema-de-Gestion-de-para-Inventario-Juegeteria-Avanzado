@@ -133,7 +133,7 @@ class VentaController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = Venta::with(['cliente', 'usuario', 'detalles.producto']);
+        $query = Venta::with(['cliente:id_cliente,dni,nombres', 'usuario:id,name']);
 
         if ($request->filled('estado')) {
             $query->where('estado', $request->estado);

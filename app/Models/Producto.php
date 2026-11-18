@@ -55,20 +55,35 @@ class Producto extends Model
     }
 
     /**
+     * Cache en memoria de las imagenes existentes en public/images/productos/
+     * para evitar multiples llamadas file_exists() por cada producto en listados.
+     *
+     * @var array<string, string>|null
+     */
+    protected static ?array $mapaImagenes = null;
+
+    /**
      * Ruta (relativa a public/) de la foto del juguete, si fue cargada en
      * public/images/productos/{SKU}.jpg|png|webp. Null si aun no tiene foto.
      */
     public function rutaImagen(): ?string
     {
-        foreach (['jpg', 'png', 'webp'] as $extension) {
-            $ruta = "images/productos/{$this->sku}.{$extension}";
+        if (self::$mapaImagenes === null) {
+            self::$mapaImagenes = [];
+            $directorio = public_path('images/productos');
 
-            if (file_exists(public_path($ruta))) {
-                return $ruta;
+            if (is_dir($directorio)) {
+                foreach (scandir($directorio) ?: [] as $archivo) {
+                    $ext = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
+                    if (in_array($ext, ['jpg', 'png', 'webp'], true)) {
+                        $sku = pathinfo($archivo, PATHINFO_FILENAME);
+                        self::$mapaImagenes[$sku] ??= "images/productos/{$archivo}";
+                    }
+                }
             }
         }
 
-        return null;
+        return self::$mapaImagenes[$this->sku] ?? null;
     }
 
     /**

@@ -12,9 +12,11 @@ class InventarioController extends Controller
 {
     public function index(Request $request): View
     {
-        $categorias = Categoria::where('estado', 'activo')->get();
+        $categorias = Categoria::select(['id_categoria', 'nombre'])
+            ->where('estado', 'activo')
+            ->get();
 
-        $query = Producto::with('categoria');
+        $query = Producto::with('categoria:id_categoria,nombre');
 
         if ($request->filled('categoria')) {
             $query->where('id_categoria', $request->categoria);

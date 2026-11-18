@@ -66,4 +66,44 @@ class AbastecimientoTest extends TestCase
         $this->assertEquals(17, $producto->stock_actual);
         $this->assertEquals('disponible', $producto->estado);
     }
+    public function test_una_orden_cancelada_o_ya_recibida_no_suma_stock(): void
+    {
+        $almacenero = User::factory()->rol(User::ROL_ALMACENERO)->create();
+        $categoria = Categoria::create(['nombre' => 'Vehículos', 'estado' => 'activo']);
+        $producto = Producto::create([
+            'id_categoria' => $categoria->id_categoria,
+            'sku' => 'JUG-VEH-001',
+            'nombre' => 'Camión de Bomberos',
+            'precio' => 95.00,
+            'stock_actual' => 4,
+            'stock_minimo' => 5,
+            'estado' => 'stock bajo',
+        ]);
+
+        $crearOrden = fn () => $this->actingAs($almacenero)->post('/abastecimiento/orden', [
+            'proveedor' => 'Importadora Lima SAC',
+            'items' => [['id_producto' => $producto->id_producto, 'cantidad' => 10, 'precio_costo' => 50]],
+        ]);
+
+        // Orden cancelada: no debe poder recibirse
+        $crearOrden();
+        $cancelada = Compra::latest('id_compra')->first();
+        $cancelada->update(['estado' => 'cancelada']);
+
+        $this->actingAs($almacenero)
+            ->post("/abastecimiento/orden/{$cancelada->id_compra}/recibir")
+            ->assertSessionHasErrors('error');
+        $this->assertSame(4, $producto->fresh()->stock_actual);
+
+        // Orden valida recibida dos veces: el stock sube una sola vez
+        $crearOrden();
+        $orden = Compra::latest('id_compra')->first();
+        $this->actingAs($almacenero)->post("/abastecimiento/orden/{$orden->id_compra}/recibir");
+        $this->actingAs($almacenero)
+            ->post("/abastecimiento/orden/{$orden->id_compra}/recibir")
+            ->assertSessionHasErrors('error');
+
+        $this->assertSame(14, $producto->fresh()->stock_actual);
+        $this->assertSame('cancelada', $cancelada->fresh()->estado);
+    }
 }

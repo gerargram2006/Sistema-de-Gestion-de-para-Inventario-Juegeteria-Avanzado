@@ -25,7 +25,7 @@ class AbastecimientoController extends Controller
             ->get();
 
         $ordenesPendientes = Compra::with(['usuario', 'detalles.producto'])
-            ->whereIn('estado', ['generada', 'pendiente', 'enviada'])
+            ->whereIn('estado', Compra::ESTADOS_POR_RECIBIR)
             ->latest('fecha')
             ->get();
 
@@ -90,7 +90,9 @@ class AbastecimientoController extends Controller
                 ->with('success', "Orden de abastecimiento {$compra->nro_orden} generada exitosamente por un total de S/ " . number_format($totalOrden, 2));
         } catch (\Throwable $e) {
             DB::rollBack();
-            return back()->withInput()->withErrors(['error' => 'Error al crear la orden: ' . $e->getMessage()]);
+            report($e);
+
+            return back()->withInput()->withErrors(['error' => 'No se pudo generar la orden de compra. Intente nuevamente o comuníquese con soporte.']);
         }
     }
 
@@ -100,30 +102,32 @@ class AbastecimientoController extends Controller
      */
     public function recibirOrden(Compra $compra): RedirectResponse
     {
-        if ($compra->estado === 'recibida') {
-            return back()->withErrors(['error' => 'Esta orden ya fue recibida anteriormente o está anulada.']);
-        }
-
-        DB::beginTransaction();
         try {
-            // Incrementar el stock físico para cada producto de la orden
-            foreach ($compra->detalles as $detalle) {
-                $producto = Producto::lockForUpdate()->findOrFail($detalle->id_producto);
-                $producto->incrementarStock($detalle->cantidad);
-            }
+            DB::transaction(function () use ($compra) {
+                // Se bloquea la orden para que una doble recepcion no sume el stock dos veces
+                $compra = Compra::whereKey($compra->id_compra)->lockForUpdate()->firstOrFail();
 
-            // Marcar la orden como recibida
-            $compra->update([
-                'estado' => 'recibida',
-            ]);
+                if (! $compra->puedeRecibirse()) {
+                    throw new \DomainException("La orden {$compra->nro_orden} está en estado '{$compra->estado}' y no puede recibirse.");
+                }
 
-            DB::commit();
+                // Incrementar el stock fisico de cada juguete de la orden
+                foreach ($compra->detalles as $detalle) {
+                    $producto = Producto::lockForUpdate()->findOrFail($detalle->id_producto);
+                    $producto->incrementarStock($detalle->cantidad);
+                }
 
-            return redirect()->route('abastecimiento.index')
-                ->with('success', "Mercadería de la orden {$compra->nro_orden} recibida con éxito. El inventario ha sido actualizado.");
+                $compra->update(['estado' => 'recibida']);
+            });
+        } catch (\DomainException $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
         } catch (\Throwable $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Error al procesar la recepción: ' . $e->getMessage()]);
+            report($e);
+
+            return back()->withErrors(['error' => 'No se pudo registrar la recepción. Intente nuevamente o comuníquese con soporte.']);
         }
+
+        return redirect()->route('abastecimiento.index')
+            ->with('success', "Mercadería de la orden {$compra->nro_orden} recibida con éxito. El inventario ha sido actualizado.");
     }
 }

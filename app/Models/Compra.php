@@ -66,6 +66,16 @@ class Compra extends Model
         return $this->updated_at;
     }
 
+    /**
+     * Estados en los que la mercaderia aun no llego al almacen.
+     */
+    public const ESTADOS_POR_RECIBIR = ['generada', 'pendiente', 'enviada'];
+
+    public function puedeRecibirse(): bool
+    {
+        return in_array($this->estado, self::ESTADOS_POR_RECIBIR, true);
+    }
+
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_usuario', 'id');

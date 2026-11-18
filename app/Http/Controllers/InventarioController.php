@@ -71,4 +71,25 @@ class InventarioController extends Controller
 
         return redirect()->route('inventario.index')->with('success', 'Datos del producto actualizados correctamente.');
     }
+
+    /**
+     * Da de baja o reactiva un juguete. No se elimina porque sus ventas y
+     * ordenes de compra lo referencian; al reactivarlo se recalcula su
+     * estado segun el stock actual.
+     */
+    public function cambiarEstado(Producto $producto): RedirectResponse
+    {
+        if ($producto->estaInactivo()) {
+            $producto->estado = 'disponible';
+            $producto->actualizarEstadoStock();
+            $mensaje = "'{$producto->nombre}' fue reactivado y vuelve a estar a la venta.";
+        } else {
+            $producto->estado = 'inactivo';
+            $mensaje = "'{$producto->nombre}' fue dado de baja: ya no aparece en el punto de venta ni en las alertas de reposición.";
+        }
+
+        $producto->save();
+
+        return back()->with('success', $mensaje);
+    }
 }

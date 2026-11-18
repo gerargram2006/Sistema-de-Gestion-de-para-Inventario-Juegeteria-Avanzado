@@ -113,7 +113,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200 text-sm">
                             @forelse ($productos as $producto)
-                                <tr class="hover:bg-gray-50/60 transition {{ $producto->tieneStockCritico() ? 'bg-amber-50/40' : '' }}">
+                                <tr class="hover:bg-gray-50/60 transition {{ $producto->estaInactivo() ? 'bg-gray-50 text-gray-400' : ($producto->tieneStockCritico() ? 'bg-amber-50/40' : '') }}">
                                     <td class="py-3.5 px-4 font-mono text-xs font-bold text-gray-700">
                                         {{ $producto->sku }}
                                     </td>
@@ -140,7 +140,11 @@
                                         {{ $producto->stock_minimo }} un.
                                     </td>
                                     <td class="py-3.5 px-4 text-center">
-                                        @if ($producto->stock_actual == 0)
+                                        @if ($producto->estaInactivo())
+                                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-600" title="Dado de baja del catálogo">
+                                                Inactivo
+                                            </span>
+                                        @elseif ($producto->stock_actual == 0)
                                             <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
                                                 Agotado
                                             </span>
@@ -155,7 +159,7 @@
                                         @endif
                                     </td>
                                     @if(Auth::user()->tieneRol('administrador', 'almacenero'))
-                                        <td class="py-3.5 px-4 text-center" x-data="{
+                                        <td class="py-3.5 px-4 text-center whitespace-nowrap" x-data="{
                                             id: {{ $producto->id_producto }},
                                             sku: '{{ $producto->sku }}',
                                             nombre: '{{ addslashes($producto->nombre) }}',
@@ -169,6 +173,20 @@
                                                 class="text-indigo-600 hover:text-indigo-900 font-medium text-xs bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition">
                                                 Editar
                                             </button>
+
+                                            <form method="POST" action="{{ route('inventario.estado', $producto) }}" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                @if ($producto->estaInactivo())
+                                                    <button type="submit" class="ml-1 text-emerald-700 hover:text-emerald-900 font-medium text-xs bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-md transition">
+                                                        Reactivar
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="ml-1 text-rose-600 hover:text-rose-900 font-medium text-xs bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-md transition">
+                                                        Dar de baja
+                                                    </button>
+                                                @endif
+                                            </form>
 
                                             <!-- Modal Editar Producto -->
                                             <x-modal name="modal-editar-{{ $producto->id_producto }}" :show="false" focusable>

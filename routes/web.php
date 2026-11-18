@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware('role:administrador,almacenero')->group(function () {
             Route::post('/', [InventarioController::class, 'store'])->name('store');
             Route::put('/{producto}', [InventarioController::class, 'update'])->name('update');
+            Route::patch('/{producto}/estado', [InventarioController::class, 'cambiarEstado'])->name('estado');
         });
     });
 

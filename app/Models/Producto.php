@@ -51,7 +51,16 @@ class Producto extends Model
 
     public function tieneStockCritico(): bool
     {
-        return $this->stock_actual <= $this->stock_minimo;
+        return ! $this->estaInactivo() && $this->stock_actual <= $this->stock_minimo;
+    }
+
+    /**
+     * Juguete dado de baja del catalogo: no se vende ni se sugiere reponerlo,
+     * pero se conserva por su historial de ventas y compras.
+     */
+    public function estaInactivo(): bool
+    {
+        return $this->estado === 'inactivo';
     }
 
     public function tieneStockSuficiente(int $cantidad): bool
@@ -84,7 +93,7 @@ class Producto extends Model
      */
     public function actualizarEstadoStock(): void
     {
-        if ($this->estado === 'inactivo') {
+        if ($this->estaInactivo()) {
             return;
         }
 
@@ -99,6 +108,7 @@ class Producto extends Model
 
     public function scopeStockCritico(Builder $query): Builder
     {
-        return $query->whereColumn('stock_actual', '<=', 'stock_minimo');
+        return $query->whereColumn('stock_actual', '<=', 'stock_minimo')
+            ->where('estado', '!=', 'inactivo');
     }
 }

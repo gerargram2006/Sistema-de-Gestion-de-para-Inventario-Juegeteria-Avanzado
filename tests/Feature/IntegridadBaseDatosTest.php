@@ -6,6 +6,7 @@ use App\Models\Categoria;
 use App\Models\Producto;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 /**
@@ -37,5 +38,33 @@ class IntegridadBaseDatosTest extends TestCase
         }
 
         $this->assertDatabaseHas('productos', ['sku' => 'JUG-MES-001']);
+    }
+    public function test_mysql_rechaza_stock_negativo_y_precios_invalidos(): void
+    {
+        if (! in_array(DB::getDriverName(), ['mysql', 'mariadb'], true)) {
+            $this->markTestSkipped('Las restricciones CHECK solo se crean en MySQL/MariaDB.');
+        }
+
+        $categoria = Categoria::create(['nombre' => 'Peluches', 'estado' => 'activo']);
+        $producto = Producto::create([
+            'id_categoria' => $categoria->id_categoria,
+            'sku' => 'JUG-PEL-077',
+            'nombre' => 'Conejo de Peluche',
+            'precio' => 30.00,
+            'stock_actual' => 2,
+            'stock_minimo' => 1,
+            'estado' => 'disponible',
+        ]);
+
+        foreach (['stock_actual' => -1, 'precio' => 0] as $columna => $valorInvalido) {
+            try {
+                DB::table('productos')->where('id_producto', $producto->id_producto)->update([$columna => $valorInvalido]);
+                $this->fail("MySQL acepto {$columna} = {$valorInvalido}.");
+            } catch (QueryException $e) {
+                $this->assertStringContainsString('chk_productos', $e->getMessage());
+            }
+        }
+
+        $this->assertSame(2, $producto->fresh()->stock_actual);
     }
 }

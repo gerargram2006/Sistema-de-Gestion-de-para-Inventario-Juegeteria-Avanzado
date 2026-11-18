@@ -94,6 +94,33 @@ class Venta extends Model
         return round((float)$this->total - $this->subtotal, 2);
     }
 
+    /**
+     * Serie del comprobante segun su tipo: F001 para facturas y B001 para
+     * boletas y tickets.
+     */
+    public static function serieComprobante(?string $tipo): string
+    {
+        return $tipo === 'factura' ? 'F001' : 'B001';
+    }
+
+    /**
+     * Siguiente numero correlativo de la serie (B001-000001, B001-000002, ...).
+     * Cada serie lleva su propia numeracion, como exige SUNAT. Debe llamarse
+     * dentro de una transaccion.
+     */
+    public static function siguienteNumeroComprobante(?string $tipo): string
+    {
+        $serie = static::serieComprobante($tipo);
+
+        $ultimo = static::where('nro_comprob', 'like', $serie . '-%')
+            ->lockForUpdate()
+            ->max('nro_comprob');
+
+        $correlativo = $ultimo ? ((int) substr($ultimo, strlen($serie) + 1)) + 1 : 1;
+
+        return sprintf('%s-%06d', $serie, $correlativo);
+    }
+
     public function cliente(): BelongsTo
     {
         return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');

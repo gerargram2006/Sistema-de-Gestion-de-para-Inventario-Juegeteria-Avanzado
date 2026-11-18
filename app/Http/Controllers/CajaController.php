@@ -61,42 +61,46 @@ class CajaController extends Controller
         $montoRecibido = (float) $validated['monto_recibido'];
         $vuelto = round($montoRecibido - (float) $venta->total, 2);
 
-        // Generar número de comprobante oficial (B001 o F001)
-        $prefijo = match ($venta->tipo_comprob) {
-            'factura' => 'F001-',
-            default => 'B001-',
-        };
-        $numeroComprobante = $prefijo . str_pad((string) ($venta->id_venta), 6, '0', STR_PAD_LEFT);
-
-        DB::beginTransaction();
         try {
-            // 1. Deducir stock físico de cada producto y actualizar estado si llega a 0 o stock mínimo
-            foreach ($venta->detalles as $detalle) {
-                $producto = Producto::lockForUpdate()->findOrFail($detalle->id_producto);
+            $numeroComprobante = DB::transaction(function () use ($venta, $validated) {
+                // Se bloquea la venta: si dos cajeros (o un doble clic) intentan cobrar
+                // el mismo ticket, el segundo espera y luego lo encuentra ya pagado.
+                $venta = Venta::whereKey($venta->id_venta)->lockForUpdate()->firstOrFail();
 
-                if (!$producto->descontarStock($detalle->cantidad)) {
-                    DB::rollBack();
-                    return back()->withErrors([
-                        'error' => "Stock insuficiente al momento de cobrar para '{$producto->nombre}'. Disponible: {$producto->stock_actual} un.",
-                    ]);
+                if ($venta->estado !== 'pendiente') {
+                    throw new \DomainException('El ticket seleccionado ya fue cobrado o anulado.');
                 }
-            }
 
-            // 2. Actualizar el estado de la venta a pagada
-            $venta->update([
-                'estado' => 'pagada',
-                'metodo_pago' => $validated['metodo_pago'],
-                'nro_comprob' => $numeroComprobante,
-            ]);
+                // 1. Descontar el stock fisico de cada juguete vendido
+                foreach ($venta->detalles as $detalle) {
+                    $producto = Producto::lockForUpdate()->findOrFail($detalle->id_producto);
 
-            DB::commit();
+                    if (! $producto->descontarStock($detalle->cantidad)) {
+                        throw new \DomainException("Stock insuficiente al momento de cobrar para '{$producto->nombre}'. Disponible: {$producto->stock_actual} un.");
+                    }
+                }
 
-            return redirect()->route('caja.comprobante', $venta->id_venta)
-                ->with('success', "Cobro realizado con éxito. Comprobante {$numeroComprobante} emitido. Vuelto a entregar: S/ " . number_format($vuelto, 2));
+                // 2. Emitir el comprobante con el siguiente correlativo de su serie
+                $numeroComprobante = Venta::siguienteNumeroComprobante($venta->tipo_comprob);
+
+                $venta->update([
+                    'estado' => 'pagada',
+                    'metodo_pago' => $validated['metodo_pago'],
+                    'nro_comprob' => $numeroComprobante,
+                ]);
+
+                return $numeroComprobante;
+            });
+        } catch (\DomainException $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
         } catch (\Throwable $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Error al procesar el cobro: ' . $e->getMessage()]);
+            report($e);
+
+            return back()->withErrors(['error' => 'No se pudo procesar el cobro. Intente nuevamente o comuníquese con soporte.']);
         }
+
+        return redirect()->route('caja.comprobante', $venta->id_venta)
+            ->with('success', "Cobro realizado con éxito. Comprobante {$numeroComprobante} emitido. Vuelto a entregar: S/ " . number_format($vuelto, 2));
     }
 
     /**

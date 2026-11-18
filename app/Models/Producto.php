@@ -55,6 +55,23 @@ class Producto extends Model
     }
 
     /**
+     * Ruta (relativa a public/) de la foto del juguete, si fue cargada en
+     * public/images/productos/{SKU}.jpg|png|webp. Null si aun no tiene foto.
+     */
+    public function rutaImagen(): ?string
+    {
+        foreach (['jpg', 'png', 'webp'] as $extension) {
+            $ruta = "images/productos/{$this->sku}.{$extension}";
+
+            if (file_exists(public_path($ruta))) {
+                return $ruta;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Juguete dado de baja del catalogo: no se vende ni se sugiere reponerlo,
      * pero se conserva por su historial de ventas y compras.
      */

@@ -28,7 +28,11 @@ class VentaController extends Controller
             ->where('stock_actual', '>', 0)
             ->whereNotIn('estado', ['agotado', 'inactivo'])
             ->orderBy('nombre')
-            ->get();
+            ->get()
+            ->each(fn (Producto $producto) => $producto->setAttribute(
+                'imagen_url',
+                ($ruta = $producto->rutaImagen()) ? asset($ruta) : null
+            ));
 
         return view('ventas.pos', compact('clientes', 'productos'));
     }

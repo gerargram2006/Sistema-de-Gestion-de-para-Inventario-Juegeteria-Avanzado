@@ -45,6 +45,10 @@
         </p>
 
         <!-- Módulos Implementados -->
+        <!-- Imagen de portada (public/images/bienvenida.jpg) -->
+        <x-imagen ruta="images/bienvenida.jpg" texto="Imagen de portada de la tienda" alt="Tienda Mundo del Juguete"
+            class="mt-10 w-full h-56 sm:h-72 rounded-2xl" />
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12 w-full text-left">
             <!-- CUS-01: POS -->
             <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">

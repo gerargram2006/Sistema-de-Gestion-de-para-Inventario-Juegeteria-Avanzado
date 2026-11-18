@@ -114,11 +114,14 @@
                         <tbody class="divide-y divide-gray-200 text-sm">
                             @forelse ($productos as $producto)
                                 <tr class="hover:bg-gray-50/60 transition {{ $producto->estaInactivo() ? 'bg-gray-50 text-gray-400' : ($producto->tieneStockCritico() ? 'bg-amber-50/40' : '') }}">
-                                    <td class="py-3.5 px-4 font-mono text-xs font-bold text-gray-700">
+                                    <td class="py-3.5 px-4 font-mono text-xs font-bold text-gray-700 whitespace-nowrap">
                                         {{ $producto->sku }}
                                     </td>
                                     <td class="py-3.5 px-4">
-                                        <div class="font-semibold text-gray-900">{{ $producto->nombre }}</div>
+                                        <div class="flex items-center gap-3">
+                                            <x-producto-imagen :producto="$producto" texto="" class="w-11 h-11 shrink-0" />
+                                            <div class="font-semibold {{ $producto->estaInactivo() ? '' : 'text-gray-900' }}">{{ $producto->nombre }}</div>
+                                        </div>
                                     </td>
                                     <td class="py-3.5 px-4 text-gray-600">
                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700">

@@ -77,6 +77,18 @@
                         <template x-for="prod in filteredProducts" :key="prod.id_producto">
                             <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
                                 <div>
+                                    <!-- Foto del juguete (public/images/productos/{SKU}.jpg) -->
+                                    <div class="h-28 mb-3 rounded-lg overflow-hidden bg-gray-100">
+                                        <template x-if="prod.imagen_url">
+                                            <img :src="prod.imagen_url" :alt="prod.nombre" loading="lazy" class="w-full h-full object-cover">
+                                        </template>
+                                        <template x-if="!prod.imagen_url">
+                                            <div class="w-full h-full flex flex-col items-center justify-center gap-1 text-gray-400 border border-dashed border-gray-300 rounded-lg">
+                                                <x-icon name="photo" class="w-8 h-8" />
+                                                <span class="text-[11px] font-medium">Sin foto</span>
+                                            </div>
+                                        </template>
+                                    </div>
                                     <div class="flex items-start justify-between gap-2 mb-2">
                                         <span class="text-[10px] font-mono px-2 py-0.5 bg-gray-100 text-gray-600 rounded font-bold" x-text="prod.sku"></span>
                                         <span class="text-[11px] px-2 py-0.5 rounded-full font-semibold"

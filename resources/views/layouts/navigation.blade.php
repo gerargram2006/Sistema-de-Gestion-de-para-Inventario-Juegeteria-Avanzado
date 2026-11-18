@@ -44,6 +44,14 @@
                         </x-nav-link>
                     @endif
 
+                    @if(Auth::user()->tieneRol('vendedor', 'cajero', 'administrador'))
+                        <x-nav-link :href="route('devoluciones.index')" :active="request()->routeIs('devoluciones.*')">
+                            <span class="inline-flex items-center">
+                                <span class="mr-1">🔄</span> {{ __('Devoluciones') }}
+                            </span>
+                        </x-nav-link>
+                    @endif
+
                     @if(Auth::user()->esAdministrador())
                         <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                             <span class="inline-flex items-center">
@@ -136,6 +144,12 @@
             @if(Auth::user()->tieneRol('almacenero', 'administrador'))
                 <x-responsive-nav-link :href="route('abastecimiento.index')" :active="request()->routeIs('abastecimiento.*')">
                     {{ __('Abastecimiento') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(Auth::user()->tieneRol('vendedor', 'cajero', 'administrador'))
+                <x-responsive-nav-link :href="route('devoluciones.index')" :active="request()->routeIs('devoluciones.*')">
+                    {{ __('Devoluciones') }}
                 </x-responsive-nav-link>
             @endif
 

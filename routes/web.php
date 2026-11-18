@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbastecimientoController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DevolucionController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
@@ -59,6 +60,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AbastecimientoController::class, 'index'])->name('index');
         Route::post('/orden', [AbastecimientoController::class, 'crearOrden'])->name('crear-orden');
         Route::post('/orden/{compra}/recibir', [AbastecimientoController::class, 'recibirOrden'])->name('recibir');
+    });
+
+    // Módulo de Devoluciones y Cambios (CUS-06) - Vendedor, Cajero y Administrador
+    Route::middleware('role:vendedor,cajero,administrador')->prefix('devoluciones')->name('devoluciones.')->group(function () {
+        Route::get('/', [DevolucionController::class, 'index'])->name('index');
+        Route::post('/{venta}', [DevolucionController::class, 'store'])->name('store');
     });
 
     // Gestión de Usuarios y Roles (reemplaza al registro público) - Solo Administrador

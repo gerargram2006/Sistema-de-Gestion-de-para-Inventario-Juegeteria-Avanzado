@@ -24,6 +24,10 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        // Si la clave anterior era conocida por otra persona, su sesion queda
+        // cerrada: solo sigue abierta la del equipo donde se hizo el cambio.
+        $request->user()->cerrarSesiones($request->session()->getId());
+
         return back()->with('status', 'password-updated');
     }
 }

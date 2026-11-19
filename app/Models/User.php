@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 #[Fillable(['name', 'usuario', 'email', 'telefono', 'rol', 'estado', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -53,6 +55,30 @@ class User extends Authenticatable
     public function tieneRol(string ...$roles): bool
     {
         return in_array($this->rol, $roles, true);
+    }
+
+    /**
+     * Cierra las sesiones que esta cuenta tenga abiertas en otros equipos.
+     *
+     * Se usa al cambiar o restablecer la contrasena: si otra persona conocia
+     * la clave anterior, su sesion deja de ser valida de inmediato en lugar
+     * de seguir abierta hasta que venza.
+     *
+     * @param  string|null  $exceptoSesion  Sesion que se conserva (la del equipo donde se hizo el cambio).
+     * @return int Cantidad de sesiones cerradas.
+     */
+    public function cerrarSesiones(?string $exceptoSesion = null): int
+    {
+        $tabla = config('session.table', 'sessions');
+
+        if (config('session.driver') !== 'database' || ! Schema::hasTable($tabla)) {
+            return 0;
+        }
+
+        return DB::table($tabla)
+            ->where('user_id', $this->id)
+            ->when($exceptoSesion, fn ($consulta) => $consulta->where('id', '!=', $exceptoSesion))
+            ->delete();
     }
 
     /**

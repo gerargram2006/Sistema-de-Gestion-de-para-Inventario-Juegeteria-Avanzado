@@ -75,6 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [UsuarioController::class, 'store'])->name('store');
         Route::put('/{usuario}', [UsuarioController::class, 'update'])->name('update');
         Route::patch('/{usuario}/estado', [UsuarioController::class, 'cambiarEstado'])->name('estado');
+        Route::post('/{usuario}/token', [UsuarioController::class, 'generarToken'])->name('token');
     });
 
     // Perfil de Usuario

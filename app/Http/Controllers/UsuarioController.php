@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TokenRestablecimiento;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
@@ -97,6 +99,34 @@ class UsuarioController extends Controller
         $accion = $usuario->estaActivo() ? 'activado' : 'dado de baja';
 
         return back()->with('success', "Usuario {$usuario->name} {$accion}.");
+    }
+
+    /**
+     * Genera un token de un solo uso para que el trabajador defina una nueva
+     * contrasena. El codigo se muestra una unica vez al administrador, que lo
+     * entrega en persona; en la base de datos solo queda su hash.
+     */
+    public function generarToken(Request $request, User $usuario): RedirectResponse
+    {
+        if (! $usuario->estaActivo()) {
+            return back()->withErrors([
+                'token' => "La cuenta de {$usuario->name} está inactiva. Reactívela antes de generar un código.",
+            ]);
+        }
+
+        $codigo = TokenRestablecimiento::generarPara($usuario, $request->user());
+
+        Log::info('Token de restablecimiento generado', [
+            'id_usuario' => $usuario->id,
+            'id_admin' => $request->user()->id,
+            'ip' => $request->ip(),
+        ]);
+
+        return back()->with('token_generado', [
+            'usuario' => $usuario->name,
+            'codigo' => TokenRestablecimiento::formatear($codigo),
+            'minutos' => TokenRestablecimiento::VIGENCIA_MINUTOS,
+        ]);
     }
 
     /**

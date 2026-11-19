@@ -18,6 +18,41 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
+            <!-- Código de restablecimiento recién generado (se muestra una sola vez) -->
+            @if (session('token_generado'))
+                @php($generado = session('token_generado'))
+                <div class="p-5 bg-indigo-50 border border-indigo-200 rounded-xl shadow-sm"
+                    x-data="{ copiado: false }">
+                    <div class="flex items-start gap-3">
+                        <x-icon name="key" class="w-6 h-6 text-indigo-600 shrink-0" />
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-indigo-900">
+                                Código de un solo uso para {{ $generado['usuario'] }}
+                            </p>
+                            <p class="text-xs text-indigo-800 mt-0.5">
+                                Entrégueselo en persona. Vence en {{ $generado['minutos'] }} minutos, sirve una sola vez
+                                y <span class="font-semibold">no se volverá a mostrar</span>.
+                            </p>
+                            <div class="mt-3 flex flex-wrap items-center gap-3">
+                                <span class="font-mono text-2xl font-extrabold tracking-widest text-indigo-900 bg-white border border-indigo-200 rounded-lg px-4 py-2 select-all">
+                                    {{ $generado['codigo'] }}
+                                </span>
+                                <button type="button"
+                                    x-on:click="navigator.clipboard.writeText('{{ $generado['codigo'] }}').then(() => copiado = true)"
+                                    class="text-xs font-semibold text-indigo-700 bg-white border border-indigo-200 hover:bg-indigo-100 px-3 py-2 rounded-lg transition">
+                                    <span x-show="! copiado">Copiar código</span>
+                                    <span x-show="copiado" x-cloak>Copiado</span>
+                                </button>
+                            </div>
+                            <p class="text-xs text-indigo-700 mt-3">
+                                El trabajador lo usa en <span class="font-semibold">{{ route('password.request') }}</span>
+                                para definir su nueva contraseña.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Mensajes Flash de Éxito o Error -->
             @if (session('success'))
                 <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg shadow-sm">
@@ -121,6 +156,17 @@
                                                 class="text-indigo-600 hover:text-indigo-900 font-medium text-xs bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition">
                                                 Editar
                                             </button>
+
+                                            @if ($usuario->estaActivo())
+                                                <form method="POST" action="{{ route('usuarios.token', $usuario) }}">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        title="Genera un código de un solo uso para que el trabajador cambie su contraseña"
+                                                        class="text-amber-700 hover:text-amber-900 font-medium text-xs bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                                                        Generar código
+                                                    </button>
+                                                </form>
+                                            @endif
 
                                             @unless ($usuario->is(Auth::user()))
                                                 <form method="POST" action="{{ route('usuarios.estado', $usuario) }}">

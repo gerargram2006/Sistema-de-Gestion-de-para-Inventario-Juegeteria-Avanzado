@@ -49,15 +49,25 @@ y precios), auditorías confiables y generación de reportes para la toma de dec
 | Caja y cobros (CUS-02) | `/caja` | Cajero, administrador | Cobro del ticket, descuento de stock y emisión de boleta (`B001`) o factura (`F001`) con correlativo propio por serie. |
 | Abastecimiento (CUS-03/04) | `/abastecimiento` | Almacenero, administrador | Órdenes de compra `OC-AAAAMMDD-NNNNNN` sugeridas por stock crítico y recepción de mercadería. |
 | Devoluciones y cambios (CUS-06) | `/devoluciones` | Vendedor, cajero, administrador | Reembolso o cambio dentro del plazo de 7 días (RF-19), o rechazo con motivo; ajusta el inventario. |
-| Usuarios y roles | `/usuarios` | Administrador | Alta de trabajadores, asignación de rol y baja/reactivación de cuentas (no hay registro público). |
+| Usuarios y roles | `/usuarios` | Administrador | Alta de trabajadores, asignación de rol, baja/reactivación de cuentas y generación de códigos de restablecimiento (no hay registro público). |
+| Restablecer contraseña | `/restablecer` | Público | El trabajador define una nueva contraseña con un código de un solo uso que le entrega el administrador. |
 
 ## Base de Datos (MySQL 8.0)
 
-- **9 tablas de negocio:** `users`, `clientes`, `categorias`, `productos`, `ventas`, `detalle_ventas`, `compras`, `detalle_compras` y `devoluciones`, además de las tablas de soporte de Laravel (sesiones, caché y colas).
+- **10 tablas de negocio:** `users`, `clientes`, `categorias`, `productos`, `ventas`, `detalle_ventas`, `compras`, `detalle_compras`, `devoluciones` y `tokens_restablecimiento`, además de las tablas de soporte de Laravel (sesiones, caché y colas).
 - **Integridad referencial:** las llaves foráneas usan `ON DELETE RESTRICT`, por lo que no se puede borrar una categoría con juguetes ni un juguete con ventas (se da de baja con el estado `inactivo`).
 - **Restricciones `CHECK`:** 11 reglas de dominio a nivel de motor: precio de venta mayor que cero, stock no negativo, cantidades mayores que cero y totales, costos y subtotales no negativos (migración `agregar_restricciones_check`).
 - **Índices compuestos:** sobre `ventas(estado, fecha)`, `compras(estado, fecha)`, `productos(estado, nombre)` y otros, verificados con `EXPLAIN` (de recorrido completo `ALL` a acceso por índice `ref`).
 - **Concurrencia:** el cobro, la recepción de compras y las devoluciones se ejecutan en transacciones con `SELECT ... FOR UPDATE`, lo que evita el doble cobro y el stock negativo.
+
+## Seguridad (RNF-03)
+
+- **Sin registro público:** las cuentas las crea el administrador y una cuenta dada de baja no puede iniciar sesión ni continuar una sesión abierta.
+- **Contraseñas:** mínimo 8 caracteres con mayúsculas, minúsculas y números; se guardan con *hash* bcrypt.
+- **Restablecimiento con token de un solo uso:** el administrador genera un código (`ABCD-EFGH-JKMN`) y lo entrega en persona. De ese código solo se guarda su *hash*; vence a los 30 minutos, sirve una sola vez y al usarlo se cierran las sesiones abiertas de esa cuenta en otros equipos. La tienda no tiene servidor de correo, por lo que el envío de enlaces de recuperación está deshabilitado.
+- **Límite de intentos:** 5 intentos por minuto tanto en el inicio de sesión como en el restablecimiento, con mensajes que no revelan si la cuenta existe.
+- **Cabeceras HTTP:** `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` y `Cache-Control: no-store` en las pantallas con sesión iniciada.
+- **Control de acceso por rol:** cada módulo está protegido con el *middleware* `role:` y las consultas usan Eloquent (sin SQL concatenado).
 
 ## Estructura del Proyecto
 

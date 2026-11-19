@@ -11,13 +11,13 @@
     </head>
     <body class="font-sans text-gray-900 antialiased bg-gray-50">
         <div class="min-h-screen grid lg:grid-cols-2">
-            <!-- Panel de imagen (public/images/login.jpg); solo en pantallas grandes -->
-            <div class="hidden lg:block relative">
-                <x-imagen ruta="images/login.jpg" texto="Imagen de la tienda" alt="Tienda Mundo del Juguete"
-                    class="absolute inset-0 w-full h-full border-0" />
-                <div class="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-gray-900/70 to-transparent text-white">
+            <!-- Panel de imagen (public/images/fondos/toy-story.webp); solo en pantallas grandes -->
+            <div class="hidden lg:block relative overflow-hidden">
+                <x-imagen ruta="images/fondos/toy-story.webp" texto="Imagen de la tienda" alt="Tienda Mundo del Juguete - Toy Story"
+                    class="absolute inset-0 w-full h-full object-cover border-0" />
+                <div class="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-gray-900/85 via-gray-900/35 to-transparent text-white">
                     <p class="text-2xl font-bold">Mundo del Juguete</p>
-                    <p class="text-sm text-white/80 mt-1">Inventario, ventas, caja y abastecimiento en un solo sistema.</p>
+                    <p class="text-sm text-white/90 mt-1">Inventario, ventas, caja y abastecimiento en un solo sistema.</p>
                 </div>
             </div>
 

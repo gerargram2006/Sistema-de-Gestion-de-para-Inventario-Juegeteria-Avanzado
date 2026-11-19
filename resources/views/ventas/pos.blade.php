@@ -78,9 +78,9 @@
                             <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
                                 <div>
                                     <!-- Foto del juguete (public/images/productos/{SKU}.jpg) -->
-                                    <div class="h-28 mb-3 rounded-lg overflow-hidden bg-gray-100">
+                                    <div class="h-32 mb-3 rounded-lg overflow-hidden bg-white border border-gray-100 p-2 flex items-center justify-center">
                                         <template x-if="prod.imagen_url">
-                                            <img :src="prod.imagen_url" :alt="prod.nombre" loading="lazy" class="w-full h-full object-cover">
+                                            <img :src="prod.imagen_url" :alt="prod.nombre" loading="lazy" class="w-full h-full object-contain">
                                         </template>
                                         <template x-if="!prod.imagen_url">
                                             <div class="w-full h-full flex flex-col items-center justify-center gap-1 text-gray-400 border border-dashed border-gray-300 rounded-lg">

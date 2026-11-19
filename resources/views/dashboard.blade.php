@@ -131,7 +131,12 @@
                             <tbody class="divide-y divide-gray-100">
                                 @forelse($ultimosCriticos as $prod)
                                     <tr>
-                                        <td class="py-2.5 font-medium text-gray-900">{{ $prod->nombre }}</td>
+                                        <td class="py-2.5 font-medium text-gray-900">
+                                            <div class="flex items-center gap-2.5">
+                                                <x-producto-imagen :producto="$prod" texto="" class="w-9 h-9 shrink-0" />
+                                                <span>{{ $prod->nombre }}</span>
+                                            </div>
+                                        </td>
                                         <td class="py-2.5 text-xs text-gray-500">{{ $prod->categoria->nombre ?? '-' }}</td>
                                         <td class="py-2.5 text-center font-bold {{ $prod->stock_actual == 0 ? 'text-red-700' : 'text-amber-600' }}">
                                             {{ $prod->stock_actual }}

@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $ventasHoyTotal = (float) ($ventaStats->ventas_hoy_total ?? 0);
 
         $ultimosCriticos = Producto::with('categoria:id_categoria,nombre')
-            ->select(['id_producto', 'id_categoria', 'nombre', 'stock_actual', 'stock_minimo', 'estado'])
+            ->select(['id_producto', 'id_categoria', 'sku', 'nombre', 'stock_actual', 'stock_minimo', 'estado'])
             ->stockCritico()
             ->orderBy('stock_actual', 'asc')
             ->take(5)

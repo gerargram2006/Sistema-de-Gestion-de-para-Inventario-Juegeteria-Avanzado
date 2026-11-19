@@ -61,11 +61,14 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         @foreach ($criticos as $prod)
                             <div class="bg-white rounded-xl border-l-4 {{ $prod->stock_actual == 0 ? 'border-l-rose-500' : 'border-l-amber-500' }} border border-gray-200 p-4 shadow-sm hover:shadow-md transition">
-                                <div class="flex items-start justify-between">
-                                    <div>
-                                        <span class="text-[10px] font-mono font-bold text-gray-500 uppercase">{{ $prod->sku }}</span>
-                                        <h4 class="font-bold text-gray-900 text-sm mt-0.5">{{ $prod->nombre }}</h4>
-                                        <span class="text-[11px] text-gray-400">{{ $prod->categoria->nombre ?? 'Juguetería' }}</span>
+                                <div class="flex items-start justify-between gap-2">
+                                    <div class="flex items-center gap-3 min-w-0">
+                                        <x-producto-imagen :producto="$prod" texto="" class="w-12 h-12 shrink-0" />
+                                        <div class="min-w-0">
+                                            <span class="text-[10px] font-mono font-bold text-gray-500 uppercase">{{ $prod->sku }}</span>
+                                            <h4 class="font-bold text-gray-900 text-sm mt-0.5 truncate">{{ $prod->nombre }}</h4>
+                                            <span class="text-[11px] text-gray-400">{{ $prod->categoria->nombre ?? 'Juguetería' }}</span>
+                                        </div>
                                     </div>
                                     <span class="px-2 py-0.5 text-[10px] font-extrabold rounded uppercase {{ $prod->stock_actual == 0 ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800' }}">
                                         {{ $prod->stock_actual == 0 ? 'Agotado' : 'Bajo' }}

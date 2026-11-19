@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Una cuenta desactivada pierde el acceso aunque tenga la sesion abierta
         $middleware->web(append: [
             \App\Http\Middleware\EnsureUserIsActive::class,
+            \App\Http\Middleware\SecurityHeaders::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -51,15 +51,25 @@ class CajaController extends Controller
             return back()->withErrors(['error' => 'El ticket seleccionado ya no se encuentra en estado pendiente.']);
         }
 
+        // El monto recibido y el vuelto solo aplican al pago en efectivo: con
+        // tarjeta, Yape o Plin se cobra el importe exacto y no hay vuelto.
         $validated = $request->validate([
             'metodo_pago' => 'required|in:efectivo,tarjeta,yape,plin',
-            'monto_recibido' => 'required|numeric|min:' . $venta->total,
+            'monto_recibido' => [
+                'required_if:metodo_pago,efectivo',
+                'nullable',
+                'numeric',
+                'min:' . $venta->total,
+                'max:99999999.99',
+            ],
         ], [
+            'monto_recibido.required_if' => 'Indique el monto que entregó el cliente en efectivo.',
             'monto_recibido.min' => 'El monto recibido debe ser igual o superior al total de la venta (S/ ' . number_format($venta->total, 2) . ').',
         ]);
 
-        $montoRecibido = (float) $validated['monto_recibido'];
-        $vuelto = round($montoRecibido - (float) $venta->total, 2);
+        $vuelto = $validated['metodo_pago'] === 'efectivo'
+            ? round((float) $validated['monto_recibido'] - (float) $venta->total, 2)
+            : 0.0;
 
         try {
             $numeroComprobante = DB::transaction(function () use ($venta, $validated) {
@@ -100,7 +110,8 @@ class CajaController extends Controller
         }
 
         return redirect()->route('caja.comprobante', $venta->id_venta)
-            ->with('success', "Cobro realizado con éxito. Comprobante {$numeroComprobante} emitido. Vuelto a entregar: S/ " . number_format($vuelto, 2));
+            ->with('success', "Cobro realizado con éxito. Comprobante {$numeroComprobante} emitido."
+                . ($vuelto > 0 ? ' Vuelto a entregar: S/ ' . number_format($vuelto, 2) . '.' : ''));
     }
 
     /**

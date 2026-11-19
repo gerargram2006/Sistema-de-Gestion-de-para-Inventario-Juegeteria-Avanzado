@@ -63,6 +63,31 @@ class CajaTest extends TestCase
         ]);
     }
 
+    public function test_el_pago_con_tarjeta_no_pide_monto_recibido_ni_genera_vuelto(): void
+    {
+        $venta = $this->generarTicket('boleta');
+
+        $this->actingAs($this->cajero)
+            ->post("/caja/{$venta->id_venta}/cobrar", ['metodo_pago' => 'tarjeta'])
+            ->assertSessionHasNoErrors();
+
+        $venta->refresh();
+        $this->assertSame('pagada', $venta->estado);
+        $this->assertSame('tarjeta', $venta->metodo_pago);
+        $this->assertStringNotContainsString('Vuelto', session('success'));
+    }
+
+    public function test_el_pago_en_efectivo_exige_el_monto_recibido(): void
+    {
+        $venta = $this->generarTicket('boleta');
+
+        $this->actingAs($this->cajero)
+            ->post("/caja/{$venta->id_venta}/cobrar", ['metodo_pago' => 'efectivo'])
+            ->assertSessionHasErrors('monto_recibido');
+
+        $this->assertSame('pendiente', $venta->refresh()->estado);
+    }
+
     public function test_cada_serie_de_comprobante_tiene_su_propio_correlativo(): void
     {
         $boleta1 = $this->generarTicket('boleta');

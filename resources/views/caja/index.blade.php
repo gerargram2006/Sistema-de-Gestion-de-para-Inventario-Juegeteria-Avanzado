@@ -176,16 +176,18 @@
                                                     </select>
                                                 </div>
 
-                                                <!-- Monto Recibido y Vuelto -->
-                                                <div>
+                                                <!-- Monto Recibido y Vuelto (solo en efectivo) -->
+                                                <div x-show="metodo === 'efectivo'" x-cloak>
                                                     <x-input-label for="monto_recibido_{{ $ticket->id_venta }}" :value="__('Monto Recibido en Caja (S/.)')" />
                                                     <x-text-input id="monto_recibido_{{ $ticket->id_venta }}" name="monto_recibido"
                                                         type="number" step="0.01" min="{{ $ticket->total }}"
                                                         x-model="montoRecibido"
-                                                        class="mt-1 block w-full text-base font-bold text-gray-900" required />
+                                                        class="mt-1 block w-full text-base font-bold text-gray-900"
+                                                        x-bind:required="metodo === 'efectivo'" x-bind:disabled="metodo !== 'efectivo'" />
                                                 </div>
 
-                                                <div class="p-3 bg-indigo-50 border border-indigo-100 rounded-lg flex justify-between items-center text-sm">
+                                                <div x-show="metodo === 'efectivo'" x-cloak
+                                                    class="p-3 bg-indigo-50 border border-indigo-100 rounded-lg flex justify-between items-center text-sm">
                                                     <span class="font-semibold text-indigo-900">Vuelto a entregar:</span>
                                                     <span class="text-lg font-black text-indigo-700">
                                                         S/ <span x-text="vuelto.toFixed(2)"></span>

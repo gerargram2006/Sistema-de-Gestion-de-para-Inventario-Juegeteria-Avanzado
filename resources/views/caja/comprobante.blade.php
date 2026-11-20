@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $venta->tipo_comprobante === 'factura' ? 'Factura Electrónica' : 'Boleta de Venta Electrónica' }} - {{ $venta->numero_comprobante ?? $venta->numero_ticket }}</title>
+    <title>{{ $venta->tipo_comprobante === 'factura' ? 'Factura Electrónica' : 'Boleta de Venta Electrónica' }} - {{ $venta->numero_comprobante ?? $venta->numero_ticket }} | {{ config('app.name', 'Mundo del Juguete') }}</title>
+    <link rel="icon" type="{{ file_exists(public_path('images/logo.png')) ? 'image/png' : 'image/svg+xml' }}" href="{{ file_exists(public_path('images/logo.png')) ? asset('images/logo.png') : asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @media print {

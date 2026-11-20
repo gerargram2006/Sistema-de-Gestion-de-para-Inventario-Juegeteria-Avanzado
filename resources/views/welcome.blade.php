@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mundo del Juguete — Sistema de Gestión de Inventario y Ventas</title>
+    <title>{{ config('app.name', 'Mundo del Juguete') }} — Sistema de Gestión de Inventario y Ventas</title>
+    <link rel="icon" type="{{ file_exists(public_path('images/logo.png')) ? 'image/png' : 'image/svg+xml' }}" href="{{ file_exists(public_path('images/logo.png')) ? asset('images/logo.png') : asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-br from-indigo-50 via-white to-pink-50 min-h-screen text-gray-800 font-sans flex flex-col justify-between">

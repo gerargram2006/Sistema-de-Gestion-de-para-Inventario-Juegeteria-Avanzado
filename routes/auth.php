@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RestablecerPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
@@ -17,10 +19,22 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-    // Restablecimiento con token de un solo uso entregado por el administrador
-    // (la tienda no tiene servidor de correo para enviar enlaces de recuperacion)
-    Route::get('restablecer', [RestablecerPasswordController::class, 'create'])
+    // Restablecimiento mediante token enviado al correo / laravel.log
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
+
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+        ->name('password.reset');
+
+    Route::post('reset-password', [NewPasswordController::class, 'store'])
+        ->name('password.store');
+
+    // Restablecimiento alternativo con token de un solo uso entregado por el administrador
+    Route::get('restablecer', [RestablecerPasswordController::class, 'create'])
+        ->name('password.restablecer.create');
 
     Route::post('restablecer', [RestablecerPasswordController::class, 'store'])
         ->middleware('throttle:10,1')

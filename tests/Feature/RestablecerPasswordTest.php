@@ -214,9 +214,8 @@ class RestablecerPasswordTest extends TestCase
         $this->get('/restablecer')->assertOk()->assertSee('Restablecer contraseña');
     }
 
-    public function test_el_envio_de_enlaces_por_correo_quedo_deshabilitado(): void
+    public function test_la_pantalla_de_recuperacion_por_enlace_y_token_esta_disponible(): void
     {
-        $this->get('/forgot-password')->assertNotFound();
-        $this->post('/reset-password')->assertNotFound();
+        $this->get('/forgot-password')->assertOk();
     }
 }

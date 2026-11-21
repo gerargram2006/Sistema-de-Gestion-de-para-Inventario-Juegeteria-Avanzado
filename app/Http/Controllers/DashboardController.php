@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Compra;
 use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Http\Request;
@@ -45,6 +46,11 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+        // RN-01: órdenes de compra pendientes con más de 72 horas sin recepción
+        $ordenesRetrasadas = Compra::whereIn('estado', Compra::ESTADOS_POR_RECIBIR)
+            ->where('fecha', '<', now()->subHours(72))
+            ->count();
+
         return view('dashboard', compact(
             'totalProductos',
             'stockTotal',
@@ -52,7 +58,8 @@ class DashboardController extends Controller
             'ventasPendientes',
             'ventasHoyTotal',
             'ultimosCriticos',
-            'ultimasVentas'
+            'ultimasVentas',
+            'ordenesRetrasadas'
         ));
     }
 }

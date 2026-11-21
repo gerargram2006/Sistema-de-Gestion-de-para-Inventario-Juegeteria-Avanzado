@@ -30,6 +30,28 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
+            <!-- Alerta RN-01: Órdenes de compra retrasadas (> 72 horas sin recepción) -->
+            @if(($ordenesRetrasadas ?? 0) > 0 && Auth::user()->tieneRol('administrador', 'almacenero'))
+                <div class="p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg shadow-sm">
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex items-center">
+                            <x-icon name="clock" class="w-6 h-6 me-3 text-amber-600 shrink-0" />
+                            <div>
+                                <h3 class="text-sm font-bold text-amber-900">
+                                    Alerta de Retraso de Abastecimiento (RN-01): {{ $ordenesRetrasadas }} orden(es) con más de 72 horas
+                                </h3>
+                                <p class="text-xs text-amber-800 mt-0.5">
+                                    Existen órdenes de compra emitidas sin confirmación de ingreso tras 72 horas. Evalúe compras de contingencia.
+                                </p>
+                            </div>
+                        </div>
+                        <a href="{{ route('abastecimiento.index') }}" class="text-xs font-bold text-amber-900 hover:text-amber-950 underline whitespace-nowrap">
+                            Revisar órdenes &rarr;
+                        </a>
+                    </div>
+                </div>
+            @endif
+
             <!-- Alerta Destacada si hay Stock Crítico -->
             @if($productosCriticos > 0)
                 <div class="p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg shadow-sm">

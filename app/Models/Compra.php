@@ -24,6 +24,9 @@ class Compra extends Model
         'total',
         'estado',
         'observaciones',
+        'guia_remision',
+        'observaciones_recepcion',
+        'fecha_recepcion',
         'id_proveedor',
     ];
 
@@ -63,9 +66,13 @@ class Compra extends Model
         $this->attributes['nro_orden'] = $value;
     }
 
-    public function getFechaRecepcionAttribute(): ?\DateTimeInterface
+    public function getFechaRecepcionAttribute($value): ?\Illuminate\Support\Carbon
     {
-        return $this->updated_at;
+        if ($value) {
+            return $this->asDateTime($value);
+        }
+
+        return $this->estado === 'recibida' ? $this->updated_at : null;
     }
 
     /**
@@ -76,6 +83,16 @@ class Compra extends Model
     public function puedeRecibirse(): bool
     {
         return in_array($this->estado, self::ESTADOS_POR_RECIBIR, true);
+    }
+
+    /**
+     * Regla de negocio RN-01: orden sin confirmacion/recepcion tras 72 horas.
+     */
+    public function estaRetrasada(): bool
+    {
+        return $this->puedeRecibirse()
+            && $this->fecha !== null
+            && $this->fecha->lt(now()->subHours(72));
     }
 
     public function usuario(): BelongsTo

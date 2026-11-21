@@ -203,9 +203,16 @@
                                         </span>
                                         <h4 class="font-bold text-gray-900 text-sm mt-1">Proveedor: {{ $orden->proveedorRegistrado?->razon_social ?? $orden->proveedor }}</h4>
                                     </div>
-                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800">
-                                        <x-icon name="clock" class="w-4 h-4 inline-block align-[-2px] me-1" />Esperando Mercadería
-                                    </span>
+                                    <div class="flex flex-wrap items-center gap-1.5 justify-end">
+                                        @if ($orden->estaRetrasada())
+                                            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-800" title="Superó las 72 horas sin recepción (RN-01)">
+                                                Retrasada (&gt;72h)
+                                            </span>
+                                        @endif
+                                        <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800">
+                                            <x-icon name="clock" class="w-4 h-4 inline-block align-[-2px] me-1" />Esperando Mercadería
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <!-- Artículos en la orden -->
@@ -222,20 +229,74 @@
                                     @endforeach
                                 </div>
 
-                                <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
+                                <div class="pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
                                     <div>
                                         <span class="text-[11px] text-gray-400 block">Total de Orden:</span>
                                         <span class="text-base font-black text-gray-900">S/ {{ number_format($orden->total, 2) }}</span>
                                     </div>
 
-                                    <form method="POST" action="{{ route('abastecimiento.recibir', $orden->id_compra) }}">
-                                        @csrf
-                                        <button type="submit" x-data x-on:click="if (! confirm('¿Confirmas que la mercadería física ingresó completa al almacén? Esto actualizará el stock disponible automáticamente.')) $event.preventDefault()"
+                                    <div class="flex items-center gap-2">
+                                        <form method="POST" action="{{ route('abastecimiento.cancelar', $orden->id_compra) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" x-data
+                                                x-on:click="if (! confirm('¿Deseas cancelar la orden {{ $orden->numero_orden }}? No se sumará stock al inventario.')) $event.preventDefault()"
+                                                class="inline-flex items-center px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg uppercase tracking-wider transition">
+                                                Cancelar
+                                            </button>
+                                        </form>
+
+                                        <button type="button" x-data @click="$dispatch('open-modal', 'modal-recibir-{{ $orden->id_compra }}')"
                                             class="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
                                             <x-icon name="check" class="w-4 h-4 inline-block align-[-2px] me-1" />Confirmar Recepción
                                         </button>
-                                    </form>
+                                    </div>
                                 </div>
+
+                                <!-- Modal Recepción Física (CUS-04 / RF-30 / Flujo 6a) -->
+                                <x-modal name="modal-recibir-{{ $orden->id_compra }}" :show="false" focusable>
+                                    <form method="POST" action="{{ route('abastecimiento.recibir', $orden->id_compra) }}" class="p-6 text-left space-y-4">
+                                        @csrf
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-900">Confirmar Ingreso a Almacén</h3>
+                                            <p class="text-xs text-gray-500 mt-0.5">
+                                                Orden <span class="font-mono font-bold">{{ $orden->numero_orden }}</span> ·
+                                                Proveedor: {{ $orden->proveedorRegistrado?->razon_social ?? $orden->proveedor }}
+                                            </p>
+                                        </div>
+
+                                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-200 text-xs space-y-1">
+                                            <div class="font-semibold text-gray-600 uppercase text-[10px]">Mercadería que ingresará al stock:</div>
+                                            @foreach ($orden->detalles as $det)
+                                                <div class="flex justify-between">
+                                                    <span><strong>+{{ $det->cantidad }} un.</strong> {{ $det->producto->nombre }}</span>
+                                                    <span class="font-mono">S/ {{ number_format($det->subtotal, 2) }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <div>
+                                            <x-input-label for="guia_remision_{{ $orden->id_compra }}" value="N.º de Guía de Remisión (RF-30, opcional)" />
+                                            <x-text-input id="guia_remision_{{ $orden->id_compra }}" name="guia_remision" type="text" maxlength="50"
+                                                placeholder="Ej: T001-000452" class="mt-1 block w-full font-mono text-sm" />
+                                        </div>
+
+                                        <div>
+                                            <x-input-label for="observaciones_recepcion_{{ $orden->id_compra }}" value="Observaciones de recepción / productos dañados o faltantes (Flujo 6a, opcional)" />
+                                            <textarea id="observaciones_recepcion_{{ $orden->id_compra }}" name="observaciones_recepcion" rows="2" maxlength="255"
+                                                placeholder="Ej: Recepción conforme / 1 caja con empaque golpeado"
+                                                class="mt-1 block w-full text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                        </div>
+
+                                        <div class="pt-2 flex justify-end gap-3">
+                                            <x-secondary-button x-on:click="$dispatch('close')">Cancelar</x-secondary-button>
+                                            <button type="submit"
+                                                class="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
+                                                Confirmar Ingreso y Actualizar Stock
+                                            </button>
+                                        </div>
+                                    </form>
+                                </x-modal>
                             </div>
                         @endforeach
                     </div>
@@ -255,10 +316,12 @@
                             <tr class="bg-gray-50/75 border-b border-gray-200 text-xs uppercase font-semibold text-gray-500 tracking-wider">
                                 <th class="py-3 px-4">Orden</th>
                                 <th class="py-3 px-4">Proveedor</th>
+                                <th class="py-3 px-4">Guía Remisión</th>
                                 <th class="py-3 px-4">Fecha Recepción</th>
                                 <th class="py-3 px-4 text-center">Unidades Ingresadas</th>
                                 <th class="py-3 px-4 text-right">Costo Total</th>
                                 <th class="py-3 px-4 text-center">Estado</th>
+                                <th class="py-3 px-4 text-center">Constancia</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 text-xs">
@@ -269,6 +332,9 @@
                                     </td>
                                     <td class="py-3 px-4 font-semibold text-gray-900">
                                         {{ $rec->proveedorRegistrado?->razon_social ?? $rec->proveedor }}
+                                    </td>
+                                    <td class="py-3 px-4 font-mono text-gray-600">
+                                        {{ $rec->guia_remision ?? '—' }}
                                     </td>
                                     <td class="py-3 px-4 text-gray-600">
                                         {{ $rec->fecha_recepcion ? $rec->fecha_recepcion->format('d/m/Y H:i') : '-' }}
@@ -284,10 +350,16 @@
                                             Ingresado a Almacén
                                         </span>
                                     </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <a href="{{ route('abastecimiento.constancia', $rec->id_compra) }}" target="_blank"
+                                            class="inline-flex items-center px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold rounded text-xs transition">
+                                            <x-icon name="printer" class="w-4 h-4 me-1" />Constancia
+                                        </a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="py-8 text-center text-gray-400">
+                                    <td colspan="8" class="py-8 text-center text-gray-400">
                                         No hay recepciones históricas registradas todavía.
                                     </td>
                                 </tr>

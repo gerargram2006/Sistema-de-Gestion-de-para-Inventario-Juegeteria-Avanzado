@@ -2,7 +2,10 @@
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2">
+                <a href="{{ route('inventario.index') }}" class="text-xs font-semibold text-indigo-600 hover:underline">
+                    ← Volver a Inventario
+                </a>
+                <h2 class="font-bold text-2xl text-gray-800 leading-tight flex items-center gap-2 mt-1">
                     <x-icon name="clipboard-document-list" class="w-7 h-7 text-indigo-600" /> {{ __('Control de Inventario y Kardex') }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">CUS-05 (RF-12 a RF-16 / RN-04): Auditorías físicas, registro de mermas, trazabilidad Kardex y productos de baja rotación.</p>

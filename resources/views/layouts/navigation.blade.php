@@ -17,7 +17,7 @@
                         {{ __('Inicio') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('inventario.index')" :active="request()->routeIs('inventario.*')">
+                    <x-nav-link :href="route('inventario.index')" :active="request()->routeIs('inventario.*', 'control-inventario.*')">
                         {{ __('Inventario') }}
                     </x-nav-link>
 
@@ -54,12 +54,6 @@
                     @endif
 
                     @if(Auth::user()->esAdministrador())
-                        <x-nav-link :href="route('control-inventario.index')" :active="request()->routeIs('control-inventario.*')">
-                            <span class="inline-flex items-center">
-                                <x-icon name="clipboard-document-list" class="w-4 h-4 me-1.5" /> {{ __('Kardex') }}
-                            </span>
-                        </x-nav-link>
-
                         <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                             <span class="inline-flex items-center">
                                 <x-icon name="users" class="w-4 h-4 me-1.5" /> {{ __('Usuarios') }}
@@ -133,7 +127,7 @@
                 {{ __('Panel Principal') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('inventario.index')" :active="request()->routeIs('inventario.*')">
+            <x-responsive-nav-link :href="route('inventario.index')" :active="request()->routeIs('inventario.*', 'control-inventario.*')">
                 {{ __('Catálogo e Inventario') }}
             </x-responsive-nav-link>
 
@@ -162,10 +156,6 @@
             @endif
 
             @if(Auth::user()->esAdministrador())
-                <x-responsive-nav-link :href="route('control-inventario.index')" :active="request()->routeIs('control-inventario.*')">
-                    {{ __('Control de Inventario (Kardex)') }}
-                </x-responsive-nav-link>
-
                 <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                     {{ __('Usuarios') }}
                 </x-responsive-nav-link>

@@ -8,7 +8,7 @@
 @props(['ruta' => null, 'texto' => 'Imagen', 'alt' => null, 'verificada' => false])
 
 @if ($ruta && ($verificada || file_exists(public_path($ruta))))
-    <img src="{{ asset($ruta) }}" alt="{{ $alt ?? $texto }}" loading="lazy" {{ $attributes->merge(['class' => 'object-cover']) }}>
+    <img src="{{ asset($ruta) }}" alt="{{ $alt ?? $texto }}" loading="lazy" decoding="async" {{ $attributes->merge(['class' => 'object-cover']) }}>
 @else
     <div role="img" aria-label="{{ $alt ?? $texto }}" {{ $attributes->merge(['class' => 'flex flex-col items-center justify-center gap-1 bg-gray-100 text-gray-400 border border-dashed border-gray-300']) }}>
         <x-icon name="photo" class="w-1/3 max-w-[2.5rem] h-auto" />

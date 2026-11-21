@@ -21,6 +21,8 @@ class Venta extends Model
         'id_usuario',
         'fecha',
         'total',
+        'monto_recibido',
+        'vuelto',
         'metodo_pago',
         'tipo_comprob',
         'nro_comprob',
@@ -51,7 +53,14 @@ class Venta extends Model
         return [
             'fecha' => 'datetime',
             'total' => 'decimal:2',
+            'monto_recibido' => 'decimal:2',
+            'vuelto' => 'decimal:2',
         ];
+    }
+
+    public function puedeAnularse(): bool
+    {
+        return $this->estado === 'pendiente';
     }
 
     public function getNumeroTicketAttribute(): string

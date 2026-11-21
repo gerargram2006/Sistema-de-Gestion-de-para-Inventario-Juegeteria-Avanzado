@@ -1,9 +1,16 @@
+@php
+    $tituloComprobante = match ($venta->tipo_comprobante) {
+        'factura' => 'Factura Electrónica',
+        'ticket' => 'Ticket de Venta',
+        default => 'Boleta de Venta Electrónica',
+    };
+@endphp
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $venta->tipo_comprobante === 'factura' ? 'Factura Electrónica' : 'Boleta de Venta Electrónica' }} - {{ $venta->numero_comprobante ?? $venta->numero_ticket }} | {{ config('app.name', 'Mundo del Juguete') }}</title>
+    <title>{{ $tituloComprobante }} - {{ $venta->numero_comprobante ?? $venta->numero_ticket }} | {{ config('app.name', 'Mundo del Juguete') }}</title>
     <link rel="icon" type="{{ file_exists(public_path('images/logo.png')) ? 'image/png' : 'image/svg+xml' }}" href="{{ file_exists(public_path('images/logo.png')) ? asset('images/logo.png') : asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -43,7 +50,7 @@
         <!-- Tipo de Comprobante y Numeración -->
         <div class="text-center my-3 py-2 border-y-2 border-gray-900">
             <h2 class="text-sm font-black uppercase tracking-wide">
-                {{ $venta->tipo_comprobante === 'factura' ? 'FACTURA ELECTRÓNICA' : 'BOLETA DE VENTA ELECTRÓNICA' }}
+                {{ mb_strtoupper($tituloComprobante) }}
             </h2>
             <p class="font-mono font-bold text-sm text-indigo-700 mt-0.5">
                 {{ $venta->numero_comprobante ?? 'B001-' . str_pad($venta->id_venta, 6, '0', STR_PAD_LEFT) }}
@@ -139,7 +146,7 @@
         <!-- Pie del Comprobante Fiscal -->
         <div class="pt-4 text-center text-[10px] text-gray-400 space-y-1">
             <div class="font-mono bg-gray-50 p-2 rounded border border-gray-100 text-[9px] text-gray-500">
-                Representación impresa de la Boleta Electrónica autorizada mediante Resolución de Superintendencia SUNAT.
+                Representación impresa de {{ $tituloComprobante }} autorizada mediante Resolución de Superintendencia SUNAT.
             </div>
             <p class="font-bold text-gray-600 mt-2">¡Gracias por su compra en Mundo del Juguete!</p>
             <p>Conserve su comprobante para cualquier cambio o garantía.</p>

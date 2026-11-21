@@ -191,7 +191,9 @@
                                 <th class="py-3 px-4 text-center">Cant.</th>
                                 <th class="py-3 px-4">Tipo</th>
                                 <th class="py-3 px-4">Estado</th>
+                                <th class="py-3 px-4">Motivo</th>
                                 <th class="py-3 px-4">Atendió</th>
+                                <th class="py-3 px-4 text-center">Documento</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -208,11 +210,25 @@
                                             {{ ucfirst($devolucion->estado) }}
                                         </span>
                                     </td>
+                                    <td class="py-3 px-4 text-xs text-gray-600 max-w-xs truncate" title="{{ $devolucion->motivo }}">
+                                        {{ $devolucion->motivo ?? '—' }}
+                                    </td>
                                     <td class="py-3 px-4">{{ $devolucion->usuario->name ?? '—' }}</td>
+                                    <td class="py-3 px-4 text-center">
+                                        @if ($devolucion->fueAprobada())
+                                            <a href="{{ route('devoluciones.constancia', $devolucion) }}" target="_blank"
+                                                class="inline-flex items-center px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold rounded text-xs transition whitespace-nowrap">
+                                                <x-icon name="printer" class="w-4 h-4 me-1" />
+                                                {{ $devolucion->tipo === 'cambio' ? 'Constancia' : 'Nota Crédito' }}
+                                            </a>
+                                        @else
+                                            <span class="text-xs text-gray-400">—</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="py-10 text-center text-gray-500 text-sm">Aún no se registran devoluciones ni cambios.</td>
+                                    <td colspan="9" class="py-10 text-center text-gray-500 text-sm">Aún no se registran devoluciones ni cambios.</td>
                                 </tr>
                             @endforelse
                         </tbody>

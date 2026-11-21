@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MovimientoInventario;
 use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +13,8 @@ use Illuminate\View\View;
 class CajaController extends Controller
 {
     /**
-     * Muestra la bandeja de tickets pendientes por cobrar en caja (CUS-02).
+     * Muestra la bandeja de tickets pendientes por cobrar en caja (CUS-02)
+     * y el resumen de cierre de caja del día por método de pago (RF-23).
      */
     public function index(Request $request): View
     {
@@ -39,7 +41,25 @@ class CajaController extends Controller
             ->take(8)
             ->get();
 
-        return view('caja.index', compact('ticketsPendientes', 'ultimasCobradas', 'buscar'));
+        // RF-23: Cierre/Resumen de ingresos del turno (hoy) por método de pago
+        $hoy = today()->toDateString();
+        $totalesPorMetodo = Venta::selectRaw('metodo_pago, COUNT(*) as cantidad, COALESCE(SUM(total), 0) as monto')
+            ->where('estado', 'pagada')
+            ->whereDate('updated_at', $hoy)
+            ->groupBy('metodo_pago')
+            ->get()
+            ->keyBy('metodo_pago');
+
+        $resumenCaja = [
+            'efectivo' => (float) ($totalesPorMetodo['efectivo']->monto ?? 0),
+            'tarjeta' => (float) ($totalesPorMetodo['tarjeta']->monto ?? 0),
+            'yape' => (float) ($totalesPorMetodo['yape']->monto ?? 0),
+            'plin' => (float) ($totalesPorMetodo['plin']->monto ?? 0),
+            'comprobantes' => (int) $totalesPorMetodo->sum('cantidad'),
+            'total' => (float) $totalesPorMetodo->sum('monto'),
+        ];
+
+        return view('caja.index', compact('ticketsPendientes', 'ultimasCobradas', 'buscar', 'resumenCaja'));
     }
 
     /**
@@ -67,12 +87,16 @@ class CajaController extends Controller
             'monto_recibido.min' => 'El monto recibido debe ser igual o superior al total de la venta (S/ ' . number_format($venta->total, 2) . ').',
         ]);
 
+        $montoRecibido = $validated['metodo_pago'] === 'efectivo'
+            ? round((float) $validated['monto_recibido'], 2)
+            : round((float) $venta->total, 2);
+
         $vuelto = $validated['metodo_pago'] === 'efectivo'
-            ? round((float) $validated['monto_recibido'] - (float) $venta->total, 2)
+            ? round($montoRecibido - (float) $venta->total, 2)
             : 0.0;
 
         try {
-            $numeroComprobante = DB::transaction(function () use ($venta, $validated) {
+            $numeroComprobante = DB::transaction(function () use ($venta, $validated, $montoRecibido, $vuelto, $request) {
                 // Se bloquea la venta: si dos cajeros (o un doble clic) intentan cobrar
                 // el mismo ticket, el segundo espera y luego lo encuentra ya pagado.
                 $ventaBloqueada = Venta::whereKey($venta->id_venta)->lockForUpdate()->firstOrFail();
@@ -81,21 +105,35 @@ class CajaController extends Controller
                     throw new \DomainException('El ticket seleccionado ya fue cobrado o anulado.');
                 }
 
-                // 1. Descontar el stock fisico de cada juguete vendido
+                // 1. Emitir el comprobante con el siguiente correlativo de su serie
+                $numeroComprobante = Venta::siguienteNumeroComprobante($ventaBloqueada->tipo_comprob);
+
+                // 2. Descontar el stock fisico de cada juguete vendido y registrar en Kardex
                 foreach ($ventaBloqueada->detalles as $detalle) {
                     $producto = Producto::lockForUpdate()->findOrFail($detalle->id_producto);
+                    $stockAnterior = $producto->stock_actual;
 
                     if (! $producto->descontarStock($detalle->cantidad)) {
                         throw new \DomainException("Stock insuficiente al momento de cobrar para '{$producto->nombre}'. Disponible: {$producto->stock_actual} un.");
                     }
-                }
 
-                // 2. Emitir el comprobante con el siguiente correlativo de su serie
-                $numeroComprobante = Venta::siguienteNumeroComprobante($ventaBloqueada->tipo_comprob);
+                    MovimientoInventario::registrar(
+                        $producto,
+                        MovimientoInventario::TIPO_SALIDA_VENTA,
+                        $detalle->cantidad,
+                        $stockAnterior,
+                        $producto->stock_actual,
+                        $numeroComprobante,
+                        "Venta {$ventaBloqueada->codigo_venta} cobrada en caja ({$validated['metodo_pago']})",
+                        $request->user()?->id,
+                    );
+                }
 
                 $ventaBloqueada->update([
                     'estado' => 'pagada',
                     'metodo_pago' => $validated['metodo_pago'],
+                    'monto_recibido' => $montoRecibido,
+                    'vuelto' => $vuelto,
                     'nro_comprob' => $numeroComprobante,
                 ]);
 

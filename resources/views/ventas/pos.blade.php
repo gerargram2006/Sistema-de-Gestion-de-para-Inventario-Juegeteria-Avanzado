@@ -7,11 +7,14 @@
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">CUS-01: Generación de ticket y atención inmediata al cliente.</p>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center gap-2">
+                <a href="{{ route('ventas.clientes') }}" class="inline-flex items-center px-3.5 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-xs font-semibold rounded-lg shadow-sm transition">
+                    <x-icon name="users" class="w-4 h-4 inline-block align-[-2px] me-1" />Clientes
+                </a>
                 <a href="{{ route('ventas.index') }}" class="inline-flex items-center px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg transition">
                     <x-icon name="clipboard-document-list" class="w-4 h-4 inline-block align-[-2px] me-1" />Historial de Tickets
                 </a>
-                <button type="button" @click="$dispatch('open-modal', 'modal-nuevo-cliente')"
+                <button type="button" x-data @click="$dispatch('open-modal', 'modal-nuevo-cliente')"
                     class="inline-flex items-center px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-sm transition">
                     <x-icon name="plus" class="w-4 h-4 inline-block align-[-2px] me-1" />Nuevo Cliente
                 </button>
@@ -28,6 +31,10 @@
                     <p class="text-sm text-emerald-800 font-medium">{{ session('success') }}</p>
                 </div>
             @endif
+
+            <div x-show="clienteSuccess" x-cloak class="mb-5 p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg shadow-sm">
+                <p class="text-sm text-emerald-800 font-medium" x-text="clienteSuccess"></p>
+            </div>
 
             @if ($errors->any())
                 <div class="mb-5 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg shadow-sm">
@@ -142,11 +149,10 @@
                             <label for="id_cliente" class="block text-xs font-semibold text-gray-700 uppercase mb-1">Cliente</label>
                             <select id="id_cliente" name="id_cliente" x-model="selectedClient" required
                                 class="w-full text-sm border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
-                                @foreach ($clientes as $cli)
-                                    <option value="{{ $cli->id_cliente }}">
-                                        {{ $cli->nombre }} (DNI: {{ $cli->dni }})
-                                    </option>
-                                @endforeach
+                                <template x-for="cli in clients" :key="cli.id_cliente">
+                                    <option :value="String(cli.id_cliente)" :selected="String(cli.id_cliente) === String(selectedClient)"
+                                        x-text="cli.nombre + ' (DNI: ' + cli.dni + ')'"></option>
+                                </template>
                             </select>
                         </div>
 
@@ -244,7 +250,7 @@
                         <div class="pt-2">
                             <button type="submit" :disabled="cart.length === 0"
                                 class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2">
-                                <x-icon name="receipt-percent" class="w-7 h-7 text-indigo-600" /> Generar Ticket de Venta
+                                <x-icon name="receipt-percent" class="w-5 h-5 text-white" /> Generar Ticket de Venta
                             </button>
                             <p class="text-[11px] text-gray-400 text-center mt-2">
                                 El ticket se enviará a Caja para su cobro y emisión oficial.
@@ -254,69 +260,108 @@
                 </div>
             </div>
         </div>
+        <!-- Modal Registro Rápido de Nuevo Cliente (dentro de posApp para preservar el carrito) -->
+        <x-modal name="modal-nuevo-cliente" :show="false" focusable>
+            <form method="POST" action="{{ route('ventas.cliente.store') }}" @submit.prevent="guardarClienteRapido()" class="p-6">
+                @csrf
+                <h3 class="text-lg font-bold text-gray-900 mb-2">
+                    Registrar Nuevo Cliente
+                </h3>
+                <p class="text-xs text-gray-500 mb-4">Ingresa los datos para registrar al cliente y seleccionarlo sin perder los productos del carrito.</p>
+
+                <div x-show="clienteError" x-cloak class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700" x-text="clienteError"></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                    <div>
+                        <x-input-label for="cli_dni" :value="__('DNI (8 dígitos)')" />
+                        <x-text-input id="cli_dni" name="dni" x-model="nuevoCliente.dni" type="text" maxlength="8" inputmode="numeric" placeholder="Ej: 71234567" class="mt-1 block w-full font-mono text-sm" required />
+                    </div>
+
+                    <div>
+                        <x-input-label for="cli_telefono" :value="__('Teléfono / Celular')" />
+                        <x-text-input id="cli_telefono" name="telefono" x-model="nuevoCliente.telefono" type="text" maxlength="15" placeholder="Ej: 987654321" class="mt-1 block w-full text-sm" />
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <x-input-label for="cli_nombre" :value="__('Nombres y Apellidos / Razón Social')" />
+                        <x-text-input id="cli_nombre" name="nombre" x-model="nuevoCliente.nombre" type="text" maxlength="100" placeholder="Ej: Carlos Mendoza Ríos" class="mt-1 block w-full text-sm" required />
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <x-input-label for="cli_email" :value="__('Correo Electrónico (Opcional)')" />
+                        <x-text-input id="cli_email" name="email" x-model="nuevoCliente.email" type="email" maxlength="100" placeholder="ejemplo@correo.com" class="mt-1 block w-full text-sm" />
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        Cancelar
+                    </x-secondary-button>
+                    <x-primary-button x-bind:disabled="guardandoCliente">
+                        <span x-show="!guardandoCliente">Guardar Cliente</span>
+                        <span x-show="guardandoCliente" x-cloak>Guardando...</span>
+                    </x-primary-button>
+                </div>
+            </form>
+        </x-modal>
     </div>
-
-    <!-- Modal Registro Rápido de Nuevo Cliente -->
-    <x-modal name="modal-nuevo-cliente" :show="false" focusable>
-        <form method="POST" action="{{ route('ventas.cliente.store') }}" class="p-6">
-            @csrf
-            <h3 class="text-lg font-bold text-gray-900 mb-2">
-                Registrar Nuevo Cliente
-            </h3>
-            <p class="text-xs text-gray-500 mb-5">Ingresa los datos para registrar al cliente y asociarlo a compras.</p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-                <div>
-                    <x-input-label for="cli_dni" :value="__('DNI (8 dígitos)')" />
-                    <x-text-input id="cli_dni" name="dni" type="text" maxlength="8" placeholder="Ej: 71234567" class="mt-1 block w-full font-mono text-sm" required />
-                </div>
-
-                <div>
-                    <x-input-label for="cli_telefono" :value="__('Teléfono / Celular')" />
-                    <x-text-input id="cli_telefono" name="telefono" type="text" placeholder="Ej: 987654321" class="mt-1 block w-full text-sm" />
-                </div>
-
-                <div class="sm:col-span-2">
-                    <x-input-label for="cli_nombre" :value="__('Nombres y Apellidos / Razón Social')" />
-                    <x-text-input id="cli_nombre" name="nombre" type="text" placeholder="Ej: Carlos Mendoza Ríos" class="mt-1 block w-full text-sm" required />
-                </div>
-
-                <div class="sm:col-span-2">
-                    <x-input-label for="cli_email" :value="__('Correo Electrónico (Opcional)')" />
-                    <x-text-input id="cli_email" name="email" type="email" placeholder="ejemplo@correo.com" class="mt-1 block w-full text-sm" />
-                </div>
-
-                <div class="sm:col-span-2">
-                    <x-input-label for="cli_direccion" :value="__('Dirección (Opcional)')" />
-                    <x-text-input id="cli_direccion" name="direccion" type="text" placeholder="Av. Principal 123" class="mt-1 block w-full text-sm" />
-                </div>
-            </div>
-
-            <div class="mt-6 flex justify-end gap-3">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    Cancelar
-                </x-secondary-button>
-                <x-primary-button>
-                    Guardar Cliente
-                </x-primary-button>
-            </div>
-        </form>
-    </x-modal>
 
     <!-- Script de Alpine.js para la interactividad del POS -->
     <script>
         function posApp() {
             const rawProducts = @json($productos);
+            const rawClients = @json($clientes->map(fn ($c) => ['id_cliente' => $c->id_cliente, 'dni' => $c->dni, 'nombre' => $c->nombres])->values());
             const categoriesList = [...new Set(rawProducts.map(p => p.categoria ? p.categoria.nombre : 'General'))];
 
             return {
                 products: rawProducts,
+                clients: rawClients,
                 categories: categoriesList,
                 search: '',
                 selectedCategory: '',
-                selectedClient: '{{ $clientes->first()->id_cliente ?? "" }}',
+                selectedClient: String(@js(session('nuevo_cliente_id', $clientes->first()->id_cliente ?? ''))),
                 tipoComprobante: 'boleta',
                 cart: [],
+                nuevoCliente: { dni: '', nombre: '', telefono: '', email: '' },
+                guardandoCliente: false,
+                clienteError: '',
+                clienteSuccess: '',
+
+                async guardarClienteRapido() {
+                    this.guardandoCliente = true;
+                    this.clienteError = '';
+
+                    try {
+                        const res = await fetch('{{ route('ventas.cliente.store') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                            },
+                            body: JSON.stringify(this.nuevoCliente),
+                        });
+
+                        const data = await res.json();
+
+                        if (!res.ok) {
+                            const primerError = data.errors ? Object.values(data.errors).flat()[0] : null;
+                            this.clienteError = primerError || data.message || 'No se pudo registrar el cliente.';
+                            return;
+                        }
+
+                        this.clients.push(data.cliente);
+                        this.clients.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                        this.selectedClient = String(data.cliente.id_cliente);
+                        this.nuevoCliente = { dni: '', nombre: '', telefono: '', email: '' };
+                        this.clienteSuccess = data.message || 'Cliente registrado y seleccionado.';
+                        this.$dispatch('close-modal', 'modal-nuevo-cliente');
+                    } catch (e) {
+                        this.clienteError = 'Error de conexión al registrar el cliente. Intente nuevamente.';
+                    } finally {
+                        this.guardandoCliente = false;
+                    }
+                },
 
                 get filteredProducts() {
                     return this.products.filter(p => {

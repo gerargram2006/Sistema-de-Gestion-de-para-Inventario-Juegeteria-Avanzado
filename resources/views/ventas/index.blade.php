@@ -8,16 +8,38 @@
                 <p class="text-sm text-gray-500 mt-1">Registro de todos los tickets generados en el Punto de Venta.</p>
             </div>
             @if(Auth::user()->tieneRol('vendedor', 'administrador'))
-                <a href="{{ route('ventas.pos') }}"
-                    class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                    <x-icon name="shopping-cart" class="w-4 h-4 inline-block align-[-2px] me-1" />Ir al POS
-                </a>
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('ventas.clientes') }}"
+                        class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
+                        <x-icon name="users" class="w-4 h-4 inline-block align-[-2px] me-1" />Clientes
+                    </a>
+                    <a href="{{ route('ventas.pos') }}"
+                        class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
+                        <x-icon name="shopping-cart" class="w-4 h-4 inline-block align-[-2px] me-1" />Ir al POS
+                    </a>
+                </div>
             @endif
         </div>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            @if (session('success'))
+                <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg shadow-sm">
+                    <p class="text-sm text-emerald-800 font-medium">{{ session('success') }}</p>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg shadow-sm">
+                    <ul class="list-disc list-inside text-xs text-red-700 space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <!-- Filtros -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
@@ -106,17 +128,29 @@
                                             </span>
                                         @endif
                                     </td>
-                                    <td class="py-3.5 px-4 text-center space-x-2">
+                                    <td class="py-3.5 px-4 text-center space-x-1 whitespace-nowrap">
                                         <a href="{{ route('ventas.show', $v->id_venta) }}"
                                             class="inline-flex items-center px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold rounded transition">
                                             Ver Ticket
                                         </a>
 
                                         @if($v->estado === 'pendiente' && Auth::user()->tieneRol('cajero', 'administrador'))
-                                            <a href="{{ route('caja.index') }}"
+                                            <a href="{{ route('caja.index', ['buscar' => $v->numero_ticket]) }}"
                                                 class="inline-flex items-center px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded transition">
                                                 Cobrar
                                             </a>
+                                        @endif
+
+                                        @if($v->puedeAnularse())
+                                            <form method="POST" action="{{ route('ventas.anular', $v->id_venta) }}" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" x-data
+                                                    x-on:click="if (! confirm('¿Deseas anular el ticket {{ $v->numero_ticket }}? Esta acción no se puede deshacer.')) $event.preventDefault()"
+                                                    class="inline-flex items-center px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded transition">
+                                                    Anular
+                                                </button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>

@@ -36,6 +36,38 @@
                 </div>
             @endif
 
+            <!-- Resumen / Cierre de Caja del Día (RF-23) -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Resumen de Caja del Día (RF-23)</h3>
+                        <p class="text-xs text-gray-500">Total cobrado hoy ({{ now()->format('d/m/Y') }}) desglosado por medio de pago · {{ $resumenCaja['comprobantes'] }} comprobante(s)</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[11px] uppercase font-semibold text-gray-400 block">Total Recaudado Hoy</span>
+                        <span class="text-xl font-black text-emerald-700">S/ {{ number_format($resumenCaja['total'], 2) }}</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3 rounded-lg bg-emerald-50/70 border border-emerald-100">
+                        <span class="text-emerald-700 font-semibold block">Efectivo</span>
+                        <span class="text-base font-extrabold text-gray-900">S/ {{ number_format($resumenCaja['efectivo'], 2) }}</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-indigo-50/70 border border-indigo-100">
+                        <span class="text-indigo-700 font-semibold block">Tarjeta</span>
+                        <span class="text-base font-extrabold text-gray-900">S/ {{ number_format($resumenCaja['tarjeta'], 2) }}</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-purple-50/70 border border-purple-100">
+                        <span class="text-purple-700 font-semibold block">Yape</span>
+                        <span class="text-base font-extrabold text-gray-900">S/ {{ number_format($resumenCaja['yape'], 2) }}</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-sky-50/70 border border-sky-100">
+                        <span class="text-sky-700 font-semibold block">Plin</span>
+                        <span class="text-base font-extrabold text-gray-900">S/ {{ number_format($resumenCaja['plin'], 2) }}</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Buscador de Tickets Pendientes -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <form method="GET" action="{{ route('caja.index') }}" class="flex flex-col sm:flex-row gap-3 items-center">
@@ -137,7 +169,7 @@
 
                                     <button type="button" @click="$dispatch('open-modal', 'modal-cobrar-{{ $ticket->id_venta }}')"
                                         class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition flex items-center justify-center gap-1.5">
-                                        <x-icon name="credit-card" class="w-7 h-7 text-indigo-600" /> Cobrar Ticket
+                                        <x-icon name="credit-card" class="w-4 h-4 text-white" /> Cobrar Ticket
                                     </button>
 
                                     <!-- Modal de Cobro -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Devolucion;
+use App\Models\MovimientoInventario;
 use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Http\RedirectResponse;
@@ -101,17 +102,40 @@ class DevolucionController extends Controller
 
                 if ($aprobar) {
                     $producto = Producto::lockForUpdate()->findOrFail($detalle->id_producto);
+                    $stockAnterior = $producto->stock_actual;
 
                     if ($validated['tipo'] === Devolucion::TIPO_DEVOLUCION) {
                         // El juguete vuelve al inventario y se reembolsa el dinero
                         $producto->incrementarStock($validated['cantidad']);
                         $estado = Devolucion::ESTADO_REEMBOLSADA;
+
+                        MovimientoInventario::registrar(
+                            $producto,
+                            MovimientoInventario::TIPO_ENTRADA_DEVOLUCION,
+                            $validated['cantidad'],
+                            $stockAnterior,
+                            $producto->stock_actual,
+                            $ventaBloqueada->nro_comprob ?? $ventaBloqueada->codigo_venta,
+                            $validated['motivo'] ?? 'Reingreso por devolución de venta',
+                            $request->user()->id,
+                        );
                     } else {
                         // Cambio por otra unidad del mismo juguete: sale una unidad nueva del stock
                         if (! $producto->descontarStock($validated['cantidad'])) {
                             throw new \DomainException("No hay stock de '{$producto->nombre}' para entregar el reemplazo. Disponible: {$producto->stock_actual} un.");
                         }
                         $estado = Devolucion::ESTADO_CAMBIADA;
+
+                        MovimientoInventario::registrar(
+                            $producto,
+                            MovimientoInventario::TIPO_SALIDA_CAMBIO,
+                            $validated['cantidad'],
+                            $stockAnterior,
+                            $producto->stock_actual,
+                            $ventaBloqueada->nro_comprob ?? $ventaBloqueada->codigo_venta,
+                            $validated['motivo'] ?? 'Salida por cambio de producto en garantía',
+                            $request->user()->id,
+                        );
                     }
                 }
 
@@ -158,5 +182,21 @@ class DevolucionController extends Controller
 
         return redirect()->route('devoluciones.index', ['buscar' => $venta->codigo_venta])
             ->with('success', $mensaje);
+    }
+
+    /**
+     * Nota de Crédito / Constancia imprimible de devolución o cambio (RF-21).
+     */
+    public function constancia(Devolucion $devolucion): View
+    {
+        abort_unless($devolucion->fueAprobada(), 404);
+
+        $devolucion->load(['venta.cliente', 'venta.detalles', 'producto', 'usuario']);
+
+        $detalleVenta = $devolucion->venta->detalles->firstWhere('id_producto', $devolucion->id_producto);
+        $precioUnitario = (float) ($detalleVenta->precio_unit ?? $devolucion->producto->precio ?? 0);
+        $montoTotal = round($precioUnitario * $devolucion->cantidad, 2);
+
+        return view('devoluciones.constancia', compact('devolucion', 'precioUnitario', 'montoTotal'));
     }
 }

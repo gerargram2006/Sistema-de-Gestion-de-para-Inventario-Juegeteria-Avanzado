@@ -27,6 +27,16 @@
                 </div>
             @endif
 
+            @if ($errors->any())
+                <div class="p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg shadow-sm">
+                    <ul class="list-disc list-inside text-xs text-red-700 space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <!-- Tarjeta Ticket Estilo Recibo -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                 <!-- Cabecera -->
@@ -121,19 +131,35 @@
 
                 <!-- Acciones según estado -->
                 <div class="p-6 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-3">
-                    @if($venta->estado === 'pendiente' && Auth::user()->tieneRol('cajero', 'administrador'))
-                        <a href="{{ route('caja.index') }}"
-                            class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                            <x-icon name="credit-card" class="w-4 h-4 inline-block align-[-2px] me-1" />Cobrar en Caja
-                        </a>
-                    @elseif($venta->estado === 'pagada')
-                        <a href="{{ route('caja.comprobante', $venta->id_venta) }}" target="_blank"
-                            class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
-                            <x-icon name="printer" class="w-4 h-4 inline-block align-[-2px] me-1" />Ver Comprobante Oficial
-                        </a>
-                    @else
-                        <span class="text-xs text-gray-500 italic">Ticket pendiente de cobro en módulo de Caja.</span>
-                    @endif
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        @if($venta->estado === 'pendiente' && Auth::user()->tieneRol('cajero', 'administrador'))
+                            <a href="{{ route('caja.index', ['buscar' => $venta->numero_ticket]) }}"
+                                class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
+                                <x-icon name="credit-card" class="w-4 h-4 inline-block align-[-2px] me-1" />Cobrar en Caja
+                            </a>
+                        @elseif($venta->estado === 'pagada')
+                            <a href="{{ route('caja.comprobante', $venta->id_venta) }}" target="_blank"
+                                class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
+                                <x-icon name="printer" class="w-4 h-4 inline-block align-[-2px] me-1" />Ver Comprobante Oficial
+                            </a>
+                        @elseif($venta->estado === 'anulada')
+                            <span class="text-xs text-rose-600 font-semibold">Este ticket fue anulado y no puede cobrarse.</span>
+                        @else
+                            <span class="text-xs text-gray-500 italic">Ticket pendiente de cobro en módulo de Caja.</span>
+                        @endif
+
+                        @if($venta->puedeAnularse())
+                            <form method="POST" action="{{ route('ventas.anular', $venta->id_venta) }}">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" x-data
+                                    x-on:click="if (! confirm('¿Deseas anular el ticket {{ $venta->numero_ticket }}?')) $event.preventDefault()"
+                                    class="inline-flex items-center px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg uppercase tracking-wider transition">
+                                    Anular Ticket
+                                </button>
+                            </form>
+                        @endif
+                    </div>
 
                     <button type="button" x-data x-on:click="window.print()" class="text-xs text-gray-600 hover:text-gray-900 font-semibold underline">
                         Imprimir copia del Ticket

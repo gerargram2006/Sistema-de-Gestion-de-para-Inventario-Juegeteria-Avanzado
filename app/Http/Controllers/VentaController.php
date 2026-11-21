@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\DetalleVenta;
 use App\Models\Producto;
 use App\Models\Venta;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class VentaController extends Controller
         $validated = $request->validate([
             'id_cliente' => 'required|exists:clientes,id_cliente',
             'tipo_comprobante' => 'required|in:ticket,boleta,factura',
-            'metodo_pago' => 'required|in:efectivo,tarjeta,yape,plin',
+            'metodo_pago' => 'nullable|in:efectivo,tarjeta,yape,plin',
             'items' => 'required|array|min:1',
             'items.*.id_producto' => 'required|exists:productos,id_producto',
             'items.*.cantidad' => 'required|integer|min:1|max:10000',
@@ -55,7 +56,7 @@ class VentaController extends Controller
         $idCliente = $validated['id_cliente'];
         // Normalizar 'ticket' a 'boleta' para la serie del comprobante (B001)
         $tipoComprobante = $validated['tipo_comprobante'] === 'ticket' ? 'boleta' : $validated['tipo_comprobante'];
-        $metodoPago = $validated['metodo_pago'];
+        $metodoPago = $validated['metodo_pago'] ?? 'efectivo';
 
         // Si el mismo juguete se agrego en varias lineas, se suman sus cantidades
         // para validar el stock contra el total pedido y no linea por linea.
@@ -161,9 +162,56 @@ class VentaController extends Controller
     }
 
     /**
-     * Registro rápido de cliente desde el POS.
+     * Anula un ticket de venta que aún está pendiente de cobro (CUS-01 / estado_ventas).
      */
-    public function storeCliente(Request $request): RedirectResponse
+    public function anular(Venta $venta): RedirectResponse
+    {
+        try {
+            DB::transaction(function () use ($venta) {
+                $ventaBloqueada = Venta::whereKey($venta->id_venta)->lockForUpdate()->firstOrFail();
+
+                if (! $ventaBloqueada->puedeAnularse()) {
+                    throw new \DomainException("El ticket {$ventaBloqueada->codigo_venta} está en estado '{$ventaBloqueada->estado}' y solo se pueden anular tickets pendientes de cobro.");
+                }
+
+                $ventaBloqueada->update(['estado' => 'anulada']);
+            });
+        } catch (\DomainException $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+
+        return back()->with('success', "Ticket {$venta->codigo_venta} anulado correctamente.");
+    }
+
+    /**
+     * Consulta de clientes e historial de compras por DNI/nombre (RF-27).
+     */
+    public function clientes(Request $request): View
+    {
+        $buscar = trim((string) $request->query('buscar'));
+
+        $clientes = Cliente::query()
+            ->withCount('ventas')
+            ->withSum(['ventas as total_comprado' => fn ($q) => $q->where('estado', 'pagada')], 'total')
+            ->with(['ventas' => fn ($q) => $q->latest('fecha')->take(5)])
+            ->when($buscar !== '', function ($query) use ($buscar) {
+                $query->where(function ($q) use ($buscar) {
+                    $q->where('nombres', 'like', "%{$buscar}%")
+                        ->orWhere('dni', 'like', "%{$buscar}%");
+                });
+            })
+            ->orderBy('nombres')
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('ventas.clientes', compact('clientes', 'buscar'));
+    }
+
+    /**
+     * Registro rápido de cliente desde el POS (Flujo alterno 3a de CUS-01).
+     * Soporta respuesta JSON para agregarlo al selector sin perder el carrito.
+     */
+    public function storeCliente(Request $request): RedirectResponse|JsonResponse
     {
         $validated = $request->validate([
             'dni' => 'required|digits:8|unique:clientes,dni',
@@ -172,7 +220,7 @@ class VentaController extends Controller
             'email' => 'nullable|email|max:100',
         ]);
 
-        Cliente::create([
+        $cliente = Cliente::create([
             'dni' => $validated['dni'],
             'nombres' => $validated['nombre'],
             'telefono' => $validated['telefono'] ?? null,
@@ -180,6 +228,19 @@ class VentaController extends Controller
             'estado' => 'activo',
         ]);
 
-        return back()->with('success', "Cliente {$validated['nombre']} registrado exitosamente.");
+        if ($request->wantsJson()) {
+            return response()->json([
+                'cliente' => [
+                    'id_cliente' => $cliente->id_cliente,
+                    'dni' => $cliente->dni,
+                    'nombre' => $cliente->nombres,
+                ],
+                'message' => "Cliente {$cliente->nombres} registrado y seleccionado correctamente.",
+            ], 201);
+        }
+
+        return back()
+            ->with('success', "Cliente {$validated['nombre']} registrado exitosamente.")
+            ->with('nuevo_cliente_id', $cliente->id_cliente);
     }
 }

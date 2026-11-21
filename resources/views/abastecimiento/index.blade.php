@@ -14,7 +14,7 @@
                         <x-icon name="truck" class="w-4 h-4 inline-block align-[-2px] me-1" />Proveedores
                     </a>
                 @endif
-                <button type="button" @click="$dispatch('open-modal', 'modal-crear-orden')"
+                <button type="button" x-data @click="$dispatch('open-modal', 'modal-crear-orden')"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg uppercase tracking-wider shadow-sm transition">
                     <x-icon name="plus" class="w-4 h-4 inline-block align-[-2px] me-1" />Nueva Orden de Compra
                 </button>
@@ -22,13 +22,66 @@
         </div>
     </x-slot>
 
-    <div class="py-8"
-        x-data='abastecimientoApp({
+    <script>
+        window.abastecimientoConfig = {
             proveedores: @js($proveedoresActivos),
-            proveedorSeleccionado: @js(old("id_proveedor", "")),
-            items: @js(old("items", [["id_producto" => "", "cantidad" => 10, "precio_costo" => 25.00]]))
-        })'
-        @if($errors->hasAny(['id_proveedor', 'items', 'items.*.id_producto', 'items.*.cantidad', 'items.*.precio_costo']))
+            proveedorSeleccionado: @js(old('id_proveedor', '')),
+            items: @js(old('items', [['id_producto' => '', 'cantidad' => 10, 'precio_costo' => 25.00]])),
+        };
+
+        function abastecimientoApp(config = {}) {
+            const itemVacio = () => ({ id_producto: '', cantidad: 10, precio_costo: 25.00 });
+
+            const normalizarItem = (item) => ({
+                id_producto: item?.id_producto ? String(item.id_producto) : '',
+                cantidad: Number(item?.cantidad ?? 10),
+                precio_costo: Number(item?.precio_costo ?? 25.00),
+            });
+
+            return {
+                proveedores: config.proveedores ?? [],
+                proveedorId: config.proveedorSeleccionado ? String(config.proveedorSeleccionado) : '',
+                items: Array.isArray(config.items) && config.items.length
+                    ? config.items.map(normalizarItem)
+                    : [itemVacio()],
+
+                totalOrden() {
+                    return this.items.reduce((acc, item) => {
+                        const cant = Number(item.cantidad) || 0;
+                        const costo = Number(item.precio_costo) || 0;
+                        return acc + (cant * costo);
+                    }, 0);
+                },
+
+                superaPresupuesto() {
+                    return this.totalOrden() > 2000;
+                },
+
+                precargarOrden(idProducto, cantidad) {
+                    this.items = [{
+                        id_producto: String(idProducto),
+                        cantidad: Number(cantidad),
+                        precio_costo: 25.00,
+                    }];
+                    this.$dispatch('open-modal', 'modal-crear-orden');
+                },
+
+                addItem() {
+                    this.items.push(itemVacio());
+                },
+
+                removeItem(index) {
+                    if (this.items.length > 1) {
+                        this.items.splice(index, 1);
+                    }
+                },
+            };
+        }
+    </script>
+
+    <div class="py-8"
+        x-data="abastecimientoApp(window.abastecimientoConfig)"
+        @if($errors->hasAny(['id_proveedor', 'items', 'items.*.id_producto', 'items.*.cantidad', 'items.*.precio_costo', 'autorizacion_extraordinaria']))
             x-init="$nextTick(() => $dispatch('open-modal', 'modal-crear-orden'))"
         @endif>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
@@ -245,218 +298,119 @@
             </div>
 
         </div>
-    </div>
 
-    <!-- Modal Crear Orden de Abastecimiento -->
-    <x-modal name="modal-crear-orden" :show="false" focusable>
-        <form method="POST" action="{{ route('abastecimiento.crear-orden') }}" class="p-6">
-            @csrf
-            <h3 class="text-lg font-bold text-gray-900 mb-1">
-                Emitir Orden de Compra / Abastecimiento
-            </h3>
-            <p class="text-xs text-gray-500 mb-5">Genera una solicitud formal de reposición de juguetes a proveedores.</p>
+        <!-- Modal Crear Orden de Abastecimiento (DENTRO de x-data) -->
+        <x-modal name="modal-crear-orden" :show="false" focusable>
+            <form method="POST" action="{{ route('abastecimiento.crear-orden') }}" class="p-6">
+                @csrf
+                <h3 class="text-lg font-bold text-gray-900 mb-1">
+                    Emitir Orden de Compra / Abastecimiento
+                </h3>
+                <p class="text-xs text-gray-500 mb-5">Genera una solicitud formal de reposición de juguetes a proveedores.</p>
 
-            <!-- Proveedor -->
-            <div class="mb-4">
-                <div class="flex items-end gap-2">
-                    <div class="flex-1">
-                        <x-input-label for="id_proveedor" :value="__('Proveedor autorizado')" />
-                        <select id="id_proveedor" name="id_proveedor" x-model="proveedorId"
-                            class="mt-1 block w-full text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
-                            <option value="">Seleccione un proveedor autorizado...</option>
-                            <template x-for="prov in proveedores" :key="prov.id_proveedor">
-                                <option :value="String(prov.id_proveedor)" x-text="prov.razon_social"></option>
-                            </template>
-                        </select>
-                    </div>
-                    <button type="button" @click="mostrarNuevoProveedor = ! mostrarNuevoProveedor"
-                        class="shrink-0 inline-flex items-center px-3 py-2 bg-indigo-50 border border-indigo-200 rounded-md text-xs font-semibold text-indigo-700 hover:bg-indigo-100"
-                        title="Registrar un proveedor sin salir de la orden">
-                        <x-icon name="plus" class="w-4 h-4 me-1" />Nuevo
-                    </button>
+                <!-- Proveedor -->
+                <!-- Proveedor -->
+                <div class="mb-4">
+                    <x-input-label for="id_proveedor" :value="__('Proveedor autorizado')" />
+                    <select id="id_proveedor" name="id_proveedor" x-model="proveedorId"
+                        class="mt-1 block w-full text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                        <option value="">Seleccione un proveedor autorizado...</option>
+                        <template x-for="prov in proveedores" :key="prov.id_proveedor">
+                            <option :value="String(prov.id_proveedor)"
+                                :selected="String(prov.id_proveedor) === proveedorId"
+                                x-text="prov.razon_social"></option>
+                        </template>
+                    </select>
+
+                    <p x-show="proveedores.length === 0" x-cloak class="text-xs text-amber-700 mt-1">
+                        No hay proveedores autorizados.
+                        @if(Auth::user()->esAdministrador())
+                            <a href="{{ route('proveedores.index') }}" class="font-bold underline hover:text-amber-900">Regístralo en el módulo de Proveedores</a>.
+                        @endif
+                    </p>
                 </div>
 
-                <p x-show="proveedores.length === 0" x-cloak class="text-xs text-amber-700 mt-1">
-                    No hay proveedores autorizados. Regístralo con el botón «Nuevo» o desde el padrón de Proveedores.
-                </p>
-
-                <!-- Alta rápida de proveedor -->
-                <div x-show="mostrarNuevoProveedor" x-cloak x-transition
-                    class="mt-3 space-y-2 rounded-lg border border-indigo-200 bg-indigo-50/60 p-3"
-                    @keydown.enter.prevent="registrarProveedor()">
-                    <p class="text-xs font-bold text-indigo-800">Registrar proveedor autorizado</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <div>
-                            <x-input-label for="rapido_ruc" value="RUC" class="text-[11px]" />
-                            <x-text-input id="rapido_ruc" x-model="nuevoProveedor.ruc" type="text"
-                                inputmode="numeric" maxlength="11" placeholder="11 dígitos"
-                                class="mt-1 block w-full text-sm" />
-                            <p class="text-[11px] text-rose-600 mt-1" x-show="erroresProveedor.ruc?.[0]"
-                                x-text="erroresProveedor.ruc?.[0]"></p>
-                        </div>
-                        <div>
-                            <x-input-label for="rapido_razon_social" value="Razón social" class="text-[11px]" />
-                            <x-text-input id="rapido_razon_social" x-model="nuevoProveedor.razon_social"
-                                type="text" maxlength="150" placeholder="Ej. Mattel Perú S.A."
-                                class="mt-1 block w-full text-sm" />
-                            <p class="text-[11px] text-rose-600 mt-1" x-show="erroresProveedor.razon_social?.[0]"
-                                x-text="erroresProveedor.razon_social?.[0]"></p>
-                        </div>
-                    </div>
-                    <label class="inline-flex items-center gap-2 text-xs text-gray-700">
-                        <input type="checkbox" x-model="nuevoProveedor.activo"
-                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                        Autorizado para recibir órdenes de compra
-                    </label>
-                    <p class="text-[11px] text-rose-600" x-show="erroresProveedor.general?.[0]"
-                        x-text="erroresProveedor.general?.[0]"></p>
-                    <div class="flex justify-end gap-2 pt-1">
-                        <button type="button" @click="mostrarNuevoProveedor = false"
-                            class="text-xs text-gray-600 hover:underline">Cancelar</button>
-                        <button type="button" @click="registrarProveedor()" :disabled="guardandoProveedor"
-                            class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-50">
-                            <span x-text="guardandoProveedor ? 'Guardando...' : 'Guardar proveedor'"></span>
+                <!-- Detalle de Productos a Comprar -->
+                <div class="mb-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-semibold text-gray-700 uppercase">Juguetes a Solicitar</label>
+                        <button type="button" @click="addItem()" class="text-xs text-indigo-600 font-bold hover:underline">
+                            + Agregar otro juguete
                         </button>
                     </div>
+
+                    <template x-for="(item, index) in items" :key="index">
+                        <div class="grid grid-cols-12 gap-2 items-center bg-gray-50 p-2.5 rounded-lg border border-gray-200 text-xs">
+                            <div class="col-span-5">
+                                <label class="text-[10px] text-gray-500 block">Juguete</label>
+                                <select :name="'items[' + index + '][id_producto]'" x-model="item.id_producto" class="w-full text-xs border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option value="">Seleccione...</option>
+                                    @foreach ($todosProductos as $p)
+                                        <option value="{{ $p->id_producto }}">{{ $p->nombre }} (Stock: {{ $p->stock_actual }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-span-3">
+                                <label class="text-[10px] text-gray-500 block">Cant. a pedir</label>
+                                <input type="number" :name="'items[' + index + '][cantidad]'" x-model.number="item.cantidad" min="1" class="w-full text-xs border-gray-300 rounded" required />
+                            </div>
+
+                            <div class="col-span-3">
+                                <label class="text-[10px] text-gray-500 block">Costo Unit (S/.)</label>
+                                <input type="number" step="0.01" :name="'items[' + index + '][precio_costo]'" x-model.number="item.precio_costo" min="0.01" class="w-full text-xs border-gray-300 rounded" required />
+                            </div>
+
+                            <div class="col-span-1 text-center pt-3">
+                                <button type="button" @click="removeItem(index)" x-show="items.length > 1" class="text-rose-600 font-bold hover:text-rose-800">
+                                    <x-icon name="x-mark" class="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    </template>
                 </div>
-            </div>
 
-            <!-- Detalle de Productos a Comprar -->
-            <div class="mb-4 space-y-3">
-                <div class="flex items-center justify-between">
-                    <label class="block text-xs font-semibold text-gray-700 uppercase">Juguetes a Solicitar</label>
-                    <button type="button" @click="addItem()" class="text-xs text-indigo-600 font-bold hover:underline">
-                        + Agregar otro juguete
-                    </button>
-                </div>
-
-                <template x-for="(item, index) in items" :key="index">
-                    <div class="grid grid-cols-12 gap-2 items-center bg-gray-50 p-2.5 rounded-lg border border-gray-200 text-xs">
-                        <div class="col-span-5">
-                            <label class="text-[10px] text-gray-500 block">Juguete</label>
-                            <select :name="'items[' + index + '][id_producto]'" x-model="item.id_producto" class="w-full text-xs border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500" required>
-                                <option value="">Seleccione...</option>
-                                @foreach ($todosProductos as $p)
-                                    <option value="{{ $p->id_producto }}">{{ $p->nombre }} (Stock: {{ $p->stock_actual }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-span-3">
-                            <label class="text-[10px] text-gray-500 block">Cant. a pedir</label>
-                            <input type="number" :name="'items[' + index + '][cantidad]'" x-model="item.cantidad" min="1" class="w-full text-xs border-gray-300 rounded" required />
-                        </div>
-
-                        <div class="col-span-3">
-                            <label class="text-[10px] text-gray-500 block">Costo Unit (S/.)</label>
-                            <input type="number" step="0.01" :name="'items[' + index + '][precio_costo]'" x-model="item.precio_costo" min="0.01" class="w-full text-xs border-gray-300 rounded" required />
-                        </div>
-
-                        <div class="col-span-1 text-center pt-3">
-                            <button type="button" @click="removeItem(index)" x-show="items.length > 1" class="text-rose-600 font-bold hover:text-rose-800">
-                                <x-icon name="x-mark" class="w-4 h-4" />
-                            </button>
-                        </div>
+                <!-- Resumen de Presupuesto y Opciones CUS-03 -->
+                <div class="mt-4 pt-4 border-t border-gray-100 space-y-3">
+                    <div class="flex items-center justify-between bg-indigo-50/70 px-3 py-2 rounded-lg border border-indigo-100">
+                        <span class="text-xs font-semibold text-gray-700">Presupuesto Estimado:</span>
+                        <span class="text-base font-black text-indigo-700" x-text="'S/ ' + totalOrden().toFixed(2)"></span>
                     </div>
-                </template>
-            </div>
 
-            <div class="mt-6 flex justify-end gap-3">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    Cancelar
-                </x-secondary-button>
-                <x-primary-button>
-                    Emitir Orden
-                </x-primary-button>
-            </div>
-        </form>
-    </x-modal>
+                    <!-- Flujo alterno 3a: Autorización extraordinaria si supera S/ 2,000 -->
+                    <div x-show="superaPresupuesto()" x-cloak class="p-3 rounded-lg bg-amber-50 border border-amber-300 space-y-1.5">
+                        <p class="text-xs font-bold text-amber-900">Supera el presupuesto ordinario de S/ 2,000.00 (Flujo alterno 3a).</p>
+                        <label class="inline-flex items-center gap-2 text-xs text-amber-950">
+                            <input type="checkbox" name="autorizacion_extraordinaria" value="1" :required="superaPresupuesto()"
+                                class="rounded border-amber-400 text-indigo-600 focus:ring-indigo-500">
+                            Autorizo presupuesto extraordinario para emitir esta orden
+                        </label>
+                    </div>
 
-    <script>
-        function abastecimientoApp(config = {}) {
-            const itemVacio = () => ({ id_producto: '', cantidad: 10, precio_costo: 25.00 });
+                    <label class="inline-flex items-center gap-2 text-xs text-gray-700">
+                        <input type="checkbox" name="es_urgente" value="1" {{ old('es_urgente') ? 'checked' : '' }}
+                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        Marcar como Compra Urgente
+                    </label>
 
-            const normalizarItem = (item) => ({
-                id_producto: item?.id_producto ? String(item.id_producto) : '',
-                cantidad: Number(item?.cantidad ?? 10),
-                precio_costo: Number(item?.precio_costo ?? 25.00),
-            });
+                    <div>
+                        <x-input-label for="observaciones" value="Condiciones de entrega / Observaciones (opcional)" class="text-xs" />
+                        <input id="observaciones" name="observaciones" type="text" value="{{ old('observaciones') }}" maxlength="500"
+                            placeholder="Ej. Entrega en 48 horas en almacén"
+                            class="mt-1 block w-full text-xs border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" />
+                    </div>
+                </div>
 
-            return {
-                proveedores: config.proveedores ?? [],
-                proveedorId: config.proveedorSeleccionado ? String(config.proveedorSeleccionado) : '',
-                items: Array.isArray(config.items) && config.items.length
-                    ? config.items.map(normalizarItem)
-                    : [itemVacio()],
-                mostrarNuevoProveedor: false,
-                guardandoProveedor: false,
-                erroresProveedor: {},
-                nuevoProveedor: { razon_social: '', ruc: '', activo: true },
+                <div class="mt-6 flex justify-end gap-3">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        Cancelar
+                    </x-secondary-button>
+                    <x-primary-button>
+                        Emitir Orden
+                    </x-primary-button>
+                </div>
+            </form>
+        </x-modal>
 
-                precargarOrden(idProducto, cantidad) {
-                    this.items = [{
-                        id_producto: String(idProducto),
-                        cantidad: Number(cantidad),
-                        precio_costo: 25.00,
-                    }];
-                    this.$dispatch('open-modal', 'modal-crear-orden');
-                },
-
-                addItem() {
-                    this.items.push(itemVacio());
-                },
-
-                removeItem(index) {
-                    if (this.items.length > 1) {
-                        this.items.splice(index, 1);
-                    }
-                },
-
-                async registrarProveedor() {
-                    this.guardandoProveedor = true;
-                    this.erroresProveedor = {};
-
-                    try {
-                        const respuesta = await fetch(@js(route('abastecimiento.proveedores.rapido')), {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                            },
-                            body: JSON.stringify(this.nuevoProveedor),
-                        });
-
-                        const datos = await respuesta.json();
-
-                        if (! respuesta.ok) {
-                            this.erroresProveedor = datos.errors ?? {
-                                general: [datos.message ?? 'No se pudo registrar el proveedor.'],
-                            };
-                            return;
-                        }
-
-                        if (! datos.proveedor.activo) {
-                            this.erroresProveedor = {
-                                general: ['Proveedor registrado, pero no está autorizado. Actívalo desde el padrón para emitirle órdenes.'],
-                            };
-                            this.nuevoProveedor = { razon_social: '', ruc: '', activo: true };
-                            return;
-                        }
-
-                        this.proveedores.push(datos.proveedor);
-                        this.proveedorId = String(datos.proveedor.id_proveedor);
-                        this.nuevoProveedor = { razon_social: '', ruc: '', activo: true };
-                        this.mostrarNuevoProveedor = false;
-                    } catch (error) {
-                        this.erroresProveedor = {
-                            general: ['No se pudo conectar con el servidor. Intenta nuevamente.'],
-                        };
-                    } finally {
-                        this.guardandoProveedor = false;
-                    }
-                },
-            };
-        }
-    </script>
+    </div>
 </x-app-layout>

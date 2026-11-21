@@ -66,15 +66,25 @@ class AbastecimientoController extends Controller
             'items.*.id_producto' => 'required|exists:productos,id_producto',
             'items.*.cantidad' => 'required|integer|min:1|max:10000',
             'items.*.precio_costo' => 'required|numeric|min:0.01|max:99999999.99',
+            'es_urgente' => 'nullable|boolean',
+            'autorizacion_extraordinaria' => 'nullable|boolean',
+            'observaciones' => 'nullable|string|max:500',
         ]);
 
-        $totalOrden = 0;
+        $totalOrden = collect($validated['items'])->sum(fn ($i) => $i['cantidad'] * $i['precio_costo']);
 
-        foreach ($validated['items'] as $item) {
-            $totalOrden += ($item['cantidad'] * $item['precio_costo']);
+        if ($totalOrden > 2000 && ! $request->boolean('autorizacion_extraordinaria')) {
+            return back()->withInput()->withErrors([
+                'autorizacion_extraordinaria' => 'El total supera S/ 2,000.00. Marca la autorización extraordinaria para emitir la orden.',
+            ]);
         }
 
         $proveedor = Proveedor::findOrFail($validated['id_proveedor']);
+        $notas = array_filter([
+            $request->boolean('es_urgente') ? '[COMPRA URGENTE]' : null,
+            $totalOrden > 2000 ? '[PRESUPUESTO EXTRAORDINARIO]' : null,
+            trim($validated['observaciones'] ?? ''),
+        ]);
 
         DB::beginTransaction();
         try {
@@ -85,6 +95,7 @@ class AbastecimientoController extends Controller
                 'fecha' => now(),
                 'total' => $totalOrden,
                 'estado' => 'generada',
+                'observaciones' => $notas ? implode(' ', $notas) : null,
             ]);
 
             foreach ($validated['items'] as $item) {

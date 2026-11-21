@@ -49,6 +49,7 @@ class CajaTest extends TestCase
         $this->actingAs($this->vendedor)->post('/ventas', [
             'id_cliente' => $this->cliente->id_cliente,
             'tipo_comprobante' => $tipoComprobante,
+            'metodo_pago' => 'efectivo',
             'items' => [['id_producto' => $this->producto->id_producto, 'cantidad' => $cantidad]],
         ]);
 

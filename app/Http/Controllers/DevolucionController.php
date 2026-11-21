@@ -68,25 +68,30 @@ class DevolucionController extends Controller
 
         $aprobar = $validated['decision'] === 'aprobar';
 
-        try {
-            $devolucion = DB::transaction(function () use ($venta, $validated, $aprobar, $request) {
-                $venta = Venta::whereKey($venta->id_venta)->lockForUpdate()->firstOrFail();
+        $precioUnitarioDetalle = null;
 
-                if ($venta->estado !== 'pagada') {
-                    throw new \DomainException("La venta {$venta->codigo_venta} está en estado '{$venta->estado}': solo se atienden devoluciones de ventas pagadas.");
+        try {
+            $devolucion = DB::transaction(function () use ($venta, $validated, $aprobar, $request, &$precioUnitarioDetalle) {
+                $ventaBloqueada = Venta::whereKey($venta->id_venta)->lockForUpdate()->firstOrFail();
+
+                if ($ventaBloqueada->estado !== 'pagada') {
+                    throw new \DomainException("La venta {$ventaBloqueada->codigo_venta} está en estado '{$ventaBloqueada->estado}': solo se atienden devoluciones de ventas pagadas.");
                 }
 
-                if ($aprobar && $venta->fecha->lt(now()->subDays(Devolucion::PLAZO_DIAS))) {
+                if ($aprobar && $ventaBloqueada->fecha->lt(now()->subDays(Devolucion::PLAZO_DIAS))) {
                     throw new \DomainException('La venta superó el plazo de ' . Devolucion::PLAZO_DIAS . ' días para devoluciones y cambios (RF-19).');
                 }
 
-                $detalle = $venta->detalles()->where('id_producto', $validated['id_producto'])->first();
+                $detalle = $ventaBloqueada->detalles()->where('id_producto', $validated['id_producto'])->first();
 
                 if (! $detalle) {
                     throw new \DomainException('El juguete indicado no forma parte de esta venta.');
                 }
 
-                $disponible = $detalle->cantidad - $venta->cantidadDevuelta($detalle->id_producto);
+                // Capturar precio unitario del detalle ya cargado (evita consulta redundante tras la transacción)
+                $precioUnitarioDetalle = (float) $detalle->precio_unit;
+
+                $disponible = $detalle->cantidad - $ventaBloqueada->cantidadDevuelta($detalle->id_producto);
 
                 if ($validated['cantidad'] > $disponible) {
                     throw new \DomainException("Solo quedan {$disponible} unidad(es) de este juguete por devolver en la venta.");
@@ -111,7 +116,7 @@ class DevolucionController extends Controller
                 }
 
                 $devolucion = Devolucion::create([
-                    'id_venta' => $venta->id_venta,
+                    'id_venta' => $ventaBloqueada->id_venta,
                     'id_producto' => $detalle->id_producto,
                     'id_usuario' => $request->user()->id,
                     'tipo' => $validated['tipo'],
@@ -122,13 +127,13 @@ class DevolucionController extends Controller
                 ]);
 
                 // Si se reembolsaron todas las unidades vendidas, la venta queda devuelta
-                $unidadesVendidas = (int) $venta->detalles()->sum('cantidad');
-                $unidadesReembolsadas = (int) $venta->devoluciones()
+                $unidadesVendidas = (int) $ventaBloqueada->detalles()->sum('cantidad');
+                $unidadesReembolsadas = (int) $ventaBloqueada->devoluciones()
                     ->where('estado', Devolucion::ESTADO_REEMBOLSADA)
                     ->sum('cantidad');
 
                 if ($unidadesReembolsadas >= $unidadesVendidas) {
-                    $venta->update(['estado' => 'devuelta']);
+                    $ventaBloqueada->update(['estado' => 'devuelta']);
                 }
 
                 return $devolucion;
@@ -141,9 +146,11 @@ class DevolucionController extends Controller
             return back()->withInput()->withErrors(['error' => 'No se pudo registrar la devolución. Intente nuevamente o comuníquese con soporte.']);
         }
 
+        $montoReembolso = $devolucion->cantidad * $precioUnitarioDetalle;
+
         $mensaje = match ($devolucion->estado) {
             Devolucion::ESTADO_REEMBOLSADA => 'Devolución registrada. Reembolsar al cliente S/ '
-                . number_format($devolucion->cantidad * (float) $venta->detalles()->where('id_producto', $devolucion->id_producto)->value('precio_unit'), 2)
+                . number_format($montoReembolso, 2)
                 . '. El juguete regresó al inventario.',
             Devolucion::ESTADO_CAMBIADA => 'Cambio registrado. Entregue al cliente ' . $devolucion->cantidad . ' unidad(es) nueva(s); el stock fue actualizado.',
             default => 'Solicitud rechazada y registrada con su motivo. El inventario no se modificó.',

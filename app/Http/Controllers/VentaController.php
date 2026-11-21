@@ -46,13 +46,16 @@ class VentaController extends Controller
         $validated = $request->validate([
             'id_cliente' => 'required|exists:clientes,id_cliente',
             'tipo_comprobante' => 'required|in:ticket,boleta,factura',
+            'metodo_pago' => 'required|in:efectivo,tarjeta,yape,plin',
             'items' => 'required|array|min:1',
             'items.*.id_producto' => 'required|exists:productos,id_producto',
             'items.*.cantidad' => 'required|integer|min:1|max:10000',
         ]);
 
         $idCliente = $validated['id_cliente'];
-        $tipoComprobante = $validated['tipo_comprobante'];
+        // Normalizar 'ticket' a 'boleta' para la serie del comprobante (B001)
+        $tipoComprobante = $validated['tipo_comprobante'] === 'ticket' ? 'boleta' : $validated['tipo_comprobante'];
+        $metodoPago = $validated['metodo_pago'];
 
         // Si el mismo juguete se agrego en varias lineas, se suman sus cantidades
         // para validar el stock contra el total pedido y no linea por linea.
@@ -102,7 +105,7 @@ class VentaController extends Controller
                 'fecha' => now(),
                 'tipo_comprob' => $tipoComprobante,
                 'total' => $total,
-                'metodo_pago' => 'efectivo',
+                'metodo_pago' => $metodoPago,
                 'estado' => 'pendiente', // Espera cobro en caja
             ]);
 

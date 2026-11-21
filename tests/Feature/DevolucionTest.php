@@ -50,6 +50,7 @@ class DevolucionTest extends TestCase
         $this->actingAs($this->vendedor)->post('/ventas', [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'boleta',
+            'metodo_pago' => 'efectivo',
             'items' => [['id_producto' => $this->producto->id_producto, 'cantidad' => 3]],
         ]);
 
@@ -153,6 +154,7 @@ class DevolucionTest extends TestCase
         $this->actingAs($this->vendedor)->post('/ventas', [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'boleta',
+            'metodo_pago' => 'efectivo',
             'items' => [['id_producto' => $this->producto->id_producto, 'cantidad' => 1]],
         ]);
 

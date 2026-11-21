@@ -19,6 +19,9 @@ class CheckRole
         $user = $request->user();
 
         if (! $user) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json(['message' => 'No autenticado.'], 401);
+            }
             return redirect()->route('login');
         }
 
@@ -32,7 +35,10 @@ class CheckRole
             return $next($request);
         }
 
-        // Si no tiene el rol, abortar con 403 o redirigir con alerta
+        // Si no tiene el rol, devolver 403 (JSON para AJAX/fetch, HTML para navegador)
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json(['message' => 'Acceso no autorizado para su rol operativo.'], 403);
+        }
         abort(403, 'Acceso no autorizado para su rol operativo (' . ($user->rol ?? 'sin rol') . ').');
     }
 }

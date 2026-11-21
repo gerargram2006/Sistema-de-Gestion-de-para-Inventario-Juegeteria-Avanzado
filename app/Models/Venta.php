@@ -106,17 +106,14 @@ class Venta extends Model
     /**
      * Siguiente numero correlativo de la serie (B001-000001, B001-000002, ...).
      * Cada serie lleva su propia numeracion, como exige SUNAT. Debe llamarse
-     * dentro de una transaccion.
+     * dentro de una transaccion. Usa la tabla comprobante_contadores con
+     * lockForUpdate para evitar duplicados bajo concurrencia.
      */
     public static function siguienteNumeroComprobante(?string $tipo): string
     {
         $serie = static::serieComprobante($tipo);
 
-        $ultimo = static::where('nro_comprob', 'like', $serie . '-%')
-            ->lockForUpdate()
-            ->max('nro_comprob');
-
-        $correlativo = $ultimo ? ((int) substr($ultimo, strlen($serie) + 1)) + 1 : 1;
+        $correlativo = ComprobanteContador::siguienteCorrelativo($serie);
 
         return sprintf('%s-%06d', $serie, $correlativo);
     }

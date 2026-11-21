@@ -75,14 +75,14 @@ class CajaController extends Controller
             $numeroComprobante = DB::transaction(function () use ($venta, $validated) {
                 // Se bloquea la venta: si dos cajeros (o un doble clic) intentan cobrar
                 // el mismo ticket, el segundo espera y luego lo encuentra ya pagado.
-                $venta = Venta::whereKey($venta->id_venta)->lockForUpdate()->firstOrFail();
+                $ventaBloqueada = Venta::whereKey($venta->id_venta)->lockForUpdate()->firstOrFail();
 
-                if ($venta->estado !== 'pendiente') {
+                if ($ventaBloqueada->estado !== 'pendiente') {
                     throw new \DomainException('El ticket seleccionado ya fue cobrado o anulado.');
                 }
 
                 // 1. Descontar el stock fisico de cada juguete vendido
-                foreach ($venta->detalles as $detalle) {
+                foreach ($ventaBloqueada->detalles as $detalle) {
                     $producto = Producto::lockForUpdate()->findOrFail($detalle->id_producto);
 
                     if (! $producto->descontarStock($detalle->cantidad)) {
@@ -91,9 +91,9 @@ class CajaController extends Controller
                 }
 
                 // 2. Emitir el comprobante con el siguiente correlativo de su serie
-                $numeroComprobante = Venta::siguienteNumeroComprobante($venta->tipo_comprob);
+                $numeroComprobante = Venta::siguienteNumeroComprobante($ventaBloqueada->tipo_comprob);
 
-                $venta->update([
+                $ventaBloqueada->update([
                     'estado' => 'pagada',
                     'metodo_pago' => $validated['metodo_pago'],
                     'nro_comprob' => $numeroComprobante,

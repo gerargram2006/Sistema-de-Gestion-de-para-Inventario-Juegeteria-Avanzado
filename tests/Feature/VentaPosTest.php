@@ -44,6 +44,7 @@ class VentaPosTest extends TestCase
         $payload = [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'boleta',
+            'metodo_pago' => 'efectivo',
             'items' => [
                 [
                     'id_producto' => $producto->id_producto,
@@ -89,6 +90,7 @@ class VentaPosTest extends TestCase
         $payload = [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'ticket',
+            'metodo_pago' => 'efectivo',
             'items' => [
                 [
                     'id_producto' => $producto->id_producto,
@@ -124,6 +126,7 @@ class VentaPosTest extends TestCase
         $this->actingAs($vendedor)->post('/ventas', [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'boleta',
+            'metodo_pago' => 'efectivo',
             'items' => [
                 ['id_producto' => $producto->id_producto, 'cantidad' => 4],
             ],
@@ -168,6 +171,7 @@ class VentaPosTest extends TestCase
         $payload = [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'boleta',
+            'metodo_pago' => 'efectivo',
             'items' => [['id_producto' => $producto->id_producto, 'cantidad' => 1]],
         ];
 
@@ -202,6 +206,7 @@ class VentaPosTest extends TestCase
         $this->actingAs($vendedor)->post('/ventas', [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'boleta',
+            'metodo_pago' => 'efectivo',
             'items' => [
                 ['id_producto' => $producto->id_producto, 'cantidad' => 2],
                 ['id_producto' => $producto->id_producto, 'cantidad' => 2],
@@ -214,6 +219,7 @@ class VentaPosTest extends TestCase
         $this->actingAs($vendedor)->post('/ventas', [
             'id_cliente' => $cliente->id_cliente,
             'tipo_comprobante' => 'boleta',
+            'metodo_pago' => 'efectivo',
             'items' => [
                 ['id_producto' => $producto->id_producto, 'cantidad' => 1],
                 ['id_producto' => $producto->id_producto, 'cantidad' => 2],

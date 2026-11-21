@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Compra;
 use App\Models\DetalleCompra;
 use App\Models\Producto;
+use App\Models\Proveedor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class AbastecimientoController extends Controller
@@ -25,12 +27,12 @@ class AbastecimientoController extends Controller
             ->orderBy('stock_actual', 'asc')
             ->get();
 
-        $ordenesPendientes = Compra::with(['usuario:id,name', 'detalles.producto:id_producto,nombre'])
+        $ordenesPendientes = Compra::with(['usuario:id,name', 'proveedorRegistrado', 'detalles.producto:id_producto,nombre'])
             ->whereIn('estado', Compra::ESTADOS_POR_RECIBIR)
             ->latest('fecha')
             ->get();
 
-        $ordenesRecibidas = Compra::with(['usuario:id,name', 'detalles'])
+        $ordenesRecibidas = Compra::with(['usuario:id,name', 'proveedorRegistrado', 'detalles'])
             ->where('estado', 'recibida')
             ->latest('updated_at')
             ->take(8)
@@ -40,11 +42,16 @@ class AbastecimientoController extends Controller
             ->orderBy('nombre')
             ->get();
 
+        $proveedoresActivos = Proveedor::activos()
+            ->orderBy('razon_social')
+            ->get(['id_proveedor', 'razon_social']);
+
         return view('abastecimiento.index', compact(
             'criticos',
             'ordenesPendientes',
             'ordenesRecibidas',
-            'todosProductos'
+            'todosProductos',
+            'proveedoresActivos'
         ));
     }
 
@@ -54,7 +61,7 @@ class AbastecimientoController extends Controller
     public function crearOrden(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'proveedor' => 'required|string|max:100',
+            'id_proveedor' => ['required', Rule::exists('proveedores', 'id_proveedor')->where('activo', true)],
             'items' => 'required|array|min:1',
             'items.*.id_producto' => 'required|exists:productos,id_producto',
             'items.*.cantidad' => 'required|integer|min:1|max:10000',
@@ -67,10 +74,13 @@ class AbastecimientoController extends Controller
             $totalOrden += ($item['cantidad'] * $item['precio_costo']);
         }
 
+        $proveedor = Proveedor::findOrFail($validated['id_proveedor']);
+
         DB::beginTransaction();
         try {
             $compra = Compra::create([
-                'proveedor' => $validated['proveedor'],
+                'id_proveedor' => $proveedor->id_proveedor,
+                'proveedor' => $proveedor->razon_social,
                 'id_usuario' => Auth::id(),
                 'fecha' => now(),
                 'total' => $totalOrden,
@@ -90,7 +100,7 @@ class AbastecimientoController extends Controller
             DB::commit();
 
             return redirect()->route('abastecimiento.index')
-                ->with('success', "Orden de abastecimiento {$compra->nro_orden} generada exitosamente por un total de S/ " . number_format($totalOrden, 2));
+                ->with('success', "Orden de abastecimiento {$compra->nro_orden} generada exitosamente por un total de S/ ".number_format($totalOrden, 2));
         } catch (\Throwable $e) {
             DB::rollBack();
             report($e);

@@ -13,6 +13,7 @@ class Compra extends Model
     use HasFactory;
 
     protected $table = 'compras';
+
     protected $primaryKey = 'id_compra';
 
     protected $fillable = [
@@ -23,6 +24,7 @@ class Compra extends Model
         'total',
         'estado',
         'observaciones',
+        'id_proveedor',
     ];
 
     /**
@@ -32,7 +34,7 @@ class Compra extends Model
     protected static function booted(): void
     {
         static::creating(function (Compra $compra) {
-            $compra->nro_orden ??= 'TMP-' . Str::ulid();
+            $compra->nro_orden ??= 'TMP-'.Str::ulid();
         });
 
         static::created(function (Compra $compra) {
@@ -84,5 +86,14 @@ class Compra extends Model
     public function detalles(): HasMany
     {
         return $this->hasMany(DetalleCompra::class, 'id_compra', 'id_compra');
+    }
+
+    /**
+     * Proveedor registrado en el catalogo. La columna 'proveedor' conserva el
+     * nombre historico para no romper ordenes anteriores a este modulo.
+     */
+    public function proveedorRegistrado(): BelongsTo
+    {
+        return $this->belongsTo(Proveedor::class, 'id_proveedor', 'id_proveedor');
     }
 }

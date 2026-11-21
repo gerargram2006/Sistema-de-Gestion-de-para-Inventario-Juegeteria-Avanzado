@@ -180,6 +180,10 @@ return [
             'required' => 'Agregue al menos un juguete a la orden.',
             'min' => 'Agregue al menos un juguete a la orden.',
         ],
+        'id_proveedor' => [
+            'required' => 'Seleccione un proveedor autorizado.',
+            'exists' => 'El proveedor seleccionado no está autorizado o ya no existe.',
+        ],
     ],
 
     /*
@@ -208,7 +212,13 @@ return [
         'id_categoria' => 'categoría',
         'id_cliente' => 'cliente',
         'id_producto' => 'juguete',
+        'id_proveedor' => 'proveedor',
         'id_venta' => 'venta',
+        'razon_social' => 'razón social',
+        'ruc' => 'RUC',
+        'direccion' => 'dirección',
+        'activo' => 'autorización',
+        'precio_costo' => 'precio de costo',
         'tipo_comprobante' => 'tipo de comprobante',
         'metodo_pago' => 'método de pago',
         'monto_recibido' => 'monto recibido',

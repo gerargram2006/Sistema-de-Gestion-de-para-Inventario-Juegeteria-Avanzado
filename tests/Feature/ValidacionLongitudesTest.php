@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Categoria;
-use App\Models\Producto;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -30,25 +28,15 @@ class ValidacionLongitudesTest extends TestCase
         $this->assertDatabaseMissing('clientes', ['dni' => '40506070']);
     }
 
-    public function test_el_proveedor_no_supera_la_columna_de_100_caracteres(): void
+    public function test_la_razon_social_del_proveedor_no_supera_la_columna_de_150_caracteres(): void
     {
-        $almacenero = User::factory()->rol(User::ROL_ALMACENERO)->create();
-        $categoria = Categoria::create(['nombre' => 'Bloques', 'estado' => 'activo']);
-        $producto = Producto::create([
-            'id_categoria' => $categoria->id_categoria,
-            'sku' => 'JUG-BLO-100',
-            'nombre' => 'Bloques de Madera',
-            'precio' => 35.00,
-            'stock_actual' => 1,
-            'stock_minimo' => 4,
-            'estado' => 'stock bajo',
-        ]);
+        $admin = User::factory()->rol(User::ROL_ADMINISTRADOR)->create();
 
-        $this->actingAs($almacenero)->post('/abastecimiento/orden', [
-            'proveedor' => str_repeat('Distribuidora ', 8), // 112 caracteres
-            'items' => [['id_producto' => $producto->id_producto, 'cantidad' => 5, 'precio_costo' => 20]],
-        ])->assertSessionHasErrors('proveedor');
+        $this->actingAs($admin)->post('/proveedores', [
+            'razon_social' => str_repeat('Distribuidora ', 12), // 156 caracteres
+            'ruc' => '20123456789',
+        ])->assertSessionHasErrors('razon_social');
 
-        $this->assertDatabaseCount('compras', 0);
+        $this->assertDatabaseMissing('proveedores', ['ruc' => '20123456789']);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DevolucionController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AbastecimientoController::class, 'index'])->name('index');
         Route::post('/orden', [AbastecimientoController::class, 'crearOrden'])->name('crear-orden');
         Route::post('/orden/{compra}/recibir', [AbastecimientoController::class, 'recibirOrden'])->name('recibir');
+        Route::post('/proveedores/rapido', [ProveedorController::class, 'storeRapido'])->name('proveedores.rapido');
     });
 
     // Módulo de Devoluciones y Cambios (CUS-06) - Vendedor, Cajero y Administrador
@@ -81,6 +83,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Perfil de Usuario
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Proveedores (CUS-03) - Solo Administrador
+    Route::middleware('role:administrador')->prefix('proveedores')->name('proveedores.')->group(function () {
+        Route::get('/', [ProveedorController::class, 'index'])->name('index');
+        Route::get('/crear', [ProveedorController::class, 'create'])->name('create');
+        Route::post('/', [ProveedorController::class, 'store'])->name('store');
+        Route::get('/{proveedor}/editar', [ProveedorController::class, 'edit'])->name('edit');
+        Route::put('/{proveedor}', [ProveedorController::class, 'update'])->name('update');
+        Route::patch('/{proveedor}/estado', [ProveedorController::class, 'cambiarEstado'])->name('estado');
+    });
 });
 
 require __DIR__.'/auth.php';

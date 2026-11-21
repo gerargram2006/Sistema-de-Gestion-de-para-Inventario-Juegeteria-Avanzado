@@ -8,11 +8,25 @@
                 <p class="text-sm text-gray-500 mt-1">Control de existencias, precios, categorías y alertas de stock en tiempo real.</p>
             </div>
             @if(Auth::user()->tieneRol('administrador', 'almacenero'))
-                <button type="button" @click="$dispatch('open-modal', 'modal-crear-producto')"
-                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Nuevo Juguete
-                </button>
+                <div class="flex flex-wrap items-center gap-2">
+                    @if(Auth::user()->esAdministrador())
+                        <a href="{{ route('control-inventario.index') }}"
+                            class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition shadow-sm">
+                            <x-icon name="clipboard-document-list" class="w-4 h-4 mr-1.5 text-indigo-600" />
+                            Control / Kardex
+                        </a>
+                    @endif
+                    <button type="button" x-data @click="$dispatch('open-modal', 'modal-categorias')"
+                        class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition shadow-sm">
+                        <x-icon name="squares-2x2" class="w-4 h-4 mr-1.5 text-indigo-600" />
+                        Categorías
+                    </button>
+                    <button type="button" x-data @click="$dispatch('open-modal', 'modal-crear-producto')"
+                        class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Nuevo Juguete
+                    </button>
+                </div>
             @endif
         </div>
     </x-slot>
@@ -163,7 +177,7 @@
                                     </td>
                                     @if(Auth::user()->tieneRol('administrador', 'almacenero'))
                                         <td class="py-3.5 px-4 text-center whitespace-nowrap">
-                                            <button type="button"
+                                            <button type="button" x-data
                                                 @click="$dispatch('open-modal', 'modal-editar-{{ $producto->id_producto }}')"
                                                 class="text-indigo-600 hover:text-indigo-900 font-medium text-xs bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition">
                                                 Editar
@@ -262,9 +276,10 @@
 
     @if(Auth::user()->tieneRol('administrador', 'almacenero'))
         <!-- Modal Nuevo Producto -->
-        <x-modal name="modal-crear-producto" :show="false" focusable>
+        <x-modal name="modal-crear-producto" :show="$errors->hasAny(['sku', 'id_categoria', 'nombre', 'precio', 'stock_actual', 'stock_minimo']) && old('_origen') === 'crear_producto'" focusable>
             <form method="POST" action="{{ route('inventario.store') }}" class="p-6">
                 @csrf
+                <input type="hidden" name="_origen" value="crear_producto">
                 <h3 class="text-lg font-bold text-gray-900 mb-2">
                     Registrar Nuevo Juguete en el Inventario
                 </h3>
@@ -273,7 +288,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
                     <div>
                         <x-input-label for="new_sku" :value="__('Código SKU (Único)')" />
-                        <x-text-input id="new_sku" name="sku" type="text" placeholder="Ej: JUG-NEW-01" class="mt-1 block w-full font-mono text-sm uppercase" required />
+                        <x-text-input id="new_sku" name="sku" type="text" placeholder="Ej: JUG-NEW-01" :value="old('_origen') === 'crear_producto' ? old('sku') : ''" class="mt-1 block w-full font-mono text-sm uppercase" required />
                     </div>
 
                     <div>
@@ -281,29 +296,29 @@
                         <select id="new_categoria" name="id_categoria" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                             <option value="">Seleccione una categoría</option>
                             @foreach ($categorias as $cat)
-                                <option value="{{ $cat->id_categoria }}">{{ $cat->nombre }}</option>
+                                <option value="{{ $cat->id_categoria }}" @selected(old('_origen') === 'crear_producto' && old('id_categoria') == $cat->id_categoria)>{{ $cat->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="sm:col-span-2">
                         <x-input-label for="new_nombre" :value="__('Nombre del Juguete')" />
-                        <x-text-input id="new_nombre" name="nombre" type="text" placeholder="Ej: Pista de Autos Eléctrica Turbo" class="mt-1 block w-full" required />
+                        <x-text-input id="new_nombre" name="nombre" type="text" placeholder="Ej: Pista de Autos Eléctrica Turbo" :value="old('_origen') === 'crear_producto' ? old('nombre') : ''" class="mt-1 block w-full" required />
                     </div>
 
                     <div>
                         <x-input-label for="new_precio" :value="__('Precio de Venta (S/.)')" />
-                        <x-text-input id="new_precio" name="precio" type="number" step="0.01" min="0.10" placeholder="0.00" class="mt-1 block w-full" required />
+                        <x-text-input id="new_precio" name="precio" type="number" step="0.01" min="0.10" placeholder="0.00" :value="old('_origen') === 'crear_producto' ? old('precio') : ''" class="mt-1 block w-full" required />
                     </div>
 
                     <div>
                         <x-input-label for="new_stock" :value="__('Stock Inicial')" />
-                        <x-text-input id="new_stock" name="stock_actual" type="number" min="0" placeholder="10" class="mt-1 block w-full" required />
+                        <x-text-input id="new_stock" name="stock_actual" type="number" min="0" placeholder="10" :value="old('_origen') === 'crear_producto' ? old('stock_actual') : ''" class="mt-1 block w-full" required />
                     </div>
 
                     <div class="sm:col-span-2">
                         <x-input-label for="new_minimo" :value="__('Stock Mínimo (Umbral para Alerta Crítica)')" />
-                        <x-text-input id="new_minimo" name="stock_minimo" type="number" min="1" value="5" class="mt-1 block w-full" required />
+                        <x-text-input id="new_minimo" name="stock_minimo" type="number" min="1" :value="old('_origen') === 'crear_producto' ? old('stock_minimo', 5) : 5" class="mt-1 block w-full" required />
                     </div>
                 </div>
 
@@ -316,6 +331,60 @@
                     </x-primary-button>
                 </div>
             </form>
+        </x-modal>
+
+        <!-- Modal Gestión de Categorías (RF-02) -->
+        <x-modal name="modal-categorias" :show="$errors->hasAny(['nombre_categoria', 'descripcion_categoria'])" focusable>
+            <div class="p-6 space-y-5 text-left">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900">Gestión de Categorías</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Registra nuevas categorías o activa/desactiva las existentes sin perder el historial de juguetes.</p>
+                </div>
+
+                <form method="POST" action="{{ route('inventario.categorias.store') }}" class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
+                    @csrf
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <x-input-label for="nombre_categoria" :value="__('Nombre de la Categoría')" />
+                            <x-text-input id="nombre_categoria" name="nombre_categoria" type="text" maxlength="50"
+                                placeholder="Ej: Educativos y STEM" :value="old('nombre_categoria')" class="mt-1 block w-full text-sm" required />
+                        </div>
+                        <div>
+                            <x-input-label for="descripcion_categoria" :value="__('Descripción (Opcional)')" />
+                            <x-text-input id="descripcion_categoria" name="descripcion_categoria" type="text" maxlength="255"
+                                placeholder="Breve descripción" :value="old('descripcion_categoria')" class="mt-1 block w-full text-sm" />
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <x-primary-button>Agregar Categoría</x-primary-button>
+                    </div>
+                </form>
+
+                <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-xl divide-y divide-gray-100">
+                    @foreach ($todasCategorias as $cat)
+                        <div class="flex items-center justify-between px-4 py-2.5 text-sm">
+                            <div>
+                                <span class="font-semibold {{ $cat->estado === 'activo' ? 'text-gray-900' : 'text-gray-400 line-through' }}">{{ $cat->nombre }}</span>
+                                <span class="ml-2 text-xs text-gray-400">({{ $cat->productos_count }} juguetes)</span>
+                                @if ($cat->descripcion)
+                                    <p class="text-xs text-gray-500">{{ $cat->descripcion }}</p>
+                                @endif
+                            </div>
+                            <form method="POST" action="{{ route('inventario.categorias.estado', $cat) }}">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="text-xs font-semibold px-2.5 py-1 rounded-md transition {{ $cat->estado === 'activo' ? 'bg-rose-50 text-rose-700 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100' }}">
+                                    {{ $cat->estado === 'activo' ? 'Desactivar' : 'Activar' }}
+                                </button>
+                            </form>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">Cerrar</x-secondary-button>
+                </div>
+            </div>
         </x-modal>
     @endif
 </x-app-layout>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbastecimientoController;
 use App\Http\Controllers\CajaController;
+use App\Http\Controllers\ControlInventarioController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DevolucionController;
 use App\Http\Controllers\InventarioController;
@@ -33,20 +34,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('inventario')->name('inventario.')->group(function () {
         Route::get('/', [InventarioController::class, 'index'])->name('index');
 
-        // Registro y modificación de juguetes restringidos a Administrador y Almacenero
+        // Registro y modificación de juguetes y categorías restringidos a Administrador y Almacenero
         Route::middleware('role:administrador,almacenero')->group(function () {
             Route::post('/', [InventarioController::class, 'store'])->name('store');
             Route::put('/{producto}', [InventarioController::class, 'update'])->name('update');
             Route::patch('/{producto}/estado', [InventarioController::class, 'cambiarEstado'])->name('estado');
+            Route::post('/categorias', [InventarioController::class, 'storeCategoria'])->name('categorias.store');
+            Route::patch('/categorias/{categoria}/estado', [InventarioController::class, 'cambiarEstadoCategoria'])->name('categorias.estado');
         });
+    });
+
+    // Control de Inventario, Kardex, Auditorías y Mermas (CUS-05 / RF-12 a RF-16 / RN-04) - Solo Administrador
+    Route::middleware('role:administrador')->prefix('control-inventario')->name('control-inventario.')->group(function () {
+        Route::get('/', [ControlInventarioController::class, 'index'])->name('index');
+        Route::post('/ajuste', [ControlInventarioController::class, 'registrarAjuste'])->name('ajuste');
+        Route::get('/exportar', [ControlInventarioController::class, 'exportarCsv'])->name('exportar');
     });
 
     // Módulo Punto de Venta (POS) y Tickets (CUS-01) - Vendedor y Administrador
     Route::middleware('role:vendedor,administrador')->prefix('ventas')->name('ventas.')->group(function () {
         Route::get('/', [VentaController::class, 'index'])->name('index');
         Route::get('/pos', [VentaController::class, 'pos'])->name('pos');
+        Route::get('/clientes', [VentaController::class, 'clientes'])->name('clientes');
         Route::post('/', [VentaController::class, 'store'])->name('store');
         Route::post('/cliente', [VentaController::class, 'storeCliente'])->name('cliente.store');
+        Route::patch('/{venta}/anular', [VentaController::class, 'anular'])->name('anular');
         Route::get('/{venta}', [VentaController::class, 'show'])->name('show');
     });
 
@@ -62,6 +74,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AbastecimientoController::class, 'index'])->name('index');
         Route::post('/orden', [AbastecimientoController::class, 'crearOrden'])->name('crear-orden');
         Route::post('/orden/{compra}/recibir', [AbastecimientoController::class, 'recibirOrden'])->name('recibir');
+        Route::patch('/orden/{compra}/cancelar', [AbastecimientoController::class, 'cancelarOrden'])->name('cancelar');
+        Route::get('/orden/{compra}/constancia', [AbastecimientoController::class, 'constancia'])->name('constancia');
         Route::post('/proveedores/rapido', [ProveedorController::class, 'storeRapido'])->name('proveedores.rapido');
     });
 
@@ -69,6 +83,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('role:vendedor,cajero,administrador')->prefix('devoluciones')->name('devoluciones.')->group(function () {
         Route::get('/', [DevolucionController::class, 'index'])->name('index');
         Route::post('/{venta}', [DevolucionController::class, 'store'])->name('store');
+        Route::get('/{devolucion}/constancia', [DevolucionController::class, 'constancia'])->name('constancia');
     });
 
     // Gestión de Usuarios y Roles (reemplaza al registro público) - Solo Administrador

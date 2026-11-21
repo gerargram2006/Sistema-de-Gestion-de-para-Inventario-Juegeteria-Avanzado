@@ -1,135 +1,231 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Mundo del Juguete') }} — Sistema de Gestión de Inventario y Ventas</title>
+    <meta name="description" content="Sistema de gestión de inventario, punto de venta, caja y abastecimiento para la juguetería Mundo del Juguete.">
     <link rel="icon" type="{{ file_exists(public_path('images/logo.png')) ? 'image/png' : 'image/svg+xml' }}" href="{{ file_exists(public_path('images/logo.png')) ? asset('images/logo.png') : asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gradient-to-br from-indigo-50 via-white to-pink-50 min-h-screen text-gray-800 font-sans flex flex-col justify-between">
+<body class="min-h-screen flex flex-col bg-white font-sans text-slate-600 antialiased">
 
-    <!-- Header / Navbar -->
-    <header class="max-w-7xl mx-auto w-full px-6 py-6 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-            <x-application-logo class="w-9 h-9" />
-            <span class="text-2xl font-black tracking-tight text-indigo-700">Mundo del Juguete</span>
-        </div>
+    {{-- ================= Barra superior ================= --}}
+    <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+            <a href="/" class="flex items-center gap-2.5 shrink-0">
+                <x-application-logo class="w-8 h-8" />
+                <span class="text-base font-bold tracking-tight text-slate-900">
+                    Mundo del <span class="text-indigo-600">Juguete</span>
+                </span>
+            </a>
 
-        <div>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#modulos" class="hover:text-slate-900 transition">Módulos</a>
+                <a href="#alcance" class="hover:text-slate-900 transition">Alcance</a>
+            </nav>
+
             @if (Route::has('login'))
-                <div class="flex items-center gap-3">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl shadow-md transition">
-                            Ir al Panel Principal &rarr;
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl shadow-md transition">
-                            Iniciar Sesión
-                        </a>
-                    @endauth
-                </div>
+                @auth
+                    <a href="{{ url('/dashboard') }}"
+                       class="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 transition">
+                        Ir al panel
+                    </a>
+                @else
+                    <a href="{{ route('login') }}"
+                       class="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 transition">
+                        Iniciar sesión
+                    </a>
+                @endauth
             @endif
         </div>
     </header>
 
-    <!-- Hero Content -->
-    <main class="max-w-6xl mx-auto px-6 py-10 flex-1 flex flex-col items-center justify-center text-center">
-        <span class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-bold tracking-wide uppercase mb-4">
-            <x-icon name="academic-cap" class="w-4 h-4 inline-block align-[-2px] me-1" />Ingeniería de Requerimientos — Tecsup 2026
-        </span>
-        <h1 class="text-4xl sm:text-6xl font-black text-gray-900 tracking-tight max-w-4xl leading-tight">
-            Gestión Inteligente de Inventario y Ventas para <span class="text-indigo-600">Jugueterías</span>
-        </h1>
-        <p class="text-base sm:text-lg text-gray-600 mt-4 max-w-2xl leading-relaxed">
-            Plataforma integral con control de existencias en tiempo real, punto de venta (POS), cobros con comprobantes electrónicos y módulo de abastecimiento con alertas de stock crítico.
-        </p>
+    <main class="flex-1">
 
-        <!-- Módulos Implementados -->
-        <!-- Imagen de portada (public/images/bienvenida.jpg) -->
-        <x-imagen ruta="images/bienvenida.jpg" texto="Imagen de portada de la tienda" alt="Tienda Mundo del Juguete"
-            class="mt-10 w-full h-56 sm:h-72 rounded-2xl" />
+        {{-- ================= Presentación ================= --}}
+        <section class="border-b border-slate-200 bg-slate-50">
+            <div class="max-w-6xl mx-auto px-6 py-16 lg:py-24 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12 w-full text-left">
-            <!-- CUS-01: POS -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
-                <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-3">
-                    <x-icon name="shopping-cart" class="w-5 h-5" />
+                {{-- Texto --}}
+                <div class="min-w-0 lg:col-span-6">
+                    <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-indigo-700">
+                        <span class="h-1.5 w-1.5 rounded-full bg-indigo-600"></span>
+                        Proyecto integrador · Tecsup 2026
+                    </p>
+
+                    <h1 class="mt-5 text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-[1.1]">
+                        Control de inventario y ventas para una juguetería
+                    </h1>
+
+                    <p class="mt-5 text-lg leading-relaxed text-slate-600">
+                        Sistema web que integra el catálogo, el punto de venta, el cobro con emisión de
+                        comprobantes y el abastecimiento con proveedores, sobre una sola base de datos y
+                        con acceso diferenciado por rol.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap items-center gap-3">
+                        @if (Route::has('login'))
+                            <a href="{{ auth()->check() ? url('/dashboard') : route('login') }}"
+                               class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 transition">
+                                {{ auth()->check() ? 'Ir al panel principal' : 'Acceder al sistema' }}
+                            </a>
+                        @endif
+                        <a href="#modulos"
+                           class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">
+                            Conocer los módulos
+                        </a>
+                    </div>
+
+                    <dl class="mt-10 grid grid-cols-3 gap-6 border-t border-slate-200 pt-6 max-w-md">
+                        <div>
+                            <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Roles</dt>
+                            <dd class="mt-1 text-2xl font-bold text-slate-900">4</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Módulos</dt>
+                            <dd class="mt-1 text-2xl font-bold text-slate-900">7</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Casos de uso</dt>
+                            <dd class="mt-1 text-2xl font-bold text-slate-900">6</dd>
+                        </div>
+                    </dl>
                 </div>
-                <h3 class="font-bold text-gray-900 text-base">Punto de Venta (POS)</h3>
-                <p class="text-xs text-gray-500 mt-1">CUS-01: Selección de juguetes con validación de stock, registro de clientes y tickets de venta.</p>
-                <span class="mt-3 inline-block text-[11px] font-bold text-indigo-600">Rol: Vendedor / Admin</span>
+
+                {{-- Vista previa del sistema --}}
+                <div class="min-w-0 lg:col-span-6">
+                    <div class="relative">
+                        <div class="absolute -inset-3 rounded-3xl bg-indigo-100/50 blur-2xl" aria-hidden="true"></div>
+
+                        <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5">
+                            {{-- Barra de la ventana --}}
+                            <div class="flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-4 py-3">
+                                <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
+                                <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
+                                <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
+                                <span class="ms-2 text-xs font-medium text-slate-500">Panel principal</span>
+                            </div>
+
+                            <div class="p-5 space-y-4">
+                                {{-- Indicadores --}}
+                                <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                                    <div class="rounded-xl border border-slate-200 p-3">
+                                        <p class="text-[11px] font-medium uppercase tracking-wide text-slate-500">Ventas del día</p>
+                                        <p class="mt-1 text-lg font-bold text-slate-900">S/ 1,284.50</p>
+                                    </div>
+                                    <div class="rounded-xl border border-slate-200 p-3">
+                                        <p class="text-[11px] font-medium uppercase tracking-wide text-slate-500">Por cobrar</p>
+                                        <p class="mt-1 text-lg font-bold text-slate-900">3</p>
+                                    </div>
+                                    <div class="col-span-2 rounded-xl border border-amber-200 bg-amber-50 p-3 sm:col-span-1">
+                                        <p class="text-[11px] font-medium uppercase tracking-wide text-amber-700">Stock crítico</p>
+                                        <p class="mt-1 text-lg font-bold text-amber-900">5</p>
+                                    </div>
+                                </div>
+
+                                {{-- Inventario --}}
+                                <div class="overflow-hidden rounded-xl border border-slate-200">
+                                    <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2">
+                                        <span class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Inventario</span>
+                                        <span class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Estado</span>
+                                    </div>
+
+                                    <ul class="divide-y divide-slate-100">
+                                        @foreach ([
+                                            ['sku' => 'JUG-011', 'archivo' => 'JUG-011.webp', 'nombre' => 'LEGO Classic Caja Grande', 'stock' => '8 u.', 'estado' => 'Disponible', 'clase' => 'bg-emerald-50 text-emerald-700 ring-emerald-200'],
+                                            ['sku' => 'JUG-002', 'archivo' => 'JUG-002.webp', 'nombre' => 'Jenga Clásico Original', 'stock' => '4 u.', 'estado' => 'Stock bajo', 'clase' => 'bg-amber-50 text-amber-700 ring-amber-200'],
+                                            ['sku' => 'JUG-010', 'archivo' => 'JUG-010.webp', 'nombre' => 'Cry Babies Bebé Llorón', 'stock' => '0 u.', 'estado' => 'Agotado', 'clase' => 'bg-rose-50 text-rose-700 ring-rose-200'],
+                                        ] as $fila)
+                                            <li class="flex items-center gap-3 px-4 py-3">
+                                                <x-imagen :ruta="'images/productos/' . $fila['archivo']" texto=""
+                                                          :alt="$fila['nombre']" class="h-10 w-10 shrink-0 rounded-lg bg-slate-100" />
+                                                <div class="min-w-0 flex-1">
+                                                    <p class="truncate text-sm font-semibold text-slate-900">{{ $fila['nombre'] }}</p>
+                                                    <p class="text-xs text-slate-500">
+                                                        <span class="font-mono">{{ $fila['sku'] }}</span> · {{ $fila['stock'] }}
+                                                    </p>
+                                                </div>
+                                                <span class="shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset {{ $fila['clase'] }}">
+                                                    {{ $fila['estado'] }}
+                                                </span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ================= Módulos ================= --}}
+        <section id="modulos" class="max-w-6xl mx-auto px-6 py-16 lg:py-20">
+            <div class="max-w-2xl">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Módulos del sistema</h2>
+                <p class="mt-3 text-base leading-relaxed text-slate-600">
+                    Cada módulo corresponde a un caso de uso del sistema (CUS) y está disponible solo para
+                    los roles autorizados.
+                </p>
             </div>
 
-            <!-- CUS-02: Caja -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
-                <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-3">
-                    <x-icon name="credit-card" class="w-5 h-5" />
-                </div>
-                <h3 class="font-bold text-gray-900 text-base">Caja y Cobros</h3>
-                <p class="text-xs text-gray-500 mt-1">CUS-02: Cobro de tickets pendientes, cálculo de vuelto, deducción física de stock y emisión de boletas/facturas.</p>
-                <span class="mt-3 inline-block text-[11px] font-bold text-emerald-600">Rol: Cajero / Admin</span>
+            <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach ([
+                    ['icono' => 'shopping-cart', 'titulo' => 'Punto de venta', 'codigo' => 'CUS-01', 'rol' => 'Vendedor · Administrador', 'detalle' => 'Registro de la venta con validación de stock, datos del cliente y emisión del ticket.'],
+                    ['icono' => 'credit-card', 'titulo' => 'Caja y cobros', 'codigo' => 'CUS-02', 'rol' => 'Cajero · Administrador', 'detalle' => 'Cobro del ticket, cálculo del vuelto y emisión de boleta o factura con correlativo por serie.'],
+                    ['icono' => 'exclamation-triangle', 'titulo' => 'Alertas de stock', 'codigo' => 'CUS-03', 'rol' => 'Almacenero · Administrador', 'detalle' => 'Detección de juguetes en nivel de reposición o agotados y sugerencia de órdenes de compra.'],
+                    ['icono' => 'truck', 'titulo' => 'Abastecimiento', 'codigo' => 'CUS-04', 'rol' => 'Almacenero · Administrador', 'detalle' => 'Órdenes de compra a proveedores y confirmación del ingreso físico de la mercadería.'],
+                ] as $modulo)
+                    <article class="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-slate-300 hover:shadow-sm">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+                            <x-icon :name="$modulo['icono']" class="h-5 w-5" />
+                        </div>
+                        <h3 class="mt-4 text-base font-semibold text-slate-900">{{ $modulo['titulo'] }}</h3>
+                        <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{{ $modulo['detalle'] }}</p>
+                        <p class="mt-4 border-t border-slate-100 pt-3 text-xs font-medium text-slate-500">
+                            <span class="font-mono text-slate-700">{{ $modulo['codigo'] }}</span> · {{ $modulo['rol'] }}
+                        </p>
+                    </article>
+                @endforeach
             </div>
+        </section>
 
-            <!-- CUS-03: Stock Crítico -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
-                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-3">
-                    <x-icon name="exclamation-triangle" class="w-5 h-5" />
+        {{-- ================= Alcance técnico ================= --}}
+        <section id="alcance" class="border-t border-slate-200 bg-slate-50">
+            <div class="max-w-6xl mx-auto px-6 py-16 lg:py-20">
+                <div class="max-w-2xl">
+                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Alcance técnico</h2>
+                    <p class="mt-3 text-base leading-relaxed text-slate-600">
+                        Decisiones de diseño que sostienen la operación diaria de la tienda.
+                    </p>
                 </div>
-                <h3 class="font-bold text-gray-900 text-base">Alertas de Stock</h3>
-                <p class="text-xs text-gray-500 mt-1">CUS-03: Detección automática de juguetes en nivel de reposición o agotados con alertas visuales.</p>
-                <span class="mt-3 inline-block text-[11px] font-bold text-amber-600">Rol: Almacenero / Admin</span>
-            </div>
 
-            <!-- CUS-04: Recepción -->
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
-                <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-3">
-                    <x-icon name="cube" class="w-5 h-5" />
-                </div>
-                <h3 class="font-bold text-gray-900 text-base">Recepción Almacén</h3>
-                <p class="text-xs text-gray-500 mt-1">CUS-04: Gestión de órdenes de compra a proveedores y confirmación de ingreso físico de mercadería.</p>
-                <span class="mt-3 inline-block text-[11px] font-bold text-blue-600">Rol: Almacenero / Admin</span>
-            </div>
-        </div>
-
-        {{-- Credenciales de prueba: solo se muestran con APP_ENV=local, nunca en produccion --}}
-        @env('local')
-        <!-- Cuentas de Acceso Rápido para Pruebas y Evidencia -->
-        <div class="mt-12 bg-white/90 backdrop-blur-sm border border-indigo-100 p-6 rounded-2xl shadow-sm w-full max-w-3xl text-left">
-            <h4 class="font-black text-gray-900 text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
-                <x-icon name="lock-closed" class="w-7 h-7 text-indigo-600" /> Cuentas Preconfiguradas para Demostración y Pruebas
-            </h4>
-            <p class="text-xs text-gray-500 mb-4">Contraseña universal para todas las cuentas: <code class="px-2 py-0.5 bg-gray-100 font-bold text-indigo-700 rounded font-mono">password</code></p>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl">
-                    <span class="font-bold text-purple-900 block">Administrador</span>
-                    <span class="text-gray-600 block text-[11px] font-mono mt-1">admin@jugueteria.com</span>
-                    <span class="text-[10px] text-purple-700 block mt-1">Acceso total a todos los módulos</span>
-                </div>
-                <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl">
-                    <span class="font-bold text-blue-900 block">Vendedor</span>
-                    <span class="text-gray-600 block text-[11px] font-mono mt-1">vendedor@jugueteria.com</span>
-                    <span class="text-[10px] text-blue-700 block mt-1">POS y emisión de tickets</span>
-                </div>
-                <div class="p-3 bg-green-50 border border-green-200 rounded-xl">
-                    <span class="font-bold text-green-900 block">Cajero</span>
-                    <span class="text-gray-600 block text-[11px] font-mono mt-1">cajero@jugueteria.com</span>
-                    <span class="text-[10px] text-green-700 block mt-1">Caja y cobro de comprobantes</span>
-                </div>
-                <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl">
-                    <span class="font-bold text-amber-900 block">Almacenero</span>
-                    <span class="text-gray-600 block text-[11px] font-mono mt-1">almacen@jugueteria.com</span>
-                    <span class="text-[10px] text-amber-700 block mt-1">Stock, compras y recepción</span>
+                <div class="mt-10 grid gap-8 sm:grid-cols-3">
+                    @foreach ([
+                        ['icono' => 'lock-closed', 'titulo' => 'Acceso por rol', 'detalle' => 'Las cuentas las crea el administrador. Cada módulo valida el rol del usuario y una cuenta dada de baja pierde el acceso de inmediato.'],
+                        ['icono' => 'receipt-percent', 'titulo' => 'Comprobantes trazables', 'detalle' => 'Boletas y facturas se numeran de forma correlativa e independiente por serie, y cada cobro queda asociado a su ticket de venta.'],
+                        ['icono' => 'archive-box', 'titulo' => 'Integridad del inventario', 'detalle' => 'Las operaciones de stock se ejecutan en transacciones con bloqueo de filas, lo que evita el doble cobro y las existencias negativas, y están cubiertas por pruebas automatizadas.'],
+                    ] as $punto)
+                        <div>
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-indigo-600">
+                                <x-icon :name="$punto['icono']" class="h-5 w-5" />
+                            </div>
+                            <h3 class="mt-4 text-base font-semibold text-slate-900">{{ $punto['titulo'] }}</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $punto['detalle'] }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
-        @endenv
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="py-6 text-center text-xs text-gray-400 border-t border-gray-100">
-        © 2026 Mundo del Juguete S.A.C. — Entregable de Ingeniería de Requerimientos.
+    {{-- ================= Pie ================= --}}
+    <footer class="border-t border-slate-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+            <p>© {{ date('Y') }} Mundo del Juguete S.A.C.</p>
+            <p>Ingeniería de Requerimientos y Diseño de Software · Tecsup</p>
+        </div>
     </footer>
 
 </body>

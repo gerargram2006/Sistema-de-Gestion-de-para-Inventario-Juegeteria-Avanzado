@@ -1,0 +1,22 @@
+% =====================================================================
+%  Estilos TikZ: grafo de flujo (caja blanca) y cadena error-defecto-fallo (Lab S14)
+% =====================================================================
+\usetikzlibrary{positioning,calc,arrows.meta,fit,backgrounds,shapes.geometric}
+
+\tikzset{
+  % --- Grafo de flujo: nodos de proceso, decision y union ---
+  nodoG/.style={circle, draw=black, line width=0.7pt, fill=white,
+                font=\sffamily\small\bfseries, minimum size=0.78cm, inner sep=1pt},
+  nodoDec/.style={nodoG, fill=black!8},
+  nodoFin/.style={nodoG, double, double distance=1pt},
+  arista/.style={draw=black, line width=0.7pt, -{Latex[length=2.2mm]}},
+  etiqPr/.style={font=\sffamily\scriptsize, fill=white, inner sep=1.5pt},
+  nota/.style={font=\sffamily\scriptsize, align=left, anchor=west},
+  region/.style={font=\sffamily\scriptsize\itshape, text=black!55},
+  % --- Cadena error / defecto / fallo ---
+  caja/.style={rectangle, draw=black, line width=0.7pt, fill=white, rounded corners=2pt,
+               font=\sffamily\scriptsize, align=center, text width=2.75cm,
+               minimum height=1.15cm, inner sep=4pt},
+  flecha/.style={draw=black, line width=0.8pt, -{Latex[length=2.4mm]}},
+  flechaPunteada/.style={draw=black!60, line width=0.7pt, densely dashed, -{Latex[length=2.2mm]}},
+}

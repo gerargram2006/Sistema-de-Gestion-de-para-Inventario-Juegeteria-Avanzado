@@ -1,0 +1,54 @@
+% Grafo de flujo de validarSucursal(codigo)  --  V(G) = 3 decisiones + 1 = 4
+\begin{tikzpicture}[font=\sffamily]
+  \def\xm{4.5}   % línea vertical donde se unen las salidas por verdadero
+
+  % ---------- Nodos: columna principal (camino por falso) ----------
+  \node[nodoDec] (n1) at (0,0)    {1};
+  \node[nodoDec] (n3) at (0,-1.7) {3};
+  \node[nodoDec] (n5) at (0,-3.4) {5};
+  \node[nodoG]   (n7) at (0,-5.1) {7};
+  \node[nodoFin] (n8) at (0,-6.8) {8};
+
+  % ---------- Nodos: salidas por verdadero ----------
+  \node[nodoG] (n2) at (2.7,-0.85) {2};
+  \node[nodoG] (n4) at (2.7,-2.55) {4};
+  \node[nodoG] (n6) at (2.7,-4.25) {6};
+
+  % ---------- Aristas de la columna principal ----------
+  \draw[arista] (n1) -- node[etiqPr,right]{F} (n3);
+  \draw[arista] (n3) -- node[etiqPr,right]{F} (n5);
+  \draw[arista] (n5) -- node[etiqPr,right]{F} (n7);
+  \draw[arista] (n7) -- (n8);
+
+  % ---------- Aristas de decisión (verdadero) ----------
+  \draw[arista] (n1) -- node[etiqPr,pos=0.55,above]{V} (n2);
+  \draw[arista] (n3) -- node[etiqPr,pos=0.55,above]{V} (n4);
+  \draw[arista] (n5) -- node[etiqPr,pos=0.55,above]{V} (n6);
+
+  % ---------- Retornos: se unen en una sola línea hacia el nodo final ----------
+  \draw[arista] (n2) -- (\xm,-0.85) -- (\xm,-6.8) -- (n8);
+  \draw[arista] (n4) -- (\xm,-2.55);
+  \draw[arista] (n6) -- (\xm,-4.25);
+
+  % ---------- Descripción de cada nodo ----------
+  \node[nota, anchor=east] at (-0.6,0)    {\textbf{1} \ \texttt{if (codigo.length !== 4)}};
+  \node[nota, anchor=east] at (-0.6,-1.7) {\textbf{3} \ \texttt{if (!/\^{}[0-9]\{4\}\$/.test(codigo))}};
+  \node[nota, anchor=east] at (-0.6,-3.4) {\textbf{5} \ \texttt{if (codigo[0] === "0")}};
+  \node[nota, anchor=east] at (-0.6,-5.1) {\textbf{7} \ \texttt{return true}};
+  \node[nota, anchor=east] at (-0.6,-6.8) {\textbf{8} \ fin de la función (salida única)};
+  \node[nota, anchor=west] at (\xm+0.25,-0.85) {\textbf{2} \ \texttt{return false}};
+  \node[nota, anchor=west] at (\xm+0.25,-2.55) {\textbf{4} \ \texttt{return false}};
+  \node[nota, anchor=west] at (\xm+0.25,-4.25) {\textbf{6} \ \texttt{return false}};
+
+  % ---------- Regiones ----------
+  \node[region] at (2.05,-1.50) {R1};
+  \node[region] at (2.05,-3.20) {R2};
+  \node[region] at (2.05,-5.30) {R3};
+  \node[region, anchor=west] at (-2.3,-7.7) {R4: región exterior del grafo};
+
+  % ---------- Resumen del cálculo ----------
+  \node[font=\sffamily\scriptsize, align=left, anchor=north west] at (-5.6,-8.35)
+    {\textbf{V(G) = decisiones $+$ 1 = 3 $+$ 1 = 4} \quad (nodos predicado: 1, 3 y 5)\\
+     \textbf{V(G) = aristas $-$ nodos $+$ 2 = 10 $-$ 8 $+$ 2 = 4}\\
+     \textbf{V(G) = regiones del grafo = 4} \quad (R1, R2, R3 y la región exterior)};
+\end{tikzpicture}

@@ -1,0 +1,18 @@
+% Cadena error -> defecto -> fallo, y el papel de la prueba y la depuracion
+\begin{tikzpicture}[font=\sffamily]
+  \node[caja] (err) at (0,0) {\textbf{ERROR}\\[2pt] Equivocación de la persona\\ (el programador)};
+  \node[caja] (def) at (4.1,0) {\textbf{DEFECTO}\\[2pt] Queda escrito en el\\ código o el diseño};
+  \node[caja] (fal) at (8.2,0) {\textbf{FALLO}\\[2pt] Lo que percibe\\ el usuario};
+
+  \draw[flecha] (err) -- node[etiqPr,above]{se plasma como} (def);
+  \draw[flecha] (def) -- node[etiqPr,above]{se manifiesta como} (fal);
+
+  \node[caja, fill=black!5, text width=3.1cm, minimum height=0.95cm] (pru) at (8.2,-2.3)
+    {\textbf{PRUEBA}\\[2pt] Ejecuta el programa\\ para detectar el fallo};
+  \node[caja, fill=black!5, text width=3.1cm, minimum height=0.95cm] (dep) at (4.1,-2.3)
+    {\textbf{DEPURACIÓN}\\[2pt] Localiza y corrige\\ el defecto};
+
+  \draw[flechaPunteada] (pru) -- (fal);
+  \draw[flechaPunteada] (dep) -- (def);
+  \draw[flechaPunteada] (pru) -- node[etiqPr,above]{da origen a} (dep);
+\end{tikzpicture}

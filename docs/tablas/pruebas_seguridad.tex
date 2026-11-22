@@ -1,0 +1,36 @@
+% --- Tabla: Pruebas de seguridad básicas (Actividad 8) ---
+\begin{landscape}
+\begingroup
+\singlespacing
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{xltabular}{\linewidth}{|C{1.1cm}|L{3.1cm}|L{4.7cm}|L{3.8cm}|Y|L{4.1cm}|}
+  \caption{Matriz de pruebas de seguridad básicas ejecutadas en el ambiente local de desarrollo.}
+  \label{tab:pruebas_seguridad} \\
+  \hline
+  \textbf{ID} & \textbf{Prueba} & \textbf{Acción sugerida} & \textbf{Resultado esperado (seguro)} & \textbf{Resultado real} & \textbf{Ataque relacionado} \\ \hline
+  \endfirsthead
+  \multicolumn{6}{l}{\small\emph{Tabla~\thetable\ (continuación)}} \\[4pt]
+  \hline
+  \textbf{ID} & \textbf{Prueba} & \textbf{Acción sugerida} & \textbf{Resultado esperado (seguro)} & \textbf{Resultado real} & \textbf{Ataque relacionado} \\ \hline
+  \endhead
+  \hline
+  \multicolumn{6}{r}{\footnotesize\emph{Continúa en la página siguiente}} \\
+  \endfoot
+  \hline
+  \multicolumn{6}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\vspace{0.15cm}\raggedright\small\emph{Nota.} Elaboración propia (2026). Pruebas ejecutadas únicamente sobre la instancia local de desarrollo de ``Mundo del Juguete'', sin intervenir sistemas de terceros ni la red institucional.} \\
+  \endlastfoot
+
+  S-01 & Inyección SQL en el inicio de sesión & Usuario: \texttt{' OR '1'='1} con cualquier clave. & Acceso denegado; sin errores de BD visibles. & \textbf{Seguro.} Acceso denegado con el mensaje genérico. El sistema usa Eloquent con consultas preparadas, por lo que el texto se trata como dato y no como SQL. & Exploits y errores de diseño (inyección SQL) \\ \hline
+
+  S-02 & Script en campos de texto & Ingresar \texttt{<script>alert(1)</script>} en el nombre de un producto y guardar. & El texto se muestra escapado; no se ejecuta. & \textbf{Seguro.} El texto se guardó y se mostró tal cual, escapado por Blade (\texttt{\{\{ \}\}}); no se abrió ninguna ventana. & JavaScript/VBScript (inyección de scripts, XSS) \\ \hline
+
+  S-03 & Intentos repetidos de clave & 5 o más claves incorrectas seguidas. & Bloqueo temporal o captcha; no revela si el usuario existe. & \textbf{Seguro.} Al sexto intento se bloquea durante un minuto y el mensaje es siempre el mismo, exista o no el usuario. & Ataque de diccionario (fuerza bruta de claves) \\ \hline
+
+  S-04 & Acceso directo por URL & Abrir una página interna sin haber iniciado sesión. & Redirige al inicio de sesión. & \textbf{Seguro.} Sin sesión, la página interna redirige al inicio de sesión. No existe registro público: las cuentas solo las crea el administrador desde el módulo Usuarios. & Errores de diseño (control de acceso deficiente) \\ \hline
+
+  S-05 & Protección de credenciales & Revisar el almacenamiento de la clave, el campo del formulario y el flujo de recuperación. & Clave oculta y cifrada; transmisión segura; recuperación solo por el canal previsto. & \textbf{Inseguro.} Las claves sí se guardan con hash bcrypt y el campo es \texttt{type=password}, pero la política admitía «12345678» (\textbf{D-007}) y el enlace de recuperación quedaba escrito en el archivo de registro (\textbf{D-008}). Ambos corregidos. & Errores de diseño (credenciales expuestas) y diccionario \\
+\end{xltabular}
+\endgroup
+\end{landscape}

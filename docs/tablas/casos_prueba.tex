@@ -1,27 +1,58 @@
-% =========================================================================
-% BLOQUE COMENTADO PARA ACTIVAR EN SEMANA 15 (MATRIZ DE CASOS DE PRUEBA)
-% =========================================================================
-% \begingroup
-% \singlespacing
-% \footnotesize
-% \setlength{\tabcolsep}{4pt}
-% \setlength{\LTleft}{0pt plus \textwidth}
-% \setlength{\LTright}{0pt plus \textwidth}
-% \renewcommand{\arraystretch}{1.2}
-% \begin{longtable}{|L{1.1cm}|L{1.9cm}|L{3.2cm}|L{2.8cm}|L{3.2cm}|C{1.8cm}|}
-%   \caption{Matriz de casos de prueba del proyecto y sustento de ejecución.}
-%   \label{tab:matriz_casos_prueba}\\
-%   \hline
-%   \textbf{ID} & \textbf{Caso de Uso} & \textbf{Descripción / Prueba} & \textbf{Datos de Entrada} & \textbf{Resultado Esperado} & \textbf{Estado} \\
-%   \hline
-%   \endfirsthead
-%   CP-01 & CUS-01 / RF-01 & Autenticación de usuario vendedor con credenciales válidas. & Usuario: \texttt{vendedor1}, Password: \texttt{Pass123*} & Acceso concedido al panel POS de ventas y token de sesión emitido. & \textbf{Aprobado} \\
-%   CP-02 & CUS-01 / RF-03 & Validación de stock en tiempo real y reserva provisional. & SKU: \texttt{JUG-001}, Cantidad: 2 (Stock disponible: 15) & Stock provisional reservado y total calculado con código de venta. & \textbf{Aprobado} \\
-%   CP-03 & CUS-01 / RF-06 & Control de excepción por intento de venta con stock insuficiente. & SKU: \texttt{JUG-002}, Cantidad: 20 (Stock disponible: 5) & Bloqueo de adición, alerta de unidades insuficientes en pantalla. & \textbf{Aprobado} \\
-%   CP-04 & CUS-02 / RF-04 & Cobro de venta, cálculo de vuelto y emisión de boleta legal. & Venta: \texttt{V-1001}, Monto: S/ 100.00, Efectivo: S/ 120.00 & Vuelto calculado S/ 20.00, venta completada y boleta B001-105 emitida. & \textbf{Aprobado} \\
-%   CP-05 & CUS-03 / RF-07 & Detección de stock crítico y generación de orden de compra. & Stock actual $\leq$ Stock mínimo (3 $\leq$ 5 unidades) & Alerta enviada al administrador y borrador de OC generado con proveedor. & \textbf{Aprobado} \\
-%   CP-06 & CUS-04 / RF-10 & Recepción de mercancía física y actualización de kardex. & Nro OC: \texttt{OC-2026-08}, Cantidad: 50 unidades recibidas & Estado de OC a 'Recibida' e incremento automático de 50 en kardex. & \textbf{Aprobado} \\
-%   \hline
-% \end{longtable}
-% \endgroup
-% =========================================================================
+% --- Tabla: Matriz de casos de prueba del proyecto integrador (Actividad 6) ---
+\begin{landscape}
+\begingroup
+\singlespacing
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{xltabular}{\linewidth}{|C{1.15cm}|L{2.35cm}|C{1.65cm}|L{3.55cm}|L{3.0cm}|Y|Y|C{1.3cm}|}
+  \caption{Matriz consolidada de casos de prueba del sistema ``Mundo del Juguete'' (primera ejecución).}
+  \label{tab:matriz_casos_prueba} \\
+  \hline
+  \textbf{ID} & \textbf{CUS / Req.} & \textbf{Tipo · Nivel} & \textbf{Propósito} & \textbf{Entradas} & \textbf{Resultado esperado} & \textbf{Resultado real (1.\textsuperscript{a} ejecución)} & \textbf{Estado} \\ \hline
+  \endfirsthead
+  \multicolumn{8}{l}{\small\emph{Tabla~\thetable\ (continuación)}} \\[4pt]
+  \hline
+  \textbf{ID} & \textbf{CUS / Req.} & \textbf{Tipo · Nivel} & \textbf{Propósito} & \textbf{Entradas} & \textbf{Resultado esperado} & \textbf{Resultado real (1.\textsuperscript{a} ejecución)} & \textbf{Estado} \\ \hline
+  \endhead
+  \hline
+  \multicolumn{8}{r}{\footnotesize\emph{Continúa en la página siguiente}} \\
+  \endfoot
+  \hline
+  \multicolumn{8}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\vspace{0.15cm}\raggedright\small\emph{Nota.} Elaboración propia (2026). Matriz de 16 casos derivados de cinco CUS del proyecto integrador, incluyendo 12 casos de caja negra, 2 de caja blanca (unidad) y 2 de seguridad.} \\
+  \endlastfoot
+
+  CP-001 & CUS-General Login (RF-01) & CN · Validación & Verificar que un usuario registrado ingresa al sistema. & Usuario: admin@\allowbreak mundojuguete.\allowbreak pe; \newline clave válida. & Se muestra el panel principal con los indicadores del día. & Ingresó al panel principal con el rol Administrador. & Aprobó \\ \hline
+
+  CP-002 & CUS-General Login (RF-01 / RNF-03) & CN · Validación & Verificar que no ingresa un usuario con clave incorrecta. & Usuario: vendedor@\allowbreak mundojuguete.\allowbreak pe; \newline clave: Abc123 (incorrecta). & Acceso denegado con un mensaje genérico, sin indicar cuál campo falló. & «Estas credenciales no coinciden con nuestros registros»; no revela si el usuario existe. & Aprobó \\ \hline
+
+  CP-003 & CUS-01 Registrar Venta (RF-02) & CN · Validación & Buscar un juguete por SKU y agregarlo a la venta. & SKU: JUG-001 (stock 10); cantidad: 2. & El producto aparece en el detalle con precio unitario y subtotal; se genera el ticket TK-AAAAMMDD-NNNNNN en estado «Pendiente». & Ticket TK-20261118-000001 generado con 2 unidades y subtotal correcto. & Aprobó \\ \hline
+
+  CP-004 & CUS-01 Registrar Venta (RF-03) & CN · Validación & Bloquear la venta cuando la cantidad supera el stock. & SKU: JUG-001 (stock 4); cantidad: 10. & Alerta «stock insuficiente»; la línea no se agrega y el stock sigue en 4. & Se mostró la alerta y el stock no varió. & Aprobó \\ \hline
+
+  CP-005 & CUS-01 Registrar Venta (RF-03) & CN · Validación (límite) & Impedir que el mismo juguete, agregado en dos líneas, supere el stock. & SKU JUG-001 (stock 4) en dos líneas: 2 unidades + 3 unidades. & Se rechaza la venta: el total pedido (5) supera el stock (4). & \textbf{Falló:} la venta se aceptó por 5 unidades; cada línea se validaba por separado. Defecto \textbf{D-001}. & Falló \\ \hline
+
+  CP-006 & CUS-02 Pago y Comprobante (RF-04 / RF-05) & CN · Sistema & Cobrar en efectivo, emitir boleta y descontar stock. & Venta pendiente de S/ 60.00; efectivo: S/ 100.00. & Venta «Pagada»; boleta con correlativo B001; vuelto S/ 40.00; stock descontado. & Boleta B001-000001 emitida, vuelto S/ 40.00 y stock descontado. & Aprobó \\ \hline
+
+  CP-007 & CUS-02 Pago y Comprobante (RF-04) & CN · Validación & Rechazar un pago menor al total (flujo alternativo). & Total: S/ 60.00; efectivo: S/ 50.00. & Mensaje «monto insuficiente»; la venta sigue «Pendiente» y no se emite boleta. & Mensaje mostrado; la venta siguió pendiente. & Aprobó \\ \hline
+
+  CP-008 & CUS-02 Pago y Comprobante (RF-04 / RNF-04) & CN · Integración & Impedir que un mismo ticket se cobre dos veces (doble clic o dos cajeros). & Mismo ticket TK-20261118-000001 enviado dos veces al cobro. & El segundo intento se rechaza; el stock se descuenta una sola vez y se emite un solo comprobante. & \textbf{Falló:} se emitieron dos comprobantes y el stock se descontó dos veces. Defecto \textbf{D-002}. & Falló \\ \hline
+
+  CP-009 & CUS-02 Pago y Comprobante (RF-05) & CN · Validación & Verificar que cada serie de comprobante tiene su propio correlativo. & Cobrar dos boletas y una factura de forma consecutiva. & B001-000001, B001-000002 y F001-000001. & \textbf{Falló:} la factura tomó el número F001-000003; el correlativo era compartido entre series. Defecto \textbf{D-003}. & Falló \\ \hline
+
+  CP-010 & CUS-02 Pago y Comprobante (RF-04) & CN · Validación & Cobrar con tarjeta, donde no corresponde vuelto. & Venta de S/ 60.00; método de pago: tarjeta. & Se acepta el cobro por el importe exacto, sin pedir monto recibido ni calcular vuelto. & \textbf{Falló:} el formulario exigía el monto recibido y, al escribir S/ 100.00, registró un vuelto de S/ 40.00 inexistente. Defecto \textbf{D-004}. & Falló \\ \hline
+
+  CP-011 & CUS-03 Abastecimiento (RF-07 / RF-09) & CN · Integración & Generar la alerta y la sugerencia de orden de compra de un producto con stock crítico. & SKU: JUG-002; stock: 3; mínimo: 5. & El producto aparece en las alertas del panel y en las sugerencias de reposición con la cantidad y el monto calculados. & El producto apareció en ambas listas con la cantidad sugerida correcta. & Aprobó \\ \hline
+
+  CP-012 & CUS-04 Ingreso de Mercancía (RF-10 / RF-11) & CN · Integración & Registrar la recepción conforme e impedir recibir dos veces la misma orden. & Orden de 100 u. de JUG-001 (stock 4); se confirma la recepción dos veces. & El stock pasa a 104 en la primera recepción; la segunda se rechaza porque la orden ya está recibida. & \textbf{Falló:} la segunda confirmación volvió a sumar 100 unidades (stock 204). Defecto \textbf{D-005}. & Falló \\ \hline
+
+  CP-013 & RF-07 (umbral de stock) & CB · Unidad & Verificar que \texttt{Producto::\allowbreak actualizarEstadoStock()} clasifica bien el estado. & Stock 0 / stock 5 con mínimo 5 / stock 20 con mínimo 5. & Devuelve «agotado», «stock bajo» y «disponible» respectivamente. & Los tres estados coincidieron con lo esperado. & Aprobó \\ \hline
+
+  CP-014 & RNF-03 (token de restablecimiento) & CB · Unidad & Verificar que \texttt{TokenRestablecimiento::\allowbreak buscarVigente()} rechaza un código vencido o ya usado. & Token con \texttt{expira\_en} en el pasado; token con \texttt{usado\_en} no nulo. & Devuelve \texttt{null} en ambos casos y no permite cambiar la contraseña. & Devolvió \texttt{null} en los dos casos. & Aprobó \\ \hline
+
+  CP-015 & CUS-General Login (RNF-03) · S-01 & CN · Seguridad & Verificar que el login resiste una inyección SQL. & Usuario: \newline \texttt{' OR '1'='1}; \newline clave: \texttt{xxxxx}. & Acceso denegado; no se muestran errores de base de datos. & Acceso denegado con el mensaje genérico; sin errores de BD. & Aprobó \\ \hline
+
+  CP-016 & CUS-General Acceso (RNF-03) · S-04 & CN · Seguridad & Verificar que no se puede llegar al punto de venta sin una cuenta autorizada. & Abrir \texttt{/ventas/pos} sin sesión y, luego, buscar una vía pública para crear una cuenta (\texttt{/register}). & Ambas vías deben quedar bloqueadas: solo el administrador crea cuentas. & Sin sesión, \texttt{/ventas/pos} redirige al login y no existe registro público: las cuentas solo las crea el administrador. & Aprobó \\
+\end{xltabular}
+\endgroup
+\end{landscape}

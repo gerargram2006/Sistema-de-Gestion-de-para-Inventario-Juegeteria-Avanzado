@@ -1,0 +1,18 @@
+% --- Tabla: Dificultades encontradas durante las pruebas y su solución ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Dificultades técnicas encontradas durante la ejecución de pruebas y soluciones aplicadas.}
+  \label{tab:pruebas_dificultades}
+  \begin{tabularx}{\linewidth}{|Y|Y|}
+    \hline
+    \textbf{Dificultad} & \textbf{Solución} \\ \hline
+    Distinguir un caso de prueba de un CUS: los primeros borradores repetían el flujo del caso de uso completo. & De cada CUS se derivaron varios casos con un solo objetivo cada uno: uno de flujo normal y al menos uno de flujo alternativo o de error. \\ \hline
+    Reproducir de forma confiable el doble cobro del mismo ticket. & Se escribió una prueba automatizada que envía la petición de cobro dos veces, en lugar de depender de pulsar rápido el botón. \\ \hline
+    Numerar los nodos del grafo de flujo y que $V(G)$ coincidiera por los tres métodos. & Se numeró cada sentencia como un nodo y se verificó $V(G)$ por decisiones, por $\text{aristas} - \text{nodos} + 2$ y por regiones; los tres dieron 4. \\ \hline
+    Decidir la severidad de cada defecto sin criterios claros. & Se aplicó la escala del laboratorio y se clasificó como crítico todo lo que afectara el dinero, el inventario o el acceso al sistema. \\ \hline
+    Las pruebas de seguridad podían afectar los datos del sistema. & Se ejecutaron solo en el ambiente local con la base de datos de prueba, que se vuelve a generar con \texttt{php artisan migrate:fresh -{}-seed}. \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Registro de dificultades metodológicas y técnicas resueltas durante el aseguramiento de calidad.\par}
+\end{table}

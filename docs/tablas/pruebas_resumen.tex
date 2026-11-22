@@ -1,0 +1,36 @@
+% --- Tablas: Resumen de primera ejecución y reejecución (Actividad 7) ---
+\begin{table}[H]
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \caption{Resumen de resultados de la primera ejecución de casos de prueba.}
+  \label{tab:pruebas_resumen_1}
+  \begin{tabularx}{\linewidth}{|Y|C{1.85cm}|C{1.95cm}|C{1.85cm}|C{1.65cm}|C{1.95cm}|C{2.05cm}|}
+    \hline
+    \textbf{Tipo de prueba} & \textbf{Diseñados} & \textbf{Ejecutados} & \textbf{Aprobados} & \textbf{Fallidos} & \textbf{Bloqueados} & \textbf{\% aprobación} \\ \hline
+    Caja negra  & 12 & 12 & 7  & 5 & 0 & 58.3 \% \\ \hline
+    Caja blanca & 2  & 2  & 2  & 0 & 0 & 100 \% \\ \hline
+    Seguridad   & 2  & 2  & 2  & 0 & 0 & 100 \% \\ \hline
+    \textbf{TOTAL} & \textbf{16} & \textbf{16} & \textbf{11} & \textbf{5} & \textbf{0} & \textbf{68.8 \%} \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Porcentaje de aprobación calculado como $\text{aprobados} \div \text{ejecutados} \times 100$.\par}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \caption{Resumen de resultados de la reejecución tras la depuración de defectos.}
+  \label{tab:pruebas_resumen_2}
+  \begin{tabularx}{\linewidth}{|Y|C{1.85cm}|C{1.95cm}|C{1.85cm}|C{1.65cm}|C{1.95cm}|C{2.05cm}|}
+    \hline
+    \textbf{Tipo de prueba} & \textbf{Diseñados} & \textbf{Ejecutados} & \textbf{Aprobados} & \textbf{Fallidos} & \textbf{Bloqueados} & \textbf{\% aprobación} \\ \hline
+    Caja negra  & 12 & 12 & 12 & 0 & 0 & 100 \% \\ \hline
+    Caja blanca & 2  & 2  & 2  & 0 & 0 & 100 \% \\ \hline
+    Seguridad   & 2  & 2  & 2  & 0 & 0 & 100 \% \\ \hline
+    \textbf{TOTAL} & \textbf{16} & \textbf{16} & \textbf{16} & \textbf{0} & \textbf{0} & \textbf{100 \%} \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Tras corregir los siete defectos, los 16 casos alcanzaron 100\,\% de aprobación y se integraron a la suite automatizada de 81 pruebas.\par}
+\end{table}

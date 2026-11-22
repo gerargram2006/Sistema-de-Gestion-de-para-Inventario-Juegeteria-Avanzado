@@ -1,0 +1,20 @@
+% --- Tabla: Niveles de prueba en el proyecto integrador (Actividad 3) ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Niveles de prueba aplicados al sistema ``Mundo del Juguete'', responsables y enfoque.}
+  \label{tab:pruebas_niveles}
+  \begin{tabularx}{\linewidth}{|L{2.2cm}|Y|L{3.2cm}|C{1.8cm}|}
+    \hline
+    \textbf{Nivel} & \textbf{Ejemplo en el proyecto} & \textbf{Responsable} & \textbf{Enfoque (CN / CB)} \\ \hline
+    Unidad & Probar \texttt{Producto::\allowbreak actualizarEstadoStock()}: con stock 0 debe quedar «agotado» y con stock igual al mínimo, «stock bajo». & Desarrollador & CB \\ \hline
+    Integración & Comprobar que al cobrar el ticket en caja se registra la venta como pagada, se emite el comprobante y el inventario descuenta las unidades (RF-04 / RF-05). & Desarrollador y QA & CN y CB \\ \hline
+    Validación & Verificar que el registro de la venta por SKU cumple lo especificado en el CUS-01 Registrar Venta. & QA (Pruebas) & CN \\ \hline
+    Sistema & Ejecutar el flujo completo venta $\rightarrow$ cobro $\rightarrow$ boleta $\rightarrow$ descuento de stock $\rightarrow$ alerta de stock mínimo en el servidor de pruebas. & QA (Pruebas) & CN \\ \hline
+    Aceptación & Piloto en la caja CAJA-01: cajeros y vendedores operan el sistema una semana y se firma el acta de aceptación. & Usuario final (cajero/administrador) y Jefe de Proyecto & CN \\ \hline
+    Estrés & Consultar el catálogo y registrar ventas desde varias cajas con 5 usuarios concurrentes, verificando que el bloqueo de filas evita el doble cobro (RNF-01 / RNF-04). & QA (Pruebas) & CN \\ \hline
+    Seguridad & Probar inyección SQL en el login, acceso a rutas internas por URL sin sesión y reutilización de un token de restablecimiento ya usado (RNF-03). & QA (Pruebas) & CN y CB \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). CN = caja negra; CB = caja blanca. Cobertura por niveles de prueba desde unidad hasta aceptación y seguridad.\par}
+\end{table}

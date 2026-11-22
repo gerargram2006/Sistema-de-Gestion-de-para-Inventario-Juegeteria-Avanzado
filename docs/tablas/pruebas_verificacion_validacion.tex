@@ -1,0 +1,25 @@
+% --- Tabla: Verificación vs. validación (Actividad 2) ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Clasificación de actividades de aseguramiento de calidad entre verificación y validación.}
+  \label{tab:pruebas_verificacion_validacion}
+  \begin{tabularx}{\linewidth}{|L{4.6cm}|C{2.3cm}|C{2.0cm}|Y|}
+    \hline
+    \textbf{Acción} & \textbf{Verificación} & \textbf{Validación} & \textbf{Justificación} \\ \hline
+    a) Revisar que el diagrama de clases respete el CUS «Registrar usuario». & \textbf{X} & &
+      Se compara un producto de diseño (diagrama de clases) contra su especificación (el CUS). \\ \hline
+    b) Mostrar el prototipo al cliente para confirmar que resuelve su necesidad. & & \textbf{X} &
+      Se confirma con el cliente que el prototipo resuelve su necesidad real. \\ \hline
+    c) Ejecutar las pruebas unitarias del módulo de inicio de sesión. & \textbf{X} & &
+      Las pruebas unitarias comprueban que el código cumple su especificación. \\ \hline
+    d) El usuario final prueba el sistema en su entorno y firma la conformidad. & & \textbf{X} &
+      El usuario final confirma en su entorno que el sistema es el que necesitaba. \\ \hline
+    e) Inspeccionar el código para confirmar que sigue el estándar de codificación. & \textbf{X} & &
+      Se revisa el código contra un estándar definido, sin ejecutar el sistema. \\ \hline
+    f) Comprobar que el sistema ensamblado cumple los requisitos funcionales y de rendimiento. & \textbf{X} & &
+      Se comprueba el sistema ensamblado contra los requisitos especificados (RF y RNF). \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Diferenciación metodológica entre verificación (conformidad contra especificación) y validación (adecuación a la necesidad del usuario final).\par}
+\end{table}

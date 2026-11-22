@@ -1,0 +1,29 @@
+% --- Tabla: Relación entre error, defecto y fallo (Actividad 1) ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Identificación de error, defecto y fallo en casos de prueba y en el proyecto integrador.}
+  \label{tab:pruebas_error_defecto}
+  \begin{tabularx}{\linewidth}{|L{3.5cm}|Y|Y|Y|}
+    \hline
+    \textbf{Situación} & \textbf{Error (programador)} & \textbf{Defecto (en el software)} & \textbf{Fallo (usuario)} \\ \hline
+    1. En el módulo de transferencias, el sistema rechaza la operación cuando el monto es exactamente igual al saldo.
+      & El programador confundió el operador $>$ con $\geq$.
+      & Condición \texttt{saldo > monto} en la función \texttt{transferir()}.
+      & Mensaje «saldo insuficiente» aunque el saldo alcanza. \\ \hline
+    2. Un formulario de registro acepta el correo «juan@» y luego no se envía la confirmación.
+      & El programador no validó el formato del correo (omitió comprobar la estructura \texttt{usuario@dominio}).
+      & El campo correo del formulario/controlador de registro no tiene validación de formato.
+      & El registro se guarda con «juan@», pero nunca llega el correo de confirmación. \\ \hline
+    3. Un reporte de ventas muestra el total del mes anterior al seleccionar el mes actual.
+      & El programador usó el mes anterior (mes $-$ 1) o ignoró el parámetro de mes al armar la consulta.
+      & El filtro de fechas de la consulta del reporte toma un rango de mes incorrecto.
+      & Al elegir el mes actual, el reporte muestra el total del mes anterior. \\ \hline
+    4. \textbf{Caso propio del proyecto:} en el POS se agrega dos veces el mismo juguete (2 y 3 unidades) cuando solo quedan 4 en stock, y la venta se acepta.
+      & El programador validó la cantidad de cada línea por separado en lugar de la cantidad total pedida de cada juguete.
+      & En \texttt{VentaController::\allowbreak store()} no se agrupaban los ítems por \texttt{id\_producto} antes de comparar con el stock (RF-03).
+      & El ticket se genera por 5 unidades y, al cobrar en caja, el inventario queda en negativo o el cobro se rechaza con el cliente presente. \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Análisis de causalidad entre error humano, defecto en código y fallo perceptible, incluyendo un caso real detectado en ``Mundo del Juguete''.\par}
+\end{table}

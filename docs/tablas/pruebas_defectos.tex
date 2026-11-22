@@ -1,0 +1,40 @@
+% --- Tabla: Registro de defectos y estado de corrección (Actividad 7) ---
+\begin{landscape}
+\begingroup
+\singlespacing
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{xltabular}{\linewidth}{|C{1.2cm}|C{1.2cm}|Y|Y|C{1.5cm}|L{4.8cm}|}
+  \caption{Registro de defectos detectados durante la ejecución de pruebas, severidad y estado de corrección.}
+  \label{tab:pruebas_defectos} \\
+  \hline
+  \textbf{ID def.} & \textbf{Caso} & \textbf{Descripción del defecto} & \textbf{Pasos para reproducir} & \textbf{Severidad} & \textbf{Evidencia / Estado} \\ \hline
+  \endfirsthead
+  \multicolumn{6}{l}{\small\emph{Tabla~\thetable\ (continuación)}} \\[4pt]
+  \hline
+  \textbf{ID def.} & \textbf{Caso} & \textbf{Descripción del defecto} & \textbf{Pasos para reproducir} & \textbf{Severidad} & \textbf{Evidencia / Estado} \\ \hline
+  \endhead
+  \hline
+  \multicolumn{6}{r}{\footnotesize\emph{Continúa en la página siguiente}} \\
+  \endfoot
+  \hline
+  \multicolumn{6}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\vspace{0.15cm}\raggedright\small\emph{Nota.} Elaboración propia (2026). Los siete defectos registrados (cinco funcionales y dos de seguridad) fueron depurados y respaldados con pruebas automatizadas en la carpeta \texttt{tests/} del repositorio.} \\
+  \endlastfoot
+
+  D-001 & CP-005 & El mismo juguete agregado en dos líneas de una venta se validaba por línea y no por el total pedido, de modo que se podía vender más de lo que hay en stock. & 1. Abrir el POS. 2. Agregar JUG-001 (stock 4) con cantidad 2. 3. Agregarlo otra vez con cantidad 3. 4. Generar el ticket. & Alta & Prueba \texttt{VentaPosTest}; Figura~\ref{fig:pruebas_d001}. \newline \textbf{Corregido:} los ítems se agrupan por \texttt{id\_producto} antes de validar. \\ \hline
+
+  D-002 & CP-008 & Un mismo ticket podía cobrarse dos veces (doble clic o dos cajeros a la vez): se emitían dos comprobantes y el stock se descontaba dos veces. & 1. Generar un ticket. 2. Abrirlo en dos pestañas de caja. 3. Pulsar «Cobrar» en ambas. & Crítica & Prueba \texttt{CajaTest}; Figura~\ref{fig:pruebas_d002}. \newline \textbf{Corregido:} el cobro se ejecuta en una transacción con bloqueo de fila (\texttt{lockForUpdate}). \\ \hline
+
+  D-003 & CP-009 & Boletas y facturas compartían un único correlativo, por lo que la numeración de cada serie quedaba con saltos (incumple la numeración correlativa exigida a los comprobantes). & 1. Cobrar dos ventas con boleta. 2. Cobrar una con factura. 3. Revisar los números emitidos. & Crítica & Prueba \texttt{CajaTest}; Figura~\ref{fig:pruebas_d003}. \newline \textbf{Corregido:} el correlativo se calcula por serie (B001 y F001 de forma independiente). \\ \hline
+
+  D-004 & CP-010 & El cobro exigía el monto recibido con cualquier método de pago y calculaba un vuelto inexistente al pagar con tarjeta, Yape o Plin. & 1. Cobrar una venta de S/ 60.00. 2. Elegir «tarjeta». 3. Escribir S/ 100.00 en monto recibido. & Media & Prueba \texttt{CajaTest}; Figura~\ref{fig:pruebas_d004}. \newline \textbf{Corregido:} el monto recibido y el vuelto solo se piden y se calculan en efectivo. \\ \hline
+
+  D-005 & CP-012 & Una orden de compra ya recibida (o anulada) podía volver a confirmarse y sumaba otra vez las unidades al inventario. & 1. Registrar la recepción de una orden de 100 u. 2. Volver a la orden y confirmar la recepción de nuevo. & Crítica & Prueba \texttt{AbastecimientoTest}; Figura~\ref{fig:pruebas_d005}. \newline \textbf{Corregido:} la recepción valida el estado de la orden dentro de una transacción con bloqueo. \\ \hline
+
+  D-007 & S-05 & La política de contraseñas solo exigía 8 caracteres, por lo que se aceptaban claves como «12345678» al crear usuarios o al cambiarlas. & 1. Crear un usuario desde el módulo Usuarios. 2. Escribir «12345678» como contraseña. & Alta & Prueba \texttt{Auth\textbackslash PasswordUpdateTest}; Figura~\ref{fig:pruebas_d007}. \newline \textbf{Corregido:} mínimo 8 caracteres con mayúsculas, minúsculas y números. \\ \hline
+
+  D-008 & S-05 & El enlace de «¿Olvidaste tu contraseña?» se enviaba por correo, pero el sistema trabaja con \texttt{MAIL\_MAILER=log}: el enlace quedaba escrito en \texttt{storage/logs/laravel.log} y el trabajador nunca lo recibía. & 1. Pedir la recuperación desde el login. 2. Abrir \texttt{storage/logs/laravel.log}. 3. Usar el enlace que aparece allí. & Crítica & Prueba \texttt{RestablecerPasswordTest}; Figura~\ref{fig:pruebas_d008}. \newline \textbf{Corregido:} se reemplazó por un token de un solo uso que entrega el administrador. \\
+\end{xltabular}
+\endgroup
+\end{landscape}

@@ -1,0 +1,66 @@
+% --- Tablas: Caja negra — sistema bancario (Actividad 4) ---
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Partición en clases de equivalencia para el caso práctico de caja negra.}
+  \label{tab:pruebas_clases_equiv}
+  \begin{tabularx}{\linewidth}{|L{2.6cm}|Y|Y|}
+    \hline
+    \textbf{Campo} & \textbf{Clases válidas} & \textbf{Clases inválidas} \\ \hline
+    Código del banco
+      & V1: en blanco. \newline V2: tres dígitos con primero $\geq$ 2 (ej. 234).
+      & I1: tres dígitos con primero 0 o 1 (ej. 123, 034). \newline I2: menos o más de 3 dígitos (ej. 23, 2345). \newline I3: caracteres no numéricos (ej. «ab3»). \\ \hline
+    Código de sucursal
+      & V1: cuatro dígitos con primer dígito $\geq$ 1 (ej. 1234).
+      & I1: cuatro dígitos con primero 0 (ej. 0123). \newline I2: menos o más de 4 dígitos (ej. 123, 12345). \newline I3: caracteres no numéricos (ej. 12a4). \newline I4: en blanco (es obligatorio). \\ \hline
+    Número de cuenta
+      & V1: cinco dígitos (ej. 56789).
+      & I1: menos de 5 dígitos (ej. 5678). \newline I2: más de 5 dígitos (ej. 567890). \newline I3: caracteres no numéricos (ej. 5678a). \newline I4: en blanco. \\ \hline
+    Clave personal
+      & V1: cinco caracteres alfanuméricos (ej. A1b2C).
+      & I1: 4 caracteres o menos (ej. A1b2). \newline I2: 6 caracteres o más (ej. A1b2C3). \newline I3: símbolos no alfanuméricos (ej. A1b2!). \newline I4: en blanco. \\ \hline
+    Orden
+      & V1: en blanco. \newline V2: «Talonario». \newline V3: «Movimientos».
+      & I1: otro texto (ej. «Cheques»). \newline I2: variación de mayúsculas, según la especificación literal (ej. «talonario»). \newline I3: solo números o espacios (ej. «123»). \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Clases válidas e inválidas derivadas de la especificación de entradas del ejercicio de caja negra.\par}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Análisis de valores límite para los rangos numéricos de código de banco y sucursal.}
+  \label{tab:pruebas_valores_limite}
+  \begin{tabularx}{\linewidth}{|L{3.0cm}|Y|Y|Y|Y|}
+    \hline
+    \textbf{Campo} & \textbf{Justo debajo del límite} & \textbf{Límite inferior válido} & \textbf{Límite superior válido} & \textbf{Justo encima del límite} \\ \hline
+    Código del banco & 199 (inválido) & 200 (válido) & 999 (válido) & 1000 (inválido) \\ \hline
+    Código de sucursal & 999 (inválido) & 1000 (válido) & 9999 (válido) & 10000 (inválido) \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Rango válido de código de banco: 200--999; rango válido de sucursal: 1000--9999.\par}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \caption{Casos de prueba de caja negra diseñados mediante clases de equivalencia y valores límite.}
+  \label{tab:pruebas_casos_bancario}
+  \begin{tabularx}{\linewidth}{|C{1.3cm}|C{1.4cm}|C{1.55cm}|C{1.25cm}|C{1.15cm}|C{1.95cm}|Y|}
+    \hline
+    \textbf{ID} & \textbf{Banco} & \textbf{Sucursal} & \textbf{Cuenta} & \textbf{Clave} & \textbf{Orden} & \textbf{Resultado esperado} \\ \hline
+    CP-B01 & (blanco) & 1234 & 56789 & A1b2C & (blanco) & Acepta la entrada; entrega talonario y movimientos del mes. \\ \hline
+    CP-B02 & 234 & 1234 & 56789 & A1b2C & Talonario & Acepta la entrada; entrega solo el talonario de cheques. \\ \hline
+    CP-B03 & 123 & 1234 & 56789 & A1b2C & (blanco) & Rechaza la entrada y muestra mensaje de código de banco inválido. \\ \hline
+    CP-B04 & 200 & 1000 & 12345 & A1b2C & Movimientos & Acepta la entrada (límites inferiores válidos de banco y sucursal); entrega solo los movimientos del mes. \\ \hline
+    CP-B05 & 999 & 9999 & 12345 & a1B2c & (blanco) & Acepta la entrada (límites superiores válidos); entrega talonario y movimientos. \\ \hline
+    CP-B06 & 199 & 1234 & 56789 & A1b2C & Talonario & Rechaza la entrada: código de banco inválido (justo debajo del límite 200). \\ \hline
+    CP-B07 & 234 & 0999 & 56789 & A1b2C & (blanco) & Rechaza la entrada: código de sucursal inválido (primer dígito 0). \\ \hline
+    CP-B08 & 234 & 1234 & 56789 & A1b2 & Talonario & Rechaza la entrada: la clave debe tener exactamente 5 caracteres (se ingresaron 4). \\ \hline
+    CP-B09 & 234 & 1234 & 56789 & A1b2C & talonario & Rechaza la entrada: valor de orden no reconocido (la especificación indica «Talonario»). \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Casos CP-B01 a CP-B09 que cubren límites inferiores y superiores, campos opcionales en blanco, sensibilidad a mayúsculas y longitud de clave.\par}
+\end{table}

@@ -26,6 +26,7 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{longtable}
+\usepackage{xltabular}
 
 % ---------- Idiomas y enlaces ----------
 \usepackage{xcolor}
@@ -110,6 +111,11 @@
   \fi
 }
 \AtBeginEnvironment{tabularx}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}}
+\AtBeginEnvironment{xltabular}{\singlespacing\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.25}}
+
+% Evidencia de pruebas: si la captura aún no está en media/, muestra recuadro informativo
+\newcommand{\imgprueba}[2]{\IfFileExists{media/#1}{\includegraphics[width=#2,keepaspectratio]{#1}}{%
+  \fbox{\parbox[c][2.4cm][c]{0.8\linewidth}{\centering\color{red}\small Captura pendiente:\\\texttt{\detokenize{#1}}}}}}
 
 % Columnas reutilizables y colores para el diagrama de Gantt
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -137,6 +143,7 @@
 \input{diagramas/estilos-2.tex}
 \input{diagramas/estilos-3.tex}
 \input{diagramas/estilos-4.tex}
+\input{diagramas/estilos-5.tex}
 
 % ---------- Diccionario de Datos (Lab S12) ----------
 \newcolumntype{D}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -1397,21 +1404,253 @@ La Tabla~\ref{tab:despliegue_dificultades} resume las principales dificultades t
 
 \subsubsection{3.6.1 Casos de Prueba del Proyecto (matriz de casos de prueba con sustento de pruebas realizadas)}
 
-El sexto grupo de entregables corresponde a la fase final de verificación y pruebas de software (QA), programada en el cronograma académico para la Semana 15. En dicha etapa se llevará a cabo la ejecución y documentación sustentada de la batería de pruebas del sistema, abarcando tanto pruebas funcionales de caja negra sobre las vistas Blade como pruebas unitarias automatizadas con PHPUnit en el entorno Laravel.
+El sexto grupo de entregables documenta el diseño, ejecución y evidencia verificable de los casos de prueba del sistema web \textit{Mundo del Juguete} (Laravel 13 + MySQL 8.0). Las pruebas se ejecutaron sobre el ambiente local de desarrollo (\texttt{http://localhost:8000}), con la base de datos de prueba inicializada mediante \texttt{php artisan migrate --seed}, combinando técnicas de caja negra (clases de equivalencia y valores límite), caja blanca (grafo de flujo y complejidad ciclomática), pruebas automatizadas en PHPUnit y pruebas básicas de seguridad.
 
-La matriz consolidada de casos de prueba del proyecto comprende la verificación de seis escenarios operativos fundamentales:
-\begin{enumerate}
-    \item \textbf{CP-01 (Autenticación y Sesión POS):} Validación de credenciales de usuario vendedor y emisión de token de sesión seguro.
-    \item \textbf{CP-02 (Validación de Stock y Reserva):} Verificación en tiempo real de disponibilidad de existencias y reserva provisional de juguetes con cálculo de montos.
-    \item \textbf{CP-03 (Control de Excepción de Stock):} Bloqueo transaccional preventivo y despliegue de alerta ante solicitudes de unidades superiores al stock físico.
-    \item \textbf{CP-04 (Cobro y Facturación Legal):} Liquidación de venta en mostrador, cálculo automático de vuelto y emisión de comprobante oficial (boleta/factura).
-    \item \textbf{CP-05 (Alerta de Stock Crítico y Abastecimiento):} Detección automática de productos en umbral mínimo y generación de borrador de orden de compra.
-    \item \textbf{CP-06 (Recepción en Bodega y Kardex):} Validación física de órdenes de compra recibidas e incremento dinámico de existencias en el kardex de MySQL.
-\end{enumerate}
+\paragraph{Error, Defecto y Fallo (Actividad 1):}
+En el aseguramiento de la calidad se distingue entre el \textbf{error} (equivocación humana del programador), el \textbf{defecto} (anomalía plasmada en el código o diseño) y el \textbf{fallo} (comportamiento incorrecto percibido por el usuario final). La Figura~\ref{fig:pruebas_error_defecto} ilustra esta relación junto con el papel complementario de la prueba y la depuración.
 
-La codificación formal en \LaTeX{} de la matriz de casos de prueba (con columnas de ID, Caso de Uso, Descripción, Datos de Entrada, Resultado Esperado y Estado de Conformidad) se encuentra redactada y preservada en el código fuente como bloque comentado (\texttt{\%}), disponible para su descomentado en la entrega final de la Semana 15:
+\begin{figure}[H]
+  \caption{Relación entre error, defecto y fallo, y el papel de la prueba y la depuración.}
+  \label{fig:pruebas_error_defecto}
+  \centering
+  \resizebox{\linewidth}{!}{\input{diagramas/error_defecto_fallo.tex}}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). La prueba ejecuta el software para detectar fallos, mientras que la depuración localiza y corrige el defecto que los origina.
+\end{figure}
+
+La Tabla~\ref{tab:pruebas_error_defecto} aplica esta diferenciación a tres escenarios base y a un defecto real detectado en el módulo POS de \textit{Mundo del Juguete}.
+
+\input{tablas/pruebas_error_defecto.tex}
+
+\textbf{Diferencia entre prueba y depuración:} la prueba ejecuta el programa para detectar fallos, mientras que la depuración localiza y corrige el defecto en el código que causa ese fallo. En términos operativos, la prueba identifica \textit{qué} falla y la depuración averigua \textit{por qué} ocurre y lo repara.
+
+\paragraph{Verificación frente a Validación (Actividad 2):}
+La \textbf{verificación} responde a la pregunta ``¿estamos construyendo el producto correctamente?'' (comparación contra especificaciones), mientras que la \textbf{validación} responde a ``¿estamos construyendo el producto correcto?'' (confirmación con el usuario final). La Tabla~\ref{tab:pruebas_verificacion_validacion} clasifica seis acciones representativas de calidad.
+
+\input{tablas/pruebas_verificacion_validacion.tex}
+
+\textbf{Aplicación directa al proyecto integrador:}
+\begin{itemize}
+  \item \textbf{Verificación:} revisar que cada RF de la matriz de trazabilidad tenga su clase y su controlador, y que el caso CP-006 (cobro en efectivo y emisión de boleta B001) cumpla lo especificado en el RF-04. Se ejecuta con la suite de PHPUnit del repositorio (\texttt{php artisan test}, 81 pruebas) sin intervención del cliente.
+  \item \textbf{Validación:} demostrar el punto de venta en la caja piloto \texttt{CAJA-01} al usuario final (cajero y administrador de la tienda), atender ventas reales durante una jornada y obtener la firma del acta de aceptación.
+\end{itemize}
+
+\paragraph{Niveles de Prueba Aplicados al Proyecto (Actividad 3):}
+La estrategia de pruebas cubre los siete niveles de verificación y validación, desde pruebas unitarias sobre la lógica de dominio hasta pruebas de aceptación, estrés y seguridad (Tabla~\ref{tab:pruebas_niveles}).
+
+\input{tablas/pruebas_niveles.tex}
+
+\paragraph{Técnicas de Caja Negra: Clases de Equivalencia y Valores Límite (Actividad 4):}
+Para ejercitar el diseño sistemático de pruebas de caja negra se analizó la especificación de un formulario bancario con cinco campos de entrada: \textbf{código del banco} (en blanco o número de tres dígitos con primer dígito $> 1$, rango 200--999), \textbf{código de sucursal} (número de cuatro dígitos con primer dígito $> 0$, rango 1000--9999), \textbf{número de cuenta} (cinco dígitos), \textbf{clave personal} (valor alfanumérico de cinco posiciones) y \textbf{orden} (en blanco, «Talonario» o «Movimientos»). Las Tablas~\ref{tab:pruebas_clases_equiv}, \ref{tab:pruebas_valores_limite} y~\ref{tab:pruebas_casos_bancario} documentan la partición en clases de equivalencia, los valores límite y los nueve casos resultantes (\texttt{CP-B01} a \texttt{CP-B09}).
+
+\input{tablas/pruebas_caja_negra.tex}
+
+\paragraph{Técnicas de Caja Blanca: Grafo de Flujo y Caminos Independientes (Actividad 5):}
+Para el análisis estructural se evaluó la función JavaScript \texttt{validarSucursal(codigo)}, determinando su grafo de flujo, su complejidad ciclomática $V(G)$ y el conjunto mínimo de caminos independientes:
+
+\begin{table}[H]
+  \centering
+  \caption{Código fuente anotado por nodos de la función \protect\texttt{validarSucursal(codigo)}.}
+  \label{tab:pruebas_codigo_blanca}
+  \begin{tabularx}{\linewidth}{|Y|}
+    \hline
+    \ttfamily\footnotesize
+    function validarSucursal(codigo) \{ \newline
+    \hspace*{1.5em}if (codigo.length !== 4) return false;\hfill\textrm{\footnotesize // nodo 1 $\rightarrow$ 2} \newline
+    \hspace*{1.5em}if (!/\^{}[0-9]\{4\}\$/.test(codigo)) return false;\hfill\textrm{\footnotesize // nodo 3 $\rightarrow$ 4} \newline
+    \hspace*{1.5em}if (codigo[0] === "0") return false;\hfill\textrm{\footnotesize // nodo 5 $\rightarrow$ 6} \newline
+    \hspace*{1.5em}return true;\hfill\textrm{\footnotesize // nodo 7} \newline
+    \} \\ \hline
+  \end{tabularx}
+  \par\vspace{0.2cm}
+  {\raggedright \small \emph{Nota.} Elaboración propia (2026). Los nodos 1, 3 y 5 corresponden a predicados (decisiones) y el nodo 8 representa el punto único de salida donde convergen los cuatro retornos.\par}
+\end{table}
+
+\begin{figure}[H]
+  \caption{Grafo de flujo de \protect\texttt{validarSucursal(codigo)} con sus cuatro regiones y cálculo de $V(G)$.}
+  \label{fig:pruebas_grafo_flujo}
+  \centering
+  \resizebox{0.92\linewidth}{!}{\input{diagramas/grafo_flujo.tex}}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Los tres métodos de cálculo coinciden: $V(G) = \text{decisiones} + 1 = 3 + 1 = 4$, $V(G) = \text{aristas} - \text{nodos} + 2 = 10 - 8 + 2 = 4$ y $V(G) = \text{regiones} = 4$ (R1, R2, R3 y la región exterior).
+\end{figure}
+
+Dado que $V(G) = 4$, se requieren exactamente cuatro casos de prueba para cubrir todos los caminos independientes (Tabla~\ref{tab:pruebas_caminos_blanca}). La verificación empírica en la consola del navegador (F12) se presenta en la Figura~\ref{fig:pruebas_consola}.
+
+\input{tablas/pruebas_caja_blanca.tex}
+
+\begin{figure}[H]
+  \caption{Ejecución de \protect\texttt{validarSucursal(codigo)} en la consola del navegador (F12).}
+  \label{fig:pruebas_consola}
+  \centering
+  \imgprueba{act5_consola.png}{0.82\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Las entradas \texttt{"123"}, \texttt{"12a4"}, \texttt{"0123"} y \texttt{"1234"} devuelven \texttt{false}, \texttt{false}, \texttt{false} y \texttt{true}, confirmando los cuatro caminos independientes.
+\end{figure}
+
+\textbf{Criterio para pruebas de bucles y cobertura de rechazo:} si una función recorre con un bucle \texttt{for} la lista de movimientos de una cuenta, se prueba con 0 iteraciones (lista vacía), 1, 2, un valor típico $m$, y con $n - 1$, $n$ y $n + 1$ iteraciones, donde $n$ es el máximo permitido, ejercitando así los límites operacionales del ciclo. Asimismo, si \texttt{validarSucursal} se probara únicamente con la entrada válida \texttt{"1234"}, solo se ejercitaría el camino 4 (\texttt{true}) y pasarían inadvertidos defectos en las tres validaciones de rechazo (longitud distinta de 4, caracteres no numéricos y primer dígito 0).
+
+\paragraph{Matriz de Casos de Prueba del Proyecto Integrador (Actividad 6):}
+Se elaboró la matriz consolidada de pruebas de \textit{Mundo del Juguete} (Tabla~\ref{tab:matriz_casos_prueba}), partiendo de los CUS como casos de prueba base y derivando de cada flujo básico y alternativo casos concretos con un solo objetivo y resultado verificable:
+\begin{itemize}
+  \item \textbf{16 casos de prueba} (\texttt{CP-001} a \texttt{CP-016}) derivados de cinco CUS distintos: CUS-General Login, CUS-01 Registrar Venta, CUS-02 Pago y Comprobante, CUS-03 Abastecimiento y CUS-04 Ingreso de Mercancía.
+  \item Por cada CUS, al menos un caso de flujo normal y uno de flujo alternativo o de error.
+  \item \textbf{2 casos de caja blanca} (pruebas unitarias de \texttt{Producto::\allowbreak actualizarEstadoStock()} y \texttt{TokenRestablecimiento::\allowbreak buscarVigente()}) y \textbf{2 casos de seguridad} integrados con la Actividad 8.
+\end{itemize}
 
 \input{tablas/casos_prueba.tex}
+
+\paragraph{Ejecución, Registro de Defectos, Evidencia y Resumen de Resultados (Actividad 7):}
+Al ejecutar los 16 casos de prueba y las comprobaciones de seguridad sobre el ambiente de desarrollo, cada falla se documentó como un defecto con su severidad (\textbf{Crítica}: impide usar el sistema o compromete datos/seguridad; \textbf{Alta}: falla una función principal sin alternativa; \textbf{Media}: falla una función secundaria o existe alternativa; \textbf{Baja}: error cosmético o de redacción). La Tabla~\ref{tab:pruebas_defectos} registra los siete defectos identificados (\texttt{D-001} a \texttt{D-005}, \texttt{D-007} y \texttt{D-008}), los pasos para reproducirlos y su corrección verificada.
+
+\input{tablas/pruebas_defectos.tex}
+
+Las Figuras~\ref{fig:pruebas_d001} a~\ref{fig:pruebas_d008} reúnen las capturas de pantalla y las pruebas automatizadas en PHPUnit que acreditan la corrección de cada defecto.
+
+\begin{figure}[H]
+  \caption{Evidencia de corrección del defecto D-001 (validación acumulada de stock en POS).}
+  \label{fig:pruebas_d001}
+  \centering
+  \imgprueba{D001_pos.png}{0.72\linewidth}\\[6pt]
+  \imgprueba{D001_test.png}{0.72\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). \textbf{(arriba)} El POS impide superar el stock del mismo juguete: Iron Man (JUG-006, stock 3) ya tiene 3 unidades en el ticket y el sistema muestra «No hay más stock disponible para este juguete». \textbf{(abajo)} Prueba \texttt{VentaPosTest} en verde, incluida «el stock se valida con el total aunque el juguete se repita en varias líneas».
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de corrección del defecto D-002 (prevención de doble cobro de un mismo ticket).}
+  \label{fig:pruebas_d002}
+  \centering
+  \imgprueba{D002_caja.png}{0.88\linewidth}\\[6pt]
+  \imgprueba{D002_test.png}{0.74\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). \textbf{(arriba)} El segundo intento de cobro del ticket \texttt{TK-20261121-000002} es rechazado con «El ticket seleccionado ya no se encuentra en estado pendiente» y solo se emite la boleta \texttt{B001-000002}. \textbf{(abajo)} Prueba \texttt{CajaTest} en verde, verificando también correlativos por serie (D-003) y pago con tarjeta (D-004).
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de corrección del defecto D-003 (numeración correlativa independiente por serie).}
+  \label{fig:pruebas_d003}
+  \centering
+  \imgprueba{D003_series.png}{0.84\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Comprobantes emitidos con numeración independiente por serie: \texttt{B001-000001}, \texttt{B001-000002} y \texttt{F001-000001}. La prueba automatizada correspondiente consta en la Figura~\ref{fig:pruebas_d002}.
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de corrección del defecto D-004 (cálculo de vuelto exclusivo para pagos en efectivo).}
+  \label{fig:pruebas_d004}
+  \centering
+  \imgprueba{D004_efectivo.png}{0.88\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Cobro en efectivo del ticket \texttt{TK-20261121-000006} (S/ 59.90): solo en efectivo se solicita monto recibido (S/ 100.00) y se calcula vuelto (S/ 40.10). Con tarjeta el cobro se registra exacto con vuelto S/ 0.00 (Figuras~\ref{fig:pruebas_d002} y~\ref{fig:pruebas_d003}).
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de corrección del defecto D-005 (bloqueo de doble recepción de orden de compra).}
+  \label{fig:pruebas_d005}
+  \centering
+  \imgprueba{D005_rechazo.png}{0.88\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). El intento de volver a recibir la orden \texttt{OC-20261121-000002} es rechazado porque ya figura en estado «recibida». La prueba automatizada (\texttt{AbastecimientoTest}) se muestra en la Figura~\ref{fig:pruebas_suite}.
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de corrección del defecto D-007 (rechazo de contraseñas débiles en módulo Usuarios).}
+  \label{fig:pruebas_d007}
+  \centering
+  \imgprueba{D007_clave_debil.png}{0.82\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). El módulo Usuarios rechaza la contraseña «12345678» por incumplir la política vigente (mínimo 8 caracteres con mayúsculas, minúsculas y números).
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de corrección del defecto D-008 (generación de código de un solo uso por el administrador).}
+  \label{fig:pruebas_d008}
+  \centering
+  \imgprueba{D008_token.png}{0.8\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). El administrador genera un código de un solo uso para el trabajador que se muestra una única vez, vence en 30 minutos y se canjea en \texttt{/forgot-password}, evitando escribir enlaces en \texttt{laravel.log}.
+\end{figure}
+
+Las Tablas~\ref{tab:pruebas_resumen_1} y~\ref{tab:pruebas_resumen_2} comparan los resultados de la primera ejecución (68.8\,\% de aprobación inicial) frente a la reejecución posterior a la depuración de los siete defectos (100\,\% de aprobación).
+
+\input{tablas/pruebas_resumen.tex}
+
+La suite completa del proyecto quedó consolidada en \textbf{81 pruebas automatizadas} que se ejecutan mediante \texttt{php artisan test} sobre SQLite y MySQL 8.0, además de correr automáticamente en cada cambio subido al repositorio mediante GitHub Actions (Figura~\ref{fig:pruebas_suite}).
+
+\begin{figure}[H]
+  \caption{Ejecución de la suite automatizada completa con \protect\texttt{php artisan test}.}
+  \label{fig:pruebas_suite}
+  \centering
+  \imgprueba{act7_suite.png}{0.7\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Salida inicial de \texttt{php artisan test}: todas las pruebas aprueban, incluyendo \texttt{ProductoEstadoTest} (CP-013) y la verificación de bloqueo de órdenes ya recibidas o canceladas (D-005).
+\end{figure}
+
+\paragraph{Pruebas de Seguridad Básicas y Mitigaciones (Actividad 8):}
+Las pruebas de seguridad se ejecutaron exclusivamente sobre la instancia local de desarrollo de \textit{Mundo del Juguete}, verificando resistencia frente a inyección SQL, XSS, ataques de fuerza bruta, control de acceso por URL y protección de credenciales (Tabla~\ref{tab:pruebas_seguridad}).
+
+\input{tablas/pruebas_seguridad.tex}
+
+\textbf{Mitigaciones y controles de seguridad aplicados:}
+\begin{itemize}
+  \item \textbf{S-01 (Inyección SQL):} uso exclusivo de Eloquent ORM con parámetros enlazados (sin concatenar SQL) y desactivación de errores detallados en producción (\texttt{APP\_DEBUG=false}).
+  \item \textbf{S-02 (XSS):} salida escapada automáticamente con \texttt{\{\{ \}\}} en plantillas Blade, validación de entradas y prohibición de bloques sin escapar (\texttt{\{!! !!\}}).
+  \item \textbf{S-03 (Fuerza bruta):} limitación a 5 intentos por minuto con \texttt{RateLimiter} y mensajes genéricos que no revelan la existencia de cuentas.
+  \item \textbf{S-04 (Control de acceso):} eliminación del registro público (solo el administrador crea usuarios), protección de rutas con los \textit{middleware} \texttt{auth} y \texttt{role:}, y revocación inmediata del acceso al dar de baja una cuenta.
+  \item \textbf{S-05 (Protección de credenciales):} política de contraseñas de mínimo 8 caracteres con mayúsculas, minúsculas y números, almacenamiento con \textit{hash} bcrypt y restablecimiento mediante \textbf{token de un solo uso} generado por el administrador, almacenado únicamente como \textit{hash}, con vigencia de 30 minutos y cierre automático de sesiones abiertas al ser utilizado.
+\end{itemize}
+
+Como medida complementaria de endurecimiento (\emph{hardening}), se incorporaron cabeceras de seguridad HTTP en todas las respuestas (\texttt{X-Frame-Options}, \texttt{X-Content-Type-Options}, \texttt{Referrer-Policy}, \texttt{Permissions-Policy} y \texttt{Cache-Control: no-store} en vistas autenticadas), impidiendo ataques de \emph{clickjacking} y evitando que el botón «atrás» del navegador exponga datos de ventas tras cerrar sesión. Las Figuras~\ref{fig:pruebas_s01} a~\ref{fig:pruebas_s04} presentan las evidencias de ejecución de las pruebas de seguridad.
+
+\begin{figure}[H]
+  \caption{Evidencia de la prueba de seguridad S-01 (resistencia a inyección SQL en inicio de sesión).}
+  \label{fig:pruebas_s01}
+  \centering
+  \imgprueba{S01_sqli.png}{0.82\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Inicio de sesión con \texttt{' OR '1'='1}: acceso denegado con el mensaje genérico y sin exponer errores de base de datos.
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de la prueba de seguridad S-02 (escapado automático contra XSS).}
+  \label{fig:pruebas_s02}
+  \centering
+  \imgprueba{S02_xss.png}{0.82\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). El nombre de producto \texttt{<script>alert(1)</script>} se renderiza como texto plano escapado por Blade y no se ejecuta.
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de la prueba de seguridad S-03 (bloqueo temporal por intentos fallidos repetidos).}
+  \label{fig:pruebas_s03}
+  \centering
+  \imgprueba{S03_bloqueo.png}{0.86\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Tras superar el límite de intentos fallidos de inicio de sesión, el sistema bloquea temporalmente el acceso e indica el tiempo de espera restante.
+\end{figure}
+
+\begin{figure}[H]
+  \caption{Evidencia de la prueba de seguridad S-04 (protección de acceso directo por URL sin sesión).}
+  \label{fig:pruebas_s04}
+  \centering
+  \imgprueba{S04_url.png}{0.48\linewidth}\hfill\imgprueba{S04_login.png}{0.48\linewidth}
+  \par\vspace{1ex}
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). \textbf{(izquierda)} Solicitud directa de \texttt{/ventas/pos} sin sesión autenticada. \textbf{(derecha)} Redirección automática al formulario \texttt{/login}.
+\end{figure}
+
+\paragraph{Hallazgos, Conclusiones de Pruebas y Dificultades Resueltas:}
+La ejecución sistemática de la matriz de pruebas permitió extraer hallazgos clave para la estabilidad del sistema:
+\begin{enumerate}
+  \item \textbf{Detección de defectos invisibles a la revisión visual:} la primera ejecución obtuvo 68.8\,\% de aprobación (5 fallos en 16 casos), revelando defectos críticos de lógica transaccional como el doble cobro (\texttt{D-002}) y la doble recepción de órdenes de compra (\texttt{D-005}).
+  \item \textbf{Alta efectividad del nivel de integración y valores límite:} los defectos de concurrencia (\texttt{D-002}, \texttt{D-005}) solo emergen al integrar módulos o repetir acciones, mientras que el análisis de valores límite detectó \texttt{D-001} al repartir el stock exacto en dos líneas del POS.
+  \item \textbf{Complementariedad entre caja negra, caja blanca y seguridad:} la caja negra evidenció fallos perceptibles por el usuario (\texttt{D-003}, \texttt{D-004}), la caja blanca garantizó recorrer todos los caminos de rechazo ($V(G) = 4$) y las pruebas de seguridad descubrieron deficiencias críticas en credenciales y recuperación (\texttt{D-007}, \texttt{D-008}).
+  \item \textbf{Automatización como regresión continua:} los 16 casos se consolidaron en una batería de 81 pruebas automatizadas ejecutadas por GitHub Actions en SQLite y MySQL 8.0, previniendo la reaparición de defectos en futuras versiones.
+\end{enumerate}
+
+La Tabla~\ref{tab:pruebas_dificultades} resume las principales dificultades técnicas encontradas durante las pruebas y las soluciones adoptadas por el equipo.
+
+\input{tablas/pruebas_dificultades.tex}
 
 \clearpage
 % ============================================================
@@ -1426,7 +1665,7 @@ De conformidad con los objetivos específicos planteados para el desarrollo del 
     \item \textbf{Optimización del punto de venta y emisión legal de comprobantes (en respuesta al OE2):} La implementación del módulo de punto de venta (POS) garantiza la validación de disponibilidad de juguetes en tiempo real antes de confirmar cualquier transacción comercial, impidiendo la sobreventa o reservas inconsistentes. Asimismo, la integración del cálculo automatizado de subtotales, IGV y vueltos junto con la emisión de comprobantes autorizados (boletas y facturas) agilizó el tiempo de atención en caja a menos de 45 segundos por cliente.
     \item \textbf{Trazabilidad total entre requerimientos, dominio y código (en respuesta al OE3):} La construcción de matrices de trazabilidad biunívocas (RF/RNF frente a CUS, clases de dominio e interfaces de usuario) certificó que el 100\% de las necesidades identificadas en el negocio de la juguetería cuentan con un respaldo directo en el modelo de software. Esta trazabilidad reduce la incertidumbre en los mantenimientos evolutivos y asegura una auditoría interna rigurosa ante cualquier discrepancia física de mercancía.
     \item \textbf{Solidez y escalabilidad de la arquitectura en tres capas bajo MVC y Laravel (en respuesta al OE4):} El diseño arquitectural desacoplado en tres capas (Presentación en Blade, Lógica de Negocio en controladores transaccionales y Dominio persistente en Eloquent ORM sobre MySQL) demostró ser altamente eficiente. Las dependencias unidireccionales (\guillemotleft use\guillemotright, \guillemotleft access\guillemotright, \guillemotleft import\guillemotright) garantizan que cambios cosméticos en la interfaz de usuario no degraden las reglas transaccionales ni comprometan la integridad referencial de los datos.
-    \item \textbf{Aseguramiento de la calidad mediante el enfoque metodológico Cascada y pruebas formales:} La adopción del modelo secuencial Waterfall permitió cerrar y validar cada fase de la ingeniería de software con rigor matemático y conceptual. La ejecución de la batería de casos de prueba (CP-01 a CP-06) constató una tasa de éxito del 100\% en las operaciones críticas de autenticación, control de stock, cobro transaccional y reabastecimiento, entregando una solución robusta y lista para su implantación en producción.
+    \item \textbf{Aseguramiento de la calidad mediante el enfoque metodológico Cascada y pruebas formales:} La adopción del modelo secuencial Waterfall permitió cerrar y validar cada fase de la ingeniería de software con rigor matemático y conceptual. La ejecución de la matriz de casos de prueba (CP-001 a CP-016), la depuración de los siete defectos identificados (funcionales y de seguridad) y la consolidación de 81 pruebas automatizadas en PHPUnit constataron una tasa de aprobación final del 100\% en las operaciones críticas de autenticación, control de stock, cobro transaccional, reabastecimiento y seguridad, entregando una solución robusta y lista para su implantación en producción.
 \end{enumerate}
 
 \clearpage

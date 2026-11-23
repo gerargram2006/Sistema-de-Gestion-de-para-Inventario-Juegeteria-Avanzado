@@ -300,27 +300,18 @@
 \pagenumbering{roman}
 
 % ============================================================
+% ÍNDICE FUNCIONAL (2.2 Índice)
+% ============================================================
+\tableofcontents
+\newpage
+\listoftables
+\newpage
+\listoffigures
+\newpage
+
+% ============================================================
 % ABSTRACT Y RESUMEN
 % ============================================================
-
-\phantomsection
-\section*{Abstract}
-\addcontentsline{toc}{section}{Abstract}
-
-The present research project exposes the development of an Inventory Management System
-for a retail toy store, designed under the Object-Oriented Programming (OOP) paradigm
-using the PHP language through the \emph{Laravel} framework. The proposal arises given
-the deficiencies identified in manual stock control and the lack of real-time
-synchronization, which negatively impacts business profitability. Through a
-\emph{Model-View-Controller} (MVC) architecture that implements the \emph{Eloquent ORM}
-object-relational mapping and \emph{Blade} view templates, a modular, scalable, and highly
-portable web application is offered. Structured persistence and hierarchical control by
-categories and brands ensure data integrity, optimizing audits and allowing informed
-decision-making based on automated reports.
-
-\emph{Keywords:} inventory, Object-Oriented Programming, PHP, Laravel, Eloquent, toy store.
-
-\newpage
 
 \phantomsection
 \section*{Resumen}
@@ -345,14 +336,23 @@ Laravel, Eloquent, juguetería.
 
 \newpage
 
-% ============================================================
-% ÍNDICE FUNCIONAL
-% ============================================================
-\tableofcontents
-\newpage
-\listoftables
-\newpage
-\listoffigures
+\phantomsection
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+The present research project exposes the development of an Inventory Management System
+for a retail toy store, designed under the Object-Oriented Programming (OOP) paradigm
+using the PHP language through the \emph{Laravel} framework. The proposal arises given
+the deficiencies identified in manual stock control and the lack of real-time
+synchronization, which negatively impacts business profitability. Through a
+\emph{Model-View-Controller} (MVC) architecture that implements the \emph{Eloquent ORM}
+object-relational mapping and \emph{Blade} view templates, a modular, scalable, and highly
+portable web application is offered. Structured persistence and hierarchical control by
+categories and brands ensure data integrity, optimizing audits and allowing informed
+decision-making based on automated reports.
+
+\emph{Keywords:} inventory, Object-Oriented Programming, PHP, Laravel, Eloquent, toy store.
+
 \clearpage
 
 % ============================================================
@@ -761,7 +761,7 @@ A continuación, se presentan las capturas de pantalla de los módulos principal
     \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Interfaz para la recepción física de mercancía y actualización de existencias en kardex.
 \end{figure}
 
-\subsubsection{3.3.2 Diagramas de Secuencia del Sistema (Modelado Din\'amico BCE)}
+\subsubsection*{Diagramas de Secuencia del Sistema (Modelado Din\'amico BCE)}
 
 \paragraph{Introducci\'on y Marco de Modelado Din\'amico (BCE):}
 El modelado din\'amico formaliza el comportamiento temporal y la secuencia de invocaciones entre los actores del negocio, las pantallas o interfaces de usuario, los controladores de procesos y las entidades del dominio a partir de los Casos de Uso del Sistema (CUS) y el modelo conceptual de clases previamente consolidados.
@@ -1268,7 +1268,7 @@ A continuación, la Figura~\ref{fig:gantt_cronograma_proyecto} presenta el crono
   \raggedright\noindent\small \emph{Nota.} Elaboraci\'on propia (2026). Planificaci\'on secuencial de las seis fases del proyecto en apego estricto a la metodolog\'ia Cascada (Waterfall) y al registro de \emph{commits} del repositorio, culminando a principios de diciembre de 2026.
 \end{figure}
 
-\subsubsection{3.5.3 Plan de Despliegue del Sistema (Implementación II - Salida en Producción)}
+\subsubsection*{Plan de Despliegue del Sistema (Implementación II - Salida en Producción)}
 
 El plan de despliegue formaliza la estrategia, arquitectura física y procedimientos operativos para la salida en vivo (\emph{go-live}) del \textbf{Sistema de Gestión de Inventario para la juguetería ``Mundo del Juguete'' v1.0}, aplicación web desarrollada en PHP 8.4 bajo el framework Laravel 13 (motor de plantillas Blade y persistencia mediante Eloquent ORM) y base de datos relacional MySQL 8.0. La planificación cubre las actividades de preparación, pruebas en entorno final, empaquetado del release, migración de datos, capacitación a usuarios, contingencia ante fallos y gestión de riesgos.
 

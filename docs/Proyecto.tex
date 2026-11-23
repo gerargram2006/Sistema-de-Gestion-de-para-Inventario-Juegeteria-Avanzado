@@ -1601,25 +1601,7 @@ Las pruebas de seguridad se ejecutaron exclusivamente sobre la instancia local d
   \item \textbf{S-05 (Protección de credenciales):} política de contraseñas de mínimo 8 caracteres con mayúsculas, minúsculas y números, almacenamiento con \textit{hash} bcrypt y restablecimiento mediante \textbf{token de un solo uso} generado por el administrador, almacenado únicamente como \textit{hash}, con vigencia de 30 minutos y cierre automático de sesiones abiertas al ser utilizado.
 \end{itemize}
 
-Como medida complementaria de endurecimiento (\emph{hardening}), se incorporaron cabeceras de seguridad HTTP en todas las respuestas (\texttt{X-Frame-Options}, \texttt{X-Content-Type-Options}, \texttt{Referrer-Policy}, \texttt{Permissions-Policy} y \texttt{Cache-Control: no-store} en vistas autenticadas), impidiendo ataques de \emph{clickjacking} y evitando que el botón «atrás» del navegador exponga datos de ventas tras cerrar sesión. Las Figuras~\ref{fig:pruebas_s01} a~\ref{fig:pruebas_s04} presentan las evidencias de ejecución de las pruebas de seguridad.
-
-\begin{figure}[H]
-  \caption{Evidencia de la prueba de seguridad S-01 (resistencia a inyección SQL en inicio de sesión).}
-  \label{fig:pruebas_s01}
-  \centering
-  \imgprueba{S01_sqli.png}{0.82\linewidth}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Inicio de sesión con \texttt{' OR '1'='1}: acceso denegado con el mensaje genérico y sin exponer errores de base de datos.
-\end{figure}
-
-\begin{figure}[H]
-  \caption{Evidencia de la prueba de seguridad S-02 (escapado automático contra XSS).}
-  \label{fig:pruebas_s02}
-  \centering
-  \imgprueba{S02_xss.png}{0.82\linewidth}
-  \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). El nombre de producto \texttt{<script>alert(1)</script>} se renderiza como texto plano escapado por Blade y no se ejecuta.
-\end{figure}
+Como medida complementaria de endurecimiento (\emph{hardening}), se incorporaron cabeceras de seguridad HTTP en todas las respuestas (\texttt{X-Frame-Options}, \texttt{X-Content-Type-Options}, \texttt{Referrer-Policy}, \texttt{Permissions-Policy} y \texttt{Cache-Control: no-store} en vistas autenticadas), impidiendo ataques de \emph{clickjacking} y evitando que el botón «atrás» del navegador exponga datos de ventas tras cerrar sesión. Las Figuras~\ref{fig:pruebas_s03} y~\ref{fig:pruebas_s04} presentan las evidencias visuales de las pruebas de seguridad ejecutadas.
 
 \begin{figure}[H]
   \caption{Evidencia de la prueba de seguridad S-03 (bloqueo temporal por intentos fallidos repetidos).}
@@ -1627,7 +1609,7 @@ Como medida complementaria de endurecimiento (\emph{hardening}), se incorporaron
   \centering
   \imgprueba{S03_bloqueo.png}{0.86\linewidth}
   \par\vspace{1ex}
-  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Tras superar el límite de intentos fallidos de inicio de sesión, el sistema bloquea temporalmente el acceso e indica el tiempo de espera restante.
+  \raggedright\noindent\small \emph{Nota.} Elaboración propia (2026). Tras superar el límite de intentos fallidos de inicio de sesión, el sistema bloquea temporalmente el acceso e indica el tiempo de espera restante (43 segundos en la captura).
 \end{figure}
 
 \begin{figure}[H]
